@@ -6,10 +6,21 @@
     </head>
 
     <body>
+        {% if user.is_authenticated %}
+        <h1>Bienvenido {{ user.username }}</h1>
+        {% else %}
         <h1>Funciona</h1>
+        {% endif %}
+
         Hola mundo! <strong>{{ boldmessage }}</strong><br />
-        <a href="/adm/about/">Acerca</a><br />
-        <a href="/adm/register/">Crear usuario</a>
+        {% if user.is_authenticated %}
+        <a href="/adm/restricted/">Restricted Page</a><br />
+        <a href="/adm/logout/">Logout</a><br />
+        <a href="/adm/register/">Crear Usuario</a><br />
+        <a href="/adm/profile/">Ver perfil</a><br />
+        {% else %}
+        <a href="/adm/login/">Login</a><br />
+        {% endif %}
     </body>
 
 </html>

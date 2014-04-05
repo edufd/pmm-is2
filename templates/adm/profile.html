@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Administracion</title>
+</head>
+<body>
+    <h1>Perfil</h1>
+        <h2>{{ user.username }}</h2>
+        <p>Email: {{ user.email }}</p>
+        <p>Nombre: {{ user.first_name }}</p>
+        <p>Apellido: {{ user.last_name }}</p>
+
+        {% if userprofile %}
+
+            <p>Website: <a href="{{ userprofile.website }}">{{ userprofile.website }}</a> </p>
+            <p>Telefono: {{ userprofile.telefono }}</p>
+            <br />
+
+        {% endif %}
+</body>
+</html>

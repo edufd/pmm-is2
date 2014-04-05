@@ -10,4 +10,5 @@ urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^adm/', include('adm.urls')),
+    url(r'^modelos/', include('modelos.urls')),
 )

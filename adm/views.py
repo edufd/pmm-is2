@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.template import RequestContext
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, get_object_or_404, redirect
 from adm.forms import UserForm, UserProfileForm
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
@@ -13,7 +13,6 @@ from adm.models import UserProfile
 def index(request):
 
     context = RequestContext(request)
-
     context_dict = {'boldmessage': "Soy un mensaje en negrita del contexto"}
 
     return render_to_response('adm/index.html', context_dict, context)
@@ -137,6 +136,36 @@ def get_user_list():
     # We loop through each category returned, and create a URL attribute.
     # This attribute stores an encoded URL (e.g. spaces replaced with underscores).
     for user in user_list:
-        user.url = encode_url(user.name)
-        print user.username
+        user.url = encode_url(user.username)
     return user_list
+
+@login_required
+def user_list(request):
+    context = RequestContext(request)
+    user_list = get_user_list()
+
+    context_dict= {}
+    context_dict['object_list'] = user_list
+
+    return render_to_response('adm/user_list.html', context_dict, context)
+
+@login_required
+def user_update(request, pk):
+    context = RequestContext(request)
+    user = get_object_or_404(User, pk=pk)
+    form = UserForm(request.POST or None, instance=user)
+    if form.is_valid():
+        form.save()
+        return redirect('user_list')
+
+    return render_to_response('adm/user_form.html', {'form':form}, context )
+
+@login_required
+def user_delete(request, pk):
+    context = RequestContext(request)
+    user = get_object_or_404(User, pk=pk)
+    if request.method=='POST':
+        user.delete()
+        return redirect('user_list')
+
+    return render_to_response('adm/user_confirm_delete.html', {'object':user}, context)

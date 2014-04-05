@@ -5,8 +5,8 @@
       <driver-ref>postgresql</driver-ref>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://127.0.0.1/pmm</jdbc-url>
-      <user-name>postgres</user-name>
-      <user-password>dfcedfcbdfcbdfd9</user-password>
+      <user-name>pmm</user-name>
+      <user-password>dfdadfc7dfc7df98df9adf9bdf9e</user-password>
       <libraries />
     </data-source>
   </component>

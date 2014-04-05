@@ -3,8 +3,9 @@ from django import forms
 
 class UserForm(forms.ModelForm):
     contrasenha = forms.CharField(widget=forms.PasswordInput())
+    id_usuario = forms.HiddenInput(id(Usuario))
 
     class Meta:
         model = Usuario
-        fields = ('username', 'nombre', 'apellido', 'ci', 'telefono', 'contrasenha')
+        fields = ('id_usuario','username', 'nombre', 'apellido', 'ci', 'telefono', 'contrasenha')
 

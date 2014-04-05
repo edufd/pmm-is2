@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 
 class Usuario(models.Model):
-    id_usuario = models.IntegerField(primary_key=True)
+    id_usuario = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=200)
     apellido = models.CharField(max_length=200)
     ci = models.IntegerField()
@@ -14,14 +14,14 @@ class Usuario(models.Model):
         db_table = 'usuario'
 
 class Rol(models.Model):
-    id_rol = models.IntegerField(primary_key=True)
+    id_rol = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=200)
     descripcion = models.CharField(max_length=200)
     class Meta:
         db_table = 'rol'
 
 class Permiso(models.Model):
-    id_permiso = models.IntegerField(primary_key=True)
+    id_permiso = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=200)
     descripcion = models.CharField(max_length=200)
     tipo = models.IntegerField()

@@ -18,6 +18,8 @@ def index(request):
 
     return render_to_response('adm/index.html', context_dict, context)
 
+
+@login_required
 def register(request):
     context = RequestContext(request)
 
@@ -136,4 +138,5 @@ def get_user_list():
     # This attribute stores an encoded URL (e.g. spaces replaced with underscores).
     for user in user_list:
         user.url = encode_url(user.name)
+        print user.username
     return user_list

@@ -1,10 +1,13 @@
 from django.db import models
-from modelos.models import Usuario
+from django.contrib.auth.models import User
 
 # Create your models here.
 class UserProfile(models.Model):
 
-    user = models.OneToOneField(Usuario)
+    user = models.OneToOneField(User)
 
     website = models.URLField(blank=True)
     telefono = models.CharField(max_length=50)
+
+    def __unicode__(self):
+        return self.user.username

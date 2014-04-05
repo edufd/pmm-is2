@@ -1,32 +1,9 @@
+{% extends 'adm/base_unlogged.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html>
-
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="">
-        <meta name="author" content="">
-        <link rel="shortcut icon" href="../../assets/ico/favicon.ico">
-        <!-- Bootstrap core CSS -->
-        <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-        <link href="{% static 'css/bootstrap-theme.css' %}" rel="stylesheet">
-        <link href="{% static 'css/bootstrap-theme.min.css' %}" rel="stylesheet">
-        <link href="{% static 'css/signin.css' %}" rel="stylesheet">
-                <!-- Latest compiled and minified CSS -->
-        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-
-        <!-- Optional theme -->
-        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
-
-
-        <title>Login</title>
-    </head>
-
-    <body>
-        <div class="container">
-
+{% block link %}<link href="{% static 'css/signin.css' %}" rel="stylesheet">{% endblock %}
+{% block title %}Login{% endblock %}
+{% block content %}
+    <div class="container">
             <form class="form-signin" role="form" id="login_form" method="post" action="/adm/login/">
                 {% csrf_token %}
                 <h2 class="form-signin-heading">Iniciar Sesion</h2>
@@ -36,9 +13,7 @@
                 <br />
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Iniciar Sesion</button>
             </form>
-        </div> <!-- /container -->
+    </div>
+{% endblock %}
 
-            <script src="{% static 'js/bootstrap.min.js' %}"></script>
-            <script src="{% static 'js/bootstrap.js' %}"></script>
-    </body>
-</html>
+

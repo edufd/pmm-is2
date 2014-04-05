@@ -9,11 +9,11 @@
 
         {% if registered %}
         <strong>Se ha creado el usuario!</strong>
-        <a href="/adm/">Retornar a la pagina de inicio</a><br />
+        <a href="/modelos/">Retornar a la pagina de inicio</a><br />
         {% else %}
         <strong>Crear Usuario</strong><br />
 
-        <form id="user_form" method="post" action="/adm/register/"
+        <form id="user_form" method="post" action="/modelos/registrar/"
                 enctype="multipart/form-data">
 
             {% csrf_token %}
@@ -22,10 +22,9 @@
                  (<p>) element. This ensures each element appears on a new line,
                  making everything look neater. -->
             {{ user_form.as_p }}
-            {{ profile_form.as_p }}
 
             <!-- Provide a button to click to submit the form. -->
-            <input type="submit" name="submit" value="Register" />
+            <input type="submit" name="submit" value="Registrar" />
         </form>
         {% endif %}
     </body>

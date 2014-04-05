@@ -1,3 +1,4 @@
+from django.http import HttpResponseRedirect
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 from modelos.forms import UserForm
@@ -23,7 +24,6 @@ def registrar(request):
             user = user_form.save()
             user.save()
             registered = True
-
 
         else:
             print user_form.errors

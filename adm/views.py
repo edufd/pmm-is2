@@ -18,6 +18,19 @@ def index(request):
 
     return render_to_response('adm/index.html', context_dict, context)
 
+def about(request):
+
+    context = RequestContext(request)
+
+    context_dict = {'boldmessage': "Soy un mensaje en negrita del contexto"}
+
+    return render_to_response('adm/about.html', context_dict, context)
+
+def login(request):
+
+    context = RequestContext(request)
+    return render_to_response('adm/login.html', context)
+
 def register(request):
     context = RequestContext(request)
 

@@ -138,5 +138,4 @@ def get_user_list():
     # This attribute stores an encoded URL (e.g. spaces replaced with underscores).
     for user in user_list:
         user.url = encode_url(user.name)
-        print user
     return user_list

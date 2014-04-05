@@ -17,7 +17,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '9s4837qb%0pu@75l@2_--936p2y!l8@z&01q*#%rg7!qtsu)b0'
+SECRET_KEY = '&rul30!ik_@xmq^$(m8p4e71xm_8f59ztr1iv%g@q_w_nc4(-$'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -30,13 +30,14 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
-    'django.contrib.admin',
+    # 'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'adm',
+    'modelos',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -58,8 +59,11 @@ WSGI_APPLICATION = 'pmm_is2.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'pmm',
+        'USER': 'postgres',
+        'PASSWORD': 'daas',
+        'HOST': 'localhost',
     }
 }
 
@@ -76,6 +80,7 @@ USE_L10N = True
 
 USE_TZ = True
 
+SITE_ID = 1
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/

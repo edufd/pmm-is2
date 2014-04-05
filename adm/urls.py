@@ -8,6 +8,9 @@ urlpatterns = patterns('',
         url(r'^login/$', views.user_login, name='login'),
         url(r'^restricted/$', views.restricted, name='restricted'),
         url(r'^logout/$', views.user_logout, name='logout'),
-        url(r'^profile/$', views.profile, name='profile')
+        url(r'^profile/$', views.profile, name='profile'),
+        url(r'^user_list/$', views.user_list, name='user_list'),
+        url(r'^edit/(?P<pk>\d+)$', views.user_update, name='user_edit'),
+        url(r'^delete/(?P<pk>\d+)$', views.user_delete, name='user_delete'),
 
 )

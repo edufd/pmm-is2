@@ -4,12 +4,11 @@
     <head>
         <title>PMM</title>
     </head>
-
     <body>
         {% if user.is_authenticated %}
-        <h1>Bienvenido {{ user.username }}</h1>
+            <h1>Bienvenido {{ user.username }}</h1>
         {% else %}
-        <h1>Funciona</h1>
+            <h1>Projects Master Manager</h1>
         {% endif %}
 
         Hola mundo! <strong>{{ boldmessage }}</strong><br />

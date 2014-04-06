@@ -13,9 +13,13 @@ from adm.models import UserProfile
 def index(request):
 
     context = RequestContext(request)
-    context_dict = {'boldmessage': "Soy un mensaje en negrita del contexto"}
+    return render_to_response('adm/index.html', context)
 
-    return render_to_response('adm/index.html', context_dict, context)
+@login_required
+def home(request):
+
+    context = RequestContext(request)
+    return render_to_response('adm/home.html', context)
 
 
 @login_required
@@ -78,7 +82,7 @@ def user_login(request):
                 # If the account is valid and active, we can log the user in.
                 # We'll send the user back to the homepage.
                 login(request, user)
-                return HttpResponseRedirect('/adm/')
+                return HttpResponseRedirect('/adm/home')
             else:
                 # An inactive account was used - no logging in!
                 return HttpResponse("Your Rango account is disabled.")
@@ -92,7 +96,7 @@ def user_login(request):
     else:
         # No context variables to pass to the template system, hence the
         # blank dictionary object...
-        return render_to_response('adm/login.html', {}, context)
+        return render_to_response('adm/user_login.html', {}, context)
 
 @login_required
 def restricted(request):

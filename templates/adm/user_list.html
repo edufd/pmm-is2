@@ -7,10 +7,12 @@
     <h1>Usuarios</h1>
 <ul>
     {% for user in object_list %}
-    <li>{{ user.username }}  :
-    <a href="{% url "user_edit" user.id %}">Modificar</a>
-    <a href="{% url "user_delete" user.id %}">Eliminar</a>
-    </li>
+        {% if user.is_active %}
+        <li>{{ user.username }}  :
+        <a href="{% url "user_edit" user.id %}">Modificar</a>
+        <a href="{% url "user_delete" user.id %}">Eliminar</a>
+        </li>
+        {% endif %}
     {% endfor %}
 </ul>
 

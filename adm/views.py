@@ -68,7 +68,6 @@ def user_login(request):
         # This information is obtained from the login form.
         username = request.POST['username']
         password = request.POST['password']
-
         # Use Django's machinery to attempt to see if the username/password
         # combination is valid - a User object is returned if it is.
         user = authenticate(username=username, password=password)
@@ -169,7 +168,8 @@ def user_delete(request, pk):
     context = RequestContext(request)
     user = get_object_or_404(User, pk=pk)
     if request.method=='POST':
-        user.delete()
+        user.is_active = False
+        user.save()
         return redirect('user_list')
 
     return render_to_response('adm/user_confirm_delete.html', {'object':user}, context)

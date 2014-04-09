@@ -61,53 +61,37 @@ def register(request):
 def user_login(request):
     # Like before, obtain the context for the user's request.
     context = RequestContext(request)
+    context_dict = {}
 
     # If the request is a HTTP POST, try to pull out the relevant information.
     if request.method == 'POST':
-        # Gather the username and password provided by the user.
-        # This information is obtained from the login form.
         username = request.POST['username']
         password = request.POST['password']
-
-        # Use Django's machinery to attempt to see if the username/password
-        # combination is valid - a User object is returned if it is.
         user = authenticate(username=username, password=password)
 
-        # If we have a User object, the details are correct.
-        # If None (Python's way of representing the absence of a value), no user
-        # with matching credentials was found.
         if user is not None:
-            # Is the account active? It could have been disabled.
             if user.is_active:
-                # If the account is valid and active, we can log the user in.
-                # We'll send the user back to the homepage.
                 login(request, user)
                 return HttpResponseRedirect('/adm/home')
             else:
-                # An inactive account was used - no logging in!
-                return HttpResponse("Your Rango account is disabled.")
+                context_dict['disabled_account'] = True
+                return render_to_response('adm/user_login.html', context_dict, context)
         else:
-            # Bad login details were provided. So we can't log the user in.
             print "Invalid login details: {0}, {1}".format(username, password)
-            return HttpResponse("Invalid login details supplied.")
+            context_dict['bad_details'] = True
+            return render_to_response('adm/user_login.html', context_dict, context)
 
-    # The request is not a HTTP POST, so display the login form.
-    # This scenario would most likely be a HTTP GET.
     else:
-        # No context variables to pass to the template system, hence the
-        # blank dictionary object...
-        return render_to_response('adm/user_login.html', {}, context)
+        return render_to_response('adm/user_login.html', context_dict, context)
 
 @login_required
 def restricted(request):
-    return HttpResponse("Since you're logged in, you can see this text!")
+    return HttpResponse("Como estas logeado, puedes ver este texto!")
 
 @login_required
 def user_logout(request):
-    # Since we know the user is logged in, we can now just log them out.
     logout(request)
 
-    # Take the user back to the homepage.
     return HttpResponseRedirect('/adm/')
 
 @login_required
@@ -169,7 +153,8 @@ def user_delete(request, pk):
     context = RequestContext(request)
     user = get_object_or_404(User, pk=pk)
     if request.method=='POST':
-        user.delete()
+        user.is_active = False
+        user.save()
         return redirect('user_list')
 
     return render_to_response('adm/user_confirm_delete.html', {'object':user}, context)

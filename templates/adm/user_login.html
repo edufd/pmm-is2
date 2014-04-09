@@ -5,8 +5,13 @@
 {% block content %}
     <div class="container">
             <form class="form-signin" role="form" id="login_form" method="post" action="/adm/login/">
-                {% csrf_token %}
                 <h2 class="form-signin-heading">Iniciar Sesion</h2>
+                {% if bad_details %}
+                <p><strong>Tu usuario y/o contraseña fueron incorrectas!</strong></p>
+                {% elif disabled_account %}
+                <p><strong>Tu cuenta de PMM esta desactivada; no es posible iniciar sesion</strong></p>
+                {% endif %}
+                {% csrf_token %}
                 <input class="form-control" placeholder="Username" required autofocus type="text" name="username" value="" size="50" />
                 <br />
                 <input class="form-control" placeholder="Password" required type="password" name="password" value="" size="50" />

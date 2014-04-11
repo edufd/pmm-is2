@@ -6,8 +6,13 @@ class UserProfile(models.Model):
 
     user = models.OneToOneField(User)
 
-    website = models.URLField(blank=True)
-    telefono = models.CharField(max_length=50)
+    nombre = models.CharField(max_length=200)
+    apellido = models.CharField(max_length=200)
+    ci = models.IntegerField(unique=True)
+    telefono = models.IntegerField()
 
     def __unicode__(self):
         return self.user.username
+
+    class Meta:
+        db_table = 'userprofile'

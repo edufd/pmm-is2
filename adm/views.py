@@ -9,7 +9,6 @@ from django.http import HttpResponseRedirect, HttpResponse
 # Create your views here.
 from adm.models import UserProfile
 
-
 def index(request):
 
     context = RequestContext(request)
@@ -20,7 +19,6 @@ def home(request):
 
     context = RequestContext(request)
     return render_to_response('adm/home.html', context)
-
 
 @login_required
 def register(request):
@@ -53,10 +51,9 @@ def register(request):
         profile_form = UserProfileForm()
 
     return render_to_response(
-            'adm/register.html',
+        'adm/register.html',
             {'user_form': user_form, 'profile_form': profile_form, 'registered': registered},
             context)
-
 
 def user_login(request):
     # Like before, obtain the context for the user's request.
@@ -109,10 +106,8 @@ def profile(request):
 
     return render_to_response('adm/profile.html', context_dict, context)
 
-
 def encode_url(name):
     return name.replace(' ', '_')
-
 
 def decode_url(url):
     return url.replace('_', ' ')
@@ -141,12 +136,20 @@ def user_list(request):
 def user_update(request, pk):
     context = RequestContext(request)
     user = get_object_or_404(User, pk=pk)
-    form = UserForm(request.POST or None, instance=user)
-    if form.is_valid():
-        form.save()
+    user_form = UserForm(request.POST or None, instance=user)
+    print('userid', user.id)
+    profile_user = get_object_or_404(UserProfile, user_id=user.id)
+    print('profile', profile_user.nombre)
+    profile_form = UserProfileForm(request.POST or None, instance=profile_user)
+    if user_form.is_valid() and profile_form.is_valid():
+
+        user.set_password(user.password)
+        user_form.save()
+        profile_form.save()
+
         return redirect('user_list')
 
-    return render_to_response('adm/user_form.html', {'form':form}, context )
+    return render_to_response('adm/user_form.html', {'userform': user_form, 'profile_form': profile_form}, context)
 
 @login_required
 def user_delete(request, pk):

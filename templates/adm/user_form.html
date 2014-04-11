@@ -1,12 +1,16 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-</head>
-<body>
-    <form method="post">{% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Submit" />
-</form>
-</body>
-</html>
+{% extends 'adm/base_logged.html' %}
+{% load static %}
+{% block link %}<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">{% endblock %}
+{% block title %}PMM{% endblock %}
+{% block content %}
+
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <h1 class="page-header">Modificar Usuario</h1>
+            <form method="post">{% csrf_token %}
+            {{ userform.as_p }}
+            {{ profile_form.as_p }}
+            <input type="submit" value="Submit" />
+
+            </form>
+    </div>
+{% endblock %}

@@ -94,3 +94,7 @@ body {
   display: inline-block;
   border-radius: 50%;
 }
+
+.boton-confirmar-desconfirmar{
+    width: 50px;  height: 40px;
+}

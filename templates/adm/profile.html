@@ -5,16 +5,15 @@
 {% block content %}
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
         <h1 class="page-header">Perfil</h1>
+        </br>
         <h2>User: {{ user.username }}</h2>
-        <p>Email: {{ user.email }}</p>
-        <p>Nombre: {{ user.first_name }}</p>
-        <p>Apellido: {{ user.last_name }}</p>
+                {% if userprofile %}
 
-        {% if userprofile %}
-
-            <p>Website: <a href="{{ userprofile.website }}">{{ userprofile.website }}</a> </p>
-            <p>Telefono: {{ userprofile.telefono }}</p>
-            <br />
+            <h4>Nombre: {{ userprofile.nombre }}</h4>
+            <h4>Apellido: {{ userprofile.apellido}}</h4>
+            <h4>CI: {{ userprofile.ci}}</h4>
+            <h4>Telefono: {{ userprofile.telefono}}</h4>
+            </br>
 
         {% endif %}
     </div>

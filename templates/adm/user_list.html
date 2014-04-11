@@ -1,20 +1,21 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-</head>
-<body>
-    <h1>Usuarios</h1>
-<ul>
-    {% for user in object_list %}
-        {% if user.is_active %}
-        <li>{{ user.username }}  :
-        <a href="{% url "user_edit" user.id %}">Modificar</a>
-        <a href="{% url "user_delete" user.id %}">Eliminar</a>
-        </li>
-        {% endif %}
-    {% endfor %}
-</ul>
+{% extends 'adm/base_logged.html' %}
+{% load static %}
+{% block link %}<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">{% endblock %}
+{% block title %}PMM{% endblock %}
+{% block content %}
 
-</body>
-</html>
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <h1 class="page-header">Usuarios</h1>
+        </br>
+        {% for user in object_list %}
+            {% if user.is_active %}
+                <li>
+                    <h4>{{ user.username }}  :
+                        <a href="{% url "user_edit" user.id %}">Modificar</a>
+                        <a href="{% url "user_delete" user.id %}">Eliminar</a>
+                    </h4>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}

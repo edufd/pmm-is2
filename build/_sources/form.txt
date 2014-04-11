@@ -1,0 +1,4 @@
+Forms
+=========
+.. automodule:: adm.forms
+    :members:

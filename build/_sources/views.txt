@@ -1,0 +1,4 @@
+Views
+================
+.. automodule:: adm.views
+    :members:

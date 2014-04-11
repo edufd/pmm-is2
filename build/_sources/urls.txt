@@ -1,0 +1,4 @@
+Urls
+================
+.. automodule:: adm.urls
+    :members:

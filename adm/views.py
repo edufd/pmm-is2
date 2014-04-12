@@ -56,11 +56,9 @@ def register(request):
             context)
 
 def user_login(request):
-    # Like before, obtain the context for the user's request.
     context = RequestContext(request)
     context_dict = {}
 
-    # If the request is a HTTP POST, try to pull out the relevant information.
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -116,8 +114,6 @@ def get_user_list():
 
     user_list = User.objects.all()
 
-    # We loop through each category returned, and create a URL attribute.
-    # This attribute stores an encoded URL (e.g. spaces replaced with underscores).
     for user in user_list:
         user.url = encode_url(user.username)
     return user_list

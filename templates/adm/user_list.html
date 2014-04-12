@@ -11,8 +11,12 @@
             {% if user.is_active %}
                 <li>
                     <h4>{{ user.username }}  :
+                        {% if not user.is_superuser %}
                         <a href="{% url "user_edit" user.id %}">Modificar</a>
                         <a href="{% url "user_delete" user.id %}">Eliminar</a>
+                        {% else %}
+                            Usuario Administrador por defecto, no se puede borrar ni modificar.
+                        {% endif %}
                     </h4>
                 </li>
             {% endif %}

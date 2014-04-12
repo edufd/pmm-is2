@@ -31,13 +31,10 @@
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="/adm/home/">Home</a></li>
-                        <li><a href="#">Settings</a></li>
-                        <li><a href="/adm/profile/">Profile</a></li>
-                        <li><a href="#">Help</a></li>
+                        {% comment %}<li><a href="#">Settings</a></li>{% endcomment %}
+                        <li><a href="/adm/profile/">{{ user.username }}</a></li>
+                        <li><a href="/adm/logout/">Logout</a></li>
                     </ul>
-                    <form class="navbar-form navbar-right">
-                    <input type="text" class="form-control" placeholder="Search...">
-                    </form>
                 </div>
             </div>
             <div class="container-fluid">
@@ -47,9 +44,11 @@
                             <li class="active"><a href="/adm/home/">ADM</a></li>
                             {% comment %}<li><a href="/adm/restricted/">Restricted Page</a></li>{% endcomment %}
                             <li><a href="/adm/register/">Crear Usuario</a></li>
-                            <li><a href="/adm/profile/">Ver perfil</a></li>
-                            <li><a href="/adm/user_list">Lista de Usuarios</a></li>
-                            <li><a href="/adm/logout/">Logout</a></li>
+                            <li><a href="/adm/user_list">Listar Usuarios</a></li>
+                            <li><a href="#">Crear Proyecto</a></li>
+                            <li><a href="#">Importar Proyecto</a></li>
+                            <li><a href="#">Listar Proyectos</a></li>
+                            <li><a href="#">Reportes</a></li>
                         </ul>
                     </div>
                 </div>

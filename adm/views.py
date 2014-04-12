@@ -14,6 +14,17 @@ def index(request):
     context = RequestContext(request)
     return render_to_response('adm/index.html', context)
 
+
+def about(request):
+    context = RequestContext(request)
+    return render_to_response('adm/about.html', context)
+
+
+def contact(request):
+    context = RequestContext(request)
+    return render_to_response('adm/contact.html', context)
+
+
 @login_required
 def home(request):
     context = RequestContext(request)

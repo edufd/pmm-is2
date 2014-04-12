@@ -68,9 +68,9 @@ from adm import views
 
 urlpatterns = patterns(&#39;&#39;,
         url(r&#39;^$&#39;, views.index, name=&#39;index&#39;),
+        url(r&#39;^contact/$&#39;, views.contact, name=&#39;contact&#39;),
+        url(r&#39;^register/$&#39;, views.register, name=&#39;register&#39;),
         url(r&#39;^login/$&#39;, views.user_login, name=&#39;user_login&#39;),
-        url(r&#39;^restricted/$&#39;, views.restricted, name=&#39;restricted&#39;),
-        url(r&#39;^logout/$&#39;, views.user_logout, name=&#39;logout&#39;),
 </pre></div>
 </td></tr></table></div>
 </div>

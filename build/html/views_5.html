@@ -79,34 +79,32 @@
 23
 24
 25
-26
-27</pre></div></td><td class="code"><div class="highlight"><pre><span class="nd">@login_required</span>
-<span class="k">def</span> <span class="nf">restricted</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="s">&quot;Como estas logeado, puedes ver este texto!&quot;</span><span class="p">)</span>
+26</pre></div></td><td class="code"><div class="highlight"><pre>            else:
+                context_dict[&#39;disabled_account&#39;] = True
+                return render_to_response(&#39;adm/user_login.html&#39;, context_dict, context)
+        else:
+            print &quot;Invalid login details: {0}, {1}&quot;.format(username, password)
+            context_dict[&#39;bad_details&#39;] = True
+            return render_to_response(&#39;adm/user_login.html&#39;, context_dict, context)
 
-<span class="nd">@login_required</span>
-<span class="k">def</span> <span class="nf">user_logout</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
-    <span class="n">logout</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+    else:
+        return render_to_response(&#39;adm/user_login.html&#39;, context_dict, context)
 
-    <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="s">&#39;/adm/&#39;</span><span class="p">)</span>
+@login_required
+def restricted(request):
+    return HttpResponse(&quot;Como estas logeado, puedes ver este texto!&quot;)
 
-<span class="nd">@login_required</span>
-<span class="k">def</span> <span class="nf">profile</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+@login_required
+def user_logout(request):
+    logout(request)
 
-    <span class="n">context</span> <span class="o">=</span> <span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
-    <span class="n">u</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+    return HttpResponseRedirect(&#39;/adm/&#39;)
 
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">up</span> <span class="o">=</span> <span class="n">UserProfile</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">u</span><span class="p">)</span>
-    <span class="k">except</span><span class="p">:</span>
-        <span class="n">up</span> <span class="o">=</span> <span class="bp">None</span>
+@login_required
+def profile(request):
 
-    <span class="n">context_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;user&#39;</span><span class="p">:</span> <span class="n">u</span><span class="p">,</span> <span class="s">&#39;userprofile&#39;</span><span class="p">:</span> <span class="n">up</span><span class="p">}</span>
-
-    <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;adm/profile.html&#39;</span><span class="p">,</span> <span class="n">context_dict</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">encode_url</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">,</span> <span class="s">&#39;_&#39;</span><span class="p">)</span>
+    context = RequestContext(request)
+    u = User.objects.get(username=request.user)
 </pre></div>
 </td></tr></table></div>
 </div>

@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="PMM 1.0.0 documentation" href="index.html" />
-    <link rel="next" title="pmm_is2/Views" href="views_pmmis2.html" />
+    <link rel="next" title="adm/test" href="testt.html" />
     <link rel="prev" title="adm/Views_7" href="views_7.html" /> 
   </head>
   <body>
@@ -38,7 +38,7 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="views_pmmis2.html" title="pmm_is2/Views"
+          <a href="testt.html" title="adm/test"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="views_7.html" title="adm/Views_7"
@@ -63,16 +63,18 @@
  7
  8
  9
-10</pre></div></td><td class="code"><div class="highlight"><pre><span class="nd">@login_required</span>
-<span class="k">def</span> <span class="nf">user_delete</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
-    <span class="n">context</span> <span class="o">=</span> <span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
-    <span class="n">user</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">User</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span><span class="o">==</span><span class="s">&#39;POST&#39;</span><span class="p">:</span>
-        <span class="n">user</span><span class="o">.</span><span class="n">is_active</span> <span class="o">=</span> <span class="bp">False</span>
-        <span class="n">user</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+10
+11</pre></div></td><td class="code"><div class="highlight"><pre>    <span class="k">print</span><span class="p">(</span><span class="s">&#39;profile&#39;</span><span class="p">,</span> <span class="n">profile_user</span><span class="o">.</span><span class="n">nombre</span><span class="p">)</span>
+    <span class="n">profile_form</span> <span class="o">=</span> <span class="n">UserProfileForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span> <span class="ow">or</span> <span class="bp">None</span><span class="p">,</span> <span class="n">instance</span><span class="o">=</span><span class="n">profile_user</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">user_form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">()</span> <span class="ow">and</span> <span class="n">profile_form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+
+        <span class="n">user</span><span class="o">.</span><span class="n">set_password</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">password</span><span class="p">)</span>
+        <span class="n">user_form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="n">profile_form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
         <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s">&#39;user_list&#39;</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;adm/user_confirm_delete.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;object&#39;</span><span class="p">:</span><span class="n">user</span><span class="p">},</span> <span class="n">context</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;adm/user_form.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;userform&#39;</span><span class="p">:</span> <span class="n">user_form</span><span class="p">,</span> <span class="s">&#39;profile_form&#39;</span><span class="p">:</span> <span class="n">profile_form</span><span class="p">},</span> <span class="n">context</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 </div>
@@ -87,8 +89,8 @@
   <p class="topless"><a href="views_7.html"
                         title="previous chapter">adm/Views_7</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="views_pmmis2.html"
-                        title="next chapter">pmm_is2/Views</a></p>
+  <p class="topless"><a href="testt.html"
+                        title="next chapter">adm/test</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/views_8.txt"
@@ -121,7 +123,7 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="views_pmmis2.html" title="pmm_is2/Views"
+          <a href="testt.html" title="adm/test"
              >next</a> |</li>
         <li class="right" >
           <a href="views_7.html" title="adm/Views_7"

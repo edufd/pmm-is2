@@ -22,6 +22,7 @@ Contents:
    views_6
    views_7
    views_8
+   testt
    views_pmmis2
    pmmurls
 

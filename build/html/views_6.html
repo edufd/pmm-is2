@@ -75,28 +75,30 @@
 19
 20
 21
-22</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">def</span> <span class="nf">decode_url</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">url</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;_&#39;</span><span class="p">,</span> <span class="s">&#39; &#39;</span><span class="p">)</span>
+22
+23</pre></div></td><td class="code"><div class="highlight"><pre>    try:
+        up = UserProfile.objects.get(user=u)
+    except:
+        up = None
 
-<span class="k">def</span> <span class="nf">get_user_list</span><span class="p">():</span>
+    context_dict = {&#39;user&#39;: u, &#39;userprofile&#39;: up}
 
-    <span class="n">user_list</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    return render_to_response(&#39;adm/profile.html&#39;, context_dict, context)
 
-    <span class="c"># We loop through each category returned, and create a URL attribute.</span>
-    <span class="c"># This attribute stores an encoded URL (e.g. spaces replaced with underscores).</span>
-    <span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="n">user_list</span><span class="p">:</span>
-        <span class="n">user</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="n">encode_url</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">username</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">user_list</span>
+def encode_url(name):
+    return name.replace(&#39; &#39;, &#39;_&#39;)
 
-<span class="nd">@login_required</span>
-<span class="k">def</span> <span class="nf">user_list</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
-    <span class="n">context</span> <span class="o">=</span> <span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
-    <span class="n">user_list</span> <span class="o">=</span> <span class="n">get_user_list</span><span class="p">()</span>
+def decode_url(url):
+    return url.replace(&#39;_&#39;, &#39; &#39;)
 
-    <span class="n">context_dict</span><span class="o">=</span> <span class="p">{}</span>
-    <span class="n">context_dict</span><span class="p">[</span><span class="s">&#39;object_list&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">user_list</span>
+def get_user_list():
 
-    <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;adm/user_list.html&#39;</span><span class="p">,</span> <span class="n">context_dict</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+    user_list = User.objects.all()
+
+    # We loop through each category returned, and create a URL attribute.
+    # This attribute stores an encoded URL (e.g. spaces replaced with underscores).
+    for user in user_list:
+        user.url = encode_url(user.username)
 </pre></div>
 </td></tr></table></div>
 </div>

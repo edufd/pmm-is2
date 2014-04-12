@@ -76,9 +76,7 @@
 20
 21
 22
-23</pre></div></td><td class="code"><div class="highlight"><pre>    try:
-        up = UserProfile.objects.get(user=u)
-    except:
+23</pre></div></td><td class="code"><div class="highlight"><pre>    except:
         up = None
 
     context_dict = {&#39;user&#39;: u, &#39;userprofile&#39;: up}
@@ -95,10 +93,12 @@ def get_user_list():
 
     user_list = User.objects.all()
 
-    # We loop through each category returned, and create a URL attribute.
-    # This attribute stores an encoded URL (e.g. spaces replaced with underscores).
     for user in user_list:
         user.url = encode_url(user.username)
+    return user_list
+
+@login_required
+def user_list(request):
 </pre></div>
 </td></tr></table></div>
 </div>

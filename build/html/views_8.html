@@ -64,17 +64,17 @@
  8
  9
 10
-11</pre></div></td><td class="code"><div class="highlight"><pre>    <span class="k">print</span><span class="p">(</span><span class="s">&#39;profile&#39;</span><span class="p">,</span> <span class="n">profile_user</span><span class="o">.</span><span class="n">nombre</span><span class="p">)</span>
-    <span class="n">profile_form</span> <span class="o">=</span> <span class="n">UserProfileForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span> <span class="ow">or</span> <span class="bp">None</span><span class="p">,</span> <span class="n">instance</span><span class="o">=</span><span class="n">profile_user</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">user_form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">()</span> <span class="ow">and</span> <span class="n">profile_form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+11</pre></div></td><td class="code"><div class="highlight"><pre>        user.set_password(user.password)
+        user_form.save()
+        profile_form.save()
 
-        <span class="n">user</span><span class="o">.</span><span class="n">set_password</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">password</span><span class="p">)</span>
-        <span class="n">user_form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
-        <span class="n">profile_form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        return redirect(&#39;user_list&#39;)
 
-        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s">&#39;user_list&#39;</span><span class="p">)</span>
+    return render_to_response(&#39;adm/user_form.html&#39;, {&#39;userform&#39;: user_form, &#39;profile_form&#39;: profile_form}, context)
 
-    <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;adm/user_form.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;userform&#39;</span><span class="p">:</span> <span class="n">user_form</span><span class="p">,</span> <span class="s">&#39;profile_form&#39;</span><span class="p">:</span> <span class="n">profile_form</span><span class="p">},</span> <span class="n">context</span><span class="p">)</span>
+@login_required
+def user_delete(request, pk):
+    context = RequestContext(request)
 </pre></div>
 </td></tr></table></div>
 </div>

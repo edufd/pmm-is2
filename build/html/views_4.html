@@ -93,11 +93,9 @@
             context)
 
 def user_login(request):
-    # Like before, obtain the context for the user&#39;s request.
     context = RequestContext(request)
     context_dict = {}
 
-    # If the request is a HTTP POST, try to pull out the relevant information.
     if request.method == &#39;POST&#39;:
         username = request.POST[&#39;username&#39;]
         password = request.POST[&#39;password&#39;]
@@ -107,6 +105,8 @@ def user_login(request):
             if user.is_active:
                 login(request, user)
                 return HttpResponseRedirect(&#39;/adm/home&#39;)
+            else:
+                context_dict[&#39;disabled_account&#39;] = True
 </pre></div>
 </td></tr></table></div>
 </div>

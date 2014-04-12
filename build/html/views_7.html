@@ -71,12 +71,7 @@
 15
 16
 17
-18
-19</pre></div></td><td class="code"><div class="highlight"><pre>    return user_list
-
-@login_required
-def user_list(request):
-    context = RequestContext(request)
+18</pre></div></td><td class="code"><div class="highlight"><pre>    context = RequestContext(request)
     user_list = get_user_list()
 
     context_dict= {}
@@ -91,6 +86,9 @@ def user_update(request, pk):
     user_form = UserForm(request.POST or None, instance=user)
     print(&#39;userid&#39;, user.id)
     profile_user = get_object_or_404(UserProfile, user_id=user.id)
+    print(&#39;profile&#39;, profile_user.nombre)
+    profile_form = UserProfileForm(request.POST or None, instance=profile_user)
+    if user_form.is_valid() and profile_form.is_valid():
 </pre></div>
 </td></tr></table></div>
 </div>

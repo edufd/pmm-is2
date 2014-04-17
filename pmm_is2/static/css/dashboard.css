@@ -98,3 +98,8 @@ body {
 .boton-confirmar-desconfirmar{
     width: 50px;  height: 40px;
 }
+
+.tabla_usuarios{
+    margin-left: 19.5%;
+    width: 50%;
+}

@@ -8,4 +8,28 @@
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
         <h1 class="page-header">Modulo de Administracion</h1>
     </div>
+    <table class="table table-bordered tabla_usuarios">
+        <thead>
+            <tr>
+                <th class="col-sm-1">Username</th>
+                <th class="col-sm-1">Nombre</th>
+                <th class="col-sm-1">Apellido</th>
+                <th class="col-sm-1">Ci</th>
+                <th class="col-sm-1">Telefono</th>
+                <th class="col-sm-1">Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in object_list %}
+                <tr>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.userprofile.nombre }}</td>
+                    <td>{{ user.userprofile.apellido }}</td>
+                    <td>{{ user.userprofile.ci }}</td>
+                    <td>{{ user.userprofile.telefono }}</td>
+                    <td>{{ user.is_active }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

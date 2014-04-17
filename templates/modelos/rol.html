@@ -9,11 +9,11 @@
 
 {% if registered %}
     <strong>Se ha creado el rol!</strong>
-    <a href="/modelos/">Retornar a la pagina de inicio</a><br />
+    <a href="/apps/modelos/">Retornar a la pagina de inicio</a><br />
 {% else %}
     <strong>Crear Rol</strong><br />
 
-    <form id="rol_form" method="post" action="/modelos/rol/"
+    <form id="rol_form" method="post" action="/apps/modelos/rol/"
           enctype="multipart/form-data">
 
         {% csrf_token %}

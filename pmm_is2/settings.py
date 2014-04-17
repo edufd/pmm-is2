@@ -42,8 +42,8 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'modelos',
-    'adm',
+    'apps.modelos',
+    'apps.adm',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -92,7 +92,7 @@ SITE_ID = 1
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 # Esto es la configuracion de la carpeta static, en donde guardaremos nuestros css, js e imagenes
 
-STATIC_PATH = os.path.join(BASE_DIR,'static')
+STATIC_PATH = os.path.join(BASE_DIR, 'static')
 
 STATIC_URL = '/static/'
 

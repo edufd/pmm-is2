@@ -9,12 +9,12 @@
         </br>
         {% if registered %}
         <strong>Se ha creado el usuario!</strong><br/>
-        <a href="/adm/home">Retornar a la pagina de inicio</a><br/>
+        <a href="/apps/adm/home">Retornar a la pagina de inicio</a><br/>
         {% else %}
             <strong><h4>Complete los datos</h4></strong>
             </br>
 
-            <form id="user_form" method="post" action="/adm/register/"
+            <form id="user_form" method="post" action="/apps/adm/register/"
                     enctype="multipart/form-data">
 
                 {% csrf_token %}

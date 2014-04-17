@@ -14,6 +14,17 @@ def index(request):
 
 
 @login_required
+def usuario(request):
+    context = RequestContext(request)
+    current_user = request.user
+    user_list = get_user_list(current_user.id)
+
+    context_dict= {}
+    context_dict['object_list'] = user_list
+    return render_to_response('adm/usuario.html', context)
+
+
+@login_required
 def register(request):
     context = RequestContext(request)
     registered = False
@@ -70,7 +81,8 @@ def decode_url(url):
 
 def get_user_list(user_id):
 
-    user_list = User.objects.exclude(id=user_id).order_by('id')
+    #user_list = User.objects.exclude(id=user_id).order_by('id')
+    user_list = User.objects.all().order_by('id')
 
     for user in user_list:
         user.url = encode_url(user.username)

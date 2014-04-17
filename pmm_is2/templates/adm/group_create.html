@@ -1,0 +1,28 @@
+{% extends 'pmm_is2/base_logged.html' %}
+{% load static %}
+{% block link %}<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">{% endblock %}
+{% block title %}PMM{% endblock %}
+{% block content %}
+
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <h1 class="page-header">Crear grupo</h1>
+        </br>
+        {% if registered %}
+        <strong>Se ha creado el grupo!</strong><br/>
+        <a href="/adm/">Retornar a la pagina de inicio</a><br/>
+        {% else %}
+            <strong><h4>Complete los datos</h4></strong>
+            </br>
+
+            <form id="group_form" method="post" action="/adm/group_create/"
+                    enctype="multipart/form-data">
+
+                {% csrf_token %}
+
+                {{ group_form.as_p }}
+                <!-- Provide a button to click to submit the form. -->
+                <input type="submit" name="submit" value="Crear" />
+            </form>
+        {% endif %}
+    </div>
+{% endblock %}

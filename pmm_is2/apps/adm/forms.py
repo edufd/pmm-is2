@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django import forms
 
 from pmm_is2.apps.adm.models import UserProfile
@@ -11,7 +11,14 @@ class UserForm(forms.ModelForm):
         model = User
         fields = ('username', 'password')
 
+
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ('nombre', 'apellido', 'ci', 'telefono')
+
+
+class GroupForm(forms.ModelForm):
+    class Meta:
+        model = Group
+        fields = ('name', 'permissions')

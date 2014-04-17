@@ -1,9 +1,9 @@
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.http import HttpResponse
-from pmm_is2.apps.adm.forms import UserForm, UserProfileForm
+from pmm_is2.apps.adm.forms import UserForm, UserProfileForm, GroupForm
 from pmm_is2.apps.adm.models import UserProfile
 
 
@@ -49,6 +49,23 @@ def register(request):
             {'user_form': user_form, 'profile_form': profile_form, 'registered': registered},
             context)
 
+@login_required
+def group_create(request):
+    context = RequestContext(request)
+    registered = False
+    if request.method == 'POST':
+        group_form = GroupForm(data=request.POST)
+        if group_form.is_valid():
+            group = group_form.save()
+            group.save()
+            registered = True
+        else:
+            print group_form.errors
+
+    else:
+        group_form = GroupForm()
+
+    return render_to_response('adm/group_create.html', {'group_form': group_form, 'registered': registered}, context)
 
 @login_required
 def restricted(request):
@@ -89,6 +106,20 @@ def get_user_list(user_id):
 
     return user_list
 
+def get_group_list():
+
+    group_list = Group.objects.all()
+    return group_list
+
+@login_required
+def group_list(request):
+
+    context = RequestContext(request)
+    group_list = get_group_list()
+    context_dict = {}
+    context_dict['object_list'] = group_list
+
+    return render_to_response('adm/group_list.html', context_dict, context)
 
 @login_required
 def user_list(request):
@@ -97,7 +128,7 @@ def user_list(request):
     context = RequestContext(request)
     user_list = get_user_list(current_user.id)
 
-    context_dict= {}
+    context_dict = {}
     context_dict['object_list'] = user_list
 
     return render_to_response('adm/user_list.html', context_dict, context)
@@ -122,6 +153,16 @@ def user_update(request, pk):
 
     return render_to_response('adm/user_form.html', {'userform': user_form, 'profile_form': profile_form}, context)
 
+@login_required
+def group_update(request, pk):
+    context = RequestContext(request)
+    group = get_object_or_404(Group, pk=pk)
+    group_form = GroupForm(request.POST or None, instance=group)
+    if group_form.is_valid():
+        group_form.save()
+        return redirect('group_list')
+
+    return render_to_response('adm/group_form.html', {'groupform': group_form}, context)
 
 @login_required
 def user_delete(request, pk):
@@ -133,3 +174,13 @@ def user_delete(request, pk):
         return redirect('user_list')
 
     return render_to_response('adm/user_confirm_delete.html', {'object':user}, context)
+
+@login_required
+def group_delete(request, pk):
+    context = RequestContext(request)
+    group = get_object_or_404(Group, pk=pk)
+    if request.method == 'POST':
+        group.delete()
+        return redirect('group_list')
+
+    return render_to_response('adm/group_confirm_delete.html', {'object':group}, context)

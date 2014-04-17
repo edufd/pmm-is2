@@ -21,7 +21,7 @@ def usuario(request):
 
     context_dict= {}
     context_dict['object_list'] = user_list
-    return render_to_response('adm/usuario.html', context)
+    return render_to_response('adm/usuario.html', context_dict, context)
 
 
 @login_required
@@ -79,13 +79,14 @@ def decode_url(url):
     return url.replace('_', ' ')
 
 
+
 def get_user_list(user_id):
 
     #user_list = User.objects.exclude(id=user_id).order_by('id')
-    user_list = User.objects.all().order_by('id')
+    #join quilombo trae todos los elementos de las dos relaciones
+    user_list = User.objects.select_related("userprofile").all().order_by('id')
+    print user_list
 
-    for user in user_list:
-        user.url = encode_url(user.username)
     return user_list
 
 

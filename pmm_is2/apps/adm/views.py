@@ -2,10 +2,15 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404, redirect
-from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponse
 from pmm_is2.apps.adm.forms import UserForm, UserProfileForm
 from pmm_is2.apps.adm.models import UserProfile
+
+
+@login_required
+def index(request):
+    context = RequestContext(request)
+    return render_to_response('adm/index.html', context)
 
 
 @login_required
@@ -34,14 +39,9 @@ def register(request):
             context)
 
 
-
-
-
 @login_required
 def restricted(request):
     return HttpResponse("Como estas logeado, puedes ver este texto!")
-
-
 
 
 @login_required

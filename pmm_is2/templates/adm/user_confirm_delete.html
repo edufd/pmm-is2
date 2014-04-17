@@ -1,4 +1,4 @@
-{% extends 'adm/../pmm_is2/base_logged.html' %}
+{% extends 'adm/adm_base_logged.html' %}
 {% load static %}
 {% block link %}<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">{% endblock %}
 {% block title %}PMM{% endblock %}
@@ -11,7 +11,7 @@
             <h4>Estas seguro que quieres eliminar al usuario "{{ object }}" ?</h4>
             </br>
             <input class="btn btn-primary boton-confirmar-desconfirmar" type="submit" value="Si" />
-            <a href="/pmm_is2/apps/adm/user_list"><input class="btn btn-primary boton-confirmar-desconfirmar" value="No" /></a>
+            <a href="/adm/user_list"><input class="btn btn-primary boton-confirmar-desconfirmar" value="No" /></a>
         </form>
     </div>
 {% endblock %}

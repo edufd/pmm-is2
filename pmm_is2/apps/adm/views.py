@@ -101,7 +101,7 @@ def get_user_list(user_id):
 
     #user_list = User.objects.exclude(id=user_id).order_by('id')
     #join quilombo trae todos los elementos de las dos relaciones
-    user_list = User.objects.select_related("userprofile").all().order_by('id')
+    user_list = User.objects.exclude(id=user_id).select_related("userprofile").all().order_by('id')
     print user_list
 
     return user_list

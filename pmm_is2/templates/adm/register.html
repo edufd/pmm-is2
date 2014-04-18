@@ -8,22 +8,24 @@
         <h1 class="page-header">Crear Usuario</h1>
         </br>
         {% if registered %}
-        <strong>Se ha creado el usuario!</strong><br/>
-        <a href="/adm/">Retornar a la pagina de inicio</a><br/>
+            <strong>Se ha creado el usuario!</strong><br/>
+            <a href="/adm/">Retornar a la pagina de inicio</a><br/>
         {% else %}
-            <strong><h4>Complete los datos</h4></strong>
-            </br>
-
-            <form id="user_form" method="post" action="/adm/register/"
+            <form role="form" id="user_form" method="post" action="/adm/register/"
                     enctype="multipart/form-data">
 
                 {% csrf_token %}
-
-                {{ user_form.as_p }}
-                {{ profile_form.as_p }}
-
-                <!-- Provide a button to click to submit the form. -->
-                <input type="submit" name="submit" value="Registrar" />
+                <h4 class="page-header">Datos del Usuario</h4>
+                <div class="form-group">
+                    {{ user_form.as_p }}
+                </div>
+                </br>
+                <h4 class="page-header">Datos Personales</h4>
+                <div class="form-group">
+                    {{ profile_form.as_p }}
+                </div>
+                </br>
+                <input class="btn" type="submit" name="submit" value="Registrar" />
             </form>
         {% endif %}
     </div>

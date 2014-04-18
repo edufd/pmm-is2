@@ -1,0 +1,25 @@
+{% extends 'adm/../pmm_is2/base_logged.html' %}
+{% load static %}
+{% block link %}<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">{% endblock %}
+{% block title %}PMM{% endblock %}
+{% block content %}
+
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <h1 class="page-header">Usuarios</h1>
+        </br>
+        {% for user in object_list %}
+            {% if user.is_active %}
+                <li>
+                    <h4>{{ user.username }}  :
+                        {% if not user.is_superuser %}
+                            <a href="{% url "asignar" user.id %}">Asignar Rol</a>
+
+                        {% else %}
+                            Usuario Administrador por defecto.
+                        {% endif %}
+                    </h4>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}

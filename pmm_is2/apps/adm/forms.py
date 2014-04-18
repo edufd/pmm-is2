@@ -22,3 +22,9 @@ class GroupForm(forms.ModelForm):
     class Meta:
         model = Group
         fields = ('name', 'permissions')
+
+class UserGroup(forms.ModelForm):
+    groups=forms.ModelMultipleChoiceField(queryset=Group.objects.all(),widget=forms.CheckboxSelectMultiple(), required=True)
+    class Meta:
+        model = User
+        fields =('groups', 'user_permissions')

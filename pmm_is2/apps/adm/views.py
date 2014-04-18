@@ -3,7 +3,7 @@ from django.contrib.auth.models import User, Group
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.http import HttpResponse
-from pmm_is2.apps.adm.forms import UserForm, UserProfileForm, GroupForm
+from pmm_is2.apps.adm.forms import UserForm, UserProfileForm, GroupForm,UserGroup
 from pmm_is2.apps.adm.models import UserProfile
 
 
@@ -184,3 +184,33 @@ def group_delete(request, pk):
         return redirect('group_list')
 
     return render_to_response('adm/group_confirm_delete.html', {'object':group}, context)
+
+@login_required
+def asignar_roles(request):
+
+    current_user = request.user
+    context = RequestContext(request)
+    user_list = get_user_list(current_user.id)
+
+    context_dict = {}
+    context_dict['object_list'] = user_list
+
+    return render_to_response('adm/user_group.html', context_dict, context)
+
+@login_required
+def asignar(request, pk):
+    context = RequestContext(request)
+    registered = False
+    if request.method == 'POST':
+        user = get_object_or_404(User, pk=pk)
+        user_group = UserGroup(request.POST or None, instance=user)
+        if user_group.is_valid():
+            user=user_group.save()
+            user.save()
+            registered = True
+        else:
+             print user_group.errors
+    else:
+        user_group = UserGroup()
+
+    return render_to_response('adm/group_user.html', {'user_group': user_group,'registered': registered}, context)

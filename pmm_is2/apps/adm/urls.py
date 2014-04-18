@@ -15,4 +15,6 @@ urlpatterns = patterns('',
         url(r'^group_list/$', views.group_list, name='group_list'),
         url(r'^group_edit/(?P<pk>\d+)$', views.group_update, name='group_edit'),
         url(r'^group_delete/(?P<pk>\d+)$', views.group_delete, name='group_delete'),
+        url(r'^asignar_roles/$', views.asignar_roles, name='asignar_roles'),
+        url(r'^asignar/(?P<pk>\d+)$', views.asignar, name='asignar'),
 )

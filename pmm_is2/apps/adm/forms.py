@@ -1,6 +1,6 @@
-from django.contrib.admin.widgets import FilteredSelectMultiple
-from django.contrib.auth.models import User, Group, GroupManager
+from django.contrib.auth.models import User, Group
 from django import forms
+
 from pmm_is2.apps.adm.models import UserProfile
 
 
@@ -9,7 +9,7 @@ class UserForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('username', 'password', 'groups')
+        fields = ('username', 'password')
 
 
 class UserProfileForm(forms.ModelForm):
@@ -22,11 +22,3 @@ class GroupForm(forms.ModelForm):
     class Meta:
         model = Group
         fields = ('name', 'permissions')
-
-
-class UsuarioGroupForm(forms.ModelForm):
-    class Meta:
-        model = User
-        fields = ('groups',)
-
-

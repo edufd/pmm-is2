@@ -3,12 +3,8 @@ from django.contrib.auth.models import User, Group
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.http import HttpResponse
-from pmm_is2.apps.adm.forms import UserForm, UserProfileForm, GroupForm,UserGroup
+from pmm_is2.apps.adm.forms import UserForm, UserProfileForm, GroupForm
 from pmm_is2.apps.adm.models import UserProfile
-
-
-
-
 
 
 @login_required

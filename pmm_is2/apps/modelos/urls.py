@@ -1,5 +1,4 @@
 from django.conf.urls import patterns, url
-
 from pmm_is2.apps.modelos import views
 
 

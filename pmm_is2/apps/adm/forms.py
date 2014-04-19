@@ -1,6 +1,6 @@
-from django.contrib.auth.models import User, Group
+from django.contrib.admin.widgets import FilteredSelectMultiple
+from django.contrib.auth.models import User, Group, Permission
 from django import forms
-
 from pmm_is2.apps.adm.models import UserProfile
 
 
@@ -19,6 +19,8 @@ class UserProfileForm(forms.ModelForm):
 
 
 class GroupForm(forms.ModelForm):
+    permisos = forms.ModelMultipleChoiceField(Permission.objects.all(), widget=
+                                       FilteredSelectMultiple("Permisos", False, attrs={'rows':'10'}))
     class Meta:
         model = Group
-        fields = ('name', 'permissions')
+        fields = ('name',)

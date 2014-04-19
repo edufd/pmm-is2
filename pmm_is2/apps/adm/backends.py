@@ -14,6 +14,7 @@ def iniciar_sesion(request, usuario):
     else:
         request.session.cycle_key()
         request.session[SESSION_KEY] = usuario.username
+        print request.session[SESSION_KEY]
         request.session[SESSION_KEY_MSG] = ["hola"]
     if hasattr(request, 'user'):
         request.user = usuario

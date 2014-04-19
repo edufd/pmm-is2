@@ -1,11 +1,12 @@
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User, Group, Permission
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.http import HttpResponse
 from pmm_is2.apps.adm.forms import UserForm, UserProfileForm, GroupForm
 from pmm_is2.apps.adm.models import UserProfile
-
+from pmm_is2.apps.adm import SESSION_KEY
+from pmm_is2.apps.adm import SESSION_KEY_MSG
 
 @login_required
 def index(request):
@@ -196,27 +197,38 @@ def asignar(request, pk):
 
     return render_to_response('adm/group_user.html', {'user_group': user_group,'registered': registered}, context)
 
+def verificarRolUsuario(request):
+    valido = False
+    alias=request.session[SESSION_KEY]
+    print alias
+    UsuarioId = User.objects.get(username=alias)
+    valido=UsuarioId.has_perm ('adm.add_user')
+    return valido
+
 @login_required
 def register(request):
     context = RequestContext(request)
     registered = False
-    if request.method == 'POST':
-        user_form = UserForm(data=request.POST)
-        profile_form = UserProfileForm(data=request.POST)
-        if user_form.is_valid() and profile_form.is_valid():
-            user = user_form.save()
-            user.set_password(user.password)
-            user.save()
-            profile = profile_form.save(commit=False)
-            profile.user = user
-            profile.save()
-            registered = True
+    validar=verificarRolUsuario(request)
+    print validar
+    if validar==True:
+        if request.method == 'POST':
+            user_form = UserForm(data=request.POST)
+            profile_form = UserProfileForm(data=request.POST)
+            if user_form.is_valid() and profile_form.is_valid():
+                user = user_form.save()
+                user.set_password(user.password)
+                user.save()
+                profile = profile_form.save(commit=False)
+                profile.user = user
+                profile.save()
+                registered = True
+            else:
+                print user_form.errors, profile_form.errors
         else:
-            print user_form.errors, profile_form.errors
+            user_form = UserForm()
+            profile_form = UserProfileForm()
+            return render_to_response('adm/register.html',{'user_form': user_form, 'profile_form': profile_form, 'registered': registered},context)
     else:
-        user_form = UserForm()
-        profile_form = UserProfileForm()
-    return render_to_response(
-        'adm/register.html',
-        {'user_form': user_form, 'profile_form': profile_form, 'registered': registered},
-        context)
+        request.session[SESSION_KEY_MSG] = [mensaje]
+        return render_to_response('pmm_is2/home.html', context)

@@ -96,7 +96,6 @@ def decode_url(url):
     return url.replace('_', ' ')
 
 
-
 def get_user_list(user_id):
 
     #user_list = User.objects.exclude(id=user_id).order_by('id')
@@ -106,10 +105,12 @@ def get_user_list(user_id):
 
     return user_list
 
+
 def get_group_list():
 
     group_list = Group.objects.all()
     return group_list
+
 
 @login_required
 def group_list(request):
@@ -120,6 +121,7 @@ def group_list(request):
     context_dict['object_list'] = group_list
 
     return render_to_response('adm/group_list.html', context_dict, context)
+
 
 @login_required
 def user_list(request):

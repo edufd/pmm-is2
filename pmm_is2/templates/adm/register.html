@@ -3,7 +3,6 @@
 {% block link %}<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">{% endblock %}
 {% block title %}PMM{% endblock %}
 {% block content %}
-
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
         <h1 class="page-header">Crear Usuario</h1>
         </br>
@@ -13,7 +12,6 @@
         {% else %}
             <form role="form" id="user_form" method="post" action="/adm/register/"
                     enctype="multipart/form-data">
-
                 {% csrf_token %}
                 <h4 class="page-header">Datos del Usuario</h4>
                 <div class="form-group">

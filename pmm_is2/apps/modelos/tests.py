@@ -1,10 +1,10 @@
-from django.test import TestCase
+#from django.test import TestCase
 
-from pmm_is2.apps.modelos.models import Usuario
-from pmm_is2.apps.modelos.models import Rol
-from pmm_is2.apps.modelos.models import Permiso
-from pmm_is2.apps.modelos.models import RolPermiso
-from pmm_is2.apps.modelos.models import UsuarioRol
+#from pmm_is2.apps.modelos.models import Usuario
+#from pmm_is2.apps.modelos.models import Rol
+#from pmm_is2.apps.modelos.models import Permiso
+#from pmm_is2.apps.modelos.models import RolPermiso
+#from pmm_is2.apps.modelos.models import UsuarioRol
 
 #./manage.py test modelos --desde consola
 # Create your tests here.

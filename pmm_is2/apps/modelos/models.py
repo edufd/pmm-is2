@@ -1,6 +1,8 @@
 from django.db import models
 
 # Create your models here.
+from django.db.models import ManyToManyField
+
 
 class Usuario(models.Model):
     id_usuario = models.AutoField(primary_key=True)
@@ -41,3 +43,11 @@ class RolPermiso(models.Model):
     class Meta:
         db_table = 'rol_permiso'
         unique_together = (("id_rol", "id_permiso"),)
+
+
+class Subjects(models.Model):
+    sub_name=models.CharField(max_length=100)
+    desc=models.CharField(max_length=100)
+class Student(models.Model):
+    name=models.CharField(max_length=100)
+    subject=ManyToManyField(Subjects)

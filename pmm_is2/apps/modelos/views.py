@@ -7,13 +7,18 @@ from pmm_is2.apps.modelos.forms import RolForm
 
 
 # Create your views here.
+from pmm_is2.apps.modelos.models import Subjects, Student
+
+
 def index(request):
 
     context = RequestContext(request)
 
     context_dict = {'boldmessage': "Soy un mensaje en negrita del contexto"}
+    rolform = RolForm()
 
-    return render_to_response('modelos/index.html', context_dict, context)
+    return render_to_response('modelos/index.html', {'rolform': rolform}, context)
+#return render_to_response('adm/group_create.html', {'group_form': group_form, 'registered': registered}, context)
 
 def registrar(request):
     context = RequestContext(request)
@@ -64,3 +69,23 @@ def registryRol(request):
         'modelos/rol.html',
         {'rol_form': rol_form, 'registered': registered},
         context)
+
+
+
+from django.contrib.admin.widgets import FilteredSelectMultiple
+from django.forms import ModelForm
+from django import forms
+
+class StudentForm(ModelForm):
+    subject=forms.ModelMultipleChoiceField(Subjects.objects.all(),widget=
+FilteredSelectMultiple("Subjects",False,attrs={'rows':'10'}))
+    class Meta:
+        model= Student
+def Form(request):
+    stud_form=StudentForm()
+    if request.POST:
+        stud_form=StudentForm(request.POST)
+        stud_form.save()
+        return render_to_response("success.html")
+    else:
+        return render_to_response("Form.html",{' stud_form': stud_form})

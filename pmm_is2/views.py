@@ -3,6 +3,12 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
+from pmm_is2.apps.adm.backends import iniciar_sesion
+from pmm_is2.apps.adm.backends import cerrar_sesion
+from pmm_is2.apps.adm import SESSION_KEY
+from django.contrib.auth.models import User, Group, Permission
+from pmm_is2.apps.adm import SESSION_KEY_MSG
+
 
 
 def index(request):
@@ -30,7 +36,8 @@ def home(request):
 def user_login(request):
     context = RequestContext(request)
     context_dict = {}
-
+    if SESSION_KEY in request.session.keys():
+        return HttpResponseRedirect('index.html')
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -39,6 +46,7 @@ def user_login(request):
         if user is not None:
             if user.is_active:
                 login(request, user)
+                iniciar_sesion(request,user)
                 return HttpResponseRedirect('/home')
             else:
                 context_dict['disabled_account'] = True
@@ -50,7 +58,6 @@ def user_login(request):
 
     else:
         return render_to_response('pmm_is2/user_login.html', context_dict, context)
-
 
 @login_required
 def user_logout(request):

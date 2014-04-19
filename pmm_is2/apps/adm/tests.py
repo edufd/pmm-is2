@@ -4,8 +4,6 @@ from django.contrib.auth.models import User,Group
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from django.test import LiveServerTestCase
-
-
 from selenium.common.exceptions import  NoSuchAttributeException
 from selenium.webdriver.common.by  import  By
 
@@ -17,6 +15,16 @@ from selenium.webdriver.common.by  import  By
 #assert 'Django' in body.text
 #browser.quit()
 
+class Test1(LiveServerTestCase):
+    def setUp(self):
+        self.browser = webdriver.Firefox()
+    def tearDown(self):
+        self.browser.quit()
+    def test_admin_site(self):
+        self.browser.get(self.live_server_url)
+        body = self.browser.find_element_by_tag_name('body')
+        self.assertIn('PMM', body.text)
+
 class UserTest(TestCase):
     fixtures = ['permisos.json','grupos.json','usuarios.json']
     def setUp(self):
@@ -25,8 +33,6 @@ class UserTest(TestCase):
         pass
     def test_coolness(self):
         self.assertEqual(4, len(User.objects.all()))
-
-
 
 
 class AdminTest(LiveServerTestCase):
@@ -41,7 +47,7 @@ class AdminTest(LiveServerTestCase):
         self.browser.quit()
 
     def test_admin_site(self):
-    # user opens web browser, navigates to admin page
+
         self.browser.get(self.live_server_url + '/login/')
         body = self.browser.find_element_by_tag_name('body')
         self.assertIn('Iniciar Sesion', body.text)
@@ -54,4 +60,3 @@ class AdminTest(LiveServerTestCase):
         body1 = self.browser.find_element_by_tag_name('body')
         self.assertIn('Proyectos Activos', body1.text)
 
-        #return self.find_element(by=By.CLASS_NAME, value=name)

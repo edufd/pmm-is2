@@ -24,30 +24,6 @@ def usuario(request):
     return render_to_response('adm/usuario.html', context_dict, context)
 
 
-@login_required
-def register(request):
-    context = RequestContext(request)
-    registered = False
-    if request.method == 'POST':
-        user_form = UserForm(data=request.POST)
-        profile_form = UserProfileForm(data=request.POST)
-        if user_form.is_valid() and profile_form.is_valid():
-            user = user_form.save()
-            user.set_password(user.password)
-            user.save()
-            profile = profile_form.save(commit=False)
-            profile.user = user
-            profile.save()
-            registered = True
-        else:
-            print user_form.errors, profile_form.errors
-    else:
-        user_form = UserForm()
-        profile_form = UserProfileForm()
-    return render_to_response(
-        'adm/register.html',
-            {'user_form': user_form, 'profile_form': profile_form, 'registered': registered},
-            context)
 
 
 @login_required
@@ -97,6 +73,7 @@ def decode_url(url):
     return url.replace('_', ' ')
 
 
+
 def get_user_list(user_id):
 
     #user_list = User.objects.exclude(id=user_id).order_by('id')
@@ -106,12 +83,10 @@ def get_user_list(user_id):
 
     return user_list
 
-
 def get_group_list():
 
     group_list = Group.objects.all()
     return group_list
-
 
 @login_required
 def group_list(request):
@@ -122,7 +97,6 @@ def group_list(request):
     context_dict['object_list'] = group_list
 
     return render_to_response('adm/group_list.html', context_dict, context)
-
 
 @login_required
 def user_list(request):
@@ -142,7 +116,9 @@ def user_update(request, pk):
     context = RequestContext(request)
     user = get_object_or_404(User, pk=pk)
     user_form = UserForm(request.POST or None, instance=user)
+    print('userid', user.id)
     profile_user = get_object_or_404(UserProfile, user_id=user.id)
+    print('profile', profile_user.nombre)
     profile_form = UserProfileForm(request.POST or None, instance=profile_user)
     if user_form.is_valid() and profile_form.is_valid():
 
@@ -177,7 +153,6 @@ def user_delete(request, pk):
         return redirect('user_list')
 
     return render_to_response('adm/user_confirm_delete.html', {'object':user}, context)
-
 
 @login_required
 def group_delete(request, pk):
@@ -220,3 +195,30 @@ def asignar(request, pk):
         user_group = UserGroup()
 
     return render_to_response('adm/group_user.html', {'user_group': user_group,'registered': registered}, context)
+
+
+
+@login_required
+def register(request):
+    context = RequestContext(request)
+    registered = False
+    if request.method == 'POST':
+        user_form = UserForm(data=request.POST)
+        profile_form = UserProfileForm(data=request.POST)
+        if user_form.is_valid() and profile_form.is_valid():
+            user = user_form.save()
+            user.set_password(user.password)
+            user.save()
+            profile = profile_form.save(commit=False)
+            profile.user = user
+            profile.save()
+            registered = True
+        else:
+            print user_form.errors, profile_form.errors
+    else:
+        user_form = UserForm()
+        profile_form = UserProfileForm()
+    return render_to_response(
+        'adm/register.html',
+        {'user_form': user_form, 'profile_form': profile_form, 'registered': registered},
+        context)

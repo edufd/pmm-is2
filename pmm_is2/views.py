@@ -37,7 +37,7 @@ def user_login(request):
     context = RequestContext(request)
     context_dict = {}
     if SESSION_KEY in request.session.keys():
-        return HttpResponseRedirect('index.html')
+        return render_to_response('pmm_is2/home.html', context)
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']

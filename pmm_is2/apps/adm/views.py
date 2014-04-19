@@ -196,8 +196,6 @@ def asignar(request, pk):
 
     return render_to_response('adm/group_user.html', {'user_group': user_group,'registered': registered}, context)
 
-
-
 @login_required
 def register(request):
     context = RequestContext(request)

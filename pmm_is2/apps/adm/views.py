@@ -230,5 +230,6 @@ def register(request):
             profile_form = UserProfileForm()
             return render_to_response('adm/register.html',{'user_form': user_form, 'profile_form': profile_form, 'registered': registered},context)
     else:
+        mensaje="No tiene permiso de crear Usuario"
         request.session[SESSION_KEY_MSG] = [mensaje]
         return render_to_response('pmm_is2/home.html', context)

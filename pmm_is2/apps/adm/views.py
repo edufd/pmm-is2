@@ -153,6 +153,7 @@ def user_update(request, pk):
 
     return render_to_response('adm/user_form.html', {'userform': user_form, 'profile_form': profile_form}, context)
 
+
 @login_required
 def group_update(request, pk):
     context = RequestContext(request)
@@ -163,6 +164,7 @@ def group_update(request, pk):
         return redirect('group_list')
 
     return render_to_response('adm/group_form.html', {'groupform': group_form}, context)
+
 
 @login_required
 def user_delete(request, pk):
@@ -185,6 +187,7 @@ def group_delete(request, pk):
 
     return render_to_response('adm/group_confirm_delete.html', {'object':group}, context)
 
+
 @login_required
 def asignar_roles(request):
 
@@ -197,6 +200,7 @@ def asignar_roles(request):
 
     return render_to_response('adm/user_group.html', context_dict, context)
 
+
 @login_required
 def asignar(request, pk):
     context = RequestContext(request)
@@ -205,7 +209,7 @@ def asignar(request, pk):
         user = get_object_or_404(User, pk=pk)
         user_group = UserGroup(request.POST or None, instance=user)
         if user_group.is_valid():
-            user=user_group.save()
+            user= user_group.save()
             user.save()
             registered = True
         else:

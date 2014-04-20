@@ -19,8 +19,7 @@ class UserProfileForm(forms.ModelForm):
 
 
 class GroupForm(forms.ModelForm):
-    permisos = forms.ModelMultipleChoiceField(Permission.objects.all(), widget=
-                                       FilteredSelectMultiple("Permisos", False, attrs={'rows':'10'}))
+
     class Meta:
         model = Group
-        fields = ('name',)
+        fields = ('name', 'permissions')

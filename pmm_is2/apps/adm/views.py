@@ -5,9 +5,7 @@ from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.http import HttpResponse
 from pmm_is2.apps.adm.forms import UserForm, UserProfileForm, GroupForm
 from pmm_is2.apps.adm.models import UserProfile
-from pmm_is2.apps.adm import SESSION_KEY
-from pmm_is2.apps.adm import SESSION_KEY_MSG
-from pmm_is2.apps.adm.backends import usuario_verificarRolUsuario
+
 
 @login_required
 def index(request):
@@ -123,7 +121,7 @@ def user_list(request):
 
     return render_to_response('adm/user_list.html', context_dict, context)
 
-
+@user_passes_test(not_in_admin_group, login_url='/login/')
 @login_required
 def user_update(request, pk):
     context = RequestContext(request)

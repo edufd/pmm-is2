@@ -10,11 +10,13 @@ from pmm_is2.apps.adm.models import UserProfile
 def not_in_admin_group(user):
     """Use with a ``user_passes_test`` decorator to restrict access to
     authenticated users who are not in the "Administrador" group."""
-    print user.is_authenticated()
-    print user.groups.filter(name='Administrador').exists()
-    return user.is_authenticated() and user.groups.filter(name='Administrador').exists()
-
-
+    valido = False
+    if user:
+        combined_queryset = user.groups.filter(name='Administrador').exists() | \
+                            user.groups.filter(name='Lider de Proyecto').exists()
+        print combined_queryset
+        valido = combined_queryset and user.is_authenticated()
+    return valido
 
 
 @user_passes_test(not_in_admin_group)

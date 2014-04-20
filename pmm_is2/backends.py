@@ -3,6 +3,7 @@ __author__ = 'adriana'
 from pmm_is2.apps.adm import SESSION_KEY
 from django.contrib.auth.models import User, Group, Permission
 from pmm_is2.apps.adm import SESSION_KEY_MSG
+from django.db.models import Q
 
 
 def iniciar_sesion(request, usuario):
@@ -38,6 +39,9 @@ def cerrar_sesion(request):
 def verificar_rol_usuario(user):
     valido = False
     if user:
-        print user.groups.filter(name='Administrador').exists()
-        valido = user.groups.filter(name='Administrador').exists()
+        combined_queryset = user.groups.filter(name='Administrador').exists() | \
+                            user.groups.filter(name='Lider de Proyecto').exists()
+        print combined_queryset
+        valido = combined_queryset
     return valido
+

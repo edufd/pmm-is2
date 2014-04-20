@@ -354,3 +354,24 @@ def perfil(request, pk):
 
     return render_to_response('adm/profile.html', context_dict, context)
 
+
+@user_passes_test(not_in_admin_group, login_url='/login/')
+@login_required
+def rol(request, pk):
+
+    context = RequestContext(request)
+    rol = get_object_or_404(Group, pk=pk)
+    context_dict = {'rol': rol}
+
+    return render_to_response('adm/rol.html', context_dict, context)
+
+
+@user_passes_test(not_in_admin_group, login_url='/login/')
+@login_required
+def permiso(request, pk):
+
+    context = RequestContext(request)
+    permiso = get_object_or_404(Permission, pk=pk)
+    context_dict = {'permiso': permiso}
+
+    return render_to_response('adm/permiso.html', context_dict, context)

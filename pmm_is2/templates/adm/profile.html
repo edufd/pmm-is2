@@ -7,12 +7,14 @@
         <h1 class="page-header">Perfil</h1>
         </br>
         <h2>User: {{ usuario.username }}</h2>
-                {% if userprofile %}
+        {% if userprofile %}
 
             <h4>Nombre: {{ userprofile.nombre }}</h4>
-            <h4>Apellido: {{ userprofile.apellido}}</h4>
-            <h4>CI: {{ userprofile.ci}}</h4>
-            <h4>Telefono: {{ userprofile.telefono}}</h4>
+            <h4>Apellido: {{ userprofile.apellido }}</h4>
+            <h4>CI: {{ userprofile.ci }}</h4>
+            <h4>Telefono: {{ userprofile.telefono }}</h4>
+            <h4>Rol/es: {{ usuario.groups.get }}</h4>
+            <h4>Permisos: {{ usuario.get_group_permissions }}</h4>
             </br>
 
         {% endif %}

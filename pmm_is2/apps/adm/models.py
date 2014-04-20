@@ -6,8 +6,8 @@ class UserProfile(models.Model):
 
     user = models.OneToOneField(User)
 
-    nombre = models.CharField(max_length=200)
-    apellido = models.CharField(max_length=200)
+    nombre = models.CharField(max_length=200, default='')
+    apellido = models.CharField(max_length=200, default='')
     ci = models.IntegerField(unique=True)
     telefono = models.IntegerField()
 

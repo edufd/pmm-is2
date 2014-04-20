@@ -17,4 +17,8 @@ urlpatterns = patterns('',
         url(r'^group_delete/(?P<pk>\d+)$', views.group_delete, name='group_delete'),
         url(r'^asignar_roles/$', views.asignar_roles, name='asignar_roles'),
         url(r'^asignar/(?P<pk>\d+)$', views.asignar, name='asignar'),
+        url(r'^category/$', views.category, name='category'),
+        url(r'^suggest_category/$', views.suggest_category, name='suggest_category'),
+        url(r'^suggest_rol/$', views.suggest_rol, name='suggest_rol'),
+        url(r'^suggest_permiso/$', views.suggest_permiso, name='suggest_rol'),
 )

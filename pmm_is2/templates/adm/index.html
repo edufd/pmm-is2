@@ -10,13 +10,21 @@
         <h1 class="page-header">Modulo de Administracion</h1>
         </br>
         <h2 class="page-header"><a href="/adm/usuario/">Usuarios</a></h2>
-        </br>
 
         <div class="row placeholders">
             <div class="col-xs-6 col-sm-3 placeholder">
                 
-                <h4>Label</h4>
-                <span class="text-muted">No implementado</span>
+                <ul class="nav nav-list">
+                    <li class="nav-header">Buscar Usuarios
+                    <form autocomplete="off">
+                        <label></label>
+                        <input  class="search-query span10" type="text" name="suggestion" value="" id="suggestion" />
+                    </form></li>
+                </ul>
+                <div id="cats">
+                    {% include 'adm/category_list.html' with cat_list=cat_list %}
+                </div>
+
             </div>
 
             <div class="col-xs-6 col-sm-3 placeholder">
@@ -38,13 +46,19 @@
             </div>
         </div>
         <h2 class="page-header">Roles</h2>
-        </br>
-
         <div class="row placeholders">
             <div class="col-xs-6 col-sm-3 placeholder">
                 
-                <h4>Label</h4>
-                <span class="text-muted">No implementado</span>
+                <ul class="nav nav-list">
+                    <li class="nav-header">Buscar Roles
+                    <form autocomplete="off">
+                        <label></label>
+                        <input  class="search-query span10" type="text" name="suggestion_rol" value="" id="suggestion_rol" />
+                    </form></li>
+                </ul>
+                <div id="cats_rol">
+                    {% include 'adm/roles_list.html' with cat_list=cat_list %}
+                </div>
             </div>
 
             <div class="col-xs-6 col-sm-3 placeholder">
@@ -67,13 +81,19 @@
         </div>
 
         <h2 class="page-header">Permisos</h2>
-        </br>
-
         <div class="row placeholders">
             <div class="col-xs-6 col-sm-3 placeholder">
                 
-                <h4>Label</h4>
-                <span class="text-muted">No implementado</span>
+                <ul class="nav nav-list">
+                    <li class="nav-header">Buscar Permisos
+                    <form autocomplete="off">
+                        <label></label>
+                        <input  class="search-query span10" type="text" name="suggestion_permiso" value="" id="suggestion_permiso" />
+                    </form></li>
+                </ul>
+                <div id="cats_permiso">
+                    {% include 'adm/permisos_list.html' with cat_list=cat_list %}
+                </div>
             </div>
 
             <div class="col-xs-6 col-sm-3 placeholder">

@@ -222,3 +222,100 @@ def register(request):
         'adm/register.html',
         {'user_form': user_form, 'profile_form': profile_form, 'registered': registered},
         context)
+
+
+
+@login_required
+def category(request):
+    context = RequestContext(request)
+    return render_to_response('adm/category.html', context)
+
+
+def get_category_list(max_results=0, starts_with=''):
+        cat_list = []
+        if starts_with:
+            cat_list = User.objects.filter(username=starts_with)
+        # else:
+        #         cat_list = User.objects.all()
+        #
+        # print cat_list
+
+        if max_results > 0:
+                if len(cat_list) > max_results:
+                        cat_list = cat_list[:max_results]
+
+        for cat in cat_list:
+                cat.url = encode_url(cat.username)
+
+        return cat_list
+
+
+def suggest_category(request):
+        context = RequestContext(request)
+        cat_list = []
+        starts_with = ''
+        if request.method == 'GET':
+                starts_with = request.GET['suggestion']
+        cat_list = get_category_list(2, starts_with)
+
+        return render_to_response('adm/category_list.html', {'cat_list': cat_list }, context)
+
+
+def get_roles_list(max_results=0, starts_with=''):
+        cat_list = []
+        if starts_with:
+            cat_list = Group.objects.filter(name=starts_with)
+        # else:
+        #         cat_list = User.objects.all()
+        #
+        # print cat_list
+
+        if max_results > 0:
+                if len(cat_list) > max_results:
+                        cat_list = cat_list[:max_results]
+
+        for cat in cat_list:
+                cat.url = encode_url(cat.name)
+
+        return cat_list
+
+
+def suggest_rol(request):
+        context = RequestContext(request)
+        cat_list = []
+        starts_with = ''
+        if request.method == 'GET':
+                starts_with = request.GET['suggestion']
+        cat_list = get_roles_list(2, starts_with)
+
+        return render_to_response('adm/roles_list.html', {'cat_list': cat_list }, context)
+
+
+def get_permisos_list(max_results=0, starts_with=''):
+        cat_list = []
+        if starts_with:
+            cat_list = Permission.objects.filter(name=starts_with)
+        # else:
+        #         cat_list = User.objects.all()
+        #
+        # print cat_list
+
+        if max_results > 0:
+                if len(cat_list) > max_results:
+                        cat_list = cat_list[:max_results]
+
+        for cat in cat_list:
+                cat.url = encode_url(cat.name)
+
+        return cat_list
+
+
+def suggest_permiso(request):
+        context = RequestContext(request)
+        cat_list = []
+        starts_with = ''
+        if request.method == 'GET':
+                starts_with = request.GET['suggestion']
+        cat_list = get_permisos_list(2, starts_with)
+
+        return render_to_response('adm/permisos_list.html', {'cat_list': cat_list }, context)

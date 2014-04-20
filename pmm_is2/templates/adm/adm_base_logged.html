@@ -1,4 +1,5 @@
 {% load static %}
+{% load tags %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -41,8 +42,8 @@
                 <div class="row-fluid">
                     <div class="col-sm-3 col-md-2 sidebar">
                         <ul class="nav nav-sidebar">
-                            {% if validar  %}
-                                <li><a href="/adm/register/">Crear Usuario</a></li> #aca quiero traer validar desde el user_login
+                            {% if user|verificarRolUsuario%}
+                                <li><a href="/adm/register/">Crear Usuario</a></li>
                             {% endif %}
                             <li><a href="/adm/user_list/">Listar Usuarios</a></li>
                             <li><a href="/adm/group_create/">Crear Grupos</a></li>

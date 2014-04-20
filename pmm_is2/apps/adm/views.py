@@ -7,7 +7,7 @@ from pmm_is2.apps.adm.forms import UserForm, UserProfileForm, GroupForm
 from pmm_is2.apps.adm.models import UserProfile
 from pmm_is2.apps.adm import SESSION_KEY
 from pmm_is2.apps.adm import SESSION_KEY_MSG
-from pmm_is2.apps.adm.backends import verificarRolUsuario
+from pmm_is2.apps.adm.backends import usuario_verificarRolUsuario
 
 @login_required
 def index(request):

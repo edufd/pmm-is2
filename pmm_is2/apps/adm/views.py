@@ -26,6 +26,7 @@ def index(request):
     return render_to_response('adm/index.html', context)
 
 
+@user_passes_test(not_in_admin_group)
 @login_required
 def usuario(request):
     context = RequestContext(request)
@@ -35,6 +36,28 @@ def usuario(request):
     context_dict= {}
     context_dict['object_list'] = user_list
     return render_to_response('adm/usuario.html', context_dict, context)
+
+
+@user_passes_test(not_in_admin_group)
+@login_required
+def roles(request):
+    context = RequestContext(request)
+    current_user = request.user
+    roles = Group.objects.all()
+    context_dict= {}
+    context_dict['object_list'] = roles
+    return render_to_response('adm/roles.html', context_dict, context)
+
+
+@user_passes_test(not_in_admin_group)
+@login_required
+def permisos(request):
+    context = RequestContext(request)
+    current_user = request.user
+    permisos = Permission.objects.all()
+    context_dict= {}
+    context_dict['object_list'] = permisos
+    return render_to_response('adm/permisos.html', context_dict, context)
 
 
 @login_required

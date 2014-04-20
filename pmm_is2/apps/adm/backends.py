@@ -26,3 +26,10 @@ def cerrar_sesion(request):
         request.user = None
 
 
+def verificarRolUsuario(request):
+    valido = False
+    alias=request.session[SESSION_KEY]
+    print alias
+    UsuarioId = User.objects.get(username=alias)
+    valido=UsuarioId.has_perm ('adm.add_user')
+    return valido

@@ -5,6 +5,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from pmm_is2.apps.adm.backends import iniciar_sesion
 from pmm_is2.apps.adm.backends import cerrar_sesion
+from pmm_is2.apps.adm.backends import verificarRolUsuario
 from pmm_is2.apps.adm import SESSION_KEY
 from django.contrib.auth.models import User, Group, Permission
 from pmm_is2.apps.adm import SESSION_KEY_MSG
@@ -28,9 +29,9 @@ def contact(request):
 
 
 @login_required
-def home(request):
+def home(request,validar):
     context = RequestContext(request)
-    return render_to_response('pmm_is2/home.html', context)
+    return render_to_response('pmm_is2/home.html', context,validar)
 
 
 def user_login(request):
@@ -47,7 +48,8 @@ def user_login(request):
             if user.is_active:
                 login(request, user)
                 iniciar_sesion(request,user)
-                return HttpResponseRedirect('/home')
+                validar=verificarRolUsuario(request) #no logro pasar esta variable al adm_base_logged.html q devuelve true cuando tiene permiso de crear user
+                return HttpResponseRedirect('/home')#mostrar algunos
             else:
                 context_dict['disabled_account'] = True
                 return render_to_response('pmm_is2/user_login.html', context_dict, context)
@@ -63,3 +65,5 @@ def user_login(request):
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect('/')
+
+

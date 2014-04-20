@@ -41,7 +41,9 @@
                 <div class="row-fluid">
                     <div class="col-sm-3 col-md-2 sidebar">
                         <ul class="nav nav-sidebar">
-                            <li><a href="/adm/register/">Crear Usuario</a></li>
+                            {% if validar  %}
+                                <li><a href="/adm/register/">Crear Usuario</a></li> #aca quiero traer validar desde el user_login
+                            {% endif %}
                             <li><a href="/adm/user_list/">Listar Usuarios</a></li>
                             <li><a href="/adm/group_create/">Crear Grupos</a></li>
                             <li><a href="/adm/group_list/">Listar Grupos</a></li>

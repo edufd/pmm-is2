@@ -7,6 +7,17 @@ from pmm_is2.apps.adm.forms import UserForm, UserProfileForm, GroupForm
 from pmm_is2.apps.adm.models import UserProfile
 
 
+def not_in_admin_group(user):
+    """Use with a ``user_passes_test`` decorator to restrict access to
+    authenticated users who are not in the "Administrador" group."""
+    print user.is_authenticated()
+    print user.groups.filter(name='Administrador').exists()
+    return user.is_authenticated() and user.groups.filter(name='Administrador').exists()
+
+
+
+
+@user_passes_test(not_in_admin_group)
 @login_required
 def index(request):
     context = RequestContext(request)
@@ -22,14 +33,6 @@ def usuario(request):
     context_dict= {}
     context_dict['object_list'] = user_list
     return render_to_response('adm/usuario.html', context_dict, context)
-
-
-def not_in_admin_group(user):
-    """Use with a ``user_passes_test`` decorator to restrict access to
-    authenticated users who are not in the "Administrador" group."""
-    print user.is_authenticated()
-    print user.groups.filter(name='Administrador').exists()
-    return user.is_authenticated() and not user.groups.filter(name='Administrador').exists()
 
 
 @login_required

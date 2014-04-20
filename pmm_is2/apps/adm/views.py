@@ -1,4 +1,4 @@
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User, Group, Permission
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404, redirect
@@ -26,7 +26,16 @@ def usuario(request):
     return render_to_response('adm/usuario.html', context_dict, context)
 
 
+def not_in_admin_group(user):
+    """Use with a ``user_passes_test`` decorator to restrict access to
+    authenticated users who are not in the "Administrador" group."""
+    print user.is_authenticated()
+    print user.groups.filter(name='Administrador').exists()
+    return user.is_authenticated() and not user.groups.filter(name='Administrador').exists()
+
+
 @login_required
+@user_passes_test(not_in_admin_group)
 def group_create(request):
     context = RequestContext(request)
     registered = False
@@ -45,6 +54,7 @@ def group_create(request):
     return render_to_response('adm/group_create.html', {'group_form': group_form, 'registered': registered}, context)
 
 
+@user_passes_test(not_in_admin_group, login_url='/login/')
 @login_required
 def restricted(request):
     return HttpResponse("Como estas logeado, puedes ver este texto!")
@@ -131,7 +141,7 @@ def user_update(request, pk):
 
     return render_to_response('adm/user_form.html', {'userform': user_form, 'profile_form': profile_form}, context)
 
-
+@user_passes_test(not_in_admin_group, login_url='/login/')
 @login_required
 def group_update(request, pk):
     context = RequestContext(request)
@@ -143,7 +153,7 @@ def group_update(request, pk):
 
     return render_to_response('adm/group_form.html', {'groupform': group_form}, context)
 
-
+@user_passes_test(not_in_admin_group, login_url='/login/')
 @login_required
 def user_delete(request, pk):
     context = RequestContext(request)
@@ -155,7 +165,7 @@ def user_delete(request, pk):
 
     return render_to_response('adm/user_confirm_delete.html', {'object':user}, context)
 
-
+@user_passes_test(not_in_admin_group, login_url='/login/')
 @login_required
 def group_delete(request, pk):
     context = RequestContext(request)
@@ -198,7 +208,7 @@ def asignar(request, pk):
 
     return render_to_response('adm/group_user.html', {'user_group': user_group,'registered': registered}, context)
 
-
+@user_passes_test(not_in_admin_group, login_url='/login/')
 @login_required
 def register(request):
     context = RequestContext(request)

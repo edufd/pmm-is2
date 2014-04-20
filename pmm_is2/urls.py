@@ -10,7 +10,7 @@ urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^adm/', include('pmm_is2.apps.adm.urls')),
-    url(r'^modelos/', include('pmm_is2.apps.modelos.urls')),
+    #url(r'^modelos/', include('pmm_is2.apps.modelos.urls')),
     url(r'^$', views.index, name='index'),
     url(r'^home/$', views.home, name='home'),
     url(r'^about/$', views.about, name='about'),

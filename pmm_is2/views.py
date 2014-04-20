@@ -31,7 +31,7 @@ def contact(request):
 @login_required
 def home(request):
     context = RequestContext(request)
-    return render_to_response('pmm_is2/home.html')
+    return render_to_response('pmm_is2/home.html', context)
 
 def user_login(request):
     context = RequestContext(request)

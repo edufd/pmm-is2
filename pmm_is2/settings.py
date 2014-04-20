@@ -43,12 +43,12 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'pmm_is2.apps.modelos',
     'pmm_is2.apps.adm',
+    'django_like',
 )
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',

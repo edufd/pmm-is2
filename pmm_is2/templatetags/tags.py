@@ -7,8 +7,8 @@ from pmm_is2.backends import verificar_rol_usuario
 register = Library()
 
 
-@register.filter(name='verificarRolUsuario')
-def verificarRolUsuario(usuario):
+@register.filter(name='verificarRol')
+def verificarRol(usuario):
     """
     Retorna True si el usuario tiene el permiso correspondiente, False de lo contrario.
     """

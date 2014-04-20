@@ -20,4 +20,5 @@ urlpatterns = patterns('',
         url(r'^suggest_category/$', views.suggest_category, name='suggest_category'),
         url(r'^suggest_rol/$', views.suggest_rol, name='suggest_rol'),
         url(r'^suggest_permiso/$', views.suggest_permiso, name='suggest_rol'),
+        url(r'^perfil/(?P<pk>\d+)$', views.perfil, name='perfil'),
 )

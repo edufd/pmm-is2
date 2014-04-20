@@ -211,6 +211,7 @@ def asignar(request, pk):
 
     return render_to_response('adm/group_user.html', {'user_group': user_group,'registered': registered}, context)
 
+
 @user_passes_test(not_in_admin_group, login_url='/login/')
 @login_required
 def register(request):
@@ -333,3 +334,23 @@ def suggest_permiso(request):
         cat_list = get_permisos_list(2, starts_with)
 
         return render_to_response('adm/permisos_list.html', {'cat_list': cat_list }, context)
+
+
+@user_passes_test(not_in_admin_group, login_url='/login/')
+@login_required
+def perfil(request, pk):
+
+    context = RequestContext(request)
+    usuario = get_object_or_404(User, pk=pk)
+
+    try:
+        datos_personales = get_object_or_404(UserProfile, user_id=usuario.id)
+    except:
+        datos_personales = None
+
+    context_dict = {'usuario': usuario, 'userprofile': datos_personales}
+
+    print request.user
+
+    return render_to_response('adm/profile.html', context_dict, context)
+

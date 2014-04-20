@@ -44,6 +44,7 @@ def group_create(request):
 
     return render_to_response('adm/group_create.html', {'group_form': group_form, 'registered': registered}, context)
 
+
 @login_required
 def restricted(request):
     return HttpResponse("Como estas logeado, puedes ver este texto!")
@@ -118,9 +119,7 @@ def user_update(request, pk):
     context = RequestContext(request)
     user = get_object_or_404(User, pk=pk)
     user_form = UserForm(request.POST or None, instance=user)
-    print('userid', user.id)
     profile_user = get_object_or_404(UserProfile, user_id=user.id)
-    print('profile', profile_user.nombre)
     profile_form = UserProfileForm(request.POST or None, instance=profile_user)
     if user_form.is_valid() and profile_form.is_valid():
 

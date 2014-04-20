@@ -26,8 +26,6 @@ def usuario(request):
     return render_to_response('adm/usuario.html', context_dict, context)
 
 
-
-
 @login_required
 def group_create(request):
     context = RequestContext(request)
@@ -198,6 +196,7 @@ def asignar(request, pk):
 
     return render_to_response('adm/group_user.html', {'user_group': user_group,'registered': registered}, context)
 
+
 @login_required
 def register(request):
     context = RequestContext(request)
@@ -222,13 +221,6 @@ def register(request):
         'adm/register.html',
         {'user_form': user_form, 'profile_form': profile_form, 'registered': registered},
         context)
-
-
-
-@login_required
-def category(request):
-    context = RequestContext(request)
-    return render_to_response('adm/category.html', context)
 
 
 def get_category_list(max_results=0, starts_with=''):
@@ -291,6 +283,7 @@ def suggest_rol(request):
         return render_to_response('adm/roles_list.html', {'cat_list': cat_list }, context)
 
 
+#busca el texto ingresado en permisos
 def get_permisos_list(max_results=0, starts_with=''):
         cat_list = []
         if starts_with:
@@ -310,6 +303,8 @@ def get_permisos_list(max_results=0, starts_with=''):
         return cat_list
 
 
+#realiza la busqueda del texto solicitado y usa la funcion correspondiente para buscar en la base de datos
+#y mostrarla en la vista
 def suggest_permiso(request):
         context = RequestContext(request)
         cat_list = []

@@ -1,0 +1,11 @@
+TRUNCATE pmm.auth_group CASCADE;
+TRUNCATE pmm.auth_group_permissions CASCADE;
+TRUNCATE pmm.auth_permission  CASCADE;
+TRUNCATE pmm.auth_user  CASCADE;
+TRUNCATE pmm.auth_user_groups  CASCADE;
+TRUNCATE pmm.auth_user_user_permissions  CASCADE;
+TRUNCATE pmm.django_admin_log  CASCADE;
+TRUNCATE pmm.django_content_type  CASCADE;
+TRUNCATE pmm.django_session  CASCADE;
+TRUNCATE pmm.django_site  CASCADE;
+TRUNCATE pmm.userprofile  CASCADE;

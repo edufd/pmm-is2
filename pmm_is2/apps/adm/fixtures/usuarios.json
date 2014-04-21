@@ -10,7 +10,9 @@
     "is_superuser": true, 
     "is_staff": true, 
     "last_login": "2014-04-18T18:14:50.065Z", 
-    "groups": [], 
+    "groups": [
+      1
+    ],
     "user_permissions": [], 
     "password": "pbkdf2_sha256$12000$OXLLEuzwIeuc$Umi6BxK9jnVvp9Kfl1KYcp7iM/s2zMLHinthVLQQHas=", 
     "email": "", 

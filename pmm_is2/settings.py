@@ -52,6 +52,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'pmm_is2.middleware.AutoLogout',
 )
 
 ROOT_URLCONF = 'pmm_is2.urls'
@@ -98,3 +99,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     STATIC_PATH,
 )
+
+#Handle session is not Json Serializable
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
+AUTO_LOGOUT_DELAY = 5 #equivalent to 5 minutes

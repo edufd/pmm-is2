@@ -1,8 +1,8 @@
 #!/bin/bash
 
-#levantar el servidor
+#por si hay se levanta todo por primera vez
 /usr/bin/python ../../manage.py syncdb
-/usr/bin/python ../../manage.py runserver 9000
+
 #tablas_a_insertar_1
 echo cargando tablas
 psql -U pmm -h 127.0.0.1 -d pmm < ../sql/truncar_tablas.sql
@@ -12,3 +12,7 @@ psql -U pmm -h 127.0.0.1 -d pmm < ../sql/crear_roles.sql
 psql -U pmm -h 127.0.0.1 -d pmm < ../sql/crear_usuario_administrador.sql
 psql -U pmm -h 127.0.0.1 -d pmm < ../sql/crear_usuario_grupo.sql
 psql -U pmm -h 127.0.0.1 -d pmm < ../sql/crear_roles_permisos.sql
+
+#levantar el servidor
+/usr/bin/python ../../manage.py syncdb
+/usr/bin/python ../../manage.py runserver 9000

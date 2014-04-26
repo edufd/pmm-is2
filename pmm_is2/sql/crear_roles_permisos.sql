@@ -12,3 +12,5 @@ INSERT INTO pmm.auth_group_permissions VALUES (9, 2, 3);
 INSERT INTO pmm.auth_group_permissions VALUES (10, 2, 4);
 INSERT INTO pmm.auth_group_permissions VALUES (11, 2, 5);
 INSERT INTO pmm.auth_group_permissions VALUES (12, 2, 6);
+--setear al siguiente valor siguiente de la secuencia
+SELECT setval('pmm.auth_group_permissions_id_seq',13, false);

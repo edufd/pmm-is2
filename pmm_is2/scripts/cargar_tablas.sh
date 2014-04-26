@@ -15,4 +15,4 @@ psql -U pmm -h 127.0.0.1 -d pmm < ../sql/crear_roles_permisos.sql
 
 #levantar el servidor
 /usr/bin/python ../../manage.py syncdb
-/usr/bin/python ../../manage.py runserver 9000
+#/usr/bin/python ../../manage.py runserver 9000

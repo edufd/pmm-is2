@@ -2,11 +2,12 @@ from django.db import models
 from django.contrib.auth.models import User, Group
 
 # Create your models here.
-#opciones: Los estados de las fases son “No-Iniciada”, “Abierta” y “Finalizada”
+
 FASES_ESTADOS = (
-    'NO-INICIADA',
-    'ABIERTA',
-    'FINALIZADA',
+    ('NOINICIADA', 'NOINICIADA'),
+    ('ABIERTA', 'ABIERTA'),
+    ('FINALIZADA', 'FINALIZADA'),
+    ('FINALIZADA', 'FINALIZADA'),
 )
 
 class UserProfile(models.Model):
@@ -24,8 +25,6 @@ class UserProfile(models.Model):
         db_table = 'userprofile'
 
 class Proyecto(models.Model):
-    #codigo,  nombre, descripción, Usuarios, presupuesto, Líder del
-    # Proyecto, estado, costo temporal, costo monetario y fechas (creación, plazo estimado, finalización)
     id_proyecto = models.AutoField(primary_key=True)
     nombre_proyecto = models.CharField(max_length=200, unique=True)
     descripcion = models.CharField(max_length=200)
@@ -50,11 +49,10 @@ class UsuarioProyecto(models.Model):
     proyectos = models.ForeignKey(Proyecto, related_name='usuario_proyecto')
     usuario_proyecto = models.ForeignKey(User)
 
-#identificador, nombre, descripción, número de secuencia, conjunto de Tipos de Ítem asociado y estado.
 class Fase(models.Model):
     id_fase = models.AutoField(primary_key=True)
     nombre_fase = models.CharField(max_length=200)
-    estado = models.CharField(choices=FASES_ESTADOS)
-    id_proyecto = models.ManyToOneRel(Proyecto, related_name='fases')
+    estado = models.CharField(max_length=200)
+    id_proyecto = models.ForeignKey(Proyecto, related_name='fases')
 
 

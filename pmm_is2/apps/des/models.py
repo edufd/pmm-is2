@@ -22,7 +22,6 @@ class TipoItem(models.Model):
     class Meta:
         db_table = 'TipoItem'
 
-
 class AtributoTipoItem(models.Model):
     id_atributo_tipo_item = models.AutoField(primary_key=True)
     id_tipo_item = models.ForeignKey('TipoItem')
@@ -59,7 +58,8 @@ class Item(models.Model):
     id_tipo_item = models.ForeignKey(TipoItemProyecto,related_name='Item')
     fase_item = models.ForeignKey(Fase, related_name='tipo_fase')
 
-    def obtener_historial_artefacto(self):
+    def obtener_historial_item(self):
         "lista de items que pertenecen al historial del item"
         return 'Redefinir para que retorne el historial'
         historial = property(obtener_historial_item)
+

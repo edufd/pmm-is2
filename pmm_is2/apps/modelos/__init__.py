@@ -1,0 +1,1 @@
+from pmm_is2.apps.adm.models import Proyecto

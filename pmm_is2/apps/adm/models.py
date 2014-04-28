@@ -41,6 +41,7 @@ class Proyecto(models.Model):
 
     class Meta:
         db_table = 'Proyecto'
+        app_label='adm'
 
 class UsuarioProyecto(models.Model):
     id_usuario_proyecto = models.AutoField(primary_key=True)
@@ -54,5 +55,8 @@ class Fase(models.Model):
     nombre_fase = models.CharField(max_length=200)
     estado = models.CharField(max_length=200)
     id_proyecto = models.ForeignKey(Proyecto, related_name='fases')
+    class Meta:
+        db_table = 'Fase'
+        app_label='adm'
 
 

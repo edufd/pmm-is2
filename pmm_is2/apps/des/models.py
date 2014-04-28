@@ -1,4 +1,7 @@
 from django.db import models
+from pmm_is2.apps.adm.models import Proyecto, Fase
+__all__ =  [ 'Proyecto' ,  'Fase' ]
+
 
 class Atributo(models.Model):
     id_atributo = models.AutoField(primary_key=True)
@@ -30,36 +33,34 @@ class AtributoTipoItem(models.Model):
         return self.descripcion
     class Meta:
         db_table = 'AtributoTipoItem'
-        unique_together = (("id_tipo_item", " id_atributo"),)
+        unique_together = (("id_atributo", "id_tipo_item"),)
 
 class TipoItemProyecto(models.Model):
     id_tipo_item_proyecto = models.AutoField(primary_key=True)
     nombre_tipo_item_proyecto = models.CharField(max_length=200)
     descripcion = models.CharField(max_length=200)
     id_tipo_item = models.ForeignKey('TipoItem')
-    id_proyecto = models.ForeignKey('Proyecto')
+    id_proyecto = models.ForeignKey('adm.Proyecto')
 
     def __unicode__(self):
         return self.descripcion
     class Meta:
         db_table = 'TipoItem_proyecto'
-        unique_together = (("id_tipo_item", " id_proyecto"),)
+
 
 class Item(models.Model):
     id_item = models.AutoField(primary_key=True)
     nombre_item = models.CharField(unique=False,max_length=200)
     version_item = models.IntegerField()
-    prioridad = models.IntegerField()## Deberá tener del 1 al  10
-    estado = models.CharField(max_length=1)# I:Inactivo  B:Bloqueado C:Revisión A:Aprobado D:Desaprobado
+    prioridad = models.IntegerField() #Debera tener del 1 al  10
+    estado = models.CharField(max_length=1)# I:Inactivo  B:Bloqueado C:Revision A:Aprobado D:Desaprobado
     descripcion = models.CharField(max_length=200)
     observaciones = models.CharField(max_length=5000)
     complejidad = models.IntegerField()
     ultima_version_item_id = models.IntegerField()
     id_tipo_item = models.ForeignKey(TipoItemProyecto,related_name='Item')
-    fase_item = models.ForeignKey(Fase, related_name='tipo_fase')
-
-    def obtener_historial_item(self):
-        "lista de items que pertenecen al historial del item"
-        return 'Redefinir para que retorne el historial'
-        historial = property(obtener_historial_item)
-
+    id_fase = models.ForeignKey('adm.Fase')
+    def __unicode__(self):
+        return self.descripcion
+    class Meta:
+        db_table = 'Item'

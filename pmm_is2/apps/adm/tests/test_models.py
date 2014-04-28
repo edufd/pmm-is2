@@ -21,3 +21,22 @@ class UserModelTest(TestCase):
         with self.assertRaises(ValidationError):
             user = UserProfile(user=user_, ci=3523157, telefono=605390)
             user.full_clean()
+
+class UsuarioTestCase (TestCase):
+
+  def setUp (self):
+     print "\n TEST USUARIO"
+     print "\n --Buscar el usuario creado"
+     User.objects.create(username="aa", password="aa")
+
+  def test_traer(self):
+      valido = False
+      valido = User.objects.filter(username='"aa"').exists()
+      if valido==False:
+          print "\n---Se ha encontrado el usuario creado"
+
+      print "\n --Buscar un usuario inexistente"
+      valido = False
+      valido = User.objects.filter(username='"oo"').exists()
+      if valido==False:
+          print "\n---No existe el usuario buscado"

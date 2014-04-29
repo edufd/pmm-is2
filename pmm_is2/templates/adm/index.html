@@ -114,6 +114,41 @@
                 <span class="text-muted">No implementado</span>
             </div>
         </div>
+
+        <h2 class="page-header"><a href="/adm/proyectos/">Proyectos</a></h2>
+        <div class="row placeholders">
+            <div class="col-xs-6 col-sm-3 placeholder">
+
+                <ul class="nav nav-list">
+                    <li class="nav-header">Buscar Proyectos (No implementado)
+                    <form autocomplete="off">
+                        <label></label>
+                        <input  class="search-query span10" type="text" name="suggestion_permiso" value="" id="suggestion_permiso" />
+                    </form></li>
+                </ul>
+                <div id="cats_permiso">
+                    {% include 'adm/permisos_list.html' with cat_list=cat_list %}
+                </div>
+            </div>
+
+            <div class="col-xs-6 col-sm-3 placeholder">
+
+                <h4><a class="btn btn-primary" href="/adm/project_create/"><span class="glyphicon glyphicon-plus"></span></a></h4>
+                <span class="text-muted">Nuevo Proyecto</span>
+            </div>
+
+            <div class="col-xs-6 col-sm-3 placeholder">
+
+                <h4>Label</h4>
+                <span class="text-muted">No implementado</span>
+            </div>
+
+            <div class="col-xs-6 col-sm-3 placeholder">
+
+                <h4>Label</h4>
+                <span class="text-muted">No implementado</span>
+            </div>
+        </div>
     </div>
 
 {% endblock %}

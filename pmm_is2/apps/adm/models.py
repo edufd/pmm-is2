@@ -24,6 +24,7 @@ class UserProfile(models.Model):
     class Meta:
         db_table = 'userprofile'
 
+
 class Proyecto(models.Model):
     id_proyecto = models.AutoField(primary_key=True)
     nombre_proyecto = models.CharField(max_length=200, unique=True)
@@ -41,7 +42,8 @@ class Proyecto(models.Model):
 
     class Meta:
         db_table = 'Proyecto'
-        app_label='adm'
+        app_label = 'adm'
+
 
 class UsuarioProyecto(models.Model):
     id_usuario_proyecto = models.AutoField(primary_key=True)
@@ -50,6 +52,7 @@ class UsuarioProyecto(models.Model):
     proyectos = models.ForeignKey(Proyecto, related_name='usuario_proyecto')
     usuario_proyecto = models.ForeignKey(User)
 
+
 class Fase(models.Model):
     id_fase = models.AutoField(primary_key=True)
     nombre_fase = models.CharField(max_length=200)
@@ -57,6 +60,6 @@ class Fase(models.Model):
     id_proyecto = models.ForeignKey(Proyecto, related_name='fases')
     class Meta:
         db_table = 'Fase'
-        app_label='adm'
+        app_label = 'adm'
 
 

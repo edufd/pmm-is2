@@ -3,7 +3,7 @@ from django.contrib.auth.models import User, Group, Permission
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.http import HttpResponse
-from pmm_is2.apps.adm.forms import UserForm, UserProfileForm, GroupForm
+from pmm_is2.apps.adm.forms import UserForm, UserProfileForm, GroupForm, ProjectForm
 from pmm_is2.apps.adm.models import UserProfile
 
 
@@ -60,6 +60,13 @@ def permisos(request):
     return render_to_response('adm/permisos.html', context_dict, context)
 
 
+@user_passes_test(not_in_admin_group)
+@login_required
+def proyectos(request):
+    context = RequestContext(request)
+    return render_to_response('adm/proyectos.html', context)
+
+
 @login_required
 @user_passes_test(not_in_admin_group)
 def group_create(request):
@@ -78,6 +85,26 @@ def group_create(request):
         group_form = GroupForm()
 
     return render_to_response('adm/group_create.html', {'group_form': group_form, 'registered': registered}, context)
+
+
+@login_required
+@user_passes_test(not_in_admin_group)
+def project_create(request):
+    context = RequestContext(request)
+    registered = False
+    if request.method == 'POST':
+        group_form = ProjectForm(data=request.POST)
+        if group_form.is_valid():
+            group = group_form.save()
+            group.save()
+            registered = True
+        else:
+            print group_form.errors
+
+    else:
+        group_form = ProjectForm()
+
+    return render_to_response('adm/project_create.html', {'group_form': group_form, 'registered': registered}, context)
 
 
 @user_passes_test(not_in_admin_group, login_url='/login/')

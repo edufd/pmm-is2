@@ -13,8 +13,8 @@ class Atributo(models.Model):
 
     def __unicode__(self):
         return self.descripcion
-    class Meta:
-        db_table = 'Atributo'
+    # class Meta:
+    #     db_table = 'Atributo'
 
 class TipoItem(models.Model):
     id_tipo_item = models.AutoField(primary_key=True)
@@ -22,8 +22,8 @@ class TipoItem(models.Model):
     descripcion = models.CharField(max_length=200)
     def __unicode__(self):
         return self.descripcion
-    class Meta:
-        db_table = 'TipoItem'
+    # class Meta:
+    #     db_table = 'TipoItem'
 
 class AtributoTipoItem(models.Model):
     id_atributo_tipo_item = models.AutoField(primary_key=True)
@@ -32,7 +32,7 @@ class AtributoTipoItem(models.Model):
     def __unicode__(self):
         return self.descripcion
     class Meta:
-        db_table = 'AtributoTipoItem'
+        #db_table = 'AtributoTipoItem'
         unique_together = (("id_atributo", "id_tipo_item"),)
 
 class TipoItemProyecto(models.Model):
@@ -44,8 +44,8 @@ class TipoItemProyecto(models.Model):
 
     def __unicode__(self):
         return self.descripcion
-    class Meta:
-        db_table = 'TipoItem_proyecto'
+    # class Meta:
+    #     db_table = 'TipoItem_proyecto'
 
 
 class Item(models.Model):
@@ -62,5 +62,5 @@ class Item(models.Model):
     id_fase = models.ForeignKey('adm.Fase')
     def __unicode__(self):
         return self.descripcion
-    class Meta:
-        db_table = 'Item'
+    # class Meta:
+    #     db_table = 'Item'

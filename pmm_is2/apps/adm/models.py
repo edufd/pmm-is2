@@ -21,8 +21,8 @@ class UserProfile(models.Model):
     def __unicode__(self):
         return self.user.username
 
-    class Meta:
-        db_table = 'userprofile'
+    # class Meta:
+    #     db_table = 'userprofile'
 
 
 class Proyecto(models.Model):
@@ -41,7 +41,7 @@ class Proyecto(models.Model):
         return self.nombre_proyecto
 
     class Meta:
-        db_table = 'Proyecto'
+        #db_table = 'proyecto'
         app_label = 'adm'
 
 
@@ -57,9 +57,9 @@ class Fase(models.Model):
     id_fase = models.AutoField(primary_key=True)
     nombre_fase = models.CharField(max_length=200)
     estado = models.CharField(max_length=200)
-    id_proyecto = models.ForeignKey(Proyecto, related_name='fases')
+    id_proyecto = models.ManyToManyField(Proyecto)
     class Meta:
-        db_table = 'Fase'
+        #db_table = 'fase'
         app_label = 'adm'
 
 

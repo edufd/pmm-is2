@@ -25,6 +25,16 @@ class UserProfile(models.Model):
     #     db_table = 'userprofile'
 
 
+class Fase(models.Model):
+    id_fase = models.AutoField(primary_key=True)
+    nombre_fase = models.CharField(max_length=200)
+    descripcion = models.CharField(max_length=200)
+    estado = models.CharField(max_length=200)
+    class Meta:
+        #db_table = 'fase'
+        app_label = 'adm'
+
+
 class Proyecto(models.Model):
     id_proyecto = models.AutoField(primary_key=True)
     nombre_proyecto = models.CharField(max_length=200, unique=True)
@@ -36,6 +46,9 @@ class Proyecto(models.Model):
     fecha_inicio = models.DateField()
     fecha_fin = models.DateField()
     plazo = models.IntegerField()
+    lider_de_proyecto = models.ManyToManyField(User)
+    #para el perfil de proyecto es interesante
+    fases = models.ManyToManyField(Fase)
 
     def __unicode__(self):
         return self.nombre_proyecto
@@ -53,13 +66,6 @@ class UsuarioProyecto(models.Model):
     usuario_proyecto = models.ForeignKey(User)
 
 
-class Fase(models.Model):
-    id_fase = models.AutoField(primary_key=True)
-    nombre_fase = models.CharField(max_length=200)
-    estado = models.CharField(max_length=200)
-    id_proyecto = models.ManyToManyField(Proyecto)
-    class Meta:
-        #db_table = 'fase'
-        app_label = 'adm'
+
 
 

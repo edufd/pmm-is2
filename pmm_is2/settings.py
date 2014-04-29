@@ -103,4 +103,4 @@ STATICFILES_DIRS = (
 
 #Handle session is not Json Serializable
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
-AUTO_LOGOUT_DELAY = 5 #equivalent to 5 minutes
+AUTO_LOGOUT_DELAY = 100 #equivalent to 5 minutes

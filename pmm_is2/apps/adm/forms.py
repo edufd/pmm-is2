@@ -29,4 +29,4 @@ class ProjectForm(forms.ModelForm):
     class Meta:
         model = Proyecto
         fields = ('nombre_proyecto', 'descripcion', 'presupuesto', 'costo_temporal',
-                  'costo_monetario', 'estado', 'fecha_inicio', 'fecha_fin', 'plazo')
+                  'costo_monetario', 'estado', 'fecha_inicio', 'fecha_fin', 'plazo', 'lider_de_proyecto')

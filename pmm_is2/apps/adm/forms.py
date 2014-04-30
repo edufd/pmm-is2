@@ -1,7 +1,7 @@
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.contrib.auth.models import User, Group, Permission
 from django import forms
-from pmm_is2.apps.adm.models import UserProfile, Proyecto
+from pmm_is2.apps.adm.models import UserProfile, Proyecto, Fase
 
 
 class UserForm(forms.ModelForm):
@@ -30,3 +30,12 @@ class ProjectForm(forms.ModelForm):
         model = Proyecto
         fields = ('nombre_proyecto', 'descripcion', 'presupuesto', 'costo_temporal',
                   'costo_monetario', 'estado', 'fecha_inicio', 'fecha_fin', 'plazo', 'lider_de_proyecto')
+
+
+class FaseForm(forms.ModelForm):
+    estado= forms.CharField(widget=forms.HiddenInput(), initial="NOINICIADA")
+    class Meta:
+            model = Fase
+            fields = ('nombre_fase',
+                      'descripcion','estado'
+                )

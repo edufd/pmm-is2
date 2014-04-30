@@ -3,8 +3,8 @@ from django.contrib.auth.models import User, Group, Permission
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.http import HttpResponse
-from pmm_is2.apps.adm.forms import UserForm, UserProfileForm, GroupForm, ProjectForm
-from pmm_is2.apps.adm.models import UserProfile
+from pmm_is2.apps.adm.forms import UserForm, UserProfileForm, GroupForm, ProjectForm,FaseForm
+from pmm_is2.apps.adm.models import UserProfile, Fase
 
 
 def not_in_admin_group(user):
@@ -425,3 +425,38 @@ def permiso(request, pk):
     context_dict = {'permiso': permiso}
 
     return render_to_response('adm/permiso.html', context_dict, context)
+
+#probando
+def fase_create(request):
+    context = RequestContext(request)
+    registered = False
+    if request.method == 'POST':
+        fase_form = FaseForm(data=request.POST)
+        if fase_form.is_valid():
+            fase = fase_form.save()
+            fase.save()
+            respuesta=save(fase)
+            registered = True
+        else:
+            print fase_form.errors
+
+    else:
+        fase_form = FaseForm()
+
+    return render_to_response('adm/fase_create.html', {'fase_form': fase_form, 'registered': registered}, context)
+
+def save(self):
+    valido = False
+    print self
+    valido = Fase.objects.filter(numero=1).exists()
+    print valido
+    if (valido is True):
+        top =  Fase.objects.order_by('-numero')[ 1 ]
+        print top.numero
+        self.numero =  top.numero + 1
+    else:
+        self.numero = 1
+
+    super(Fase, self).save()
+    return Fase
+

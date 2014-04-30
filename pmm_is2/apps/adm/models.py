@@ -29,10 +29,13 @@ class Fase(models.Model):
     id_fase = models.AutoField(primary_key=True)
     nombre_fase = models.CharField(max_length=200)
     descripcion = models.CharField(max_length=200)
-    estado = models.CharField(max_length=200)
+    estado = models.CharField(max_length=10, choices=FASES_ESTADOS)
+    numero=models.IntegerField( blank = True , null = True)
+    tipoItem= models.ManyToManyField('des.TipoItem')
+
     class Meta:
-        #db_table = 'fase'
-        app_label = 'adm'
+        db_table = 'Fase'
+        app_label='adm'
 
 
 class Proyecto(models.Model):

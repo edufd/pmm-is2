@@ -445,6 +445,7 @@ def fase_create(request):
 
     return render_to_response('adm/fase_create.html', {'fase_form': fase_form, 'registered': registered}, context)
 
+#Para aumentar el numero por cada fase creada
 def save(self):
     valido = False
     print self

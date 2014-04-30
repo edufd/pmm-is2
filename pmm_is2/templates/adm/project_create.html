@@ -17,7 +17,9 @@
 
                 {% csrf_token %}
 
-                {{ group_form.as_p }}
+                {{ project_form.as_p }}
+                <p>Debe asignar una fase inicial:</p>
+                {{ fase_form.as_p }}
                 <!-- Provide a button to click to submit the form. -->
                 <input type="submit" name="submit" value="Crear" />
             </form>

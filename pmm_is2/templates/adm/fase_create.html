@@ -14,7 +14,7 @@
             <strong><h4>Complete los datos</h4></strong>
             </br>
 
-            <form id="fase_form" method="post" action="/adm/fase_create/"
+            <form id="fase_form" method="post" action="/adm/fase_create/{{ id_proyecto }}"
                   enctype="multipart/form-data">
 
                 {% csrf_token %}

@@ -93,11 +93,6 @@ def project_create(request):
     context = RequestContext(request)
     registered = False
     if request.method == 'POST':
-        #    context = RequestContext(request)
-        # user = get_object_or_404(User, pk=pk)
-        # user_form = UserForm(request.POST or None, instance=user)
-        # profile_user = get_object_or_404(UserProfile, user_id=user.id)
-        # profile_form = UserProfileForm(request.POST or None, instance=profile_user)
         project_form = ProjectForm(request.POST or None, instance=Proyecto())
         fase_form = FaseForm(request.POST or None, instance=Fase())
         if project_form.is_valid() and fase_form.is_valid():
@@ -109,6 +104,7 @@ def project_create(request):
             registered = True
         else:
             print project_form.errors
+            print fase_form.errors
 
     else:
         project_form = ProjectForm()
@@ -418,3 +414,50 @@ def permiso(request, pk):
     context_dict = {'permiso': permiso}
 
     return render_to_response('adm/permiso.html', context_dict, context)
+
+
+#probando
+def fase_create(request, pk):
+    context = RequestContext(request)
+    registered = False
+    if request.method == 'POST':
+        fase_form = FaseForm(data=request.POST)
+        proyecto = get_object_or_404(Proyecto, pk=pk)
+        if fase_form.is_valid():
+            new_fase = fase_form.save(commit=False)
+            new_fase.proyecto = proyecto
+            new_fase.save()
+            #respuesta = save(new_fase)
+            return redirect('project_list')
+            registered = True
+        else:
+            print fase_form.errors
+
+    else:
+        fase_form = FaseForm()
+        id_proyecto = pk
+
+    return render_to_response('adm/fase_create.html',
+                              {'fase_form': fase_form, 'id_proyecto': id_proyecto, 'registered': registered}, context)
+
+
+
+
+
+def get_project_list():
+    project_list = Proyecto.objects.all()
+    return project_list
+
+
+@login_required
+def project_list(request):
+
+    context = RequestContext(request)
+    project_list = get_project_list()
+    context_dict = {}
+    context_dict['object_list'] = project_list
+
+    return render_to_response('adm/project_list.html', context_dict, context)
+
+
+

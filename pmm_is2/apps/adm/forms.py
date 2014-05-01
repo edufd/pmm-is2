@@ -26,17 +26,15 @@ class GroupForm(forms.ModelForm):
 
 
 class ProjectForm(forms.ModelForm):
+    #fecha_inicio = forms.DateField(widget=forms.HiddenInput())
     class Meta:
         model = Proyecto
         fields = ('nombre_proyecto', 'descripcion', 'presupuesto', 'costo_temporal',
-                  'costo_monetario', 'estado', 'fecha_inicio', 'fecha_fin', 'plazo', 'lider_proyecto')
+                  'costo_monetario', 'estado_proyecto', 'fecha_fin', 'plazo', 'lider_proyecto')
 
 
-#nombre_fase = models.CharField(max_length=200)
-    # descripcion = models.CharField(max_length=200)
-    # estado = models.CharField(max_length=10, choices=FASES_ESTADOS)
-    # numero_secuencia = models.IntegerField(blank=True, null=True)
 class FaseForm(forms.ModelForm):
+    #numero_secuencia = forms.DateField(widget=forms.HiddenInput())
     class Meta:
         model = Fase
-        fields = ('nombre_fase', 'descripcion', 'estado', 'numero_secuencia')
+        fields = ('nombre_fase', 'descripcion', 'estado_fase')

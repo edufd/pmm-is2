@@ -25,5 +25,5 @@ urlpatterns = patterns('',
         url(r'^perfil/(?P<pk>\d+)$', views.perfil, name='perfil'),
         url(r'^rol/(?P<pk>\d+)$', views.rol, name='rol'),
         url(r'^permiso/(?P<pk>\d+)$', views.permiso, name='permiso'),
-        url(r'^fase_create/$', views.fase_create, name='fase_create'),
+        #url(r'^fase_create/$', views.fase_create, name='fase_create'),
 )

@@ -3,8 +3,8 @@ from django.contrib.auth.models import User, Group, Permission
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.http import HttpResponse
-from pmm_is2.apps.adm.forms import UserForm, UserProfileForm, GroupForm, ProjectForm,FaseForm
-from pmm_is2.apps.adm.models import UserProfile, Fase
+from pmm_is2.apps.adm.forms import UserForm, UserProfileForm, GroupForm, ProjectForm, FaseForm
+from pmm_is2.apps.adm.models import UserProfile, Proyecto, Fase
 
 
 def not_in_admin_group(user):
@@ -14,7 +14,7 @@ def not_in_admin_group(user):
     if user:
         combined_queryset = user.groups.filter(name='Administrador').exists() | \
                             user.groups.filter(name='Lider de Proyecto').exists()
-        print combined_queryset
+        #print combined_queryset
         valido = combined_queryset and user.is_authenticated()
     return valido
 
@@ -93,18 +93,30 @@ def project_create(request):
     context = RequestContext(request)
     registered = False
     if request.method == 'POST':
-        group_form = ProjectForm(data=request.POST)
-        if group_form.is_valid():
-            group = group_form.save()
-            group.save()
+        #    context = RequestContext(request)
+        # user = get_object_or_404(User, pk=pk)
+        # user_form = UserForm(request.POST or None, instance=user)
+        # profile_user = get_object_or_404(UserProfile, user_id=user.id)
+        # profile_form = UserProfileForm(request.POST or None, instance=profile_user)
+        project_form = ProjectForm(request.POST or None, instance=Proyecto())
+        fase_form = FaseForm(request.POST or None, instance=Fase())
+        if project_form.is_valid() and fase_form.is_valid():
+            new_project = project_form.save()
+            new_project.save()
+            new_fase = fase_form.save(commit=False)
+            new_fase.proyecto = new_project
+            new_fase.save()
             registered = True
         else:
-            print group_form.errors
+            print project_form.errors
 
     else:
-        group_form = ProjectForm()
+        project_form = ProjectForm()
+        fase_form = FaseForm()
 
-    return render_to_response('adm/project_create.html', {'group_form': group_form, 'registered': registered}, context)
+    return render_to_response('adm/project_create.html',
+                              {'project_form': project_form, 'fase_form': fase_form,
+                               'registered': registered}, context)
 
 
 @user_passes_test(not_in_admin_group, login_url='/login/')
@@ -241,25 +253,6 @@ def asignar_roles(request):
     context_dict['object_list'] = user_list
 
     return render_to_response('adm/user_group.html', context_dict, context)
-
-
-@login_required
-def asignar(request, pk):
-    context = RequestContext(request)
-    registered = False
-    if request.method == 'POST':
-        user = get_object_or_404(User, pk=pk)
-        user_group = UserGroup(request.POST or None, instance=user)
-        if user_group.is_valid():
-            user= user_group.save()
-            user.save()
-            registered = True
-        else:
-             print user_group.errors
-    else:
-        user_group = UserGroup()
-
-    return render_to_response('adm/group_user.html', {'user_group': user_group,'registered': registered}, context)
 
 
 @user_passes_test(not_in_admin_group, login_url='/login/')
@@ -425,39 +418,3 @@ def permiso(request, pk):
     context_dict = {'permiso': permiso}
 
     return render_to_response('adm/permiso.html', context_dict, context)
-
-#probando
-def fase_create(request):
-    context = RequestContext(request)
-    registered = False
-    if request.method == 'POST':
-        fase_form = FaseForm(data=request.POST)
-        if fase_form.is_valid():
-            fase = fase_form.save()
-            fase.save()
-            respuesta=save(fase)
-            registered = True
-        else:
-            print fase_form.errors
-
-    else:
-        fase_form = FaseForm()
-
-    return render_to_response('adm/fase_create.html', {'fase_form': fase_form, 'registered': registered}, context)
-
-#Para aumentar el numero por cada fase creada
-def save(self):
-    valido = False
-    print self
-    valido = Fase.objects.filter(numero=1).exists()
-    print valido
-    if (valido is True):
-        top =  Fase.objects.order_by('-numero')[ 1 ]
-        print top.numero
-        self.numero =  top.numero + 1
-    else:
-        self.numero = 1
-
-    super(Fase, self).save()
-    return Fase
-

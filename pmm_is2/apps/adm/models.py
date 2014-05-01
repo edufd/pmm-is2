@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.contrib.auth.models import User, Group
 from django.db.models import Max
@@ -32,6 +33,14 @@ class UserProfile(models.Model):
     #     db_table = 'userprofile'
 
 
+#funcion para validar las fecha de fin de los proyectos recibe una fecha
+def validate_even(value):
+    print value
+    print datetime.now().date()
+    if value < datetime.now().date():
+        raise ValidationError('%s No es una fecha valida' % value)
+
+
 class Proyecto(models.Model):
     id_proyecto = models.AutoField(primary_key=True)
     nombre_proyecto = models.CharField(max_length=200, unique=True)
@@ -42,7 +51,7 @@ class Proyecto(models.Model):
     estado_proyecto = models.CharField(max_length=11, choices=PROYECTOS_ESTADOS, default='NO-INICIADO')
     #cambiar despues para que sea la fecha actual al crear
     fecha_inicio = models.DateField(blank=True, default=datetime.now())
-    fecha_fin = models.DateField()
+    fecha_fin = models.DateField(validators=[validate_even])
     plazo = models.IntegerField()
     lider_proyecto = models.ForeignKey(User)
     #para el perfil de proyecto es interesante

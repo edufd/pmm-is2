@@ -1,6 +1,8 @@
-from django.contrib.admin.widgets import FilteredSelectMultiple
+from django.contrib.admin import widgets
+from django.contrib.admin.widgets import FilteredSelectMultiple, AdminDateWidget
 from django.contrib.auth.models import User, Group, Permission
 from django import forms
+from django.forms.extras import SelectDateWidget
 from pmm_is2.apps.adm.models import UserProfile, Proyecto, Fase
 
 
@@ -26,11 +28,16 @@ class GroupForm(forms.ModelForm):
 
 
 class ProjectForm(forms.ModelForm):
-    #fecha_inicio = forms.DateField(widget=forms.HiddenInput())
+    fecha_fin = forms.DateField(widget=AdminDateWidget)
+
     class Meta:
         model = Proyecto
         fields = ('nombre_proyecto', 'descripcion', 'presupuesto', 'costo_temporal',
                   'costo_monetario', 'estado_proyecto', 'fecha_fin', 'plazo', 'lider_proyecto')
+
+    def __init__(self, *args, **kwargs):
+        super(ProjectForm, self).__init__(*args, **kwargs)
+        self.fields['fecha_fin'].widget = widgets.AdminDateWidget()
 
 
 class FaseForm(forms.ModelForm):

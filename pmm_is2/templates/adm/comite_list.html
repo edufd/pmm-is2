@@ -1,0 +1,19 @@
+{% extends 'adm/adm_base_logged.html' %}
+{% load static %}
+{% block link %}<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">{% endblock %}
+{% block title %}PMM{% endblock %}
+{% block content %}
+
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <h1 class="page-header">Comite</h1>
+        </br>
+        {% for comite in object_list %}
+            <li>
+                <h4>{{ comite.proyecto}}:
+                    <a href="{% url "comite_edit" comite.id_comite %}">Modificar</a>
+                    <a >Eliminar</a>
+                </h4>
+            </li>
+        {% endfor %}
+    </div>
+{% endblock %}

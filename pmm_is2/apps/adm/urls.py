@@ -27,4 +27,9 @@ urlpatterns = patterns('',
         url(r'^permiso/(?P<pk>\d+)$', views.permiso, name='permiso'),
         url(r'^project_list/$', views.project_list, name='project_list'),
         url(r'^fase_create/(?P<pk>\d+)$', views.fase_create, name='fase_create'),
+        url(r'^comite_create/$', views.comite_create, name='comite_create'),
+
+        url(r'^comite_edit/(?P<pk>\d+)$', views.comite_update, name='comite_edit'),
+        url(r'^comite_list/$', views.comite_list, name='comite_list'),
+
 )

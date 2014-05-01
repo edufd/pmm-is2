@@ -3,8 +3,8 @@ from django.contrib.auth.models import User, Group, Permission
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.http import HttpResponse
-from pmm_is2.apps.adm.forms import UserForm, UserProfileForm, GroupForm, ProjectForm, FaseForm
-from pmm_is2.apps.adm.models import UserProfile, Proyecto, Fase
+from pmm_is2.apps.adm.forms import UserForm, UserProfileForm, GroupForm, ProjectForm, FaseForm,ComiteForm
+from pmm_is2.apps.adm.models import UserProfile, Proyecto, Fase, Comite
 
 
 def not_in_admin_group(user):
@@ -458,6 +458,50 @@ def project_list(request):
     context_dict['object_list'] = project_list
 
     return render_to_response('adm/project_list.html', context_dict, context)
+
+
+#probando1
+def comite_create(request):
+    context = RequestContext(request)
+    registered = False
+    if request.method == 'POST':
+        comite_form = ComiteForm(data=request.POST)
+        if comite_form.is_valid():
+            comite = comite_form.save()
+            comite.save()
+            registered = True
+        else:
+            print comite_form.errors
+
+    else:
+        comite_form = ComiteForm()
+
+    return render_to_response('adm/comite_create.html', {'comite_form': comite_form, 'registered': registered}, context)
+
+def comite_list(request):
+
+    context = RequestContext(request)
+    comite_list = get_comite_list()
+    context_dict = {}
+    context_dict['object_list'] = comite_list
+
+    return render_to_response('adm/comite_list.html', context_dict, context)
+
+def comite_update(request, pk):
+    context = RequestContext(request)
+    print pk
+    comite = get_object_or_404(Comite, pk=pk)
+    print comite
+    comite_form = ComiteForm(request.POST or None, instance=comite)
+    print comite_form
+    if comite_form.is_valid():
+        comite_form.save()
+        return redirect('comite_list')
+    return render_to_response('adm/comite_form.html', {'comite_form': comite_form}, context)
+
+def get_comite_list():
+    comite_list = Comite.objects.all()
+    return comite_list
 
 
 

@@ -54,6 +54,7 @@ class Proyecto(models.Model):
     fecha_fin = models.DateField(validators=[validate_even])
     plazo = models.IntegerField()
     lider_proyecto = models.ForeignKey(User)
+
     #para el perfil de proyecto es interesante
 
     def __unicode__(self):
@@ -102,5 +103,20 @@ class Fase(models.Model):
         return Fase
 
 
+class Comite(models.Model):
+    id_comite = models.AutoField(primary_key=True)
+    proyecto = models.ForeignKey(Proyecto)
+    usuario=models.ManyToManyField(User)
+    class Meta:
+        db_table = 'Comite'
+        unique_together = (("proyecto"),)
+
+
+
+
+
+class Meta:
+    #db_table = 'fase'
+    app_label = 'adm'
 
 

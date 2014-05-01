@@ -29,14 +29,13 @@ class ProjectForm(forms.ModelForm):
     class Meta:
         model = Proyecto
         fields = ('nombre_proyecto', 'descripcion', 'presupuesto', 'costo_temporal',
-                  'costo_monetario', 'estado', 'fecha_inicio', 'fecha_fin', 'plazo', 'lider_proyecto')
+                  'costo_monetario', 'estado', 'fecha_inicio', 'fecha_fin', 'plazo', 'lider_de_proyecto')
 
 
-#nombre_fase = models.CharField(max_length=200)
-    # descripcion = models.CharField(max_length=200)
-    # estado = models.CharField(max_length=10, choices=FASES_ESTADOS)
-    # numero_secuencia = models.IntegerField(blank=True, null=True)
 class FaseForm(forms.ModelForm):
+    estado= forms.CharField(widget=forms.HiddenInput(), initial="NOINICIADA")
     class Meta:
-        model = Fase
-        fields = ('nombre_fase', 'descripcion', 'estado', 'numero_secuencia')
+            model = Fase
+            fields = ('nombre_fase',
+                      'descripcion','estado'
+                )

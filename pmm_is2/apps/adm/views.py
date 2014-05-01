@@ -5,6 +5,8 @@ from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.http import HttpResponse
 from pmm_is2.apps.adm.forms import UserForm, UserProfileForm, GroupForm, ProjectForm,FaseForm
 from pmm_is2.apps.adm.models import UserProfile, Fase
+from pmm_is2.apps.des.models import TipoItem
+
 
 
 def not_in_admin_group(user):
@@ -426,14 +428,16 @@ def permiso(request, pk):
 
     return render_to_response('adm/permiso.html', context_dict, context)
 
-#probando
+#probando Permiso.objects.create(nombre="AgregarUser", descripcion="AgregaUsuarios", tipo=1)
 def fase_create(request):
     context = RequestContext(request)
     registered = False
     if request.method == 'POST':
-        fase_form = FaseForm(data=request.POST)
+        fase_form = FaseForm(request.POST)
         if fase_form.is_valid():
+            print fase_form
             fase = fase_form.save()
+            print fase
             fase.save()
             respuesta=save(fase)
             registered = True
@@ -443,7 +447,7 @@ def fase_create(request):
     else:
         fase_form = FaseForm()
 
-    return render_to_response('adm/fase_create.html', {'fase_form': fase_form, 'registered': registered}, context)
+    return render_to_response('adm/fase_create.html', {'fase_form': fase_form,'registered': registered}, context)
 
 #Para aumentar el numero por cada fase creada
 def save(self):

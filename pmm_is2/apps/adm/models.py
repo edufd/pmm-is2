@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User, Group
+from pmm_is2.apps.des.models import TipoItem
+__all__ =  [ 'TipoItem' ]
 
 # Create your models here.
 
@@ -24,15 +26,13 @@ class UserProfile(models.Model):
     # class Meta:
     #     db_table = 'userprofile'
 
-
 class Fase(models.Model):
     id_fase = models.AutoField(primary_key=True)
     nombre_fase = models.CharField(max_length=200)
     descripcion = models.CharField(max_length=200)
     estado = models.CharField(max_length=10, choices=FASES_ESTADOS)
     numero=models.IntegerField( blank = True , null = True)
-    tipoItem= models.ManyToManyField('des.TipoItem')
-
+    id_tipo_item= models.ManyToManyField(TipoItem)
     class Meta:
         db_table = 'Fase'
         app_label='adm'
@@ -57,7 +57,7 @@ class Proyecto(models.Model):
         return self.nombre_proyecto
 
     class Meta:
-        #db_table = 'proyecto'
+        db_table = 'proyecto'
         app_label = 'adm'
 
 
@@ -67,8 +67,5 @@ class UsuarioProyecto(models.Model):
     roles_proyecto = models.ManyToManyField(Group)
     proyectos = models.ForeignKey(Proyecto, related_name='usuario_proyecto')
     usuario_proyecto = models.ForeignKey(User)
-
-
-
 
 

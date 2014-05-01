@@ -19,7 +19,8 @@
 
                 {% csrf_token %}
 
-                {{ fase_form.as_table }}
+                {{ fase_form.as_p }}
+
                 <!-- Provide a button to click to submit the form. -->
                 <input type="submit" name="submit" value="Crear" />
             </form>

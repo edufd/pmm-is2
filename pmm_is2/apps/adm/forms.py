@@ -44,7 +44,7 @@ class FaseForm(forms.ModelForm):
     #numero_secuencia = forms.DateField(widget=forms.HiddenInput())
     class Meta:
         model = Fase
-        fields = ('nombre_fase', 'descripcion', 'estado_fase')
+        fields = ('nombre_fase', 'descripcion', 'estado_fase','grupos')
 
 
 class ComiteForm(forms.ModelForm):

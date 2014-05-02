@@ -1,0 +1,18 @@
+{% extends 'adm/adm_base_logged.html' %}
+{% load static %}
+{% block link %}<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">{% endblock %}
+{% block title %}PMM{% endblock %}
+{% block content %}
+
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <h1 class="page-header">Proyectos</h1>
+        </br>
+        {% for proyecto in object_list %}
+            <li>
+                <h4>{{ proyecto.nombre_proyecto}}  :
+                    <a href="/adm/import_project/{{ proyecto.id_proyecto }}">Importar Proyecto</a>
+                </h4>
+            </li>
+        {% endfor %}
+    </div>
+{% endblock %}

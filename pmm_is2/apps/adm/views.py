@@ -517,6 +517,17 @@ def project_list(request):
     return render_to_response('adm/project_list.html', context_dict, context)
 
 
+@login_required
+def project_import_list(request):
+
+    context = RequestContext(request)
+    project_list = get_project_list()
+    context_dict = {}
+    context_dict['object_list'] = project_list
+
+    return render_to_response('adm/project_import_list.html', context_dict, context)
+
+
 def get_phases_list(pk):
     phases_list = Fase.objects.filter(proyecto_id=pk).order_by('numero_secuencia')
     return phases_list

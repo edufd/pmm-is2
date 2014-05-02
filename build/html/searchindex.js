@@ -1,1 +1,1 @@
-Search.setIndex({envversion:42,terms:{content:0,index:0,modul:0,search:0,page:0},objtypes:{},objnames:{},filenames:["index"],titles:["Welcome to PMM&#8217;s documentation!"],objects:{},titleterms:{pmm:0,document:0,welcom:0,indic:0,tabl:0}})
+Search.setIndex({envversion:42,terms:{content:0,index:0,modul:0,search:0,page:0},objtypes:{},objnames:{},filenames:["index","vista_adm"],titles:["Welcome to PMM&#8217;s documentation!","Vistas-Modulo De Administracion"],objects:{},titleterms:{vista:1,modulo:1,welcom:0,indic:0,administracion:1,tabl:0,pmm:0,document:0}})

@@ -11,7 +11,7 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-
+    vista_adm
 
 Indices and tables
 ==================

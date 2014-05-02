@@ -1,0 +1,154 @@
+{% extends 'des/des_base_logged.html' %}
+{% load static %}
+{% load tags %}
+{% block link %}
+    <link href="{% static 'css/dashboard.css' %}" rel="stylesheet" xmlns="http://www.w3.org/1999/html">{% endblock %}
+{% block title %}PMM{% endblock %}
+{% block content %}
+
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        {% comment %}<h1 class="page-header">Modulo de Administracion</h1>{% endcomment %}
+        </br>
+        <h2 class="page-header"><a href="/des/item/">Tipos de Item</a></h2>
+
+        <div class="row placeholders">
+            <div class="col-xs-6 col-sm-3 placeholder">
+                
+                <ul class="nav nav-list">
+                    <li class="nav-header">Buscar Tipos de Item
+                    <form autocomplete="off">
+                        <label></label>
+                        <input  class="search-query span10" type="text" name="suggestion" value="" id="suggestion" />
+                    </form></li>
+                </ul>
+                <div id="cats">
+{#                    {% include 'adm/category_list.html' with cat_list=cat_list %}#}
+                </div>
+
+            </div>
+
+            <div class="col-xs-6 col-sm-3 placeholder">
+                
+                <h4><a class="btn btn-primary" href="/des/crear_tipo_item/"><span class="glyphicon glyphicon-plus"></span></a></h4>
+                <span class="text-muted">Nuevo Tipo de Item</span>
+            </div>
+
+            <div class="col-xs-6 col-sm-3 placeholder">
+                
+                <h4><a class="btn btn-primary" href="/des/tipo_item_list/"><span class="glyphicon glyphicon-th-list"></span></a></h4>
+                <span class="text-muted">Lista de Items</span>
+            </div>
+
+            <div class="col-xs-6 col-sm-3 placeholder">
+                
+                <h4>Label</h4>
+                <span class="text-muted">No implementado</span>
+            </div>
+        </div>
+{#        <h2 class="page-header"><a href="/adm/roles/">Roles</a></h2>#}
+{#        <div class="row placeholders">#}
+{#            <div class="col-xs-6 col-sm-3 placeholder">#}
+{#                #}
+{#                <ul class="nav nav-list">#}
+{#                    <li class="nav-header">Buscar Roles#}
+{#                    <form autocomplete="off">#}
+{#                        <label></label>#}
+{#                        <input  class="search-query span10" type="text" name="suggestion_rol" value="" id="suggestion_rol" />#}
+{#                    </form></li>#}
+{#                </ul>#}
+{#                <div id="cats_rol">#}
+{#                    {% include 'adm/roles_list.html' with cat_list=cat_list %}#}
+{#                </div>#}
+{#            </div>#}
+{##}
+{#            <div class="col-xs-6 col-sm-3 placeholder">#}
+{#                #}
+{#                <h4><a class="btn btn-primary" href="/adm/group_create/"><span class="glyphicon glyphicon-plus"></span></a></h4>#}
+{#                <span class="text-muted">Nuevo Rol</span>#}
+{#            </div>#}
+{##}
+{#            <div class="col-xs-6 col-sm-3 placeholder">#}
+{#                #}
+{#                <h4><a class="btn btn-primary" href="/adm/group_list/"><span class="glyphicon glyphicon-th-list"></span></a></h4>#}
+{#                <span class="text-muted">Lista de Roles</span>#}
+{#            </div>#}
+{##}
+{#            <div class="col-xs-6 col-sm-3 placeholder">#}
+{#                #}
+{#                <h4>Label</h4>#}
+{#                <span class="text-muted">No implementado</span>#}
+{#            </div>#}
+{#        </div>#}
+{##}
+{#        <h2 class="page-header"><a href="/adm/permisos/">Permisos</a></h2>#}
+{#        <div class="row placeholders">#}
+{#            <div class="col-xs-6 col-sm-3 placeholder">#}
+{#                #}
+{#                <ul class="nav nav-list">#}
+{#                    <li class="nav-header">Buscar Permisos#}
+{#                    <form autocomplete="off">#}
+{#                        <label></label>#}
+{#                        <input  class="search-query span10" type="text" name="suggestion_permiso" value="" id="suggestion_permiso" />#}
+{#                    </form></li>#}
+{#                </ul>#}
+{#                <div id="cats_permiso">#}
+{#                    {% include 'adm/permisos_list.html' with cat_list=cat_list %}#}
+{#                </div>#}
+{#            </div>#}
+{##}
+{#            <div class="col-xs-6 col-sm-3 placeholder">#}
+{#                #}
+{#                <h4>Label</h4>#}
+{#                <span class="text-muted">No implementado</span>#}
+{#            </div>#}
+{##}
+{#            <div class="col-xs-6 col-sm-3 placeholder">#}
+{#                #}
+{#                <h4>Label</h4>#}
+{#                <span class="text-muted">No implementado</span>#}
+{#            </div>#}
+{##}
+{#            <div class="col-xs-6 col-sm-3 placeholder">#}
+{#                #}
+{#                <h4>Label</h4>#}
+{#                <span class="text-muted">No implementado</span>#}
+{#            </div>#}
+{#        </div>#}
+{##}
+{#        <h2 class="page-header"><a href="/adm/proyectos/">Proyectos</a></h2>#}
+{#        <div class="row placeholders">#}
+{#            <div class="col-xs-6 col-sm-3 placeholder">#}
+{##}
+{#                <ul class="nav nav-list">#}
+{#                    <li class="nav-header">Buscar Proyectos (No implementado)#}
+{#                    <form autocomplete="off">#}
+{#                        <label></label>#}
+{#                        <input  class="search-query span10" type="text" name="suggestion_permiso" value="" id="suggestion_permiso" />#}
+{#                    </form></li>#}
+{#                </ul>#}
+{#                <div id="cats_permiso">#}
+{#                    {% include 'adm/permisos_list.html' with cat_list=cat_list %}#}
+{#                </div>#}
+{#            </div>#}
+{##}
+{#            <div class="col-xs-6 col-sm-3 placeholder">#}
+{##}
+{#                <h4><a class="btn btn-primary" href="/adm/project_create/"><span class="glyphicon glyphicon-plus"></span></a></h4>#}
+{#                <span class="text-muted">Nuevo Proyecto</span>#}
+{#            </div>#}
+{##}
+{#            <div class="col-xs-6 col-sm-3 placeholder">#}
+{##}
+{#                <h4><a class="btn btn-primary" href="/adm/project_list/"><span class="glyphicon glyphicon-th-list"></span></a></h4>#}
+{#                <span class="text-muted">Lista de Proyectos</span>#}
+{#            </div>#}
+{##}
+{#            <div class="col-xs-6 col-sm-3 placeholder">#}
+{##}
+{#                <h4>Label</h4>#}
+{#                <span class="text-muted">No implementado</span>#}
+{#            </div>#}
+{#        </div>#}
+    </div>
+
+{% endblock %}

@@ -4,11 +4,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from pmm_is2.apps.adm.backends import iniciar_sesion
-from pmm_is2.apps.adm.backends import cerrar_sesion
-from pmm_is2.apps.adm.backends import usuario_verificarRolUsuario
 from pmm_is2.apps.adm import SESSION_KEY
-from django.contrib.auth.models import User, Group, Permission
-from pmm_is2.apps.adm import SESSION_KEY_MSG
 
 
 

@@ -465,14 +465,19 @@ def comite_create(request):
     context = RequestContext(request)
     registered = False
     if request.method == 'POST':
+        usuario=request.POST.getlist('usuario')
+        cantidad=len(usuario)
         comite_form = ComiteForm(data=request.POST)
-        if comite_form.is_valid():
-            comite = comite_form.save()
-            comite.save()
-            registered = True
+        if cantidad == 3:
+            if comite_form.is_valid():
+                comite = comite_form.save()
+                comite.save()
+                registered = True
+            else:
+                print comite_form.errors
         else:
-            print comite_form.errors
-
+            comite_form = ComiteForm()
+            return render_to_response('adm/comite_create.html', {'comite_form': comite_form, 'registered': registered}, context)
     else:
         comite_form = ComiteForm()
 

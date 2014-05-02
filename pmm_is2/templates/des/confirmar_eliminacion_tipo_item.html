@@ -1,0 +1,17 @@
+{% extends 'des/des_base_logged.html' %}
+{% load static %}
+{% block link %}<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">{% endblock %}
+{% block title %}PMM{% endblock %}
+{% block content %}
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <h1 class="page-header">Eliminar</h1>
+        </br>
+        <form method="post">
+            {% csrf_token %}
+            <h4>Estas seguro que quieres eliminar el Tipo de item "{{ tipo_item }}" ?</h4>
+            </br>
+            <input class="btn btn-primary boton-confirmar-desconfirmar" type="submit" value="Si" />
+            <a href="/des/listar_tipo_item"><input class="btn btn-primary boton-confirmar-desconfirmar" value="No" /></a>
+        </form>
+    </div>
+{% endblock %}

@@ -20,7 +20,7 @@ class TipoItem(models.Model):
     nombre_tipo_item = models.CharField(max_length=200,unique=True )
     descripcion = models.CharField(max_length=200)
     def __unicode__(self):
-        return self.descripcion
+        return self.nombre_tipo_item
     class Meta:
          db_table = 'TipoItem'
 

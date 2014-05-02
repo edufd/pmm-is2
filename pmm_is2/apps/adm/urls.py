@@ -28,6 +28,7 @@ urlpatterns = patterns('',
         url(r'^project_list/$', views.project_list, name='project_list'),
         url(r'^project_import_list/$', views.project_import_list, name='project_import_list'),
         url(r'^project_update/(?P<pk>\d+)$', views.project_update, name='project_update'),
+
         url(r'^project_delete/(?P<pk>\d+)$', views.project_delete, name='project_delete'),
         url(r'^fase_create/(?P<pk>\d+)$', views.fase_create, name='fase_create'),
         url(r'^phases_list/(?P<pk>\d+)$', views.phases_list, name='phases_list'),
@@ -36,5 +37,7 @@ urlpatterns = patterns('',
         url(r'^comite_create/$', views.comite_create, name='comite_create'),
         url(r'^comite_edit/(?P<pk>\d+)$', views.comite_update, name='comite_edit'),
         url(r'^comite_list/$', views.comite_list, name='comite_list'),
+        #imports
+        url(r'^import_project/(?P<pk>\d+)$', views.import_project, name='import_project'),
 
 )

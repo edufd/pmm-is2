@@ -1,0 +1,62 @@
+{% extends 'adm/adm_base_logged.html' %}
+{% load static %}
+{% block link %}<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css"
+        href="{% static 'admin/css/global.css' %}"/>
+    <link rel="stylesheet" type="text/css"
+        href="{% static 'admin/css/widgets.css' %}"/>
+    <script type="text/javascript"
+        src="/admin/jsi18n/"></script>
+    <script type="text/javascript"
+        src="{% static 'admin/js/core.js' %}"></script>
+    <script type="text/javascript"
+        src="{% static 'admin/js/admin/RelatedObjectLookups.js' %}"></script>
+    <script type="text/javascript"
+        src="{% static 'admin/js/jquery.js' %}"></script>
+    <script type="text/javascript"
+        src="{% static 'admin/js/jquery.init.js' %}"></script>
+    <script type="text/javascript"
+        src="{% static 'admin/js/actions.js' %}"></script>
+    <script type="text/javascript"
+        src="{% static 'admin/js/calendar.js' %}"></script>
+    <script type="text/javascript"
+        src="{% static 'admin/js/admin/DateTimeShortcuts.js' %}"></script>
+{% endblock %}
+{% block title %}PMM{% endblock %}
+{% block content %}
+
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <h1 class="page-header">Importar Proyecto</h1>
+        {% if registered %}
+            <strong>Se ha modificado el Proyecto!</strong><br/>
+            <a href="/adm/project_list">Retornar a la pagina anterior</a><br/>
+        {% else %}
+            <h4 class="page-header">Datos Importados</h4>
+            <form class="form_class" id="group_form" method="post" action="/adm/import_project/{{ id_proyecto }}"
+                    enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ project_form.as_p }}
+                <h3>Fases</h3>
+                <table class="table table-bordered tabla_fases">
+                    <thead>
+                        <tr>
+                            <th class="col-sm-1">Numero Secuencia</th>
+                            <th class="col-sm-1">Nombre Fase</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for fase in phases_list %}
+                            <tr>
+                                <td>{{ fase.numero_secuencia }}</td>
+                                <td>{{ fase.nombre_fase }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <input type="submit" name="submit" value="Importar" />
+            </form>
+        {% endif %}
+    </div>
+{% endblock %}

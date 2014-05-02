@@ -494,14 +494,17 @@ def comite_list(request):
 
 def comite_update(request, pk):
     context = RequestContext(request)
-    print pk
     comite = get_object_or_404(Comite, pk=pk)
-    print comite
     comite_form = ComiteForm(request.POST or None, instance=comite)
-    print comite_form
-    if comite_form.is_valid():
-        comite_form.save()
-        return redirect('comite_list')
+    usuario=request.POST.getlist('usuario')
+    print usuario
+    cantidad=len(usuario)
+    if cantidad == 3:
+        if comite_form.is_valid():
+            comite_form.save()
+            return redirect('comite_list')
+    else:
+        return render_to_response('adm/comite_form.html', {'comite_form': comite_form}, context)
     return render_to_response('adm/comite_form.html', {'comite_form': comite_form}, context)
 
 def get_comite_list():

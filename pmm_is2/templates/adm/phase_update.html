@@ -33,7 +33,7 @@
         <a href="/adm/phases_list/{{ id_proyecto }}">Retornar a la pagina de inicio</a><br/>
         {% else %}
 
-            <form class="form_class" id="group_form" method="post" action="/adm/phase_update    /{{ id_fase }}"
+            <form class="form_class" id="group_form" method="post" action="/adm/phase_update/{{ id_fase }}"
                     enctype="multipart/form-data">
 
                 {% csrf_token %}

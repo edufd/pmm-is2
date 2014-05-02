@@ -35,6 +35,23 @@ $(document).ready(function() {
             });
 	});
 
+    $('#suggestion_proyecto').keyup(function(){
+            var query;
+            query = $(this).val();
+            $.get('/adm/suggest_proyecto/', {suggestion: query}, function(data){
+                     $('#cats_proyectos').html(data);
+            });
+	});
+
+    $('#suggestion_tipo_item').keyup(function(){
+            var query;
+            query = $(this).val();
+            $.get('/des/suggest_tipo_item/', {suggestion: query}, function(data){
+                     $('#cats_tipo_item').html(data);
+            });
+	});
+
+
 	$('.rango-add').click(function(){
 	    var catid = $(this).attr("data-catid");
         var url = $(this).attr("data-url");

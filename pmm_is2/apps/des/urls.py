@@ -9,6 +9,6 @@ urlpatterns = patterns('',
         url(r'^listar_tipo_item/$', views.listar_tipo_item, name='listar_tipo_item'),
         url(r'^editar_tipo_item/(?P<pk>\d+)$', views.editar_tipo_item, name='editar_tipo_item'),
         url(r'^eliminar_tipo_item/(?P<pk>\d+)$', views.eliminar_tipo_item, name='eliminar_tipo_item'),
-
+        url(r'^suggest_tipo_item/$', views.suggest_tipo_item, name='suggest_tipo_item'),
 
 )

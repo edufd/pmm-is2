@@ -421,6 +421,24 @@ def get_permisos_list(max_results=0, starts_with=''):
         return cat_list
 
 
+#busca el texto ingresado en permisos
+def get_proyectos_list(max_results=0, starts_with=''):
+        cat_list = []
+        if starts_with:
+            starts_with = starts_with + '%'
+            cat_list = Proyecto.objects.filter(nombre_proyecto__like=starts_with)
+        # else:
+        #         cat_list = User.objects.all()
+        #
+        # print cat_list
+
+        if max_results > 0:
+                if len(cat_list) > max_results:
+                        cat_list = cat_list[:max_results]
+
+        return cat_list
+
+
 #realiza la busqueda del texto solicitado y usa la funcion correspondiente para buscar en la base de datos
 #y mostrarla en la vista
 def suggest_permiso(request):
@@ -432,6 +450,22 @@ def suggest_permiso(request):
         cat_list = get_permisos_list(2, starts_with)
 
         return render_to_response('adm/permisos_list.html', {'cat_list': cat_list }, context)
+
+
+#realiza la busqueda del texto solicitado y usa la funcion correspondiente para buscar en la base de datos
+#y mostrarla en la vista
+def suggest_proyecto(request):
+        context = RequestContext(request)
+        cat_list = []
+        starts_with = ''
+        if request.method == 'GET':
+                starts_with = request.GET['suggestion']
+        cat_list = get_proyectos_list(2, starts_with)
+
+        return render_to_response('adm/proyectos_list.html', {'cat_list': cat_list}, context)
+
+
+
 
 
 @user_passes_test(not_in_admin_group, login_url='/login/')

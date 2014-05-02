@@ -69,3 +69,34 @@ def eliminar_tipo_item(request, pk):
         return redirect('listar_tipo_item')
 
     return render_to_response('des/confirmar_eliminacion_tipo_item.html', {'tipo_item': tipo_item}, context)
+
+
+#realiza la busqueda del texto solicitado y usa la funcion correspondiente para buscar en la base de datos
+#y mostrarla en la vista
+def suggest_tipo_item(request):
+        context = RequestContext(request)
+        cat_list = []
+        starts_with = ''
+        if request.method == 'GET':
+                starts_with = request.GET['suggestion']
+        cat_list = get_tipo_item_list(2, starts_with)
+
+        return render_to_response('des/tipo_item_list.html', {'cat_list': cat_list}, context)
+
+
+#busca el texto ingresado en permisos
+def get_tipo_item_list(max_results=0, starts_with=''):
+        cat_list = []
+        if starts_with:
+            starts_with = starts_with + '%'
+            cat_list = TipoItem.objects.filter(nombre_tipo_item__like=starts_with)
+        # else:
+        #         cat_list = User.objects.all()
+        #
+        # print cat_list
+
+        if max_results > 0:
+                if len(cat_list) > max_results:
+                        cat_list = cat_list[:max_results]
+
+        return cat_list

@@ -1,0 +1,9 @@
+<ul class="nav nav-list">
+   {% if cat_list %}
+    {% for cat in cat_list %}
+      <li><a href="/adm/perfil_proyecto/{{ cat.id_proyecto }}">{{ cat.nombre_proyecto }}</a></li>
+    {% endfor %}
+   {% else %}
+    <li>Ningun Proyecto</li>
+   {% endif %}
+</ul>

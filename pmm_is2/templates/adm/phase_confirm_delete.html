@@ -1,0 +1,22 @@
+{% extends 'adm/adm_base_logged.html' %}
+{% load static %}
+{% block link %}<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">{% endblock %}
+{% block title %}PMM{% endblock %}
+{% block content %}
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <h1 class="page-header">Eliminar Fase</h1>
+        </br>
+        {% if registered %}
+            <strong>Se ha eliminado la Fase!</strong><br/>
+            <a href="/adm/phases_list/{{ id_proyecto }}">Retornar a la pagina de inicio</a><br/>
+        {% else %}
+            <form method="post" action="/adm/phase_delete/{{ object.id_fase }}">
+                {% csrf_token %}
+                <h4>Estas seguro que quieres eliminar la Fase "{{ object.nombre_fase }}" ?</h4>
+                </br>
+                <input class="btn btn-primary boton-confirmar-desconfirmar" type="submit" value="Si" />
+                <a href="/adm/phases_list/{{ id_proyecto }}"><input class="btn btn-primary boton-confirmar-desconfirmar" value="No" /></a>
+            </form>
+        {% endif %}
+    </div>
+{% endblock %}

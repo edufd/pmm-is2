@@ -282,13 +282,19 @@ def group_delete(request, pk):
 @user_passes_test(not_in_admin_group, login_url='/login/')
 @login_required
 def phase_delete(request, pk):
+    registered = False
     context = RequestContext(request)
-    phase = get_object_or_404(Proyecto, pk=pk)
+    phase = get_object_or_404(Fase, pk=pk)
+    id_proyecto = phase.proyecto_id
+
     if request.method == 'POST':
         phase.delete()
-        return redirect('phases_list')
+        registered = True
+        #return redirect('phases_list/{{id_proyecto}}')
 
-    return render_to_response('adm/group_confirm_delete.html', {'object': phase}, context)
+    return render_to_response('adm/phase_confirm_delete.html',
+                              {'object': phase, 'id_proyecto': id_proyecto,
+                               'registered': registered}, context)
 
 
 @user_passes_test(not_in_admin_group, login_url='/login/')

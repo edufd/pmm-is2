@@ -184,6 +184,7 @@ def user_list(request):
 
     return render_to_response('adm/user_list.html', context_dict, context)
 
+
 @user_passes_test(not_in_admin_group, login_url='/login/')
 @login_required
 def user_update(request, pk):
@@ -202,6 +203,7 @@ def user_update(request, pk):
 
     return render_to_response('adm/user_form.html', {'userform': user_form, 'profile_form': profile_form}, context)
 
+
 @user_passes_test(not_in_admin_group, login_url='/login/')
 @login_required
 def group_update(request, pk):
@@ -213,6 +215,44 @@ def group_update(request, pk):
         return redirect('group_list')
 
     return render_to_response('adm/group_form.html', {'groupform': group_form}, context)
+
+
+@user_passes_test(not_in_admin_group, login_url='/login/')
+@login_required
+def project_update(request, pk):
+    registered = False
+    context = RequestContext(request)
+    proyecto = get_object_or_404(Proyecto, pk=pk)
+    project_form = ProjectForm(request.POST or None, instance=proyecto)
+    id_proyecto = pk
+    if project_form.is_valid():
+        project_form.save()
+        registered = True
+        #return redirect('project_list')
+
+    return render_to_response('adm/project_update.html',
+                              {'project_form': project_form, 'id_proyecto': id_proyecto,
+                               'registered': registered}, context)
+
+
+@user_passes_test(not_in_admin_group, login_url='/login/')
+@login_required
+def phase_update(request, pk):
+    registered = False
+    context = RequestContext(request)
+    fase = get_object_or_404(Fase, pk=pk)
+    phase_form = FaseForm(request.POST or None, instance=fase)
+    id_proyecto = fase.proyecto_id
+    id_fase = pk
+    if phase_form.is_valid():
+        phase_form.save()
+        registered = True
+        #return redirect('project_list')
+
+    return render_to_response('adm/phase_update.html',
+                              {'phase_form': phase_form, 'id_proyecto': id_proyecto, 'id_fase': id_fase,
+                               'registered': registered}, context)
+
 
 @user_passes_test(not_in_admin_group, login_url='/login/')
 @login_required
@@ -226,6 +266,7 @@ def user_delete(request, pk):
 
     return render_to_response('adm/user_confirm_delete.html', {'object':user}, context)
 
+
 @user_passes_test(not_in_admin_group, login_url='/login/')
 @login_required
 def group_delete(request, pk):
@@ -238,17 +279,30 @@ def group_delete(request, pk):
     return render_to_response('adm/group_confirm_delete.html', {'object':group}, context)
 
 
+@user_passes_test(not_in_admin_group, login_url='/login/')
 @login_required
-def asignar_roles(request):
-
-    current_user = request.user
+def phase_delete(request, pk):
     context = RequestContext(request)
-    user_list = get_user_list(current_user.id)
+    phase = get_object_or_404(Proyecto, pk=pk)
+    if request.method == 'POST':
+        phase.delete()
+        return redirect('phases_list')
 
-    context_dict = {}
-    context_dict['object_list'] = user_list
+    return render_to_response('adm/group_confirm_delete.html', {'object': phase}, context)
 
-    return render_to_response('adm/user_group.html', context_dict, context)
+
+@user_passes_test(not_in_admin_group, login_url='/login/')
+@login_required
+def project_delete(request, pk):
+    context = RequestContext(request)
+    proyecto = get_object_or_404(Proyecto, pk=pk)
+    if request.method == 'POST':
+        proyecto.delete()
+        registered = True
+        return redirect('project_list')
+
+    return render_to_response('adm/group_confirm_delete.html',
+                              {'object': proyecto}, context)
 
 
 @user_passes_test(not_in_admin_group, login_url='/login/')
@@ -441,9 +495,6 @@ def fase_create(request, pk):
                               {'fase_form': fase_form, 'id_proyecto': id_proyecto, 'registered': registered}, context)
 
 
-
-
-
 def get_project_list():
     project_list = Proyecto.objects.all()
     return project_list
@@ -458,6 +509,22 @@ def project_list(request):
     context_dict['object_list'] = project_list
 
     return render_to_response('adm/project_list.html', context_dict, context)
+
+
+def get_phases_list(pk):
+    phases_list = Fase.objects.filter(proyecto_id=pk).order_by('numero_secuencia')
+    return phases_list
+
+
+@login_required
+def phases_list(request, pk):
+
+    context = RequestContext(request)
+    phases_list = get_phases_list(pk)
+    context_dict = {}
+    context_dict['object_list'] = phases_list
+
+    return render_to_response('adm/phases_list.html', context_dict, context)
 
 
 #probando1
@@ -478,6 +545,7 @@ def comite_create(request):
 
     return render_to_response('adm/comite_create.html', {'comite_form': comite_form, 'registered': registered}, context)
 
+
 def comite_list(request):
 
     context = RequestContext(request)
@@ -486,6 +554,7 @@ def comite_list(request):
     context_dict['object_list'] = comite_list
 
     return render_to_response('adm/comite_list.html', context_dict, context)
+
 
 def comite_update(request, pk):
     context = RequestContext(request)
@@ -498,6 +567,7 @@ def comite_update(request, pk):
         comite_form.save()
         return redirect('comite_list')
     return render_to_response('adm/comite_form.html', {'comite_form': comite_form}, context)
+
 
 def get_comite_list():
     comite_list = Comite.objects.all()

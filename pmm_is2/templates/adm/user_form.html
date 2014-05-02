@@ -1,6 +1,8 @@
-{% extends 'adm/../pmm_is2/base_logged.html' %}
+{% extends 'adm/adm_base_logged.html' %}
 {% load static %}
-{% block link %}<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">{% endblock %}
+{% block link %}
+    <link href="{% static 'css/dashboard.css' %}" rel="stylesheet">
+{% endblock %}
 {% block title %}PMM{% endblock %}
 {% block content %}
 
@@ -8,12 +10,12 @@
         <h1 class="page-header">Modificar Usuario</h1>
             <form method="post">{% csrf_token %}
                 <h4 class="page-header">Datos del Usuario</h4>
-                <div class="form-group">
+                <div class="form_class">
                     {{ userform.as_p }}
                 </div>
                 </br>
                 <h4 class="page-header">Datos Personales</h4>
-                <div class="form-group">
+                <div class="form_class">
                     {{ profile_form.as_p }}
                 </div>
                 </br>

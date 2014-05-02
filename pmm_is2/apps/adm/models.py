@@ -60,6 +60,10 @@ class Proyecto(models.Model):
     def __unicode__(self):
         return self.nombre_proyecto
 
+    def delete(self):
+        Fase.objects.filter(proyecto_id=self.id_proyecto).delete()
+        super(Proyecto, self).delete()
+
     class Meta:
         #db_table = 'proyecto'
         app_label = 'adm'

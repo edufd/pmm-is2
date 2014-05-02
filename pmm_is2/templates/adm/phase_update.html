@@ -1,0 +1,47 @@
+{% extends 'adm/adm_base_logged.html' %}
+{% load static %}
+{% block link %}<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css"
+        href="{% static 'admin/css/global.css' %}"/>
+    <link rel="stylesheet" type="text/css"
+        href="{% static 'admin/css/widgets.css' %}"/>
+    <script type="text/javascript"
+        src="/admin/jsi18n/"></script>
+    <script type="text/javascript"
+        src="{% static 'admin/js/core.js' %}"></script>
+    <script type="text/javascript"
+        src="{% static 'admin/js/admin/RelatedObjectLookups.js' %}"></script>
+    <script type="text/javascript"
+        src="{% static 'admin/js/jquery.js' %}"></script>
+    <script type="text/javascript"
+        src="{% static 'admin/js/jquery.init.js' %}"></script>
+    <script type="text/javascript"
+        src="{% static 'admin/js/actions.js' %}"></script>
+    <script type="text/javascript"
+        src="{% static 'admin/js/calendar.js' %}"></script>
+    <script type="text/javascript"
+        src="{% static 'admin/js/admin/DateTimeShortcuts.js' %}"></script>
+{% endblock %}
+{% block title %}PMM{% endblock %}
+{% block content %}
+
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <h1 class="page-header">Modificar Fase</h1>
+        {% if registered %}
+        <strong>Se ha modificado la Fase!</strong><br/>
+        <a href="/adm/phases_list/{{ id_proyecto }}">Retornar a la pagina de inicio</a><br/>
+        {% else %}
+
+            <form class="form_class" id="group_form" method="post" action="/adm/phase_update    /{{ id_fase }}"
+                    enctype="multipart/form-data">
+
+                {% csrf_token %}
+
+                {{ phase_form.as_p }}
+                <!-- Provide a button to click to submit the form. -->
+                <input type="submit" name="submit" value="Guardar" />
+            </form>
+        {% endif %}
+    </div>
+{% endblock %}

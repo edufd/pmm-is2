@@ -1,0 +1,19 @@
+{% extends 'adm/adm_base_logged.html' %}
+{% load static %}
+{% block link %}<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">{% endblock %}
+{% block title %}PMM{% endblock %}
+{% block content %}
+
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <h1 class="page-header">Fases</h1>
+        </br>
+        {% for fase in object_list %}
+            <li>
+                <h4>{{ fase.nombre_fase }}  :
+                    <a href="/adm/phase_update/{{fase.id_fase }}">Modificar</a> |
+                    <a href="/adm/phase_delete/{{ fase.id_fase }}">Eliminar</a>
+                </h4>
+            </li>
+        {% endfor %}
+    </div>
+{% endblock %}

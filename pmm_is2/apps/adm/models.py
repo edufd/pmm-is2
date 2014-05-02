@@ -111,12 +111,3 @@ class Comite(models.Model):
         db_table = 'Comite'
         unique_together = (("proyecto"),)
 
-
-
-
-
-class Meta:
-    #db_table = 'fase'
-    app_label = 'adm'
-
-

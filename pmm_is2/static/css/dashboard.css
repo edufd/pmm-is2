@@ -107,3 +107,7 @@ body {
 .modulos{
     font-size: 16px;
 }
+
+.form_class label{
+    width: 140px;
+}

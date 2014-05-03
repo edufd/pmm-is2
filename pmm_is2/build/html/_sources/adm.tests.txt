@@ -1,0 +1,46 @@
+adm.tests package
+=================
+
+Submodules
+----------
+
+adm.tests.test_forms module
+---------------------------
+
+.. automodule:: adm.tests.test_forms
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+adm.tests.test_models module
+----------------------------
+
+.. automodule:: adm.tests.test_models
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+adm.tests.test_views module
+---------------------------
+
+.. automodule:: adm.tests.test_views
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+adm.tests.tests module
+----------------------
+
+.. automodule:: adm.tests.tests
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: adm.tests
+    :members:
+    :undoc-members:
+    :show-inheritance:

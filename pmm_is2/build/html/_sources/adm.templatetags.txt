@@ -1,0 +1,22 @@
+adm.templatetags package
+========================
+
+Submodules
+----------
+
+adm.templatetags.tags module
+----------------------------
+
+.. automodule:: adm.templatetags.tags
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: adm.templatetags
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -10,8 +10,8 @@
         {% for user in object_list %}
             {% if user.is_active %}
                 <li>
-                    <h4>{{ user.username }}  :
-                        <a href="{% url "user_edit" user.id %}">Modificar</a>
+                    <h4><label>{{ user.username }}</label>  |
+                        <a href="{% url "user_edit" user.id %}">Modificar</a> |
                         <a href="{% url "user_delete" user.id %}">Eliminar</a>
                     </h4>
                 </li>

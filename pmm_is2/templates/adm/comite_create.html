@@ -5,16 +5,15 @@
 {% block content %}
 
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-        <h1 class="page-header">Crear Comite. Solo puede seleccionar 3 Usuarios</h1>
+        <h1 class="page-header">Crear Comite</h1> <h3>Solo puede seleccionar 3 Usuarios</h3>
         </br>
         {% if registered %}
             <strong>Se ha creado el Comite!</strong><br/>
             <a href="/adm/">Retornar a la pagina de inicio</a><br/>
         {% else %}
-            <strong><h4>Complete los datos</h4></strong>
             </br>
 
-            <form id="comite_form" method="post" action="/adm/comite_create/"
+            <form class="form_class" id="comite_form" method="post" action="/adm/comite_create/"
                   enctype="multipart/form-data">
 
                 {% csrf_token %}

@@ -59,7 +59,7 @@
 <dl class="function">
 <dt id="pmm_is2.apps.adm.views.project_create">
 <tt class="descclassname">pmm_is2.apps.adm.views.</tt><tt class="descname">project_create</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/adm/views.html#project_create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.adm.views.project_create" title="Permalink to this definition">¶</a></dt>
-<dd><p>Funcion para crear un Proyecto.
+<dd><p>Funcion para Crear un Proyecto.
 Retorna la pagina con el formulario correspondiente para la creacion
 del proyecto.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -126,6 +126,269 @@ del proyecto.</p>
 </table>
 </dd></dl>
 
+<dl class="function">
+<dt id="pmm_is2.apps.adm.views.group_create">
+<tt class="descclassname">pmm_is2.apps.adm.views.</tt><tt class="descname">group_create</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/adm/views.html#group_create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.adm.views.group_create" title="Permalink to this definition">¶</a></dt>
+<dd><p>Funcion para crear un Grupo.
+Retorna la pagina con el formulario correspondiente para la creacion
+del Grupo.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>request</strong> (<em>HttpRequest.</em>) &#8211; Parametro a ser procesado.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">La pagina correspondiente.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">El response correspondiente.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pmm_is2.apps.adm.views.get_user_list">
+<tt class="descclassname">pmm_is2.apps.adm.views.</tt><tt class="descname">get_user_list</tt><big>(</big><em>user_id</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/adm/views.html#get_user_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.adm.views.get_user_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Funcion para Listar un Usuarios.
+Retorna la pagina correspondiente con la lista de usuarios</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>pk</strong> &#8211; Parametro a ser procesado. Identificador del usuario</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">La pagina correspondiente.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">El response correspondiente.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pmm_is2.apps.adm.views.group_list">
+<tt class="descclassname">pmm_is2.apps.adm.views.</tt><tt class="descname">group_list</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/adm/views.html#group_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.adm.views.group_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Funcion para Listar un Grupos.
+Retorna la pagina correspondiente con la lista de grupos</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>request</strong> (<em>HttpRequest.</em>) &#8211; Parametro a ser procesado.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">La pagina correspondiente.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">El response correspondiente.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pmm_is2.apps.adm.views.phase_update">
+<tt class="descclassname">pmm_is2.apps.adm.views.</tt><tt class="descname">phase_update</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/adm/views.html#phase_update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.adm.views.phase_update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Funcion para Modificar una Fase.
+Retorna la pagina con el formulario correspondiente para la modificacion
+del proyecto.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>request</strong> (<em>HttpRequest.</em>) &#8211; Parametro a ser procesado.</li>
+<li><strong>pk</strong> (<em>int.</em>) &#8211; Parametro a ser procesado el identificador de la fase que va a modificarse.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">La pagina correspondiente.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">El response correspondiente.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pmm_is2.apps.adm.views.user_delete">
+<tt class="descclassname">pmm_is2.apps.adm.views.</tt><tt class="descname">user_delete</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/adm/views.html#user_delete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.adm.views.user_delete" title="Permalink to this definition">¶</a></dt>
+<dd><p>Funcion para Eliminar un User.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>request</strong> (<em>HttpRequest.</em>) &#8211; Parametro a ser procesado.</li>
+<li><strong>pk</strong> (<em>int.</em>) &#8211; Parametro a ser procesado el identificador del user que va a eliminarse.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">La pagina correspondiente.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">El response correspondiente.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pmm_is2.apps.adm.views.group_delete">
+<tt class="descclassname">pmm_is2.apps.adm.views.</tt><tt class="descname">group_delete</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/adm/views.html#group_delete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.adm.views.group_delete" title="Permalink to this definition">¶</a></dt>
+<dd><p>Funcion para Eliminar un Grupo.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>request</strong> (<em>HttpRequest.</em>) &#8211; Parametro a ser procesado.</li>
+<li><strong>pk</strong> (<em>int.</em>) &#8211; Parametro a ser procesado el identificador del grupo que va a eliminarse.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">La pagina correspondiente.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">El response correspondiente.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pmm_is2.apps.adm.views.phase_delete">
+<tt class="descclassname">pmm_is2.apps.adm.views.</tt><tt class="descname">phase_delete</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/adm/views.html#phase_delete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.adm.views.phase_delete" title="Permalink to this definition">¶</a></dt>
+<dd><p>Funcion para Eliminar una fase.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>request</strong> (<em>HttpRequest.</em>) &#8211; Parametro a ser procesado.</li>
+<li><strong>pk</strong> (<em>int.</em>) &#8211; Parametro a ser procesado el identificador de la fase que va a eliminarse.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">La pagina correspondiente.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">El response correspondiente.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pmm_is2.apps.adm.views.fase_create">
+<tt class="descclassname">pmm_is2.apps.adm.views.</tt><tt class="descname">fase_create</tt><big>(</big><em>request</em>, <em>pk</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/adm/views.html#fase_create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.adm.views.fase_create" title="Permalink to this definition">¶</a></dt>
+<dd><p>Funcion para crear una Fase.
+Retorna la pagina con el formulario correspondiente para la creacion
+de la Fase.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>request</strong> (<em>HttpRequest.</em>) &#8211; Parametro a ser procesado.</li>
+<li><strong>pk</strong> &#8211; Parametro a ser procesado el identificador del proyecto donde se agregara la fase.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">La pagina correspondiente.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">El response correspondiente.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pmm_is2.apps.adm.views.project_list">
+<tt class="descclassname">pmm_is2.apps.adm.views.</tt><tt class="descname">project_list</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/adm/views.html#project_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.adm.views.project_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Funcion para Listar Proyectos.
+Retorna la pagina correspondiente con la lista de Proyectos</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>request</strong> (<em>HttpRequest.</em>) &#8211; Parametro a ser procesado.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">La pagina correspondiente.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">El response correspondiente.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pmm_is2.apps.adm.views.comite_create">
+<tt class="descclassname">pmm_is2.apps.adm.views.</tt><tt class="descname">comite_create</tt><big>(</big><em>request</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/adm/views.html#comite_create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.adm.views.comite_create" title="Permalink to this definition">¶</a></dt>
+<dd><p>Funcion para Crear Comite.
+Retorna la pagina correspondiente con el formulario para la creacion del Comite</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>request</strong> (<em>HttpRequest.</em>) &#8211; Parametro a ser procesado.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">La pagina correspondiente.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">El response correspondiente.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<tt class="descclassname">pmm_is2.apps.adm.views.</tt><tt class="descname">comite_create</tt><big>(</big><em>request</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/adm/views.html#comite_create"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Funcion para Crear Comite.
+Retorna la pagina correspondiente con el formulario para la creacion del Comite</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>request</strong> (<em>HttpRequest.</em>) &#8211; Parametro a ser procesado.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">La pagina correspondiente.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">El response correspondiente.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pmm_is2.apps.adm.views.import_project">
+<tt class="descclassname">pmm_is2.apps.adm.views.</tt><tt class="descname">import_project</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/adm/views.html#import_project"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.adm.views.import_project" title="Permalink to this definition">¶</a></dt>
+<dd><p>Funcion para Importar Proyecto.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>request</strong> (<em>HttpRequest.</em>) &#8211; Parametro a ser procesado.</li>
+<li><strong>pk</strong> &#8211; Parametro a ser procesado. Identificador del Proyecto</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">La pagina correspondiente.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">El response correspondiente.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </div>
 <div class="section" id="module-pmm_is2.apps.adm.models">
 <span id="adm-models-module"></span><h2>adm.models module<a class="headerlink" href="#module-pmm_is2.apps.adm.models" title="Permalink to this headline">¶</a></h2>
@@ -148,7 +411,7 @@ del proyecto.</p>
 
 <dl class="attribute">
 <dt id="pmm_is2.apps.adm.models.Comite.objects">
-<tt class="descclassname">Comite.</tt><tt class="descname">objects</tt><em class="property"> = &lt;django.db.models.manager.Manager object at 0x9a6784c&gt;</em><a class="headerlink" href="#pmm_is2.apps.adm.models.Comite.objects" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">Comite.</tt><tt class="descname">objects</tt><em class="property"> = &lt;django.db.models.manager.Manager object at 0xa4c4a4c&gt;</em><a class="headerlink" href="#pmm_is2.apps.adm.models.Comite.objects" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -197,7 +460,7 @@ del proyecto.</p>
 
 <dl class="attribute">
 <dt id="pmm_is2.apps.adm.models.Fase.objects">
-<tt class="descclassname">Fase.</tt><tt class="descname">objects</tt><em class="property"> = &lt;django.db.models.manager.Manager object at 0x9a6746c&gt;</em><a class="headerlink" href="#pmm_is2.apps.adm.models.Fase.objects" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">Fase.</tt><tt class="descname">objects</tt><em class="property"> = &lt;django.db.models.manager.Manager object at 0xa4c466c&gt;</em><a class="headerlink" href="#pmm_is2.apps.adm.models.Fase.objects" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -276,7 +539,7 @@ del proyecto.</p>
 
 <dl class="attribute">
 <dt id="pmm_is2.apps.adm.models.Proyecto.objects">
-<tt class="descclassname">Proyecto.</tt><tt class="descname">objects</tt><em class="property"> = &lt;django.db.models.manager.Manager object at 0x9a5dcac&gt;</em><a class="headerlink" href="#pmm_is2.apps.adm.models.Proyecto.objects" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">Proyecto.</tt><tt class="descname">objects</tt><em class="property"> = &lt;django.db.models.manager.Manager object at 0xa4bbeac&gt;</em><a class="headerlink" href="#pmm_is2.apps.adm.models.Proyecto.objects" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -310,7 +573,7 @@ del proyecto.</p>
 
 <dl class="attribute">
 <dt id="pmm_is2.apps.adm.models.UserProfile.objects">
-<tt class="descclassname">UserProfile.</tt><tt class="descname">objects</tt><em class="property"> = &lt;django.db.models.manager.Manager object at 0x9a5d38c&gt;</em><a class="headerlink" href="#pmm_is2.apps.adm.models.UserProfile.objects" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">UserProfile.</tt><tt class="descname">objects</tt><em class="property"> = &lt;django.db.models.manager.Manager object at 0xa4bb58c&gt;</em><a class="headerlink" href="#pmm_is2.apps.adm.models.UserProfile.objects" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -339,7 +602,7 @@ del proyecto.</p>
 
 <dl class="attribute">
 <dt id="pmm_is2.apps.adm.models.UsuarioProyecto.objects">
-<tt class="descclassname">UsuarioProyecto.</tt><tt class="descname">objects</tt><em class="property"> = &lt;django.db.models.manager.Manager object at 0x9a6338c&gt;</em><a class="headerlink" href="#pmm_is2.apps.adm.models.UsuarioProyecto.objects" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">UsuarioProyecto.</tt><tt class="descname">objects</tt><em class="property"> = &lt;django.db.models.manager.Manager object at 0xa4c158c&gt;</em><a class="headerlink" href="#pmm_is2.apps.adm.models.UsuarioProyecto.objects" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">

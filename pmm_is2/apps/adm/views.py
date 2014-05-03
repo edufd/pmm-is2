@@ -190,6 +190,14 @@ def get_group_list():
 
 @login_required
 def group_list(request):
+    """Funcion para Listar un Grupos.
+    Retorna la pagina correspondiente con la lista de grupos
+
+    :param request: Parametro a ser procesado.
+    :type request: HttpRequest.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
 
     context = RequestContext(request)
     group_list = get_group_list()
@@ -277,6 +285,17 @@ def project_update(request, pk):
 @user_passes_test(not_in_admin_group, login_url='/login/')
 @login_required
 def phase_update(request, pk):
+    """Funcion para Modificar una Fase.
+    Retorna la pagina con el formulario correspondiente para la modificacion
+    del proyecto.
+
+    :param request: Parametro a ser procesado.
+    :param pk: Parametro a ser procesado el identificador de la fase que va a modificarse.
+    :type request: HttpRequest.
+    :type pk: int.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
     registered = False
     context = RequestContext(request)
     fase = get_object_or_404(Fase, pk=pk)
@@ -629,7 +648,14 @@ def get_project_list():
 
 @login_required
 def project_list(request):
+    """Funcion para Listar Proyectos.
+    Retorna la pagina correspondiente con la lista de Proyectos
 
+    :param request: Parametro a ser procesado.
+    :type request: HttpRequest.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
     context = RequestContext(request)
     project_list = get_project_list()
     context_dict = {}
@@ -667,6 +693,14 @@ def phases_list(request, pk):
 
 #probando1
 def comite_create(request):
+    """Funcion para Crear Comite.
+    Retorna la pagina correspondiente con el formulario para la creacion del Comite
+
+    :param request: Parametro a ser procesado.
+    :type request: HttpRequest.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
     context = RequestContext(request)
     registered = False
     if request.method == 'POST':
@@ -723,6 +757,14 @@ def get_comite_list():
 @user_passes_test(not_in_admin_group, login_url='/login/')
 @login_required
 def import_project(request, pk):
+    """Funcion para Importar Proyecto.
+
+    :param request: Parametro a ser procesado.
+    :param pk: Parametro a ser procesado. Identificador del Proyecto
+    :type request: HttpRequest.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
     registered = False
     context = RequestContext(request)
     proyecto = get_object_or_404(Proyecto, pk=pk)

@@ -57,8 +57,6 @@
 
 
 <span class="k">def</span> <span class="nf">not_in_admin_group</span><span class="p">(</span><span class="n">user</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Use with a ``user_passes_test`` decorator to restrict access to</span>
-<span class="sd">    authenticated users who are not in the &quot;Administrador&quot; group.&quot;&quot;&quot;</span>
     <span class="n">valido</span> <span class="o">=</span> <span class="bp">False</span>
     <span class="k">if</span> <span class="n">user</span><span class="p">:</span>
         <span class="n">combined_queryset</span> <span class="o">=</span> <span class="n">user</span><span class="o">.</span><span class="n">groups</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;Administrador&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="o">|</span> \
@@ -118,7 +116,16 @@
 
 <span class="nd">@login_required</span>
 <span class="nd">@user_passes_test</span><span class="p">(</span><span class="n">not_in_admin_group</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">group_create</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+<div class="viewcode-block" id="group_create"><a class="viewcode-back" href="../../../../adm.html#pmm_is2.apps.adm.views.group_create">[docs]</a><span class="k">def</span> <span class="nf">group_create</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Funcion para crear un Grupo.</span>
+<span class="sd">    Retorna la pagina con el formulario correspondiente para la creacion</span>
+<span class="sd">    del Grupo.</span>
+
+<span class="sd">    :param request: Parametro a ser procesado.</span>
+<span class="sd">    :type request: HttpRequest.</span>
+<span class="sd">    :returns: La pagina correspondiente.</span>
+<span class="sd">    :rtype: El response correspondiente.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">context</span> <span class="o">=</span> <span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
     <span class="n">registered</span> <span class="o">=</span> <span class="bp">False</span>
     <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s">&#39;POST&#39;</span><span class="p">:</span>
@@ -135,12 +142,12 @@
 
     <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;adm/group_create.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;group_form&#39;</span><span class="p">:</span> <span class="n">group_form</span><span class="p">,</span> <span class="s">&#39;registered&#39;</span><span class="p">:</span> <span class="n">registered</span><span class="p">},</span> <span class="n">context</span><span class="p">)</span>
 
-
+</div>
 <span class="nd">@login_required</span>
 <span class="nd">@user_passes_test</span><span class="p">(</span><span class="n">not_in_admin_group</span><span class="p">)</span>
 <div class="viewcode-block" id="project_create"><a class="viewcode-back" href="../../../../adm.html#pmm_is2.apps.adm.views.project_create">[docs]</a><span class="k">def</span> <span class="nf">project_create</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
 
-    <span class="sd">&quot;&quot;&quot;Funcion para crear un Proyecto.</span>
+    <span class="sd">&quot;&quot;&quot;Funcion para Crear un Proyecto.</span>
 <span class="sd">        Retorna la pagina con el formulario correspondiente para la creacion</span>
 <span class="sd">        del proyecto.</span>
 
@@ -206,7 +213,15 @@
     <span class="k">return</span> <span class="n">url</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;_&#39;</span><span class="p">,</span> <span class="s">&#39; &#39;</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">get_user_list</span><span class="p">(</span><span class="n">user_id</span><span class="p">):</span>
+<div class="viewcode-block" id="get_user_list"><a class="viewcode-back" href="../../../../adm.html#pmm_is2.apps.adm.views.get_user_list">[docs]</a><span class="k">def</span> <span class="nf">get_user_list</span><span class="p">(</span><span class="n">user_id</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Funcion para Listar un Usuarios.</span>
+<span class="sd">        Retorna la pagina correspondiente con la lista de usuarios</span>
+
+<span class="sd">        :param pk: Parametro a ser procesado. Identificador del usuario</span>
+<span class="sd">        :type request: HttpRequest.</span>
+<span class="sd">        :returns: La pagina correspondiente.</span>
+<span class="sd">        :rtype: El response correspondiente.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
     <span class="c">#user_list = User.objects.exclude(id=user_id).order_by(&#39;id&#39;)</span>
     <span class="c">#join quilombo trae todos los elementos de las dos relaciones</span>
@@ -215,7 +230,7 @@
 
     <span class="k">return</span> <span class="n">user_list</span>
 
-
+</div>
 <span class="k">def</span> <span class="nf">get_group_list</span><span class="p">():</span>
 
     <span class="n">group_list</span> <span class="o">=</span> <span class="n">Group</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
@@ -223,7 +238,15 @@
 
 
 <span class="nd">@login_required</span>
-<span class="k">def</span> <span class="nf">group_list</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+<div class="viewcode-block" id="group_list"><a class="viewcode-back" href="../../../../adm.html#pmm_is2.apps.adm.views.group_list">[docs]</a><span class="k">def</span> <span class="nf">group_list</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Funcion para Listar un Grupos.</span>
+<span class="sd">    Retorna la pagina correspondiente con la lista de grupos</span>
+
+<span class="sd">    :param request: Parametro a ser procesado.</span>
+<span class="sd">    :type request: HttpRequest.</span>
+<span class="sd">    :returns: La pagina correspondiente.</span>
+<span class="sd">    :rtype: El response correspondiente.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">context</span> <span class="o">=</span> <span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
     <span class="n">group_list</span> <span class="o">=</span> <span class="n">get_group_list</span><span class="p">()</span>
@@ -232,7 +255,7 @@
 
     <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;adm/group_list.html&#39;</span><span class="p">,</span> <span class="n">context_dict</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
 
-
+</div>
 <span class="nd">@login_required</span>
 <span class="k">def</span> <span class="nf">user_list</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
 
@@ -310,7 +333,18 @@
 </div>
 <span class="nd">@user_passes_test</span><span class="p">(</span><span class="n">not_in_admin_group</span><span class="p">,</span> <span class="n">login_url</span><span class="o">=</span><span class="s">&#39;/login/&#39;</span><span class="p">)</span>
 <span class="nd">@login_required</span>
-<span class="k">def</span> <span class="nf">phase_update</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
+<div class="viewcode-block" id="phase_update"><a class="viewcode-back" href="../../../../adm.html#pmm_is2.apps.adm.views.phase_update">[docs]</a><span class="k">def</span> <span class="nf">phase_update</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Funcion para Modificar una Fase.</span>
+<span class="sd">    Retorna la pagina con el formulario correspondiente para la modificacion</span>
+<span class="sd">    del proyecto.</span>
+
+<span class="sd">    :param request: Parametro a ser procesado.</span>
+<span class="sd">    :param pk: Parametro a ser procesado el identificador de la fase que va a modificarse.</span>
+<span class="sd">    :type request: HttpRequest.</span>
+<span class="sd">    :type pk: int.</span>
+<span class="sd">    :returns: La pagina correspondiente.</span>
+<span class="sd">    :rtype: El response correspondiente.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">registered</span> <span class="o">=</span> <span class="bp">False</span>
     <span class="n">context</span> <span class="o">=</span> <span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
     <span class="n">fase</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Fase</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
@@ -326,10 +360,19 @@
                               <span class="p">{</span><span class="s">&#39;phase_form&#39;</span><span class="p">:</span> <span class="n">phase_form</span><span class="p">,</span> <span class="s">&#39;id_proyecto&#39;</span><span class="p">:</span> <span class="n">id_proyecto</span><span class="p">,</span> <span class="s">&#39;id_fase&#39;</span><span class="p">:</span> <span class="n">id_fase</span><span class="p">,</span>
                                <span class="s">&#39;registered&#39;</span><span class="p">:</span> <span class="n">registered</span><span class="p">},</span> <span class="n">context</span><span class="p">)</span>
 
-
+</div>
 <span class="nd">@user_passes_test</span><span class="p">(</span><span class="n">not_in_admin_group</span><span class="p">,</span> <span class="n">login_url</span><span class="o">=</span><span class="s">&#39;/login/&#39;</span><span class="p">)</span>
 <span class="nd">@login_required</span>
-<span class="k">def</span> <span class="nf">user_delete</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
+<div class="viewcode-block" id="user_delete"><a class="viewcode-back" href="../../../../adm.html#pmm_is2.apps.adm.views.user_delete">[docs]</a><span class="k">def</span> <span class="nf">user_delete</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Funcion para Eliminar un User.</span>
+
+<span class="sd">    :param request: Parametro a ser procesado.</span>
+<span class="sd">    :param pk: Parametro a ser procesado el identificador del user que va a eliminarse.</span>
+<span class="sd">    :type request: HttpRequest.</span>
+<span class="sd">    :type pk: int.</span>
+<span class="sd">    :returns: La pagina correspondiente.</span>
+<span class="sd">    :rtype: El response correspondiente.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">context</span> <span class="o">=</span> <span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
     <span class="n">user</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">User</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s">&#39;POST&#39;</span><span class="p">:</span>
@@ -339,10 +382,19 @@
 
     <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;adm/user_confirm_delete.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;object&#39;</span><span class="p">:</span><span class="n">user</span><span class="p">},</span> <span class="n">context</span><span class="p">)</span>
 
-
+</div>
 <span class="nd">@user_passes_test</span><span class="p">(</span><span class="n">not_in_admin_group</span><span class="p">,</span> <span class="n">login_url</span><span class="o">=</span><span class="s">&#39;/login/&#39;</span><span class="p">)</span>
 <span class="nd">@login_required</span>
-<span class="k">def</span> <span class="nf">group_delete</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
+<div class="viewcode-block" id="group_delete"><a class="viewcode-back" href="../../../../adm.html#pmm_is2.apps.adm.views.group_delete">[docs]</a><span class="k">def</span> <span class="nf">group_delete</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Funcion para Eliminar un Grupo.</span>
+
+<span class="sd">    :param request: Parametro a ser procesado.</span>
+<span class="sd">    :param pk: Parametro a ser procesado el identificador del grupo que va a eliminarse.</span>
+<span class="sd">    :type request: HttpRequest.</span>
+<span class="sd">    :type pk: int.</span>
+<span class="sd">    :returns: La pagina correspondiente.</span>
+<span class="sd">    :rtype: El response correspondiente.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">context</span> <span class="o">=</span> <span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
     <span class="n">group</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Group</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s">&#39;POST&#39;</span><span class="p">:</span>
@@ -351,10 +403,19 @@
 
     <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;adm/group_confirm_delete.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;object&#39;</span><span class="p">:</span><span class="n">group</span><span class="p">},</span> <span class="n">context</span><span class="p">)</span>
 
-
+</div>
 <span class="nd">@user_passes_test</span><span class="p">(</span><span class="n">not_in_admin_group</span><span class="p">,</span> <span class="n">login_url</span><span class="o">=</span><span class="s">&#39;/login/&#39;</span><span class="p">)</span>
 <span class="nd">@login_required</span>
-<span class="k">def</span> <span class="nf">phase_delete</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
+<div class="viewcode-block" id="phase_delete"><a class="viewcode-back" href="../../../../adm.html#pmm_is2.apps.adm.views.phase_delete">[docs]</a><span class="k">def</span> <span class="nf">phase_delete</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Funcion para Eliminar una fase.</span>
+
+<span class="sd">    :param request: Parametro a ser procesado.</span>
+<span class="sd">    :param pk: Parametro a ser procesado el identificador de la fase que va a eliminarse.</span>
+<span class="sd">    :type request: HttpRequest.</span>
+<span class="sd">    :type pk: int.</span>
+<span class="sd">    :returns: La pagina correspondiente.</span>
+<span class="sd">    :rtype: El response correspondiente.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">registered</span> <span class="o">=</span> <span class="bp">False</span>
     <span class="n">context</span> <span class="o">=</span> <span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
     <span class="n">phase</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Fase</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
@@ -369,7 +430,7 @@
                               <span class="p">{</span><span class="s">&#39;object&#39;</span><span class="p">:</span> <span class="n">phase</span><span class="p">,</span> <span class="s">&#39;id_proyecto&#39;</span><span class="p">:</span> <span class="n">id_proyecto</span><span class="p">,</span>
                                <span class="s">&#39;registered&#39;</span><span class="p">:</span> <span class="n">registered</span><span class="p">},</span> <span class="n">context</span><span class="p">)</span>
 
-
+</div>
 <span class="nd">@user_passes_test</span><span class="p">(</span><span class="n">not_in_admin_group</span><span class="p">,</span> <span class="n">login_url</span><span class="o">=</span><span class="s">&#39;/login/&#39;</span><span class="p">)</span>
 <span class="nd">@login_required</span>
 <div class="viewcode-block" id="project_delete"><a class="viewcode-back" href="../../../../adm.html#pmm_is2.apps.adm.views.project_delete">[docs]</a><span class="k">def</span> <span class="nf">project_delete</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
@@ -595,7 +656,17 @@
 
 
 <span class="c">#probando</span>
-<span class="k">def</span> <span class="nf">fase_create</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
+<div class="viewcode-block" id="fase_create"><a class="viewcode-back" href="../../../../adm.html#pmm_is2.apps.adm.views.fase_create">[docs]</a><span class="k">def</span> <span class="nf">fase_create</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Funcion para crear una Fase.</span>
+<span class="sd">    Retorna la pagina con el formulario correspondiente para la creacion</span>
+<span class="sd">    de la Fase.</span>
+
+<span class="sd">    :param request: Parametro a ser procesado.</span>
+<span class="sd">    :param pk: Parametro a ser procesado el identificador del proyecto donde se agregara la fase.</span>
+<span class="sd">    :type request: HttpRequest.</span>
+<span class="sd">    :returns: La pagina correspondiente.</span>
+<span class="sd">    :rtype: El response correspondiente.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">context</span> <span class="o">=</span> <span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
     <span class="n">registered</span> <span class="o">=</span> <span class="bp">False</span>
     <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s">&#39;POST&#39;</span><span class="p">:</span>
@@ -618,15 +689,22 @@
     <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;adm/fase_create.html&#39;</span><span class="p">,</span>
                               <span class="p">{</span><span class="s">&#39;fase_form&#39;</span><span class="p">:</span> <span class="n">fase_form</span><span class="p">,</span> <span class="s">&#39;id_proyecto&#39;</span><span class="p">:</span> <span class="n">id_proyecto</span><span class="p">,</span> <span class="s">&#39;registered&#39;</span><span class="p">:</span> <span class="n">registered</span><span class="p">},</span> <span class="n">context</span><span class="p">)</span>
 
-
+</div>
 <span class="k">def</span> <span class="nf">get_project_list</span><span class="p">():</span>
     <span class="n">project_list</span> <span class="o">=</span> <span class="n">Proyecto</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">project_list</span>
 
 
 <span class="nd">@login_required</span>
-<span class="k">def</span> <span class="nf">project_list</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+<div class="viewcode-block" id="project_list"><a class="viewcode-back" href="../../../../adm.html#pmm_is2.apps.adm.views.project_list">[docs]</a><span class="k">def</span> <span class="nf">project_list</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Funcion para Listar Proyectos.</span>
+<span class="sd">    Retorna la pagina correspondiente con la lista de Proyectos</span>
 
+<span class="sd">    :param request: Parametro a ser procesado.</span>
+<span class="sd">    :type request: HttpRequest.</span>
+<span class="sd">    :returns: La pagina correspondiente.</span>
+<span class="sd">    :rtype: El response correspondiente.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">context</span> <span class="o">=</span> <span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
     <span class="n">project_list</span> <span class="o">=</span> <span class="n">get_project_list</span><span class="p">()</span>
     <span class="n">context_dict</span> <span class="o">=</span> <span class="p">{}</span>
@@ -634,7 +712,7 @@
 
     <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;adm/project_list.html&#39;</span><span class="p">,</span> <span class="n">context_dict</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
 
-
+</div>
 <span class="nd">@login_required</span>
 <span class="k">def</span> <span class="nf">project_import_list</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
 
@@ -663,7 +741,15 @@
 
 
 <span class="c">#probando1</span>
-<span class="k">def</span> <span class="nf">comite_create</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+<div class="viewcode-block" id="comite_create"><a class="viewcode-back" href="../../../../adm.html#pmm_is2.apps.adm.views.comite_create">[docs]</a><span class="k">def</span> <span class="nf">comite_create</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Funcion para Crear Comite.</span>
+<span class="sd">    Retorna la pagina correspondiente con el formulario para la creacion del Comite</span>
+
+<span class="sd">    :param request: Parametro a ser procesado.</span>
+<span class="sd">    :type request: HttpRequest.</span>
+<span class="sd">    :returns: La pagina correspondiente.</span>
+<span class="sd">    :rtype: El response correspondiente.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">context</span> <span class="o">=</span> <span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
     <span class="n">registered</span> <span class="o">=</span> <span class="bp">False</span>
     <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s">&#39;POST&#39;</span><span class="p">:</span>
@@ -685,7 +771,7 @@
 
     <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;adm/comite_create.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;comite_form&#39;</span><span class="p">:</span> <span class="n">comite_form</span><span class="p">,</span> <span class="s">&#39;registered&#39;</span><span class="p">:</span> <span class="n">registered</span><span class="p">},</span> <span class="n">context</span><span class="p">)</span>
 
-
+</div>
 <span class="k">def</span> <span class="nf">comite_list</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
 
     <span class="n">context</span> <span class="o">=</span> <span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
@@ -719,7 +805,15 @@
 
 <span class="nd">@user_passes_test</span><span class="p">(</span><span class="n">not_in_admin_group</span><span class="p">,</span> <span class="n">login_url</span><span class="o">=</span><span class="s">&#39;/login/&#39;</span><span class="p">)</span>
 <span class="nd">@login_required</span>
-<span class="k">def</span> <span class="nf">import_project</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
+<div class="viewcode-block" id="import_project"><a class="viewcode-back" href="../../../../adm.html#pmm_is2.apps.adm.views.import_project">[docs]</a><span class="k">def</span> <span class="nf">import_project</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Funcion para Importar Proyecto.</span>
+
+<span class="sd">    :param request: Parametro a ser procesado.</span>
+<span class="sd">    :param pk: Parametro a ser procesado. Identificador del Proyecto</span>
+<span class="sd">    :type request: HttpRequest.</span>
+<span class="sd">    :returns: La pagina correspondiente.</span>
+<span class="sd">    :rtype: El response correspondiente.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">registered</span> <span class="o">=</span> <span class="bp">False</span>
     <span class="n">context</span> <span class="o">=</span> <span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
     <span class="n">proyecto</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Proyecto</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
@@ -741,7 +835,7 @@
     <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;adm/import_project.html&#39;</span><span class="p">,</span>
                               <span class="p">{</span><span class="s">&#39;project_form&#39;</span><span class="p">:</span> <span class="n">project_form</span><span class="p">,</span> <span class="s">&#39;id_proyecto&#39;</span><span class="p">:</span> <span class="n">id_proyecto</span><span class="p">,</span>
                                <span class="s">&#39;phases_list&#39;</span><span class="p">:</span> <span class="n">phases_list</span><span class="p">,</span>
-                               <span class="s">&#39;registered&#39;</span><span class="p">:</span> <span class="n">registered</span><span class="p">},</span> <span class="n">context</span><span class="p">)</span>
+                               <span class="s">&#39;registered&#39;</span><span class="p">:</span> <span class="n">registered</span><span class="p">},</span> <span class="n">context</span><span class="p">)</span></div>
 </pre></div>
 
           </div>

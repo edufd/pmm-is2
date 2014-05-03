@@ -62,7 +62,9 @@ def permisos(request):
 @login_required
 def proyectos(request):
     context = RequestContext(request)
-    return render_to_response('adm/proyectos.html', context)
+    project_list = get_project_list()
+    context_dict = {'project_list': project_list}
+    return render_to_response('adm/proyectos.html', context_dict, context)
 
 
 @login_required
@@ -787,3 +789,14 @@ def import_project(request, pk):
                               {'project_form': project_form, 'id_proyecto': id_proyecto,
                                'phases_list': phases_list,
                                'registered': registered}, context)
+
+
+@user_passes_test(not_in_admin_group, login_url='/login/')
+@login_required
+def project_profile(request, pk):
+
+    context = RequestContext(request)
+    project = get_object_or_404(Proyecto, pk=pk)
+    context_dict = {'project': project}
+
+    return render_to_response('adm/project_profile.html', context_dict, context)

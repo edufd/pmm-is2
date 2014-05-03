@@ -1,0 +1,17 @@
+{% extends 'pmm_is2/base_logged.html' %}
+{% load static %}
+{% block link %}<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">{% endblock %}
+{% block title %}PMM{% endblock %}
+{% block content %}
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main form_class">
+        <h1 class="page-header">Perfil Proyecto</h1>
+        <h2>Nombre: {{ project.nombre_proyecto }}</h2>
+        <br/>
+        <h4><strong>Descripcion:</strong> {{ project.descripcion }}</h4>
+        <h4><strong>Presupuesto:</strong> {{ project.presupuesto }}</h4>
+        <h4><strong>Estado:</strong> {{ project.estado_proyecto }}</h4>
+        <h4><strong>Fecha Inicio:</strong> {{ project.fecha_inicio }}</h4>
+        <h4><strong>Fecha Fin:</strong> {{ project.fecha_fin }}</h4>
+        <h4><strong>Lider de Proyecto:</strong> {{ project.lider_proyecto }}</h4>
+    </div>
+{% endblock %}

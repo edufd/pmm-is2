@@ -5,21 +5,28 @@
 {% block title %}PMM{% endblock %}
 {% block content %}
 
-    {% comment %}<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-        <h1 class="page-header">Modulo de Administracion</h1>
-    </div>{% endcomment %}
     </br>
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-        <h2 class="page-header">Roles</h2>
+        <h2 class="page-header">Proyectos</h2>
     </div>
     <table class="table table-bordered tabla_usuarios">
         <thead>
             <tr>
-                <th class="col-sm-1">Permiso</th>
+                <th class="col-sm-1">Nombre</th>
                 <th class="col-sm-1">Descripcion</th>
+                <th class="col-sm-1">Presupuesto</th>
+                <th class="col-sm-1">Fecha Inicio</th>
             </tr>
         </thead>
         <tbody>
+            {% for proyecto in project_list %}
+                 <tr>
+                    <td><a href="/adm/project_update/{{ proyecto.id_proyecto }}">{{ proyecto.nombre_proyecto }}</a></td>
+                    <td>{{ proyecto.descripcion }}</td>
+                    <td>{{ proyecto.presupuesto }}</td>
+                    <td>{{ proyecto.fecha_inicio }}</td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
 {% endblock %}

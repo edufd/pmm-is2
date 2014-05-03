@@ -622,6 +622,7 @@ def fase_create(request, pk):
     """
     context = RequestContext(request)
     registered = False
+    id_proyecto = pk
     if request.method == 'POST':
         fase_form = FaseForm(data=request.POST)
         proyecto = get_object_or_404(Proyecto, pk=pk)
@@ -637,7 +638,6 @@ def fase_create(request, pk):
 
     else:
         fase_form = FaseForm()
-        id_proyecto = pk
 
     return render_to_response('adm/fase_create.html',
                               {'fase_form': fase_form, 'id_proyecto': id_proyecto, 'registered': registered}, context)

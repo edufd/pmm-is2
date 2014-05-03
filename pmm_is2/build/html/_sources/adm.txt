@@ -26,10 +26,12 @@ adm.views module
 adm.models module
 -----------------
 
-.. automodule:: pmm_is2.apps.adm.models
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. autoclass:: pmm_is2.apps.adm.models.UserProfile
+.. autoclass:: pmm_is2.apps.adm.models.Proyecto
+.. autoclass:: pmm_is2.apps.adm.models.UsuarioProyecto
+.. autoclass:: pmm_is2.apps.adm.models.Fase
+.. autoclass:: pmm_is2.apps.adm.models.Comite
+
 
 
 

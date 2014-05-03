@@ -2,6 +2,12 @@ adm package
 ===========
 .. toctree::
 
+adm.views module
+-----------------
+.. autofunction:: pmm_is2.apps.adm.views.project_create
+.. autofunction:: pmm_is2.apps.adm.views.project_delete
+.. autofunction:: pmm_is2.apps.adm.views.project_update
+
 adm.models module
 -----------------
 
@@ -10,11 +16,8 @@ adm.models module
     :undoc-members:
     :show-inheritance:
 
-adm.views module
------------------
 
-.. autofunction:: pmm_is2.apps.adm.views.project_create
-    
+
 
 
 

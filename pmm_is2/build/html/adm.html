@@ -54,6 +54,79 @@
 <ul class="simple">
 </ul>
 </div>
+<div class="section" id="adm-views-module">
+<h2>adm.views module<a class="headerlink" href="#adm-views-module" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="pmm_is2.apps.adm.views.project_create">
+<tt class="descclassname">pmm_is2.apps.adm.views.</tt><tt class="descname">project_create</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/adm/views.html#project_create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.adm.views.project_create" title="Permalink to this definition">¶</a></dt>
+<dd><p>Funcion para crear un Proyecto.
+Retorna la pagina con el formulario correspondiente para la creacion
+del proyecto.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>request</strong> (<em>HttpRequest.</em>) &#8211; Parametro a ser procesado.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">La pagina correspondiente.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">El response correspondiente.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pmm_is2.apps.adm.views.project_delete">
+<tt class="descclassname">pmm_is2.apps.adm.views.</tt><tt class="descname">project_delete</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/adm/views.html#project_delete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.adm.views.project_delete" title="Permalink to this definition">¶</a></dt>
+<dd><p>Funcion para Eliminar un Proyecto.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>request</strong> (<em>HttpRequest.</em>) &#8211; Parametro a ser procesado.</li>
+<li><strong>pk</strong> (<em>int.</em>) &#8211; Parametro a ser procesado el identificador del proyecto que va a eliminarse.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">La pagina correspondiente.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">El response correspondiente.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pmm_is2.apps.adm.views.project_update">
+<tt class="descclassname">pmm_is2.apps.adm.views.</tt><tt class="descname">project_update</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/adm/views.html#project_update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.adm.views.project_update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Funcion para Modificar un Proyecto.
+Retorna la pagina con el formulario correspondiente para la modificacion
+del proyecto.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>request</strong> (<em>HttpRequest.</em>) &#8211; Parametro a ser procesado.</li>
+<li><strong>pk</strong> (<em>int.</em>) &#8211; Parametro a ser procesado el identificador del proyecto que va a modificarse.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">La pagina correspondiente.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">El response correspondiente.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
 <div class="section" id="module-pmm_is2.apps.adm.models">
 <span id="adm-models-module"></span><h2>adm.models module<a class="headerlink" href="#module-pmm_is2.apps.adm.models" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
@@ -75,7 +148,7 @@
 
 <dl class="attribute">
 <dt id="pmm_is2.apps.adm.models.Comite.objects">
-<tt class="descclassname">Comite.</tt><tt class="descname">objects</tt><em class="property"> = &lt;django.db.models.manager.Manager object at 0xa16a72c&gt;</em><a class="headerlink" href="#pmm_is2.apps.adm.models.Comite.objects" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">Comite.</tt><tt class="descname">objects</tt><em class="property"> = &lt;django.db.models.manager.Manager object at 0x9a6784c&gt;</em><a class="headerlink" href="#pmm_is2.apps.adm.models.Comite.objects" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -124,7 +197,7 @@
 
 <dl class="attribute">
 <dt id="pmm_is2.apps.adm.models.Fase.objects">
-<tt class="descclassname">Fase.</tt><tt class="descname">objects</tt><em class="property"> = &lt;django.db.models.manager.Manager object at 0xa16a34c&gt;</em><a class="headerlink" href="#pmm_is2.apps.adm.models.Fase.objects" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">Fase.</tt><tt class="descname">objects</tt><em class="property"> = &lt;django.db.models.manager.Manager object at 0x9a6746c&gt;</em><a class="headerlink" href="#pmm_is2.apps.adm.models.Fase.objects" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -203,7 +276,7 @@
 
 <dl class="attribute">
 <dt id="pmm_is2.apps.adm.models.Proyecto.objects">
-<tt class="descclassname">Proyecto.</tt><tt class="descname">objects</tt><em class="property"> = &lt;django.db.models.manager.Manager object at 0xa0feb8c&gt;</em><a class="headerlink" href="#pmm_is2.apps.adm.models.Proyecto.objects" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">Proyecto.</tt><tt class="descname">objects</tt><em class="property"> = &lt;django.db.models.manager.Manager object at 0x9a5dcac&gt;</em><a class="headerlink" href="#pmm_is2.apps.adm.models.Proyecto.objects" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -237,7 +310,7 @@
 
 <dl class="attribute">
 <dt id="pmm_is2.apps.adm.models.UserProfile.objects">
-<tt class="descclassname">UserProfile.</tt><tt class="descname">objects</tt><em class="property"> = &lt;django.db.models.manager.Manager object at 0xa0fe26c&gt;</em><a class="headerlink" href="#pmm_is2.apps.adm.models.UserProfile.objects" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">UserProfile.</tt><tt class="descname">objects</tt><em class="property"> = &lt;django.db.models.manager.Manager object at 0x9a5d38c&gt;</em><a class="headerlink" href="#pmm_is2.apps.adm.models.UserProfile.objects" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -266,7 +339,7 @@
 
 <dl class="attribute">
 <dt id="pmm_is2.apps.adm.models.UsuarioProyecto.objects">
-<tt class="descclassname">UsuarioProyecto.</tt><tt class="descname">objects</tt><em class="property"> = &lt;django.db.models.manager.Manager object at 0xa16626c&gt;</em><a class="headerlink" href="#pmm_is2.apps.adm.models.UsuarioProyecto.objects" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">UsuarioProyecto.</tt><tt class="descname">objects</tt><em class="property"> = &lt;django.db.models.manager.Manager object at 0x9a6338c&gt;</em><a class="headerlink" href="#pmm_is2.apps.adm.models.UsuarioProyecto.objects" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -292,21 +365,6 @@
 <dd></dd></dl>
 
 </div>
-<div class="section" id="adm-views-module">
-<h2>adm.views module<a class="headerlink" href="#adm-views-module" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="pmm_is2.apps.adm.views.project_create">
-<tt class="descclassname">pmm_is2.apps.adm.views.</tt><tt class="descname">project_create</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/adm/views.html#project_create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.adm.views.project_create" title="Permalink to this definition">¶</a></dt>
-<dd><p>Funcion para crear un proyecto.
-Retorna la pagina correspondiente para la creacion del proyecto junto con las variables necesarias
-para el correcto despligue de la misma y otras variables del context del request.
-:type request: HttpRequest
-:param request: el request correspondiente
-:rtype: HttpResponse
-:return: el response correspondiente</p>
-</dd></dl>
-
-</div>
 </div>
 
 
@@ -318,8 +376,8 @@ para el correcto despligue de la misma y otras variables del context del request
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">adm package</a><ul>
-<li><a class="reference internal" href="#module-pmm_is2.apps.adm.models">adm.models module</a></li>
 <li><a class="reference internal" href="#adm-views-module">adm.views module</a></li>
+<li><a class="reference internal" href="#module-pmm_is2.apps.adm.models">adm.models module</a></li>
 </ul>
 </li>
 </ul>

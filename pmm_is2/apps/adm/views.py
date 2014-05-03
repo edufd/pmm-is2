@@ -90,13 +90,18 @@ def group_create(request):
 @login_required
 @user_passes_test(not_in_admin_group)
 def project_create(request):
-    """Funcion para crear un proyecto.
-        Retorna la pagina correspondiente para la creacion del proyecto junto con las variables necesarias
-        para el correcto despligue de la misma y otras variables del context del request.
-        :type request: HttpRequest
-        :param request: el request correspondiente
-        :rtype: HttpResponse
-        :return: el response correspondiente"""
+
+    """Funcion para crear un Proyecto.
+        Retorna la pagina con el formulario correspondiente para la creacion
+        del proyecto.
+
+        :param request: Parametro a ser procesado.
+        :type request: HttpRequest.
+        :returns: La pagina correspondiente.
+        :rtype: El response correspondiente.
+        """
+
+
     context = RequestContext(request)
     registered = False
     if request.method == 'POST':
@@ -227,6 +232,19 @@ def group_update(request, pk):
 @user_passes_test(not_in_admin_group, login_url='/login/')
 @login_required
 def project_update(request, pk):
+
+    """Funcion para Modificar un Proyecto.
+    Retorna la pagina con el formulario correspondiente para la modificacion
+    del proyecto.
+
+    :param request: Parametro a ser procesado.
+    :param pk: Parametro a ser procesado el identificador del proyecto que va a modificarse.
+    :type request: HttpRequest.
+    :type pk: int.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
+
     registered = False
     context = RequestContext(request)
     proyecto = get_object_or_404(Proyecto, pk=pk)
@@ -306,6 +324,17 @@ def phase_delete(request, pk):
 @user_passes_test(not_in_admin_group, login_url='/login/')
 @login_required
 def project_delete(request, pk):
+
+    """Funcion para Eliminar un Proyecto.
+
+    :param request: Parametro a ser procesado.
+    :param pk: Parametro a ser procesado el identificador del proyecto que va a eliminarse.
+    :type request: HttpRequest.
+    :type pk: int.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
+
     context = RequestContext(request)
     proyecto = get_object_or_404(Proyecto, pk=pk)
     if request.method == 'POST':

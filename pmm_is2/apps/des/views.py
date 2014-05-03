@@ -13,6 +13,14 @@ def index(request):
 
 @login_required
 def crear_tipo_item(request):
+    """Funcion para Crear Tipo Item.
+    Retorna la pagina correspondiente con el formulario para la creacion del Tipo ITem
+
+    :param request: Parametro a ser procesado.
+    :type request: HttpRequest.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
     context = RequestContext(request)
     creado = False
     if request.method == 'POST':
@@ -42,6 +50,14 @@ def get_lista_tipo_item():
 
 @login_required
 def listar_tipo_item(request):
+    """Funcion para Listar tipo de Item.
+    Retorna la pagina correspondiente con la lista de tipos de item
+
+    :param request: Parametro a ser procesado.
+    :type request: HttpRequest.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
     context = RequestContext(request)
     lista_tipo_item = get_lista_tipo_item()
     context_dict = {}
@@ -51,6 +67,17 @@ def listar_tipo_item(request):
 
 @login_required
 def editar_tipo_item(request, pk):
+    """Funcion para Modificar un Tipo Item.
+    Retorna la pagina con el formulario correspondiente para la modificacion
+    del Tipo Item.
+
+    :param request: Parametro a ser procesado.
+    :param pk: Parametro a ser procesado el identificador del tipo de Item que va a modificarse.
+    :type request: HttpRequest.
+    :type pk: int.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
     context = RequestContext(request)
     tipo_item = get_object_or_404(TipoItem, pk=pk)
     tipo_item_form = TipoItemForm(request.POST or None, instance=tipo_item)
@@ -62,6 +89,15 @@ def editar_tipo_item(request, pk):
 
 @login_required
 def eliminar_tipo_item(request, pk):
+    """Funcion para Eliminar un Tipo Item.
+
+    :param request: Parametro a ser procesado.
+    :param pk: Parametro a ser procesado el identificador del tipo de Item que va a eliminarse.
+    :type request: HttpRequest.
+    :type pk: int.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
     context = RequestContext(request)
     tipo_item = get_object_or_404(TipoItem, pk=pk)
     if request.method == 'POST':

@@ -93,3 +93,23 @@ class AdminTest(LiveServerTestCase):
                 alert.dismiss()
             return alert_text
         finally: self.accept_next_alert = True
+
+    def test_crear_y_borrar_grupo(self):
+        self.browser.get(self.live_server_url)
+        self.browser.find_element_by_link_text("Iniciar Sesion").click()
+        self.browser.find_element_by_name("username").clear()
+        self.browser.find_element_by_name("username").send_keys("pmm")
+        self.browser.find_element_by_name("password").clear()
+        self.browser.find_element_by_name("password").send_keys("pmm2014")
+        self.browser.find_element_by_xpath("//button[@type='submit']").click()
+        self.assertTrue(self.is_element_present(By.LINK_TEXT, "Modulo de Administracion"))
+        self.browser.find_element_by_link_text("Modulo de Administracion").click()
+        self.assertTrue(self.is_element_present(By.LINK_TEXT, "Crear Grupos"))
+        self.browser.find_element_by_link_text("Crear Grupos").click()
+        self.browser.find_element_by_id("id_name").clear()
+        self.browser.find_element_by_id("id_name").send_keys("grupo de prueba")
+        self.browser.find_element_by_name("submit").click()
+        self.browser.find_element_by_link_text("Retornar a la pagina de inicio").click()
+        self.browser.find_element_by_link_text("Listar Grupos").click()
+        self.browser.find_element_by_xpath("(//a[contains(text(),'Eliminar')])[2]").click()
+        self.browser.find_element_by_xpath("//input[@value='Si']").click()

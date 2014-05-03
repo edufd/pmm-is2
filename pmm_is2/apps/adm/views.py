@@ -8,8 +8,6 @@ from pmm_is2.apps.adm.models import UserProfile, Proyecto, Fase, Comite
 
 
 def not_in_admin_group(user):
-    """Use with a ``user_passes_test`` decorator to restrict access to
-    authenticated users who are not in the "Administrador" group."""
     valido = False
     if user:
         combined_queryset = user.groups.filter(name='Administrador').exists() | \
@@ -70,6 +68,15 @@ def proyectos(request):
 @login_required
 @user_passes_test(not_in_admin_group)
 def group_create(request):
+    """Funcion para crear un Grupo.
+    Retorna la pagina con el formulario correspondiente para la creacion
+    del Grupo.
+
+    :param request: Parametro a ser procesado.
+    :type request: HttpRequest.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
     context = RequestContext(request)
     registered = False
     if request.method == 'POST':
@@ -91,7 +98,7 @@ def group_create(request):
 @user_passes_test(not_in_admin_group)
 def project_create(request):
 
-    """Funcion para crear un Proyecto.
+    """Funcion para Crear un Proyecto.
         Retorna la pagina con el formulario correspondiente para la creacion
         del proyecto.
 
@@ -158,6 +165,14 @@ def decode_url(url):
 
 
 def get_user_list(user_id):
+    """Funcion para Listar un Usuarios.
+        Retorna la pagina correspondiente con la lista de usuarios
+
+        :param pk: Parametro a ser procesado. Identificador del usuario
+        :type request: HttpRequest.
+        :returns: La pagina correspondiente.
+        :rtype: El response correspondiente.
+        """
 
     #user_list = User.objects.exclude(id=user_id).order_by('id')
     #join quilombo trae todos los elementos de las dos relaciones
@@ -281,6 +296,15 @@ def phase_update(request, pk):
 @user_passes_test(not_in_admin_group, login_url='/login/')
 @login_required
 def user_delete(request, pk):
+    """Funcion para Eliminar un User.
+
+    :param request: Parametro a ser procesado.
+    :param pk: Parametro a ser procesado el identificador del user que va a eliminarse.
+    :type request: HttpRequest.
+    :type pk: int.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
     context = RequestContext(request)
     user = get_object_or_404(User, pk=pk)
     if request.method == 'POST':
@@ -294,6 +318,15 @@ def user_delete(request, pk):
 @user_passes_test(not_in_admin_group, login_url='/login/')
 @login_required
 def group_delete(request, pk):
+    """Funcion para Eliminar un Grupo.
+
+    :param request: Parametro a ser procesado.
+    :param pk: Parametro a ser procesado el identificador del grupo que va a eliminarse.
+    :type request: HttpRequest.
+    :type pk: int.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
     context = RequestContext(request)
     group = get_object_or_404(Group, pk=pk)
     if request.method == 'POST':
@@ -306,6 +339,15 @@ def group_delete(request, pk):
 @user_passes_test(not_in_admin_group, login_url='/login/')
 @login_required
 def phase_delete(request, pk):
+    """Funcion para Eliminar una fase.
+
+    :param request: Parametro a ser procesado.
+    :param pk: Parametro a ser procesado el identificador de la fase que va a eliminarse.
+    :type request: HttpRequest.
+    :type pk: int.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
     registered = False
     context = RequestContext(request)
     phase = get_object_or_404(Fase, pk=pk)
@@ -547,6 +589,16 @@ def permiso(request, pk):
 
 #probando
 def fase_create(request, pk):
+    """Funcion para crear una Fase.
+    Retorna la pagina con el formulario correspondiente para la creacion
+    de la Fase.
+
+    :param request: Parametro a ser procesado.
+    :param pk: Parametro a ser procesado el identificador del proyecto donde se agregara la fase.
+    :type request: HttpRequest.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
     context = RequestContext(request)
     registered = False
     if request.method == 'POST':

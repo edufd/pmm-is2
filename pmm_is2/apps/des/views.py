@@ -70,6 +70,13 @@ def eliminar_tipo_item(request, pk):
 
     return render_to_response('des/confirmar_eliminacion_tipo_item.html', {'tipo_item': tipo_item}, context)
 
+def ver_tipo_item(request, pk):
+    context = RequestContext(request)
+    tipo_item = get_object_or_404(TipoItem, pk=pk)
+
+    context_dict = {'tipo_item': tipo_item}
+
+    return render_to_response('des/tipo_item.html', context_dict, context)
 
 #realiza la busqueda del texto solicitado y usa la funcion correspondiente para buscar en la base de datos
 #y mostrarla en la vista

@@ -1,7 +1,7 @@
 <ul class="nav nav-list">
    {% if cat_list %}
     {% for cat in cat_list %}
-      <li><a href="/des/perfil_proyecto/{{ cat.id_tipo_item }}">{{ cat.nombre_tipo_item }}</a></li>
+      <li><a href="/des/tipo_item/{{ cat.id_tipo_item }}">{{ cat.nombre_tipo_item }}</a></li>
     {% endfor %}
    {% else %}
     <li>Ningun Tipo Item</li>

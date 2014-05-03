@@ -12,6 +12,7 @@ Contents:
    :maxdepth: 2
 
    adm.rst
+   des.rst
 
 
 Indices and tables

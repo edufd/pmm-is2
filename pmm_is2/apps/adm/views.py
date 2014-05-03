@@ -90,6 +90,13 @@ def group_create(request):
 @login_required
 @user_passes_test(not_in_admin_group)
 def project_create(request):
+    """Funcion para crear un proyecto.
+        Retorna la pagina correspondiente para la creacion del proyecto junto con las variables necesarias
+        para el correcto despligue de la misma y otras variables del context del request.
+        :type request: HttpRequest
+        :param request: el request correspondiente
+        :rtype: HttpResponse
+        :return: el response correspondiente"""
     context = RequestContext(request)
     registered = False
     if request.method == 'POST':

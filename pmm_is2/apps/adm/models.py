@@ -112,7 +112,7 @@ class Comite(models.Model):
     id_comite = models.AutoField(primary_key=True)
     proyecto = models.ForeignKey(Proyecto)
     usuario = models.ManyToManyField(User)
-    class Meta:
+    #class Meta:
         #db_table = 'Comite'
-        unique_together = (("proyecto"),)
+        #unique_together = ("proyecto")
 

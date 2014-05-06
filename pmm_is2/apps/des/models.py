@@ -28,8 +28,10 @@ class AtributoTipoItem(models.Model):
     id_atributo_tipo_item = models.AutoField(primary_key=True)
     id_tipo_item = models.ForeignKey('TipoItem')
     id_atributo = models.ForeignKey('Atributo')
+
     def __unicode__(self):
         return self.descripcion
+
     class Meta:
         #db_table = 'AtributoTipoItem'
         unique_together = (("id_atributo", "id_tipo_item"),)
@@ -50,7 +52,7 @@ class Item(models.Model):
     nombre_item = models.CharField(unique=False, max_length=200)
     version_item = models.IntegerField()
     prioridad = models.IntegerField() #Debera tener del 1 al  10
-    estado = models.CharField(max_length=1)# I:Inactivo  B:Bloqueado C:Revision A:Aprobado D:Desaprobado
+    estado = models.CharField(max_length=1) # I:Inactivo  B:Bloqueado C:Revision A:Aprobado D:Desaprobado
     descripcion = models.CharField(max_length=200)
     observaciones = models.CharField(max_length=5000)
     complejidad = models.IntegerField()

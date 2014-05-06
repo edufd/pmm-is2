@@ -18,6 +18,7 @@ PROYECTOS_ESTADOS = (
     ('FINALIZADO', 'FINALIZADO'),
 )
 
+
 class UserProfile(models.Model):
 
     user = models.OneToOneField(User)

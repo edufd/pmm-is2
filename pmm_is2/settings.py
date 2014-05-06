@@ -13,7 +13,7 @@ from os.path import join
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 TEMPLATE_DIRS = (
-    join(BASE_DIR,  'pmm_is2/templates'),
+    join(BASE_DIR, 'pmm_is2/templates'),
 )
 
 # Quick-start development settings - unsuitable for production

@@ -41,7 +41,6 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'pmm_is2.apps.modelos',
     'pmm_is2.apps.adm',
     'pmm_is2.apps.des',
     'django_like',

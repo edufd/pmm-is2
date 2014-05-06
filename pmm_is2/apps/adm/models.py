@@ -111,8 +111,8 @@ class Fase(models.Model):
 class Comite(models.Model):
     id_comite = models.AutoField(primary_key=True)
     proyecto = models.ForeignKey(Proyecto)
-    usuario=models.ManyToManyField(User)
+    usuario = models.ManyToManyField(User)
     class Meta:
-        db_table = 'Comite'
+        #db_table = 'Comite'
         unique_together = (("proyecto"),)
 

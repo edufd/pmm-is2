@@ -3,22 +3,9 @@ from django.contrib.auth.models import User, Group, Permission
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.http import HttpResponse
-from pmm_is2.apps.adm.forms import UserForm, UserProfileForm, GroupForm, ProjectForm, FaseForm,ComiteForm
+from pmm_is2.apps.adm.forms import UserForm, UserProfileForm, GroupForm, ProjectForm, FaseForm, ComiteForm
 from pmm_is2.apps.adm.models import UserProfile, Proyecto, Fase, Comite
-
-
-#decorators
-from pmm_is2.apps.adm.utils import get_project_list
-
-
-def not_in_admin_group(user):
-    valido = False
-    if user:
-        combined_queryset = user.groups.filter(name='Administrador').exists() | \
-                            user.groups.filter(name='Lider de Proyecto').exists()
-        #print combined_queryset
-        valido = combined_queryset and user.is_authenticated()
-    return valido
+from pmm_is2.apps.adm.utils import *
 
 
 @user_passes_test(not_in_admin_group)
@@ -163,38 +150,6 @@ def profile(request):
     context_dict = {'user': u, 'userprofile': up}
 
     return render_to_response('adm/profile.html', context_dict, context)
-
-
-def encode_url(name):
-    return name.replace(' ', '_')
-
-
-def decode_url(url):
-    return url.replace('_', ' ')
-
-
-def get_user_list(user_id):
-    """Funcion para Listar un Usuarios.
-        Retorna la pagina correspondiente con la lista de usuarios
-
-        :param pk: Parametro a ser procesado. Identificador del usuario
-        :type request: HttpRequest.
-        :returns: La pagina correspondiente.
-        :rtype: El response correspondiente.
-        """
-
-    #user_list = User.objects.exclude(id=user_id).order_by('id')
-    #join quilombo trae todos los elementos de las dos relaciones
-    user_list = User.objects.exclude(id=user_id).select_related("userprofile").all().order_by('id')
-    print user_list
-
-    return user_list
-
-
-def get_group_list():
-
-    group_list = Group.objects.all()
-    return group_list
 
 
 @login_required
@@ -448,27 +403,6 @@ def register(request):
         context)
 
 
-def get_category_list(max_results=0, starts_with=''):
-        cat_list = []
-        if starts_with:
-            starts_with = starts_with + '%'
-            print starts_with
-            cat_list = User.objects.filter(username__like=starts_with)
-        # else:
-        #         cat_list = User.objects.all()
-        #
-        # print cat_list
-
-        if max_results > 0:
-                if len(cat_list) > max_results:
-                        cat_list = cat_list[:max_results]
-
-        for cat in cat_list:
-                cat.url = encode_url(cat.username)
-
-        return cat_list
-
-
 def suggest_category(request):
         context = RequestContext(request)
         cat_list = []
@@ -480,26 +414,6 @@ def suggest_category(request):
         return render_to_response('adm/category_list.html', {'cat_list': cat_list }, context)
 
 
-def get_roles_list(max_results=0, starts_with=''):
-        cat_list = []
-        if starts_with:
-            starts_with = starts_with + '%'
-            cat_list = Group.objects.filter(name__like=starts_with)
-        # else:
-        #         cat_list = User.objects.all()
-        #
-        # print cat_list
-
-        if max_results > 0:
-                if len(cat_list) > max_results:
-                        cat_list = cat_list[:max_results]
-
-        for cat in cat_list:
-                cat.url = encode_url(cat.name)
-
-        return cat_list
-
-
 def suggest_rol(request):
         context = RequestContext(request)
         cat_list = []
@@ -509,45 +423,6 @@ def suggest_rol(request):
         cat_list = get_roles_list(2, starts_with)
 
         return render_to_response('adm/roles_list.html', {'cat_list': cat_list }, context)
-
-
-#busca el texto ingresado en permisos
-def get_permisos_list(max_results=0, starts_with=''):
-        cat_list = []
-        if starts_with:
-            starts_with = starts_with + '%'
-            cat_list = Permission.objects.filter(name__like=starts_with)
-        # else:
-        #         cat_list = User.objects.all()
-        #
-        # print cat_list
-
-        if max_results > 0:
-                if len(cat_list) > max_results:
-                        cat_list = cat_list[:max_results]
-
-        for cat in cat_list:
-                cat.url = encode_url(cat.name)
-
-        return cat_list
-
-
-#busca el texto ingresado en permisos
-def get_proyectos_list(max_results=0, starts_with=''):
-        cat_list = []
-        if starts_with:
-            starts_with = starts_with + '%'
-            cat_list = Proyecto.objects.filter(nombre_proyecto__like=starts_with)
-        # else:
-        #         cat_list = User.objects.all()
-        #
-        # print cat_list
-
-        if max_results > 0:
-                if len(cat_list) > max_results:
-                        cat_list = cat_list[:max_results]
-
-        return cat_list
 
 
 #realiza la busqueda del texto solicitado y usa la funcion correspondiente para buscar en la base de datos
@@ -681,11 +556,6 @@ def project_import_list(request):
     return render_to_response('adm/project_import_list.html', context_dict, context)
 
 
-def get_phases_list(pk):
-    phases_list = Fase.objects.filter(proyecto_id=pk).order_by('numero_secuencia')
-    return phases_list
-
-
 @login_required
 def phases_list(request, pk):
 
@@ -753,11 +623,6 @@ def comite_update(request, pk):
     else:
         return render_to_response('adm/comite_form.html', {'comite_form': comite_form}, context)
     return render_to_response('adm/comite_form.html', {'comite_form': comite_form}, context)
-
-
-def get_comite_list():
-    comite_list = Comite.objects.all()
-    return comite_list
 
 
 @login_required

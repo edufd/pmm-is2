@@ -5,16 +5,14 @@
 {% block title %}PMM{% endblock %}
 {% block content %}
 
-    {% comment %}<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-        <h1 class="page-header">Modulo de Administracion</h1>
-    </div>{% endcomment %}
     </br>
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-        <h2 class="page-header">Roles</h2>
+        <h2 class="page-header">Permisos</h2>
     </div>
     <table class="table table-bordered tabla_usuarios">
         <thead>
             <tr>
+                <th class="col-sm-1">id</th>
                 <th class="col-sm-1">Permiso</th>
                 <th class="col-sm-1">Descripcion</th>
             </tr>
@@ -22,8 +20,9 @@
         <tbody>
             {% for permiso in object_list %}
                 <tr>
-                    <td>{{ permiso.name }}</td>
+                    <td>{{ permiso.id }}</td>
                     <td>{{ permiso.codename }}</td>
+                    <td>{{ permiso.name }}</td>
                 </tr>
             {% endfor %}
         </tbody>

@@ -7,6 +7,7 @@ from pmm_is2.apps.adm.forms import UserForm, UserProfileForm, GroupForm, Project
 from pmm_is2.apps.adm.models import UserProfile, Proyecto, Fase, Comite
 
 
+#decorators
 def not_in_admin_group(user):
     valido = False
     if user:
@@ -39,6 +40,7 @@ def usuario(request):
 
 @login_required
 @user_passes_test(not_in_admin_group)
+@permission_required('auth_groups.change_group', login_url='/adm/')
 def roles(request):
     context = RequestContext(request)
     current_user = request.user
@@ -53,7 +55,7 @@ def roles(request):
 def permisos(request):
     context = RequestContext(request)
     current_user = request.user
-    permisos = Permission.objects.all()
+    permisos = Permission.objects.all().order_by('id')
     context_dict= {}
     context_dict['object_list'] = permisos
     return render_to_response('adm/permisos.html', context_dict, context)

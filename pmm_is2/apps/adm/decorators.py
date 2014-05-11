@@ -1,12 +1,9 @@
 from django.shortcuts import redirect
-
-
-#le paso el proyecto al cual agregar la fase
 from pmm_is2.apps.adm.models import Proyecto
 
 
 #decorador para evitar que se puedan crear fases si no el duenho del proyecto
-def not_can_create_phase(view_func):
+def can_manage_phase(view_func):
     def _wrapped_view_func(request, *args, **kwargs):
         id_proyecto = kwargs['pk']
         proyecto = Proyecto.objects.get(id_proyecto=id_proyecto)
@@ -18,3 +15,11 @@ def not_can_create_phase(view_func):
     return _wrapped_view_func
 
 
+def can_manage_project(view_func):
+    def _wrapped_view_func(request, *args, **kwargs):
+        id_proyecto = kwargs['pk']
+        valido = Proyecto.objects.filter(id_proyecto=id_proyecto, lider_proyecto=request.user).exists()
+        if not valido:
+            return redirect('/adm/')
+        return view_func(request, *args, **kwargs)
+    return _wrapped_view_func

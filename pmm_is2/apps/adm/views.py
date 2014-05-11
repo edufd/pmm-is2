@@ -214,6 +214,7 @@ def group_update(request, pk):
 
 @login_required
 @user_passes_test(not_in_admin_group, login_url='/login/')
+@can_manage_project
 @permission_required('adm.change_proyecto', login_url='/adm/')
 def project_update(request, pk):
 
@@ -245,6 +246,7 @@ def project_update(request, pk):
 
 @login_required
 @user_passes_test(not_in_admin_group, login_url='/login/')
+@can_manage_phase
 def phase_update(request, pk):
     """Funcion para Modificar una Fase.
     Retorna la pagina con el formulario correspondiente para la modificacion
@@ -318,6 +320,7 @@ def group_delete(request, pk):
 
 @login_required
 @user_passes_test(not_in_admin_group, login_url='/login/')
+@can_manage_phase
 def phase_delete(request, pk):
     """Funcion para Eliminar una fase.
 
@@ -345,6 +348,7 @@ def phase_delete(request, pk):
 
 @login_required
 @user_passes_test(not_in_admin_group, login_url='/login/')
+@can_manage_project
 @permission_required('adm_proyecto.delete_proyecto', login_url='/adm/')
 def project_delete(request, pk):
 
@@ -489,7 +493,7 @@ def permiso(request, pk):
 #probando
 @login_required
 @user_passes_test(not_in_admin_group, login_url='/login/')
-@not_can_create_phase
+@can_manage_phase
 def fase_create(request, pk):
     """Funcion para crear una Fase.
     Retorna la pagina con el formulario correspondiente para la creacion

@@ -564,9 +564,6 @@ def suggest_proyecto(request):
         return render_to_response('adm/proyectos_list.html', {'cat_list': cat_list}, context)
 
 
-
-
-
 @user_passes_test(not_in_admin_group, login_url='/login/')
 @login_required
 def perfil(request, pk):

@@ -8,4 +8,4 @@ TRUNCATE pmm.django_admin_log  CASCADE;
 TRUNCATE pmm.django_content_type  CASCADE;
 TRUNCATE pmm.django_session  CASCADE;
 TRUNCATE pmm.django_site  CASCADE;
-TRUNCATE pmm.userprofile  CASCADE;
+TRUNCATE pmm.adm_userprofile  CASCADE;

@@ -5,7 +5,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from pmm_is2.apps.adm.backends import iniciar_sesion
 from pmm_is2.apps.adm import SESSION_KEY
-
+from pmm_is2.apps.adm.models import Proyecto
 
 
 def index(request):
@@ -27,7 +27,15 @@ def contact(request):
 @login_required
 def home(request):
     context = RequestContext(request)
-    return render_to_response('pmm_is2/home.html', context)
+    proyectos = get_project_list()
+    context_dict = {'proyectos': proyectos}
+    return render_to_response('pmm_is2/home.html', context_dict, context)
+
+
+def get_project_list():
+    project_list = Proyecto.objects.all()
+    return project_list
+
 
 def user_login(request):
     context = RequestContext(request)
@@ -55,6 +63,7 @@ def user_login(request):
 
     else:
         return render_to_response('pmm_is2/user_login.html', context_dict, context)
+
 
 @login_required
 def user_logout(request):

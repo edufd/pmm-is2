@@ -1,0 +1,10 @@
+INSERT INTO pmm.adm_comite_usuario VALUES (1, 1, 2);
+INSERT INTO pmm.adm_comite_usuario VALUES (2, 1, 3);
+INSERT INTO pmm.adm_comite_usuario VALUES (3, 1, 4);
+INSERT INTO pmm.adm_comite_usuario VALUES (4, 2, 2);
+INSERT INTO pmm.adm_comite_usuario VALUES (5, 2, 3);
+INSERT INTO pmm.adm_comite_usuario VALUES (6, 2, 4);
+INSERT INTO pmm.adm_comite_usuario VALUES (7, 3, 2);
+INSERT INTO pmm.adm_comite_usuario VALUES (8, 3, 3);
+INSERT INTO pmm.adm_comite_usuario VALUES (9, 3, 4);
+SELECT setval('pmm.adm_comite_usuario_id_seq', 10, false);

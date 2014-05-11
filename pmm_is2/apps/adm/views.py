@@ -1,4 +1,4 @@
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
 from django.contrib.auth.models import User, Group, Permission
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404, redirect
@@ -25,6 +25,7 @@ def index(request):
 
 
 @user_passes_test(not_in_admin_group)
+@permission_required('auth_user.add_user', login_url='/adm/')
 @login_required
 def usuario(request):
     context = RequestContext(request)
@@ -69,6 +70,7 @@ def proyectos(request):
 
 @login_required
 @user_passes_test(not_in_admin_group)
+@permission_required('auth_groups.change_group', login_url='/adm/')
 def group_create(request):
     """Funcion para crear un Grupo.
     Retorna la pagina con el formulario correspondiente para la creacion
@@ -98,6 +100,7 @@ def group_create(request):
 
 @login_required
 @user_passes_test(not_in_admin_group)
+@permission_required('proyecto.add_proyecto', login_url='/adm/')
 def project_create(request):
 
     """Funcion para Crear un Proyecto.
@@ -109,7 +112,6 @@ def project_create(request):
         :returns: La pagina correspondiente.
         :rtype: El response correspondiente.
         """
-
 
     context = RequestContext(request)
     registered = False
@@ -189,7 +191,7 @@ def get_group_list():
     group_list = Group.objects.all()
     return group_list
 
-
+@permission_required('auth_groups.change_group', login_url='/adm/')
 @login_required
 def group_list(request):
     """Funcion para Listar un Grupos.
@@ -210,6 +212,7 @@ def group_list(request):
 
 
 @login_required
+@permission_required('auth_user.change_user', login_url='/adm/')
 def user_list(request):
 
     current_user = request.user
@@ -255,6 +258,7 @@ def group_update(request, pk):
 
 
 @user_passes_test(not_in_admin_group, login_url='/login/')
+@permission_required('proyecto.add_proyecto', login_url='/adm/')
 @login_required
 def project_update(request, pk):
 
@@ -385,6 +389,7 @@ def phase_delete(request, pk):
 
 
 @user_passes_test(not_in_admin_group, login_url='/login/')
+@permission_required('adm_proyecto.delete_proyecto', login_url='/adm/')
 @login_required
 def project_delete(request, pk):
 
@@ -410,6 +415,7 @@ def project_delete(request, pk):
 
 
 @user_passes_test(not_in_admin_group, login_url='/login/')
+@permission_required('auth_user.add_user', login_url='/adm/')
 @login_required
 def register(request):
     context = RequestContext(request)

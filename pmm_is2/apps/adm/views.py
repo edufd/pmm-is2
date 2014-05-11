@@ -1,3 +1,4 @@
+from symbol import decorator
 from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404, redirect
@@ -212,7 +213,7 @@ def group_update(request, pk):
 
 @login_required
 @user_passes_test(not_in_admin_group, login_url='/login/')
-@permission_required('proyecto.add_proyecto', login_url='/adm/')
+@permission_required('adm.change_proyecto', login_url='/adm/')
 def project_update(request, pk):
 
     """Funcion para Modificar un Proyecto.
@@ -485,6 +486,8 @@ def permiso(request, pk):
 
 
 #probando
+@login_required
+@user_passes_test(not_in_admin_group, login_url='/login/')
 def fase_create(request, pk):
     """Funcion para crear una Fase.
     Retorna la pagina con el formulario correspondiente para la creacion
@@ -520,6 +523,7 @@ def fase_create(request, pk):
 
 
 @login_required
+@user_passes_test(not_in_admin_group, login_url='/login/')
 def project_list(request):
     """Funcion para Listar Proyectos.
     Retorna la pagina correspondiente con la lista de Proyectos

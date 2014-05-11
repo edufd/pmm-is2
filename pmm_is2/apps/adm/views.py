@@ -2,6 +2,7 @@ from symbol import decorator
 from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404, redirect
+from pmm_is2.apps.adm.decorators import *
 from pmm_is2.apps.adm.forms import UserForm, UserProfileForm, GroupForm, ProjectForm, FaseForm, ComiteForm
 from pmm_is2.apps.adm.models import UserProfile
 from pmm_is2.apps.adm.utils import *
@@ -488,6 +489,7 @@ def permiso(request, pk):
 #probando
 @login_required
 @user_passes_test(not_in_admin_group, login_url='/login/')
+@not_can_create_phase
 def fase_create(request, pk):
     """Funcion para crear una Fase.
     Retorna la pagina con el formulario correspondiente para la creacion
@@ -509,7 +511,6 @@ def fase_create(request, pk):
             new_fase = fase_form.save(commit=False)
             new_fase.proyecto = proyecto
             new_fase.save()
-            #respuesta = save(new_fase)
             return redirect('project_list')
             registered = True
         else:

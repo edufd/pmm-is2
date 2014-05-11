@@ -13,14 +13,6 @@ def not_in_admin_group(user):
     return valido
 
 
-def not_can_create_phase(request):
-    valido = False
-    if request:
-        print request
-        #valido = Proyecto.objects.filter(lider_proyecto=pk).exists()
-    return valido
-
-
 def get_project_list():
     project_list = Proyecto.objects.all().order_by('id_proyecto')
     return project_list

@@ -33,7 +33,7 @@ class ProjectForm(forms.ModelForm):
     class Meta:
         model = Proyecto
         fields = ('nombre_proyecto', 'descripcion', 'presupuesto', 'costo_temporal',
-                  'costo_monetario', 'estado_proyecto', 'fecha_fin', 'plazo', 'lider_proyecto')
+                  'costo_monetario', 'fecha_fin', 'plazo', 'lider_proyecto')
 
     def __init__(self, *args, **kwargs):
         super(ProjectForm, self).__init__(*args, **kwargs)
@@ -44,7 +44,7 @@ class FaseForm(forms.ModelForm):
     #numero_secuencia = forms.DateField(widget=forms.HiddenInput())
     class Meta:
         model = Fase
-        fields = ('nombre_fase', 'descripcion', 'estado_fase', 'grupos')
+        fields = ('nombre_fase', 'descripcion', 'grupos')
 
 
 class ComiteForm(forms.ModelForm):

@@ -11,6 +11,7 @@
             <li>
                 <h4>{{ proyecto.nombre_proyecto}}
 
+                    <a href="/adm/project_profile/{{ proyecto.id_proyecto }}">Perfil</a> |
                     {% if user == proyecto.lider_proyecto or valido %}
                         :
                         <a href="/adm/fase_create/{{ proyecto.id_proyecto }}">Agregar Fase</a> |

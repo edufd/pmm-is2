@@ -11,6 +11,7 @@
             {% if user.is_active %}
                 <li>
                     <h4><label>{{ user.username }}</label>  |
+                        <a href="/adm/perfil/{{ user.id }}">Perfil</a> |
                         <a href="{% url "user_edit" user.id %}">Modificar</a> |
                         <a href="{% url "user_delete" user.id %}">Eliminar</a>
                     </h4>

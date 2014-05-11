@@ -83,7 +83,7 @@ class Fase(models.Model):
     proyecto = models.ForeignKey(Proyecto)
     nombre_fase = models.CharField(max_length=200)
     descripcion = models.CharField(max_length=200)
-    estado_fase = models.CharField(max_length=11, choices=FASES_ESTADOS, default='ABIERTA')
+    estado_fase = models.CharField(max_length=11, choices=FASES_ESTADOS, default='NO-INICIADA')
     numero_secuencia = models.IntegerField(blank=True)
     #tipo_item = models.ManyToManyField(TipoItem)
     grupos = models.ManyToManyField(Group)
@@ -104,6 +104,7 @@ class Fase(models.Model):
             self.numero_secuencia = top
         else:
             self.numero_secuencia = 1
+            self.estado_fase = 'ABIERTA'
 
         super(Fase, self).save()
         return Fase

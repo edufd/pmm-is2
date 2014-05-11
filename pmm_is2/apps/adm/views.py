@@ -8,6 +8,9 @@ from pmm_is2.apps.adm.models import UserProfile, Proyecto, Fase, Comite
 
 
 #decorators
+from pmm_is2.apps.adm.utils import get_project_list
+
+
 def not_in_admin_group(user):
     valido = False
     if user:
@@ -647,11 +650,6 @@ def fase_create(request, pk):
 
     return render_to_response('adm/fase_create.html',
                               {'fase_form': fase_form, 'id_proyecto': id_proyecto, 'registered': registered}, context)
-
-
-def get_project_list():
-    project_list = Proyecto.objects.all()
-    return project_list
 
 
 @login_required

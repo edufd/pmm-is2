@@ -102,7 +102,7 @@ def group_create(request):
 
 @login_required
 @user_passes_test(not_in_admin_group)
-@permission_required('proyecto.add_proyecto', login_url='/adm/')
+@permission_required('adm.add_proyecto', login_url='/adm/')
 def project_create(request):
 
     """Funcion para Crear un Proyecto.

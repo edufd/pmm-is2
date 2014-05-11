@@ -1,10 +1,8 @@
 from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
-from django.contrib.auth.models import User, Group, Permission
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404, redirect
-from django.http import HttpResponse
 from pmm_is2.apps.adm.forms import UserForm, UserProfileForm, GroupForm, ProjectForm, FaseForm, ComiteForm
-from pmm_is2.apps.adm.models import UserProfile, Proyecto, Fase, Comite
+from pmm_is2.apps.adm.models import UserProfile
 from pmm_is2.apps.adm.utils import *
 
 
@@ -128,12 +126,6 @@ def project_create(request):
     return render_to_response('adm/project_create.html',
                               {'project_form': project_form, 'fase_form': fase_form,
                                'registered': registered}, context)
-
-
-@login_required
-@user_passes_test(not_in_admin_group, login_url='/login/')
-def restricted(request):
-    return HttpResponse("Como estas logeado, puedes ver este texto!")
 
 
 @login_required

@@ -543,6 +543,12 @@ def project_list(request):
     context_dict = {}
     context_dict['object_list'] = project_list
 
+    valido = False
+    if request.user.is_superuser:
+        valido = True
+
+    context_dict['valido'] = valido
+
     return render_to_response('adm/project_list.html', context_dict, context)
 
 

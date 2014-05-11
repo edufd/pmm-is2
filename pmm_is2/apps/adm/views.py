@@ -6,8 +6,8 @@ from pmm_is2.apps.adm.models import UserProfile
 from pmm_is2.apps.adm.utils import *
 
 
-@user_passes_test(not_in_admin_group)
 @login_required
+@user_passes_test(not_in_admin_group)
 def index(request):
     context = RequestContext(request)
     return render_to_response('adm/index.html', context)

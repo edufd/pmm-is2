@@ -3,11 +3,18 @@
 {% block link %}<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">{% endblock %}
 {% block title %}PMM{% endblock %}
 {% block content %}
-
+    <div class="row">
+        <div id="breadcrumb" class="col-md-12">
+            <ol class="breadcrumb">
+                <li><a href="/home/">PMM</a></li>
+                <li><a href="/adm/">Administracion</a></li>
+                <li><a href="/adm/comite_list/">Comite</a></li>
+                <li><a href="#">Lista de Comites</a></li>
+            </ol>
+        </div>
+    </div>
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-        <h1 class="page-header">Comite</h1>
         <h5 class="page-header"><a href="/adm/comite_create/">Agregar</a> | <a href="/adm/comite_list/">Listar</a></h5>
-        </br>
         {% for comite in object_list %}
             <li>
                 <h4>{{ comite.proyecto}}:

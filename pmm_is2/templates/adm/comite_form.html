@@ -1,9 +1,8 @@
-{% extends 'adm/../pmm_is2/base_logged.html' %}
+{% extends 'adm/adm_base_logged.html' %}
 {% load static %}
 {% block link %}<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">{% endblock %}
 {% block title %}PMM{% endblock %}
 {% block content %}
-
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
         <h1 class="page-header">Modificar Comite</h1>
         <form method="post">{% csrf_token %}

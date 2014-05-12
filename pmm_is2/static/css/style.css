@@ -2358,3 +2358,20 @@ td.beauty-hover {
     display: none;
   }
 }
+
+.boton-confirmar-desconfirmar{
+    width: 50px;  height: 40px;
+}
+
+.tabla_fases{
+    margin-left: 0%;
+    width: 50%;
+}
+
+.modulos{
+    font-size: 16px;
+}
+
+.form_class label{
+    width: 140px;
+}

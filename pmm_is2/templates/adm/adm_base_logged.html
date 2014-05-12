@@ -45,7 +45,7 @@
         <div class="container-fluid expanded-panel">
             <div class="row">
                 <div id="logo" class="col-xs-12 col-sm-2">
-                    <a href="/adm/">PMM</a>
+                    <a href="/home/">PMM</a>
                 </div>
                 <div id="top-panel" class="col-xs-12 col-sm-10">
                     <div class="row">
@@ -60,24 +60,6 @@
                         </div>
                         <div class="col-xs-4 col-sm-8 top-panel-right">
                             <ul class="nav navbar-nav pull-right panel-menu">
-                                <li class="hidden-xs">
-                                    <a href="index.html" class="modal-link">
-                                        <i class="fa fa-bell"></i>
-                                        <span class="badge">7</span>
-                                    </a>
-                                </li>
-                                <li class="hidden-xs">
-                                    <a class="ajax-link" href="ajax/calendar.html">
-                                        <i class="fa fa-calendar"></i>
-                                        <span class="badge">7</span>
-                                    </a>
-                                </li>
-                                <li class="hidden-xs">
-                                    <a href="ajax/page_messages.html" class="ajax-link">
-                                        <i class="fa fa-envelope"></i>
-                                        <span class="badge">7</span>
-                                    </a>
-                                </li>
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle account" data-toggle="dropdown">
                                         <div class="avatar">
@@ -91,37 +73,13 @@
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a href="#">
+                                            <a href="/adm/perfil/{{ user.id }}">
                                                 <i class="fa fa-user"></i>
                                                 <span class="hidden-sm text">Profile</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="ajax/page_messages.html" class="ajax-link">
-                                                <i class="fa fa-envelope"></i>
-                                                <span class="hidden-sm text">Messages</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="ajax/gallery_simple.html" class="ajax-link">
-                                                <i class="fa fa-picture-o"></i>
-                                                <span class="hidden-sm text">Albums</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="ajax/calendar.html" class="ajax-link">
-                                                <i class="fa fa-tasks"></i>
-                                                <span class="hidden-sm text">Tasks</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <i class="fa fa-cog"></i>
-                                                <span class="hidden-sm text">Settings</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
+                                            <a href="/logout/">
                                                 <i class="fa fa-power-off"></i>
                                                 <span class="hidden-sm text">Logout</span>
                                             </a>
@@ -142,7 +100,7 @@
             <div id="sidebar-left" class="col-xs-2 col-sm-2">
                 <ul class="nav main-menu">
                     <li>
-                        <a href="/adm/" class="active ajax-link">
+                        <a href="/adm/" class="active">
                             <i class="fa fa-dashboard"></i>
                             <span class="hidden-xs">Dashboard</span>
                         </a>
@@ -153,7 +111,7 @@
                             <span class="hidden-xs">Administracion</span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="/adm/usuario/">Usuario</a></li>
+                            <li><a href="/adm/usuario/">Usuarios</a></li>
                             <li><a href="/adm/roles/">Roles</a></li>
                             <li><a href="/adm/proyectos/">Proyectos</a></li>
                             <li><a href="/adm/comite_list/">Comites</a></li>
@@ -186,7 +144,9 @@
 {#                <div class="preloader">#}
 {#                    <img src="{% static 'img/devoops_getdata.gif' %}" class="devoops-getdata" alt="preloader"/>#}
 {#                </div>#}
-                {% block content %}{% endblock %}
+                </br>
+                {% block content %}
+                {% endblock %}
             </div>
             <!--End Content-->
         </div>

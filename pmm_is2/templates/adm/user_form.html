@@ -5,21 +5,28 @@
 {% endblock %}
 {% block title %}PMM{% endblock %}
 {% block content %}
-
+    <div class="row">
+        <div id="breadcrumb" class="col-md-12">
+            <ol class="breadcrumb">
+                <li><a href="/home/">PMM</a></li>
+                <li><a href="/adm/">Administracion</a></li>
+                <li><a href="#">Modificar Usuario</a></li>
+            </ol>
+        </div>
+    </div>
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-        <h1 class="page-header">Modificar Usuario</h1>
-            <form method="post">{% csrf_token %}
-                <h4 class="page-header">Datos del Usuario</h4>
-                <div class="form_class">
-                    {{ userform.as_p }}
-                </div>
-                </br>
-                <h4 class="page-header">Datos Personales</h4>
-                <div class="form_class">
-                    {{ profile_form.as_p }}
-                </div>
-                </br>
-                <input class="btn btn-primary" type="submit" name="submit" value="Guardar" />
-            </form>
+        <form method="post">{% csrf_token %}
+            <h4 class="page-header">Datos del Usuario</h4>
+            <div class="form_class">
+                {{ userform.as_p }}
+            </div>
+            </br>
+            <h4 class="page-header">Datos Personales</h4>
+            <div class="form_class">
+                {{ profile_form.as_p }}
+            </div>
+            </br>
+            <input class="btn btn-primary" type="submit" name="submit" value="Guardar" />
+        </form>
     </div>
 {% endblock %}

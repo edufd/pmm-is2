@@ -3,10 +3,17 @@
 {% block link %}<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">{% endblock %}
 {% block title %}PMM{% endblock %}
 {% block content %}
-
+    <div class="row">
+        <div id="breadcrumb" class="col-md-12">
+            <ol class="breadcrumb">
+                <li><a href="/home/">PMM</a></li>
+                <li><a href="/adm/">Administracion</a></li>
+                <li><a href="/adm/proyectos/">Proyectos</a></li>
+                <li><a href="#">Lista de Fases</a></li>
+            </ol>
+        </div>
+    </div>
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-        <h1 class="page-header">Fases</h1>
-        </br>
         {% for fase in object_list %}
             <li>
                 <h4>{{ fase.nombre_fase }}  :

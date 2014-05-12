@@ -64,3 +64,13 @@ class Item(models.Model):
         return self.descripcion
     # class Meta:
     #      db_table = 'Item'
+
+
+
+
+
+class ArchivoAdjunto(models.Model):
+    id_archivo_adjunto = models.AutoField(primary_key=True)
+    path_archivo = models.FilePathField()
+    binario = models.TextField()
+    id_item_relacionado = models.ForeignKey(Item,related_name='archivos_adjuntos')

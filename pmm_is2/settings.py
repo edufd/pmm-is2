@@ -71,6 +71,7 @@ DATABASES = {
         'USER': 'pmm',
         'PASSWORD': 'pmm2014',
         'HOST': 'localhost',
+        #'PORT':'5433',
     },
     #produccion
     'produccion': {

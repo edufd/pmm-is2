@@ -1,15 +1,19 @@
 {% extends 'adm/adm_base_logged.html' %}
 {% load static %}
 {% load tags %}
-{% block link %}
-    <link href="{% static 'css/dashboard.css' %}" rel="stylesheet" xmlns="http://www.w3.org/1999/html">{% endblock %}
 {% block title %}PMM{% endblock %}
 {% block content %}
-
-    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-        </br>
-        <h2 class="page-header"><a href="/adm/usuario/">Usuarios</a></h2>
-        <div class="row placeholders">
+    <div class="row">
+        <div id="breadcrumb" class="col-md-12">
+            <ol class="breadcrumb">
+                <li><a href="/home/">PMM</a></li>
+                <li><a href="/adm/">Modulo de Administracion</a></li>
+            </ol>
+        </div>
+    </div>
+    <h3 class="page-header">Usuarios</h3>
+    <div class="well">
+        <div class="row">
             <div class="col-xs-6 col-sm-3 placeholder">
                 <ul class="nav nav-list">
                     <li class="nav-header">Buscar Usuarios
@@ -32,16 +36,13 @@
                 <h4><a class="btn btn-primary" href="/adm/user_list/"><span class="glyphicon glyphicon-th-list"></span></a></h4>
                 <span class="text-muted">Lista de Usuarios</span>
             </div>
+        </div>
+    </div>
+    <h3 class="page-header">Roles</h3>
+    <div class="well">
+        <div class="row">
             <div class="col-xs-6 col-sm-3 placeholder">
 
-                <h4>Label</h4>
-                <span class="text-muted">No implementado</span>
-            </div>
-        </div>
-        <h2 class="page-header"><a href="/adm/roles/">Roles</a></h2>
-        <div class="row placeholders">
-            <div class="col-xs-6 col-sm-3 placeholder">
-                
                 <ul class="nav nav-list">
                     <li class="nav-header">Buscar Roles
                     <form autocomplete="off">
@@ -67,9 +68,10 @@
                 <span class="text-muted">No implementado</span>
             </div>
         </div>
-
-        <h2 class="page-header"><a href="/adm/permisos/">Permisos</a></h2>
-        <div class="row placeholders">
+    </div>
+    <h3 class="page-header">Permisos</h3>
+    <div class="well">
+        <div class="row">
             <div class="col-xs-6 col-sm-3 placeholder">
                 <ul class="nav nav-list">
                     <li class="nav-header">Buscar Permisos
@@ -95,9 +97,10 @@
                 <span class="text-muted">No implementado</span>
             </div>
         </div>
-
-        <h2 class="page-header"><a href="/adm/proyectos/">Proyectos</a></h2>
-        <div class="row placeholders">
+    </div>
+    <h3 class="page-header">Proyectos</h3>
+    <div class="well">
+        <div class="row">
             <div class="col-xs-6 col-sm-3 placeholder">
                 <ul class="nav nav-list">
                     <li class="nav-header">Buscar Proyectos
@@ -124,10 +127,11 @@
                 <span class="text-muted">Importar Proyecto</span>
             </div>
         </div>
-
-        <h2 class="page-header"><a href="/adm/comite_list/">Comites</a></h2>
-        <div class="row placeholders">
-             <div class="col-xs-6 col-sm-3 placeholder">
+    </div>
+    <h3 class="page-header">Comites</h3>
+    <div class="well">
+        <div class="row">
+            <div class="col-xs-6 col-sm-3 placeholder">
                 <h4><a class="btn btn-primary" href="/adm/comite_create/"><span class="glyphicon glyphicon-plus"></span></a></h4>
                 <span class="text-muted">Nuevo Comite</span>
             </div>
@@ -147,3 +151,9 @@
     </div>
 
 {% endblock %}
+<script type="text/javascript">
+$(document).ready(function() {
+	// Drag-n-Drop feature
+	WinMove();
+});
+</script>

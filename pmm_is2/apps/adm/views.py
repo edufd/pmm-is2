@@ -17,6 +17,13 @@ def index(request):
 
 @login_required
 @user_passes_test(not_in_admin_group)
+def index2(request):
+    context = RequestContext(request)
+    return render_to_response('adm/index2.html', context)
+
+
+@login_required
+@user_passes_test(not_in_admin_group)
 @permission_required('auth_user.add_user', login_url='/adm/')
 def usuario(request):
     context = RequestContext(request)

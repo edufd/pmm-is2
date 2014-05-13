@@ -1,0 +1,9 @@
+<ul class="nav nav-list">
+   {% if cat_list %}
+    {% for cat in cat_list %}
+      <li><a href="/des/item/{{ cat.id_item }}">{{ cat.nombre_item }}</a></li>
+    {% endfor %}
+   {% else %}
+    <li>Ningun Item</li>
+   {% endif %}
+</ul>

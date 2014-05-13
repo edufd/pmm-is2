@@ -57,10 +57,20 @@ class Item(models.Model):
     observaciones = models.CharField(max_length=5000)
     complejidad = models.IntegerField()
     ultima_version_item_id = models.IntegerField()
-    id_tipo_item = models.ForeignKey(TipoItemProyecto, related_name='Item')
-    id_fase = models.ForeignKey('adm.Fase')
+    #id_tipo_item = models.ForeignKey(TipoItemProyecto, related_name='Item')
+    #id_fase = models.ForeignKey('adm.Fase')
 
     def __unicode__(self):
         return self.descripcion
     # class Meta:
     #      db_table = 'Item'
+
+
+
+
+
+class ArchivoAdjunto(models.Model):
+    id_archivo_adjunto = models.AutoField(primary_key=True)
+    path_archivo = models.FilePathField()
+    binario = models.TextField()
+    id_item_relacionado = models.ForeignKey(Item,related_name='archivos_adjuntos')

@@ -1,0 +1,30 @@
+{% extends 'des/des_base_logged.html' %}
+{% load i18n %}
+{% load static %}
+{% block link %}<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">{% endblock %}
+{% block title %}PMM{% endblock %}
+{% block content %}
+
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <h1 class="page-header">Crear item</h1>
+        </br>
+
+        <strong>Se ha creado el item!</strong><br/>
+        <a href="/des/">Retornar a la pagina de inicio</a><br/>
+            <strong><h4>Complete los datos</h4></strong>
+            </br>
+
+            <form action="{{ app_path }}" method="post" id="archivoadjunto-form">
+                <div class="form-row">
+                    <label for="id_path_archivo">{% trans 'Path Archivo Adjunto:' %}</label> {{form.path_archivo}}
+                </div>
+                <div class="form-row">
+                    <label for="id_item_archivo_adjunto">{% trans 'Item Archivo Adjunto:' %}</label> {{form.item_archivo_adjunto}}
+                </div>
+                {{form.id_archivo_adjunto}}
+                <div class="submit-row">
+                    <label>&nbsp;</label>
+                </div>
+            </form>
+    </div>
+{% endblock %}

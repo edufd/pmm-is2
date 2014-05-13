@@ -57,8 +57,8 @@ class Item(models.Model):
     observaciones = models.CharField(max_length=5000)
     complejidad = models.IntegerField()
     ultima_version_item_id = models.IntegerField()
-    id_tipo_item = models.ForeignKey(TipoItemProyecto, related_name='Item')
-    id_fase = models.ForeignKey('adm.Fase')
+    #id_tipo_item = models.ForeignKey(TipoItemProyecto, related_name='Item')
+    #id_fase = models.ForeignKey('adm.Fase')
 
     def __unicode__(self):
         return self.descripcion

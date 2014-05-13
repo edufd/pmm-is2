@@ -26,21 +26,58 @@
                 </div>
 
             </div>
-
+{#agregado para prueba#}
             <div class="col-xs-6 col-sm-3 placeholder">
                 
-                <h4><a class="btn btn-primary" href="/des/crear_tipo_item/"><span class="glyphicon glyphicon-plus"></span></a></h4>
-                <span class="text-muted">Nuevo Tipo de Item</span>
+                <h4><a class="btn btn-primary" href="/des/crear_item/"><span class="glyphicon glyphicon-plus"></span></a></h4>
+                <span class="text-muted">Nuevo Item</span>
             </div>
 
             <div class="col-xs-6 col-sm-3 placeholder">
                 
-                <h4><a class="btn btn-primary" href="/des/listar_tipo_item/"><span class="glyphicon glyphicon-th-list"></span></a></h4>
-                <span class="text-muted">Listar Tipos de Item</span>
+                <h4><a class="btn btn-primary" href="/des/listar_item/"><span class="glyphicon glyphicon-th-list"></span></a></h4>
+                <span class="text-muted">Listar Item</span>
             </div>
 
             <div class="col-xs-6 col-sm-3 placeholder">
                 
+                <h4>Label</h4>
+                <span class="text-muted">No implementado</span>
+            </div>
+        </div>
+
+          <h2 class="page-header"><a href="/des/listar_item/">Item</a></h2>
+
+        <div class="row placeholders">
+            <div class="col-xs-6 col-sm-3 placeholder">
+
+                <ul class="nav nav-list">
+                    <li class="nav-header">Buscar Item
+                    <form autocomplete="off">
+                        <label></label>
+                        <input  class="search-query span10" type="text" name="suggestion_item" value="" id="suggestion_item" />
+                    </form></li>
+                </ul>
+                <div id="cats_item">
+                    {% include 'des/item_list.html' with cat_list=cat_list %}
+                </div>
+
+            </div>
+
+            <div class="col-xs-6 col-sm-3 placeholder">
+
+                <h4><a class="btn btn-primary" href="/des/crear_item/"><span class="glyphicon glyphicon-plus"></span></a></h4>
+                <span class="text-muted">Nuevo Item</span>
+            </div>
+
+            <div class="col-xs-6 col-sm-3 placeholder">
+
+                <h4><a class="btn btn-primary" href="/des/listar_item/"><span class="glyphicon glyphicon-th-list"></span></a></h4>
+                <span class="text-muted">Listar Item</span>
+            </div>
+
+            <div class="col-xs-6 col-sm-3 placeholder">
+
                 <h4>Label</h4>
                 <span class="text-muted">No implementado</span>
             </div>

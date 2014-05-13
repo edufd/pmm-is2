@@ -2,6 +2,15 @@ from django import forms
 from pmm_is2.apps.des.models import TipoItem
 
 from pmm_is2.apps.des.models import ArchivoAdjunto
+from pmm_is2.apps.des.models import Item
+
+#para probar archivo adjunto luego eliminar y poner como se debe
+class ItemForm(forms.models.ModelForm):
+
+    class Meta:
+        model = Item
+        fields = ('nombre_item', 'version_item','prioridad','complejidad','ultima_version_item_id')
+
 
 class TipoItemForm(forms.models.ModelForm):
 

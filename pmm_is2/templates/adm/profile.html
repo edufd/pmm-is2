@@ -8,8 +8,8 @@
             <ol class="breadcrumb">
                 <li><a href="/home/">PMM</a></li>
                 <li><a href="/adm/">Administracion</a></li>
-                <li><a href="/adm/usuario/">Usuarios</a></li>
-                <li><a href="#">Perfil</a></li>
+                <li><a href="/adm/usuarios/">Usuarios</a></li>
+                <li><a href="#">Perfil de Usuario</a></li>
             </ol>
         </div>
     </div>
@@ -21,10 +21,18 @@
             <h4>Apellido: {{ userprofile.apellido }}</h4>
             <h4>CI: {{ userprofile.ci }}</h4>
             <h4>Telefono: {{ userprofile.telefono }}</h4>
-            <h4>Rol/es: {{ usuario.groups.values_list }}</h4>
-            <h4>Permisos: {{ usuario.get_group_permissions }}</h4>
-            </br>
-
+            <h4>Rol/es:</h4>
+                <ul>
+                    {% for role in usuario.groups.all %}
+                        <li><h4>{{ role }}</h4></li>
+                        <h4>Permisos:</h4>
+                        <ul>
+                            {% for permiso in role.permissions.all  %}
+                                <li><h4>{{ permiso.name }}</h4></li>
+                            {% endfor %}
+                        </ul>
+                    {% endfor %}
+                </ul>
         {% endif %}
     </div>
 {% endblock %}

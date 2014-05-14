@@ -25,10 +25,15 @@
         </thead>
         <tbody>
             {% for rol in object_list %}
-                <tr>
+                <tr rowspan="51">
                     <td><a href="/adm/group_edit/{{ rol.id }}">{{ rol.name }}</a></td>
-                    <td>{{ rol.permissions.select_related }}</td>
                 </tr>
+                {% for permiso in rol.permissions.all  %}
+                    <tr>
+                        <td></td>
+                        <td>{{ permiso.name }}</td>
+                    </tr>
+                {% endfor %}
             {% endfor %}
         </tbody>
     </table>

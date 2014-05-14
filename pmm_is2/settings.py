@@ -121,3 +121,7 @@ AUTO_LOGOUT_DELAY = 100 #equivalent to 5 minutes
 #     from local_settings import *
 # except ImportError:
 #     pass
+
+
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'pmm_is2/media/')

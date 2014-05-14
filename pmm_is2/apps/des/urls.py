@@ -21,5 +21,5 @@ urlpatterns = patterns('',
         url(r'^suggest_item/$', views.suggest_item, name='suggest_item'),
         url(r'^adjuntarArchivo_item/(?P<pk>\d+)$', views.archivoadjunto_page, name='adjuntarArchivo_item'),
 
-
+        url(r'^crear_archivoAdjunto/$', views.crear_archivoAdjunto, name='crear_archivoAdjunto'),
 )

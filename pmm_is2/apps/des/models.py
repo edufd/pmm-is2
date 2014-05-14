@@ -71,6 +71,6 @@ class Item(models.Model):
 
 class ArchivoAdjunto(models.Model):
     id_archivo_adjunto = models.AutoField(primary_key=True)
-    path_archivo = models.FilePathField()
-    binario = models.TextField()
-    id_item_relacionado = models.ForeignKey(Item,related_name='archivos_adjuntos')
+    filename=models.CharField(max_length=100)
+    path_archivo = models.FileField(upload_to='documents/%Y%m%d')
+    id_item_relacionado = models.ForeignKey(Item)

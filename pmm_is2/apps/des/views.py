@@ -289,3 +289,34 @@ def archivoadjunto_page(request,pk):
     form = ArchivoAdjuntoForm(initial=datap)
     variables = {'form':form}
     return render_to_response('des/archivoadjunto.html',variables, context_instance=RequestContext(request))
+
+
+def crear_archivoAdjunto(request):
+    """Funcion para Crear Item.
+    Retorna la pagina correspondiente con el formulario para la creacion del ITem
+
+    :param request: Parametro a ser procesado.
+    :type request: HttpRequest.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
+    context = RequestContext(request)
+    creado = False
+    if request.method == 'POST':
+        archivoAdjunto_form = ArchivoAdjuntoForm(request.POST, request.FILES)
+        if archivoAdjunto_form.is_valid():
+            archivoAdjunto_form.save()
+            creado = True
+        else:
+            print archivoAdjunto_form.errors
+
+    else:
+        archivoAdjunto_form = ArchivoAdjuntoForm()
+
+    return render_to_response('des/crear_archivoAdjunto.html',
+                              {
+                                  'archivoAdjunto_form':archivoAdjunto_form,
+                                  'creado': creado,
+                              },
+                              context
+    )

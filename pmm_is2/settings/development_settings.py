@@ -73,6 +73,14 @@ DATABASES = {
         'HOST': 'localhost',
         #'PORT':'5433',
     },
+    #produccion
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'pmm_produccion',
+        'USER': 'pmm',
+        'PASSWORD': 'pmm2014',
+        'HOST': 'localhost',
+    }
 }
 
 # Internationalization

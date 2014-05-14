@@ -74,7 +74,7 @@ DATABASES = {
         #'PORT':'5433',
     },
     #produccion
-    'default': {
+    'produccion': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'pmm_produccion',
         'USER': 'pmm',

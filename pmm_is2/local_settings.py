@@ -96,6 +96,7 @@ SITE_ID = 1
 STATIC_PATH = os.path.join(BASE_DIR, 'pmm_is2/static')
 
 STATIC_URL = '/static/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'pmm_is2/media/')
 
 STATICFILES_DIRS = (
     STATIC_PATH,

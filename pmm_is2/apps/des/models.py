@@ -61,7 +61,7 @@ class Item(models.Model):
     #id_fase = models.ForeignKey('adm.Fase')
 
     def __unicode__(self):
-        return self.descripcion
+        return self.nombre_item
     # class Meta:
     #      db_table = 'Item'
 

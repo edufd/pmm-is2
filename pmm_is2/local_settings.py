@@ -64,17 +64,8 @@ WSGI_APPLICATION = 'pmm_is2.wsgi.application'
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
 DATABASES = {
-    #desarrollo
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'pmm',
-        'USER': 'pmm',
-        'PASSWORD': 'pmm2014',
-        'HOST': 'localhost',
-        #'PORT':'5433',
-    },
     #produccion
-    'produccion': {
+    'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'pmm_produccion',
         'USER': 'pmm',
@@ -118,6 +109,6 @@ AUTO_LOGOUT_DELAY = 100 #equivalent to 5 minutes
 ### settings.py file
 ### settings that are not environment dependent
 # try:
-#     from local_settings import *
+#     from produccion_settings import *
 # except ImportError:
 #     pass

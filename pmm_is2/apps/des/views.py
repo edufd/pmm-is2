@@ -282,14 +282,34 @@ def get_item_list(max_results=0, starts_with=''):
 
 #agregado Adri
 def archivoadjunto_page(request,pk):
+    context = RequestContext(request)
+    creado=False
     print pk
-    form = ArchivoAdjuntoForm()
-    item = get_object_or_404(Item, pk=pk)
-    datap = {'id_archivo_adjunto':-1,'item_archivo_adjunto':item.nombre_item}
-    form = ArchivoAdjuntoForm(initial=datap)
-    variables = {'form':form}
-    return render_to_response('des/archivoadjunto.html',variables, context_instance=RequestContext(request))
 
+    if request.method == 'POST':
+        archivoAdjunto_form = ArchivoAdjuntoForm(request.POST, request.FILES)
+        if archivoAdjunto_form.is_valid():
+            archivoAdjunto_form.save()
+            creado = True
+            return render_to_response('des/archivoadjunto.html',
+                              {
+                                  'archivoAdjunto_form':archivoAdjunto_form,
+                                  'creado': creado,
+                              },
+                              context)
+        else:
+            print archivoAdjunto_form.errors
+    else:
+        archivoAdjunto_form = ArchivoAdjuntoForm()
+        item = get_object_or_404(Item, pk=pk)
+        datap = {'id_item_relacionado':item}
+        archivoAdjunto_form = ArchivoAdjuntoForm(initial=datap)
+    return render_to_response('des/archivoadjunto.html',
+                              {
+                                  'archivoAdjunto_form':archivoAdjunto_form,
+                                  'creado': creado,'item':item,
+                              },
+                              context)
 
 def crear_archivoAdjunto(request):
     """Funcion para Crear Item.

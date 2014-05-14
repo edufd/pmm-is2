@@ -5,26 +5,25 @@
 {% block title %}PMM{% endblock %}
 {% block content %}
 
-    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-        <h1 class="page-header">Crear item</h1>
+     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <h1 class="page-header">Adjuntar Archivo</h1>
         </br>
-
+        {% if creado %}
         <strong>Se ha creado el item!</strong><br/>
         <a href="/des/">Retornar a la pagina de inicio</a><br/>
+        {% else %}
             <strong><h4>Complete los datos</h4></strong>
             </br>
 
-            <form action="{{ app_path }}" method="post" id="archivoadjunto-form">
-                <div class="form-row">
-                    <label for="id_path_archivo">{% trans 'Path Archivo Adjunto:' %}</label> {{form.path_archivo}}
-                </div>
-                <div class="form-row">
-                    <label for="id_item_archivo_adjunto">{% trans 'Item Archivo Adjunto:' %}</label> {{form.item_archivo_adjunto}}
-                </div>
-                {{form.id_archivo_adjunto}}
-                <div class="submit-row">
-                    <label>&nbsp;</label>
-                </div>
+            <form class="form_class" id="form_class" method="post" action="{{ item.id_item }}"
+                    enctype="multipart/form-data">
+
+                {% csrf_token %}
+
+                {{ archivoAdjunto_form.as_p }}
+                <!-- Provide a button to click to submit the form. -->
+                <input class="btn btn-primary" type="submit" name="submit" value="Adjuntar" />
             </form>
+        {% endif %}
     </div>
 {% endblock %}

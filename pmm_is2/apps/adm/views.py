@@ -25,14 +25,14 @@ def index2(request):
 @login_required
 @user_passes_test(not_in_admin_group)
 @permission_required('auth_user.add_user', login_url='/adm/')
-def usuario(request):
+def usuarios(request):
     context = RequestContext(request)
     current_user = request.user
     user_list = get_user_list(current_user.id)
 
     context_dict= {}
     context_dict['object_list'] = user_list
-    return render_to_response('adm/usuario.html', context_dict, context)
+    return render_to_response('adm/usuarios.html', context_dict, context)
 
 
 @login_required

@@ -1,8 +1,9 @@
 {% extends 'adm/adm_base_logged.html' %}
 {% load static %}
 {% block link %}
-    <link href="{% static 'css/dashboard.css' %}" rel="stylesheet" xmlns="http://www.w3.org/1999/html">{% endblock %}
-{% block title %}PMM{% endblock %}
+    <link href="{% static 'css/dashboard.css' %}" rel="stylesheet" xmlns="http://www.w3.org/1999/html">
+{% endblock %}
+{% block title %}Usuarios{% endblock %}
 {% block content %}
     <div class="row">
         <div id="breadcrumb" class="col-md-12">
@@ -26,13 +27,13 @@
                     </div>
                     <div class="box-icons">
                         <a class="collapse-link">
-                            <i class="fa fa-chevron-up"></i>
+                            <i class="glyphicon glyphicon-chevron-down"></i>
                         </a>
                         <a class="expand-link">
-                            <i class="fa fa-expand"></i>
+                            <i class="glyphicon glyphicon-resize-full"></i>
                         </a>
                         <a class="close-link">
-                            <i class="fa fa-times"></i>
+                            <i class="glyphicon glyphicon-remove-circle"></i>
                         </a>
                     </div>
                     <div class="no-move"></div>

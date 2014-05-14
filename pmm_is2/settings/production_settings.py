@@ -13,7 +13,7 @@ from os.path import join
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 TEMPLATE_DIRS = (
-    join(BASE_DIR, 'pmm_is2/templates'),
+    join(BASE_DIR, '../pmm_is2/templates'),
 )
 
 # Quick-start development settings - unsuitable for production
@@ -64,17 +64,8 @@ WSGI_APPLICATION = 'pmm_is2.wsgi.application'
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
 DATABASES = {
-    #desarrollo
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'pmm',
-        'USER': 'pmm',
-        'PASSWORD': 'pmm2014',
-        'HOST': 'localhost',
-        #'PORT':'5433',
-    },
     #produccion
-    'produccion': {
+    'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'pmm_produccion',
         'USER': 'pmm',
@@ -102,7 +93,7 @@ SITE_ID = 1
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 # Esto es la configuracion de la carpeta static, en donde guardaremos nuestros css, js e imagenes
 
-STATIC_PATH = os.path.join(BASE_DIR, 'pmm_is2/static')
+STATIC_PATH = os.path.join(BASE_DIR, '../pmm_is2/static')
 
 STATIC_URL = '/static/'
 

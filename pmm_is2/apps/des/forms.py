@@ -2,20 +2,7 @@ from django import forms
 from pmm_is2.apps.des.models import TipoItem
 
 from pmm_is2.apps.des.models import ArchivoAdjunto
-from pmm_is2.apps.des.models import Item
-
-ESTADO_CHOICES = (
-    ('e','elegir...'),
-    ('A', 'Aprobado'),
-    ('N', 'No aprobado'),
-)
-
-PRIORIDAD_CHOICES = (
-    ('e','elegir...'),
-    ('A', 'Alta'),
-    ('M', 'Media'),
-    ('B','Baja'),
-)
+from pmm_is2.apps.des.models import Item, ESTADO_CHOICES, PRIORIDAD_CHOICES
 
 
 #para probar archivo adjunto luego eliminar y poner como se debe
@@ -27,7 +14,7 @@ class ItemForm(forms.models.ModelForm):
     observaciones = forms.CharField(label=u"Observaciones", widget=forms.Textarea({'cols': 80, 'rows': 20}), error_messages={'required': 'Ingrese observaciones'})
     class Meta:
         model = Item
-        fields = ('nombre_item', 'prioridad', 'estado', 'complejidad', 'observaciones', 'id_tipo_item', 'id_fase')
+        fields = ('nombre_item', 'prioridad', 'estado', 'complejidad', 'observaciones', 'id_tipo_item', 'id_fase', 'descripcion')
 
 
 class TipoItemForm(forms.models.ModelForm):

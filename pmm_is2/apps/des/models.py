@@ -1,5 +1,17 @@
 from django.db import models
 
+ESTADO_CHOICES = (
+    ('e','elegir...'),
+    ('A', 'Aprobado'),
+    ('N', 'No aprobado'),
+)
+
+PRIORIDAD_CHOICES = (
+    ('e','elegir...'),
+    ('A', 'Alta'),
+    ('M', 'Media'),
+    ('B','Baja'),
+)
 
 class Atributo(models.Model):
     id_atributo = models.AutoField(primary_key=True)

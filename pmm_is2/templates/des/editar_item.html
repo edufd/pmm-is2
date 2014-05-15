@@ -5,9 +5,9 @@
 {% block content %}
 
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-        <h1 class="page-header">Modificar Tipo de Item</h1>
+        <h1 class="page-header">Modificar Item</h1>
             <form class="form_class" method="post">{% csrf_token %}
-                {{ tipo_item_form.as_p }}
+                {{ item_form.as_p }}
                 <input class="btn btn-primary" type="submit" value="Modificar" />
             </form>
     </div>

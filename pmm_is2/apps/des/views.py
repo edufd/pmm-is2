@@ -49,6 +49,7 @@ def crear_tipo_item(request):
                               context
     )
 
+@login_required
 def crear_item(request):
     """Funcion para Crear Item.
     Retorna la pagina correspondiente con el formulario para la creacion del ITem
@@ -79,7 +80,6 @@ def crear_item(request):
                               },
                               context
     )
-
 
 def get_lista_tipo_item():
     lista_tipo_item = TipoItem.objects.all()
@@ -146,19 +146,27 @@ def editar_tipo_item(request, pk):
         return redirect('listar_tipo_item')
 
     return render_to_response('des/editar_tipo_item.html', {'tipo_item_form': tipo_item_form}, context)
-
+@login_required
 def editar_item(request, pk):
-    """Funcion para Modificar un Tipo Item.
+    """Funcion para Modificar un Item.
     Retorna la pagina con el formulario correspondiente para la modificacion
-    del Tipo Item.
+    del Item.
 
     :param request: Parametro a ser procesado.
-    :param pk: Parametro a ser procesado el identificador del tipo de Item que va a modificarse.
+    :param pk: Parametro a ser procesado el identificador del Item que va a modificarse.
     :type request: HttpRequest.
     :type pk: int.
     :returns: La pagina correspondiente.
     :rtype: El response correspondiente.
     """
+    context = RequestContext(request)
+    item = get_object_or_404(Item, pk=pk)
+    item_form = ItemForm(request.POST or None, instance=item)
+    if item_form.is_valid():
+        item_form.save()
+        return redirect('listar_item')
+
+    return render_to_response('des/editar_item.html', {'item_form': item_form}, context)
 
 @login_required
 def eliminar_tipo_item(request, pk):
@@ -181,10 +189,10 @@ def eliminar_tipo_item(request, pk):
 
 
 def eliminar_item(request, pk):
-    """Funcion para Eliminar un Tipo Item.
+    """Funcion para Eliminar un Item.
 
     :param request: Parametro a ser procesado.
-    :param pk: Parametro a ser procesado el identificador del tipo de Item que va a eliminarse.
+    :param pk: Parametro a ser procesado el identificador del Item que va a eliminarse.
     :type request: HttpRequest.
     :type pk: int.
     :returns: La pagina correspondiente.

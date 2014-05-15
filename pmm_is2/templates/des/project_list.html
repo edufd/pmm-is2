@@ -1,0 +1,30 @@
+{% extends 'adm/adm_base_logged.html' %}
+{% load static %}
+{% block link %}<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">{% endblock %}
+{% block title %}PMM{% endblock %}
+{% block content %}
+    <div class="row">
+        <div id="breadcrumb" class="col-md-12">
+            <ol class="breadcrumb">
+                <li><a href="/home/">PMM</a></li>
+                <li><a href="/des/">Desarrollo</a></li>
+                <li><a href="/adm/proyectos/">Proyectos</a></li>
+                <li><a href="#">Lista de Proyectos</a></li>
+            </ol>
+        </div>
+    </div>
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        {% for proyecto in object_list %}
+            <li>
+                <h4>{{ proyecto.nombre_proyecto}}
+
+                    <a href="/adm/project_profile/{{ proyecto.id_proyecto }}">Perfil</a> |
+                    {% if user == proyecto.lider_proyecto or valido %}
+                        :
+                        <a href="/des/phases_list/{{ proyecto.id_proyecto }}">Fases</a>
+                    {% endif %}
+                </h4>
+            </li>
+        {% endfor %}
+    </div>
+{% endblock %}

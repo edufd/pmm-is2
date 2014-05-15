@@ -25,4 +25,7 @@ urlpatterns = patterns('',
 
         url(r'^desasignar/(?P<pk>\d+)$', views.desasignar, name='desasignar'),
         url(r'^eliminar_adjunto/(?P<pk>\d+)$', views.eliminar_adjunto, name='eliminar_adjunto'),
+
+        url(r'^project_list/$', views.project_list, name='project_list'),
+        url(r'^phases_list/(?P<pk>\d+)$', views.phases_list, name='phases_list'),
 )

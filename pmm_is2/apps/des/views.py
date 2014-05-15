@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
+from pmm_is2.apps.adm.utils import get_project_list, get_phases_list
 
 from pmm_is2.apps.des.forms import TipoItemForm
 from pmm_is2.apps.des.models import TipoItem
@@ -376,3 +377,36 @@ def eliminar_adjunto(request, pk):
         return redirect('listar_item')
 
     return render_to_response('des/confirmar_eliminacion_adjunto.html', {'adjunto': adjunto}, context)
+
+
+def project_list(request):
+    """Funcion para Listar Proyectos.
+    Retorna la pagina correspondiente con la lista de Proyectos
+
+    :param request: Parametro a ser procesado.
+    :type request: HttpRequest.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
+    context = RequestContext(request)
+    project_list = get_project_list()
+    context_dict = {}
+    context_dict['object_list'] = project_list
+
+    valido = False
+    if request.user.is_superuser:
+        valido = True
+
+    context_dict['valido'] = valido
+
+    return render_to_response('des/project_list.html', context_dict, context)
+
+
+def phases_list(request, pk):
+
+    context = RequestContext(request)
+    phases_list = get_phases_list(pk)
+    context_dict = {}
+    context_dict['object_list'] = phases_list
+
+    return render_to_response('des/phases_list.html', context_dict, context)

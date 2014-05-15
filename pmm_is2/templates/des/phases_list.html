@@ -1,0 +1,25 @@
+{% extends 'adm/adm_base_logged.html' %}
+{% load static %}
+{% block link %}<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">{% endblock %}
+{% block title %}PMM{% endblock %}
+{% block content %}
+    <div class="row">
+        <div id="breadcrumb" class="col-md-12">
+            <ol class="breadcrumb">
+                <li><a href="/home/">PMM</a></li>
+                <li><a href="/des/">Desarrollo</a></li>
+                <li><a href="/adm/proyectos/">Proyectos</a></li>
+                <li><a href="#">Lista de Fases</a></li>
+            </ol>
+        </div>
+    </div>
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        {% for fase in object_list %}
+            <li>
+                <h4>{{ fase.nombre_fase }}  :
+                    <a href="/adm/crear_item/{{fase.id_fase }}">Agregar Item</a>
+                </h4>
+            </li>
+        {% endfor %}
+    </div>
+{% endblock %}

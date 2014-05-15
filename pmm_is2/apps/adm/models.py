@@ -92,6 +92,9 @@ class Fase(models.Model):
         #db_table = 'fase'
         app_label = 'adm'
 
+    def __unicode__(self):
+        return self.nombre_fase
+
 
     #Para aumentar el numero por cada fase creada
     def save(self):

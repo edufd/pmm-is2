@@ -37,35 +37,46 @@ class AtributoTipoItem(models.Model):
         unique_together = (("id_atributo", "id_tipo_item"),)
 
 
-class TipoItemProyecto(models.Model):
-    id_tipo_item_proyecto = models.AutoField(primary_key=True)
-    nombre_tipo_item_proyecto = models.CharField(max_length=200)
-    descripcion = models.CharField(max_length=200)
-    id_tipo_item = models.ForeignKey('TipoItem')
-    id_proyecto = models.ForeignKey('adm.Proyecto')
-    # class Meta:
-    #      db_table = 'TipoItem_proyecto'
+# class TipoItemProyecto(models.Model):
+#     id_tipo_item_proyecto = models.AutoField(primary_key=True)
+#     nombre_tipo_item_proyecto = models.CharField(max_length=200)
+#     descripcion = models.CharField(max_length=200)
+#     id_tipo_item = models.ForeignKey('TipoItem')
+#     id_proyecto = models.ForeignKey('adm.Proyecto')
+#     # class Meta:
+#     #      db_table = 'TipoItem_proyecto'
 
 
 class Item(models.Model):
     id_item = models.AutoField(primary_key=True)
     nombre_item = models.CharField(unique=False, max_length=200)
-    version_item = models.IntegerField()
-    prioridad = models.IntegerField() #Debera tener del 1 al  10
+    version_item = models.IntegerField(blank=True)
+    prioridad = models.CharField(max_length=1) #Alta:'A', Media:'M', Baja:'B'
     estado = models.CharField(max_length=1) # I:Inactivo  B:Bloqueado C:Revision A:Aprobado D:Desaprobado
     descripcion = models.CharField(max_length=200)
     observaciones = models.CharField(max_length=5000)
-    complejidad = models.IntegerField()
-    ultima_version_item_id = models.IntegerField()
-    #id_tipo_item = models.ForeignKey(TipoItemProyecto, related_name='Item')
-    #id_fase = models.ForeignKey('adm.Fase')
+    complejidad = models.IntegerField(max_length=10)
+    ultima_version_item_id = models.IntegerField(blank=True)
+    id_tipo_item = models.ForeignKey(TipoItem, verbose_name="Tipo de Item")
+    id_fase = models.ForeignKey('adm.Fase', verbose_name="Fase")
 
     def __unicode__(self):
         return self.nombre_item
     # class Meta:
     #      db_table = 'Item'
 
+    def save(self):
+        primera_version = False
+        primera_version = Item.objects.filter(version_item=1).exists()
+        if (primera_version is True):
+            self.ultima_version_item_id = self.version_item
+            self.version_item = self.version_item + 1
+        else:
+            self.version_item = 1
+            self.ultima_version_item_id = -1
 
+        super(Item, self).save()
+        return Item
 
 
 

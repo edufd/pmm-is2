@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 ESTADO_CHOICES = (
     ('e','elegir...'),
@@ -112,3 +113,11 @@ class ArchivoAdjunto(models.Model):
     filename=models.CharField(max_length=100)
     path_archivo = models.FileField(upload_to='documents/%Y%m%d')
     id_item_relacionado = models.ForeignKey(Item)
+    
+class LineaBase(models.Model):
+    id_linea_base = models.AutoField(primary_key=True)
+    nombre_linea_base = models.CharField(max_length=15)
+    creado_por = models.ForeignKey(User)
+    fase_linea_base = models.ForeignKey('adm.Fase', verbose_name="Fase")
+    def __unicode__(self):
+         return self.nombre_linea_base

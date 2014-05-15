@@ -159,14 +159,6 @@ def editar_item(request, pk):
     :returns: La pagina correspondiente.
     :rtype: El response correspondiente.
     """
-    context = RequestContext(request)
-    item = get_object_or_404(Item, pk=pk)
-    item_form = ItemForm(request.POST or None, instance=item)
-    if item_form.is_valid():
-        item_form.save()
-        return redirect('listar_item')
-
-    return render_to_response('des/editar_item.html', {'item_form': item_form}, context)
 
 @login_required
 def eliminar_tipo_item(request, pk):
@@ -340,3 +332,39 @@ def crear_archivoAdjunto(request):
                               },
                               context
     )
+
+
+def desasignar(request,pk):
+    context = RequestContext(request)
+    print pk
+    existe=ArchivoAdjunto.objects.filter(id_item_relacionado=pk).exists()
+    if existe:
+        traer=ArchivoAdjunto.objects.filter(id_item_relacionado=pk)
+        print traer
+
+        return render_to_response('des/desasignar.html',
+                              {
+                                 'traer':traer,
+                             },
+                             context)
+    
+    else:
+        return redirect('listar_item')
+
+def eliminar_adjunto(request, pk):
+    """Funcion para Eliminar un Tipo Item.
+
+    :param request: Parametro a ser procesado.
+    :param pk: Parametro a ser procesado el identificador del tipo de Item que va a eliminarse.
+    :type request: HttpRequest.
+    :type pk: int.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
+    context = RequestContext(request)
+    adjunto = get_object_or_404(ArchivoAdjunto, pk=pk)
+    if request.method == 'POST':
+        adjunto.delete()
+        return redirect('listar_item')
+
+    return render_to_response('des/confirmar_eliminacion_adjunto.html', {'adjunto': adjunto}, context)

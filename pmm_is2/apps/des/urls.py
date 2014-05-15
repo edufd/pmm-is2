@@ -22,4 +22,7 @@ urlpatterns = patterns('',
         url(r'^adjuntarArchivo_item/(?P<pk>\d+)$', views.archivoadjunto_page, name='adjuntarArchivo_item'),
 
         url(r'^crear_archivoAdjunto/$', views.crear_archivoAdjunto, name='crear_archivoAdjunto'),
+
+        url(r'^desasignar/(?P<pk>\d+)$', views.desasignar, name='desasignar'),
+        url(r'^eliminar_adjunto/(?P<pk>\d+)$', views.eliminar_adjunto, name='eliminar_adjunto'),
 )

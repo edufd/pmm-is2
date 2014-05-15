@@ -21,6 +21,10 @@
                               <i class="icon-trash icon-white"></i>
                               AdjuntarArchivo
                             </a>
+                         <a class="btn btn-danger" href="{% url "desasignar" item.id_item %}">
+                              <i class="icon-trash icon-white"></i>
+                              Desasignar
+                         </a>
                     </li>
 
                 {% endfor %}

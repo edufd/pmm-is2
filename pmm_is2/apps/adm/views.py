@@ -118,12 +118,13 @@ def project_create(request):
         project_form = ProjectForm(request.POST or None, instance=Proyecto())
         fase_form = FaseForm(request.POST or None, instance=Fase())
         if project_form.is_valid() and fase_form.is_valid():
-            new_project = project_form.save()
-            new_project.save()
-            new_fase = fase_form.save(commit=False)
-            new_fase.proyecto = new_project
-            new_fase.save()
+            project = project_form.save()
+            project.save()
+            fase = fase_form.save(commit=False)
+            fase.proyecto = project
+            fase.save()
             registered = True
+
         else:
             print project_form.errors
             print fase_form.errors
@@ -522,7 +523,7 @@ def fase_create(request, pk):
             new_fase = fase_form.save(commit=False)
             new_fase.proyecto = proyecto
             new_fase.save()
-            return redirect('project_list')
+            return redirect('/adm/project_list')
             registered = True
         else:
             print fase_form.errors

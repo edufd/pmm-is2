@@ -187,7 +187,7 @@ def eliminar_tipo_item(request, pk):
 
     return render_to_response('des/confirmar_eliminacion_tipo_item.html', {'tipo_item': tipo_item}, context)
 
-
+@login_required
 def eliminar_item(request, pk):
     """Funcion para Eliminar un Item.
 
@@ -200,7 +200,7 @@ def eliminar_item(request, pk):
     """
     context = RequestContext(request)
     item = get_object_or_404(Item, pk=pk)
-    if request.method == 'POST':
+    if (request.method == 'POST' and item.estado != 'A'):
         item.delete()
         return redirect('listar_item')
 

@@ -13,10 +13,12 @@
                         <h4 ><a href="{% url "editar_item" item.id_item %}">{{ item.nombre_item}}</a>
 
                         </h4>
+                        {% if item.estado != 'A' %}
                         <a class="btn btn-danger" href="{% url "eliminar_item" item.id_item %}">
                               <i class="icon-trash icon-white"></i>
                               Eliminar
                             </a>
+                        {% endif %}
                         <a class="btn btn-danger" href="{% url "adjuntarArchivo_item" item.id_item %}">
                               <i class="icon-trash icon-white"></i>
                               AdjuntarArchivo

@@ -41,10 +41,10 @@ class ProjectForm(forms.ModelForm):
 
 
 class FaseForm(forms.ModelForm):
-    #numero_secuencia = forms.DateField(widget=forms.HiddenInput())
+
     class Meta:
         model = Fase
-        fields = ('nombre_fase', 'descripcion', 'grupos')
+        fields = ('nombre_fase', 'descripcion', 'grupos', 'tipo_item')
 
 
 class ComiteForm(forms.ModelForm):

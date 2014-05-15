@@ -85,7 +85,7 @@ class Fase(models.Model):
     descripcion = models.CharField(max_length=200)
     estado_fase = models.CharField(max_length=11, choices=FASES_ESTADOS, default='NO-INICIADA')
     numero_secuencia = models.IntegerField(blank=True)
-    #tipo_item = models.ManyToManyField(TipoItem)
+    tipo_item = models.ManyToManyField('des.TipoItem')
     grupos = models.ManyToManyField(Group)
 
     class Meta:
@@ -94,7 +94,6 @@ class Fase(models.Model):
 
     def __unicode__(self):
         return self.nombre_fase
-
 
     #Para aumentar el numero por cada fase creada
     def save(self):
@@ -117,7 +116,6 @@ class Comite(models.Model):
     id_comite = models.AutoField(primary_key=True)
     proyecto = models.ForeignKey(Proyecto)
     usuario = models.ManyToManyField(User)
-    #class Meta:
-        #db_table = 'Comite'
-        #unique_together = ("proyecto")
 
+    def __unicode__(self):
+        return self.id_comite

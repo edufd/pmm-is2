@@ -79,6 +79,21 @@ class Item(models.Model):
         return Item
 
 
+class RelacionItemFaseAnterior (models.Model):
+    id_relacion_fase_anterior = models.AutoField (primary_key = True)
+    id_item_fase_anterior = models.ForeignKey (item)
+    id_item_fase_actual = models.ForeignKey (item, related_name = 'item_relacionados_fase_anterior')
+    relacion_valida = models.BooleanField () # Campo Que indica si la relacion corresponde a Una relacion validación (real) o
+    # Verdadero: Relacion Valida - Falso: Relacion invalida
+
+class RelacionPadreHijo (models.Model):
+    id_relacion_padre_hijo = models.AutoField (primary_key = True)
+    id_item_hijo = models.ForeignKey (item)
+    id_item_padre = models.ForeignKey (item, related_name = 'item_hijos')
+    relacion_valida = models.BooleanField () # Campo Que indica si la relacion corresponde a Una relacion validación (real) o
+    # Verdadero: Relacion Valida - Falso: Relacion invalida
+
+
 
 class ArchivoAdjunto(models.Model):
     id_archivo_adjunto = models.AutoField(primary_key=True)

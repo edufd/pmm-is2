@@ -23,10 +23,14 @@
                               <i class="icon-trash icon-white"></i>
                               AdjuntarArchivo
                             </a>
-                         <a class="btn btn-danger" href="{% url "desasignar" item.id_item %}">
+                        <a class="btn btn-danger" href="{% url "desasignar" item.id_item %}">
                               <i class="icon-trash icon-white"></i>
                               Desasignar
-                         </a>
+                        </a>
+                        <a class="btn btn-danger" href="/des/historial_item/{{ item.id_item }}">
+                              <i class="icon-trash icon-white"></i>
+                              Historial
+                        </a>
                     </li>
 
                 {% endfor %}

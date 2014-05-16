@@ -19,7 +19,8 @@ class ItemForm(forms.models.ModelForm):
         super(ItemForm, self).__init__(*args, **kwargs)
         # self.fields['id_fase'] = forms.ModelChoiceField(queryset=Fase.objects.filter(id_fase=id_fase),
         #                                                 widget=forms.Select(), required=False)
-        self.fields['id_tipo_item'] = forms.ModelChoiceField(queryset=TipoItem.objects.select_related('fase').filter(fase=id_fase),
+        self.fields['id_tipo_item'] = \
+            forms.ModelChoiceField(queryset=TipoItem.objects.select_related('fase').filter(fase=id_fase),
                                                         widget=forms.Select(), required=False)
 
     class Meta:
@@ -39,7 +40,8 @@ class ArchivoAdjuntoForm(forms.models.ModelForm):
     path_archivo = forms.FileField(label='Selecciona un archivo')
     filename = forms.CharField(max_length=100,label='Nombre Archivo:')
     id_item_relacionado = forms.ModelChoiceField(queryset=Item.objects.all(), widget=forms.Select(), required=False)
-    class  Meta:
+
+    class Meta:
        model = ArchivoAdjunto
        fields = ('path_archivo','filename','id_item_relacionado')
 

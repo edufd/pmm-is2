@@ -3,14 +3,11 @@ from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
 from pmm_is2.apps.adm.models import Fase
 from pmm_is2.apps.adm.utils import get_project_list, get_phases_list
-
 from pmm_is2.apps.des.forms import TipoItemForm
-from pmm_is2.apps.des.models import TipoItem
+from pmm_is2.apps.des.models import TipoItem, VersionItem
 from pmm_is2.apps.des.forms import ItemForm
-
 from pmm_is2.apps.des.forms import ArchivoAdjuntoForm
 from pmm_is2.apps.des.models import ArchivoAdjunto
-
 from pmm_is2.apps.des.models import Item
 
 
@@ -73,7 +70,6 @@ def crear_item(request, pk):
         if item_form.is_valid():
             item_form.instance.id_fase = objeto_fase
             item = item_form.save()
-            item.save()
             creado = True
         else:
             print item_form.errors
@@ -174,7 +170,7 @@ def editar_item(request, pk):
     """
     context = RequestContext(request)
     item = get_object_or_404(Item, pk=pk)
-    item_form = ItemForm(request.POST or None, instance=item)
+    item_form = ItemForm(request.POST or None, instance=item, id_fase=item.id_fase)
     if item_form.is_valid():
         item_form.save()
         return redirect('listar_item')
@@ -300,7 +296,7 @@ def get_item_list(max_results=0, starts_with=''):
 
 
 #agregado Adri
-def archivoadjunto_page(request,pk):
+def archivoadjunto_page(request, pk):
     context = RequestContext(request)
     creado=False
     print pk
@@ -432,3 +428,17 @@ def phases_list(request, pk):
     return render_to_response('des/phases_list.html', context_dict, context)
 
 
+def historial_item(request, pk):
+
+    context = RequestContext(request)
+    item_historial_list = get_historial_item_list(pk)
+    print item_historial_list
+    context_dict = {}
+    context_dict['object_list'] = item_historial_list
+
+    return render_to_response('des/historial_item.html', context_dict, context)
+
+
+def get_historial_item_list(pk):
+    item_historial_list = VersionItem.objects.filter(item_id=pk).order_by('version_item')
+    return item_historial_list

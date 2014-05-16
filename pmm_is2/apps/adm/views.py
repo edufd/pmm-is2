@@ -357,7 +357,7 @@ def phase_delete(request, pk):
 @login_required
 @user_passes_test(not_in_admin_group, login_url='/login/')
 @can_manage_project
-@permission_required('adm_proyecto.delete_proyecto', login_url='/adm/')
+@permission_required('adm.delete_proyecto', login_url='/adm/')
 def project_delete(request, pk):
 
     """Funcion para Eliminar un Proyecto.
@@ -375,9 +375,9 @@ def project_delete(request, pk):
     if request.method == 'POST':
         proyecto.delete()
         registered = True
-        return redirect('project_list')
+        return redirect('/adm/project_list')
 
-    return render_to_response('adm/group_confirm_delete.html',
+    return render_to_response('adm/project_confirm_delete.html',
                               {'object': proyecto}, context)
 
 
@@ -501,7 +501,7 @@ def permiso(request, pk):
 #probando
 @login_required
 @user_passes_test(not_in_admin_group, login_url='/login/')
-@can_manage_phase
+@can_create_phase
 def phase_create(request, pk):
     """Funcion para crear una Fase.
     Retorna la pagina con el formulario correspondiente para la creacion

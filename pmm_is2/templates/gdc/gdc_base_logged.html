@@ -1,0 +1,68 @@
+{% load static %}
+{% load tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="../../assets/ico/favicon.ico">
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/bootstrap-theme.css' %}" rel="stylesheet">
+    <link href="{% static 'css/bootstrap-theme.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/dashboard.css' %}" rel="stylesheet">
+    {% block link %}{% endblock %}
+    <title>{% block title %}{% endblock %}</title>
+  </head>
+  <body>
+        <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/home">PMM</a>
+                    <a class="navbar-brand" href="/gdc/">Modulo de Gestion De Cambios</a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="/home/">Home</a></li>
+                        <li><a href="/adm/perfil/{{ user.id }}">{{ user.username }}</a></li>
+                        <li><a href="/logout/">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="col-sm-3 col-md-2 sidebar">
+                        <ul class="nav nav-sidebar">
+                            {% if user|verificarRolUsuario%}
+                                <li><a class="modulos" href="/adm/">Modulo de Administracion</a></li>
+                            {% endif %}
+                            <li class="active"><a class="modulos" href="/gdc/">Modulo de Gestion de Cambio</a></li>
+                            <li><a href="/gdc/crear_solicitud/">Solicitar Cambios</a></li>
+                            <li><a href="/gdc/listar_solicitud/">Listar Solicitud de Cambios</a></li>
+                            <li><a href="/gdc/listar_solicitudRecibido/">Ver Solicitudes Recibidas</a></li>
+
+
+
+                            <li class="active"><a class="modulos" href="/des/">Modulo de Desarrollo</a></li>
+                            <li><a href="/des/crear_tipo_item/">Crear Tipos de item</a></li>
+                            <li><a href="/des/listar_tipo_item/">Listar Tipos de item</a></li>
+                            <li><a href="/des/crear_item/">Crear Item</a></li>
+                            <li><a href="/des/listar_item/">Listar Item</a></li>
+                            <li><a href="/des/crear_archivoAdjunto/">Adjuntar Archivo a Item</a></li>
+                         </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% block content %}{% endblock %}
+    <script src="{% static 'js/jquery-2.1.0.min.js' %}"></script>
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.js' %}"></script>
+    <script src="{% static 'js/rango-ajax.js' %}"></script>
+  </body>
+</html>

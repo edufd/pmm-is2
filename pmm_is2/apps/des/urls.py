@@ -18,6 +18,7 @@ urlpatterns = patterns('',
         url(r'^editar_item/(?P<pk>\d+)$', views.editar_item, name='editar_item'),
         url(r'^eliminar_item/(?P<pk>\d+)$', views.eliminar_item, name='eliminar_item'),
         url(r'^item/(?P<pk>\d+)$', views.ver_item, name='item'),
+        url(r'^suggest_tipo_item/$', views.suggest_tipo_item, name='suggest_tipo_item'),
         url(r'^suggest_item/$', views.suggest_item, name='suggest_item'),
         url(r'^adjuntarArchivo_item/(?P<pk>\d+)$', views.archivoadjunto_page, name='adjuntarArchivo_item'),
 

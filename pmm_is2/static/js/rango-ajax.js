@@ -51,6 +51,14 @@ $(document).ready(function() {
             });
 	});
 
+    $('#suggestion_item').keyup(function(){
+            var query;
+            query = $(this).val();
+            $.get('/des/suggest_item/', {suggestion: query}, function(data){
+                     $('#cats_item').html(data);
+            });
+	});
+
 
 	$('.rango-add').click(function(){
 	    var catid = $(this).attr("data-catid");

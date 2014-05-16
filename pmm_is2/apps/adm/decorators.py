@@ -1,10 +1,22 @@
 from django.shortcuts import redirect
-from pmm_is2.apps.adm.models import Proyecto
+from pmm_is2.apps.adm.models import *
 from django.contrib.auth.models import User, Group, Permission
 
 
-#decorador para evitar que se puedan crear fases si no el duenho del proyecto
+#decorador para evitar que se puedan crear fases si no es el duenho del proyecto
 def can_manage_phase(view_func):
+    def _wrapped_view_func(request, *args, **kwargs):
+        id_fase = kwargs['pk']
+        fase = Fase.objects.get(id_fase=id_fase)
+        print request.user
+        print fase.proyecto.lider_proyecto
+        if not fase.proyecto.lider_proyecto == request.user:
+            return redirect('/adm/')
+        return view_func(request, *args, **kwargs)
+    return _wrapped_view_func
+
+
+def can_create_phase(view_func):
     def _wrapped_view_func(request, *args, **kwargs):
         id_proyecto = kwargs['pk']
         proyecto = Proyecto.objects.get(id_proyecto=id_proyecto)

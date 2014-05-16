@@ -245,6 +245,7 @@ def ver_item(request, pk):
 
     return render_to_response('des/item.html', context_dict, context)
 
+
 #realiza la busqueda del texto solicitado y usa la funcion correspondiente para buscar en la base de datos
 #y mostrarla en la vista
 def suggest_tipo_item(request):

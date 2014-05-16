@@ -1,17 +1,17 @@
 create trigger after_update_item 
 	after update on pmm.des_item 
-	for each row execute procedure agregar_version_item();
+	for each row execute procedure pmm.agregar_version_item();
 
 create trigger after_insert_item
 	after insert on pmm.des_item
-	for each row execute procedure actualizar_version_item();
+	for each row execute procedure pmm.actualizar_version_item();
 
 
 /*create trigger after_insert_item
 	after insert on pmm.des_item
 	for each row execute procedure actualizar_version_item()*/
 
-CREATE OR REPLACE FUNCTION actualizar_version_item()
+CREATE OR REPLACE FUNCTION pmm.actualizar_version_item()
   RETURNS trigger AS $$
 	DECLARE
 
@@ -74,7 +74,7 @@ CREATE OR REPLACE FUNCTION actualizar_version_item()
 	$$
 	  LANGUAGE plpgsql VOLATILE
 	  COST 100;
-ALTER FUNCTION actualizar_version_item()
+ALTER FUNCTION pmm.actualizar_version_item()
   OWNER TO pmm;
 
 
@@ -82,7 +82,7 @@ ALTER FUNCTION actualizar_version_item()
 	after update on pmm.des_item
 	for each row execute procedure agregar_version_item()*/
 
-CREATE OR REPLACE FUNCTION agregar_version_item()
+CREATE OR REPLACE FUNCTION pmm.agregar_version_item()
   RETURNS trigger AS $$
 	DECLARE
 
@@ -119,5 +119,5 @@ CREATE OR REPLACE FUNCTION agregar_version_item()
 	$$
 	  LANGUAGE plpgsql VOLATILE
 	  COST 100;
-ALTER FUNCTION agregar_version_item()
+ALTER FUNCTION pmm.agregar_version_item()
   OWNER TO pmm;

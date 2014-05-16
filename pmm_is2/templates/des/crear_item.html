@@ -8,13 +8,13 @@
         <h1 class="page-header">Crear item</h1>
         </br>
         {% if creado %}
-        <strong>Se ha creado el item!</strong><br/>
-        <a href="/des/">Retornar a la pagina de inicio</a><br/>
+            <strong>Se ha creado el item!</strong><br/>
+            <a href="/des/">Retornar a la pagina de inicio</a><br/>
         {% else %}
             <strong><h4>Complete los datos</h4></strong>
             </br>
 
-            <form class="form_class" id="form_class" method="post" action="/des/crear_item/"
+            <form class="form_class" id="form_class" method="post" action="/des/crear_item/{{ fase }}"
                     enctype="multipart/form-data">
 
                 {% csrf_token %}

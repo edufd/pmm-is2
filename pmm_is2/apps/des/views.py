@@ -436,3 +436,6 @@ def phases_list(request, pk):
     context_dict['object_list'] = phases_list
 
     return render_to_response('des/phases_list.html', context_dict, context)
+
+def agregar_relaciones(request, pk):
+    return 'hola'

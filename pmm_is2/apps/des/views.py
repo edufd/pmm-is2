@@ -5,7 +5,7 @@ from pmm_is2.apps.adm.models import Fase
 from pmm_is2.apps.adm.utils import get_project_list, get_phases_list
 
 from pmm_is2.apps.des.forms import TipoItemForm, AtributoTipoItemForm
-from pmm_is2.apps.des.models import TipoItem, VersionItem
+from pmm_is2.apps.des.models import TipoItem, Relacion
 from pmm_is2.apps.des.forms import ItemForm
 
 from pmm_is2.apps.des.forms import ArchivoAdjuntoForm, RelacionesForm
@@ -442,20 +442,20 @@ def phases_list(request, pk):
     return render_to_response('des/phases_list.html', context_dict, context)
 
 
-def historial_item(request, pk):
+# def historial_item(request, pk):
+#
+#     context = RequestContext(request)
+#     item_historial_list = get_historial_item_list(pk)
+#     print item_historial_list
+#     context_dict = {}
+#     context_dict['object_list'] = item_historial_list
+#
+#     return render_to_response('des/historial_item.html', context_dict, context)
+#
 
-    context = RequestContext(request)
-    item_historial_list = get_historial_item_list(pk)
-    print item_historial_list
-    context_dict = {}
-    context_dict['object_list'] = item_historial_list
-
-    return render_to_response('des/historial_item.html', context_dict, context)
-
-
-def get_historial_item_list(pk):
-    item_historial_list = VersionItem.objects.filter(item_id=pk).order_by('version_item')
-    return item_historial_list
+#def get_historial_item_list(pk):
+    #item_historial_list = VersionItem.objects.filter(item_id=pk).order_by('version_item')
+    #return item_historial_list
 
 
 def agregar_relaciones(request):
@@ -481,22 +481,17 @@ def agregar_relaciones(request):
                 if itemA.id_fase == itemB.id_fase and relacion.tipo == "P":
                     relacion.save()
                     creado = True
-                else:
-                    error = "El tipo de relacion no puede ser Padre-Hijo ya que los items" \
-                            "no pertenecen a la misma fase. Cambie el tipo de relacion"
-                    return render_to_response('des/agregar_relaciones.html',
-                              {
-                                  'relacion_form': relacion_form,
-                                  'error': error,
-                              },
-                              context
-                    )
-                if itemA.id_fase != itemB.id_fase and relacion.tipo == "A":
+                elif itemA.id_fase != itemB.id_fase and relacion.tipo == "A":
                     relacion.save()
                     creado = True
                 else:
-                    error = "El tipo de relacion no puede ser Antecesor-Sucesor ya que los items" \
-                            "pertenecen a la misma fase. Cambie el tipo de relacion"
+                    if relacion.tipo == "P":
+                        error = "El tipo de relacion no puede ser Padre-Hijo ya que los items" \
+                                " no pertenecen a la misma fase. Cambie el tipo de relacion"
+                    else:
+                        error = "El tipo de relacion no puede ser Antecesor-Sucesor ya que los items" \
+                            " pertenecen a la misma fase. Cambie el tipo de relacion"
+
                     return render_to_response('des/agregar_relaciones.html',
                               {
                                   'relacion_form': relacion_form,
@@ -525,3 +520,15 @@ def agregar_relaciones(request):
                               },
                               context
     )
+
+def get_lista_relacion():
+    lista_relacion = Relacion.objects.all()
+    return lista_relacion
+
+def listar_relaciones(request):
+    context = RequestContext(request)
+    lista_relacion = get_lista_relacion()
+    context_dict = {}
+    context_dict['lista_relacion'] = lista_relacion
+
+    return render_to_response('des/lista_relacion.html', context_dict, context)

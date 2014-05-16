@@ -32,10 +32,12 @@ class TipoItem(models.Model):
     id_tipo_item = models.AutoField(primary_key=True)
     nombre_tipo_item = models.CharField(max_length=200, unique=True)
     descripcion = models.CharField(max_length=200)
+
     def __unicode__(self):
         return self.nombre_tipo_item
     #class Meta:
          #db_table = 'TipoItem'
+
 
 class AtributoTipoItem(models.Model):
     id_atributo_tipo_item = models.AutoField(primary_key=True)
@@ -71,7 +73,7 @@ class Item(models.Model):
     complejidad = models.IntegerField(max_length=10)
     ultima_version_item_id = models.IntegerField(blank=True)
     id_tipo_item = models.ForeignKey(TipoItem, verbose_name="Tipo de Item")
-    id_fase = models.ForeignKey('adm.Fase', verbose_name="Fase")
+    #id_fase = models.ForeignKey('adm.Fase', verbose_name="Fase")
 
     def __unicode__(self):
         return self.nombre_item
@@ -99,13 +101,13 @@ class RelacionItemFaseAnterior (models.Model):
     relacion_valida = models.BooleanField ()
     # Verdadero: Relacion Valida - Falso: Relacion invalida
 
+
 class RelacionPadreHijo (models.Model):
     id_relacion_padre_hijo = models.AutoField (primary_key = True)
     id_item_hijo = models.ForeignKey (Item)
     id_item_padre = models.ForeignKey (Item, related_name = 'item_hijos')
     relacion_valida = models.BooleanField ()
     # Verdadero: Relacion Valida - Falso: Relacion invalida
-
 
 
 class ArchivoAdjunto(models.Model):
@@ -119,5 +121,6 @@ class LineaBase(models.Model):
     nombre_linea_base = models.CharField(max_length=15)
     creado_por = models.ForeignKey(User)
     fase_linea_base = models.ForeignKey('adm.Fase', verbose_name="Fase")
+
     def __unicode__(self):
          return self.nombre_linea_base

@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
+from pmm_is2.apps.adm.models import Fase
 from pmm_is2.apps.adm.utils import get_project_list, get_phases_list
 
 from pmm_is2.apps.des.forms import TipoItemForm
@@ -17,6 +18,7 @@ from pmm_is2.apps.des.models import Item
 def index(request):
     context = RequestContext(request)
     return render_to_response('des/index.html', context)
+
 
 @login_required
 def crear_tipo_item(request):
@@ -50,6 +52,7 @@ def crear_tipo_item(request):
                               context
     )
 
+
 @login_required
 def crear_item(request):
     """Funcion para Crear Item.
@@ -82,13 +85,16 @@ def crear_item(request):
                               context
     )
 
+
 def get_lista_tipo_item():
     lista_tipo_item = TipoItem.objects.all()
     return lista_tipo_item
 
+
 def get_lista_item():
     lista_item =Item.objects.all()
     return lista_item
+
 
 @login_required
 def listar_tipo_item(request):
@@ -125,7 +131,6 @@ def listar_item(request):
     return render_to_response('des/lista_item.html', context_dict, context)
 
 
-
 @login_required
 def editar_tipo_item(request, pk):
     """Funcion para Modificar un Tipo Item.
@@ -147,6 +152,8 @@ def editar_tipo_item(request, pk):
         return redirect('listar_tipo_item')
 
     return render_to_response('des/editar_tipo_item.html', {'tipo_item_form': tipo_item_form}, context)
+
+
 @login_required
 def editar_item(request, pk):
     """Funcion para Modificar un Item.
@@ -169,6 +176,7 @@ def editar_item(request, pk):
 
     return render_to_response('des/editar_item.html', {'item_form': item_form}, context)
 
+
 @login_required
 def eliminar_tipo_item(request, pk):
     """Funcion para Eliminar un Tipo Item.
@@ -187,6 +195,7 @@ def eliminar_tipo_item(request, pk):
         return redirect('listar_tipo_item')
 
     return render_to_response('des/confirmar_eliminacion_tipo_item.html', {'tipo_item': tipo_item}, context)
+
 
 @login_required
 def eliminar_item(request, pk):
@@ -207,6 +216,7 @@ def eliminar_item(request, pk):
 
     return render_to_response('des/confirmar_eliminacion_item.html', {'item': item}, context)
 
+
 def ver_tipo_item(request, pk):
     context = RequestContext(request)
     tipo_item = get_object_or_404(TipoItem, pk=pk)
@@ -214,6 +224,7 @@ def ver_tipo_item(request, pk):
     context_dict = {'tipo_item': tipo_item}
 
     return render_to_response('des/tipo_item.html', context_dict, context)
+
 
 def ver_item(request, pk):
     context = RequestContext(request)
@@ -235,6 +246,7 @@ def suggest_tipo_item(request):
 
         return render_to_response('des/tipo_item_list.html', {'cat_list': cat_list}, context)
 
+
 def suggest_item(request):
         context = RequestContext(request)
         cat_list = []
@@ -244,7 +256,6 @@ def suggest_item(request):
         cat_list = get_item_list(2, starts_with)
 
         return render_to_response('des/item_list.html', {'cat_list': cat_list}, context)
-
 
 
 #busca el texto ingresado en permisos
@@ -263,6 +274,7 @@ def get_tipo_item_list(max_results=0, starts_with=''):
                         cat_list = cat_list[:max_results]
 
         return cat_list
+
 
 def get_item_list(max_results=0, starts_with=''):
         cat_list = []
@@ -312,6 +324,7 @@ def archivoadjunto_page(request,pk):
                               },
                               context)
 
+
 def crear_archivoAdjunto(request):
     """Funcion para Crear Item.
     Retorna la pagina correspondiente con el formulario para la creacion del ITem
@@ -359,6 +372,7 @@ def desasignar(request,pk):
     
     else:
         return redirect('listar_item')
+
 
 def eliminar_adjunto(request, pk):
     """Funcion para Eliminar un Tipo Item.
@@ -410,3 +424,5 @@ def phases_list(request, pk):
     context_dict['object_list'] = phases_list
 
     return render_to_response('des/phases_list.html', context_dict, context)
+
+

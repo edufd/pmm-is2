@@ -12,9 +12,15 @@ class ItemForm(forms.models.ModelForm):
     complejidad = forms.IntegerField(label=u"Complejidad (del 1 al 10)", error_messages={'required': 'Ingrese la complejidad del item'}, max_value=10)
     descripcion = forms.CharField(label=u"Descripcion", max_length=30, error_messages={'required': 'Ingrese una descripcion del item'})
     observaciones = forms.CharField(label=u"Observaciones", widget=forms.Textarea({'cols': 80, 'rows': 20}), error_messages={'required': 'Ingrese observaciones'})
+
+    # def __init__(self, *args, **kwargs):
+    #     tipo_item = kwargs.pop('tipo_item')
+    #     super(ItemForm, self).__init__(*args, **kwargs)
+    #     self.fields['id_tipo_item'] = forms.ModelChoiceField(queryset=TipoItem.objects.filter(id_tipo_item=tipo_item), widget=forms.Select(), required=False)
+
     class Meta:
         model = Item
-        fields = ('nombre_item', 'prioridad', 'estado', 'complejidad', 'observaciones', 'id_tipo_item', 'id_fase', 'descripcion')
+        fields = ('nombre_item', 'prioridad', 'estado', 'complejidad', 'observaciones', 'id_tipo_item', 'descripcion')
 
 
 class TipoItemForm(forms.models.ModelForm):

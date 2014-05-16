@@ -558,5 +558,5 @@ def item_import_list(request, pk):
 
 
 def get_item_import_list(pk):
-    lista_item =Item.objects.all()
+    lista_item = Item.objects.filter(id_fase=pk)
     return lista_item

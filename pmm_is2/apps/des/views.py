@@ -527,34 +527,34 @@ def agregar_relaciones(request):
     )
 
 
-def import_item(request, pk):
-    """Funcion para Importar Proyecto.
-
-    :param request: Parametro a ser procesado.
-    :param pk: Parametro a ser procesado. Identificador del Proyecto
-    :type request: HttpRequest.
-    :returns: La pagina correspondiente.
-    :rtype: El response correspondiente.
-    """
-    registered = False
-    context = RequestContext(request)
-    proyecto = get_object_or_404(Proyecto, pk=pk)
-    proyecto.pk = None
-    proyecto.nombre_proyecto = 'import_'+proyecto.nombre_proyecto
-    id_proyecto = pk
-    phases_list = get_phases_list(pk)
-    project_form = ProjectForm(request.POST or None, instance=proyecto)
-
-    if project_form.is_valid():
-        project = project_form.save()
-        for fase in phases_list:
-            fase.pk = None
-            fase.proyecto_id = project.id_proyecto
-            fase.save()
-
-        registered = True
-
-    return render_to_response('adm/import_project.html',
-                              {'project_form': project_form, 'id_proyecto': id_proyecto,
-                               'phases_list': phases_list,
-                               'registered': registered}, context)
+# def import_item(request, pk):
+#     """Funcion para Importar Proyecto.
+#
+#     :param request: Parametro a ser procesado.
+#     :param pk: Parametro a ser procesado. Identificador del Proyecto
+#     :type request: HttpRequest.
+#     :returns: La pagina correspondiente.
+#     :rtype: El response correspondiente.
+#     """
+#     registered = False
+#     context = RequestContext(request)
+#     proyecto = get_object_or_404(Proyecto, pk=pk)
+#     proyecto.pk = None
+#     proyecto.nombre_proyecto = 'import_'+proyecto.nombre_proyecto
+#     id_proyecto = pk
+#     phases_list = get_phases_list(pk)
+#     project_form = ProjectForm(request.POST or None, instance=proyecto)
+#
+#     if project_form.is_valid():
+#         project = project_form.save()
+#         for fase in phases_list:
+#             fase.pk = None
+#             fase.proyecto_id = project.id_proyecto
+#             fase.save()
+#
+#         registered = True
+#
+#     return render_to_response('adm/import_project.html',
+#                               {'project_form': project_form, 'id_proyecto': id_proyecto,
+#                                'phases_list': phases_list,
+#                                'registered': registered}, context)

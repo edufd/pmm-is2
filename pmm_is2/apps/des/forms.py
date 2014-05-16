@@ -1,4 +1,5 @@
 from django import forms
+from pmm_is2.apps.adm.models import Fase
 from pmm_is2.apps.des.models import TipoItem
 
 from pmm_is2.apps.des.models import ArchivoAdjunto
@@ -11,16 +12,20 @@ class ItemForm(forms.models.ModelForm):
     estado = forms.CharField(max_length=3, widget=forms.Select(choices=ESTADO_CHOICES))
     complejidad = forms.IntegerField(label=u"Complejidad (del 1 al 10)", error_messages={'required': 'Ingrese la complejidad del item'}, max_value=10)
     descripcion = forms.CharField(label=u"Descripcion", max_length=30, error_messages={'required': 'Ingrese una descripcion del item'})
-    observaciones = forms.CharField(label=u"Observaciones", widget=forms.Textarea({'cols': 80, 'rows': 20}), error_messages={'required': 'Ingrese observaciones'})
+    observaciones = forms.CharField(label=u"Observaciones", widget=forms.Textarea({'cols': 60, 'rows': 10}), error_messages={'required': 'Ingrese observaciones'})
 
-    # def __init__(self, *args, **kwargs):
-    #     tipo_item = kwargs.pop('tipo_item')
-    #     super(ItemForm, self).__init__(*args, **kwargs)
-    #     self.fields['id_tipo_item'] = forms.ModelChoiceField(queryset=TipoItem.objects.filter(id_tipo_item=tipo_item), widget=forms.Select(), required=False)
+    def __init__(self, *args, **kwargs):
+        id_fase = kwargs.pop('id_fase')
+        super(ItemForm, self).__init__(*args, **kwargs)
+        # self.fields['id_fase'] = forms.ModelChoiceField(queryset=Fase.objects.filter(id_fase=id_fase),
+        #                                                 widget=forms.Select(), required=False)
+        self.fields['id_tipo_item'] = forms.ModelChoiceField(queryset=TipoItem.objects.select_related('fase').filter(fase=id_fase),
+                                                        widget=forms.Select(), required=False)
 
     class Meta:
         model = Item
-        fields = ('nombre_item', 'prioridad', 'estado', 'complejidad', 'observaciones', 'id_tipo_item', 'descripcion')
+        fields = ('nombre_item', 'prioridad', 'estado', 'complejidad', 'observaciones', 'id_tipo_item',
+                  'descripcion')
 
 
 class TipoItemForm(forms.models.ModelForm):

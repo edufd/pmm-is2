@@ -73,7 +73,7 @@ class Item(models.Model):
     complejidad = models.IntegerField(max_length=10)
     ultima_version_item_id = models.IntegerField(blank=True)
     id_tipo_item = models.ForeignKey(TipoItem, verbose_name="Tipo de Item")
-    #id_fase = models.ForeignKey('adm.Fase', verbose_name="Fase")
+    id_fase = models.ForeignKey('adm.Fase', verbose_name="Fase")
 
     def __unicode__(self):
         return self.nombre_item
@@ -95,18 +95,18 @@ class Item(models.Model):
 
 
 class RelacionItemFaseAnterior (models.Model):
-    id_relacion_fase_anterior = models.AutoField (primary_key = True)
-    id_item_fase_anterior = models.ForeignKey (Item)
-    id_item_fase_actual = models.ForeignKey (Item, related_name = 'item_relacionados_fase_anterior')
-    relacion_valida = models.BooleanField ()
+    id_relacion_fase_anterior = models.AutoField(primary_key=True)
+    id_item_fase_anterior = models.ForeignKey(Item)
+    id_item_fase_actual = models.ForeignKey(Item, related_name='item_relacionados_fase_anterior')
+    relacion_valida = models.BooleanField()
     # Verdadero: Relacion Valida - Falso: Relacion invalida
 
 
 class RelacionPadreHijo (models.Model):
-    id_relacion_padre_hijo = models.AutoField (primary_key = True)
-    id_item_hijo = models.ForeignKey (Item)
-    id_item_padre = models.ForeignKey (Item, related_name = 'item_hijos')
-    relacion_valida = models.BooleanField ()
+    id_relacion_padre_hijo = models.AutoField(primary_key=True)
+    id_item_hijo = models.ForeignKey(Item)
+    id_item_padre = models.ForeignKey(Item, related_name='item_hijos')
+    relacion_valida = models.BooleanField()
     # Verdadero: Relacion Valida - Falso: Relacion invalida
 
 
@@ -115,7 +115,8 @@ class ArchivoAdjunto(models.Model):
     filename=models.CharField(max_length=100)
     path_archivo = models.FileField(upload_to='documents/%Y%m%d')
     id_item_relacionado = models.ForeignKey(Item)
-    
+
+
 class LineaBase(models.Model):
     id_linea_base = models.AutoField(primary_key=True)
     nombre_linea_base = models.CharField(max_length=15)

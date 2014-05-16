@@ -13,7 +13,7 @@ urlpatterns = patterns('',
         url(r'^suggest_tipo_item/$', views.suggest_tipo_item, name='suggest_tipo_item'),
 
         #agregado para probar mi parte
-        url(r'^crear_item/$', views.crear_item, name='crear_item'),
+        url(r'^crear_item/(?P<pk>\d+)$', views.crear_item, name='crear_item'),
         url(r'^listar_item/$', views.listar_item, name='listar_item'),
         url(r'^editar_item/(?P<pk>\d+)$', views.editar_item, name='editar_item'),
         url(r'^eliminar_item/(?P<pk>\d+)$', views.eliminar_item, name='eliminar_item'),

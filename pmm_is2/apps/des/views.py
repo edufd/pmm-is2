@@ -54,7 +54,7 @@ def crear_tipo_item(request):
 
 
 @login_required
-def crear_item(request):
+def crear_item(request, pk):
     """Funcion para Crear Item.
     Retorna la pagina correspondiente con el formulario para la creacion del ITem
 
@@ -65,9 +65,13 @@ def crear_item(request):
     """
     context = RequestContext(request)
     creado = False
+    fase = pk
+    objeto_fase = get_object_or_404(Fase, pk=pk)
+
     if request.method == 'POST':
-        item_form = ItemForm(data=request.POST)
+        item_form = ItemForm(data=request.POST, id_fase=pk)
         if item_form.is_valid():
+            item_form.instance.id_fase = objeto_fase
             item = item_form.save()
             item.save()
             creado = True
@@ -75,12 +79,13 @@ def crear_item(request):
             print item_form.errors
 
     else:
-        item_form = ItemForm()
+        item_form = ItemForm(id_fase=pk)
 
     return render_to_response('des/crear_item.html',
                               {
-                                  'item_form':item_form,
+                                  'item_form': item_form,
                                   'creado': creado,
+                                  'fase': fase,
                               },
                               context
     )

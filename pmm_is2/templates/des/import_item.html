@@ -27,34 +27,16 @@
 {% block content %}
 
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-        <h1 class="page-header">Importar Proyecto</h1>
+        <h1 class="page-header">Importar Item</h1>
         {% if registered %}
-            <strong>Se ha modificado el Proyecto!</strong><br/>
-            <a href="/adm/project_list">Retornar a la pagina anterior</a><br/>
+            <strong>Se ha importado el Item!</strong><br/>
+            <a href="/des/item_import_list/{{ id_fase }}">Retornar a la pagina anterior</a><br/>
         {% else %}
             <h4 class="page-header">Datos Importados</h4>
-            <form class="form_class" id="group_form" method="post" action="/adm/import_project/{{ id_proyecto }}"
+            <form class="form_class" id="group_form" method="post" action="/des/import_item/{{ id_fase }}"
                     enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ project_form.as_p }}
-                <h3>Fases</h3>
-                <table class="table table-bordered tabla_fases">
-                    <thead>
-                        <tr>
-                            <th class="col-sm-1">Numero Secuencia</th>
-                            <th class="col-sm-1">Nombre Fase</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for fase in phases_list %}
-                            <tr>
-                                <td>{{ fase.numero_secuencia }}</td>
-                                <td>{{ fase.nombre_fase }}</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-
                 <input type="submit" name="submit" value="Importar" />
             </form>
         {% endif %}

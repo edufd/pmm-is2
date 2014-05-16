@@ -34,4 +34,5 @@ urlpatterns = patterns('',
 
         #imports
         url(r'^import_item/(?P<pk>\d+)$', views.import_item, name='import_item'),
+        url(r'^item_import_list/(?P<pk>\d+)$', views.item_import_list, name='item_import_list'),
 )

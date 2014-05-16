@@ -7,20 +7,17 @@
         <div id="breadcrumb" class="col-md-12">
             <ol class="breadcrumb">
                 <li><a href="/home/">PMM</a></li>
-                <li><a href="/des/">Desarrollo</a></li>
+                <li><a href="/adm/">Administracion</a></li>
                 <li><a href="/adm/proyectos/">Proyectos</a></li>
-                <li><a href="#">Lista de Fases</a></li>
+                <li><a href="#">Importar Proyecto</a></li>
             </ol>
         </div>
     </div>
-    <h3>Seleccionar la fase a agregar el item</h3>
-    </br>
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-        {% for fase in object_list %}
+        {% for proyecto in object_list %}
             <li>
-                <h4>{{ fase.nombre_fase }}  :
-                    <a href="/des/crear_item/{{ fase.id_fase }}">Agregar Item</a>
-                    <a href="/des/item_import_list/{{ fase.id_fase }}">Importar Item</a>
+                <h4>{{ proyecto.nombre_item}}  :
+                    <a href="/des/import_item/{{ proyecto.id_item }}">Importar Item</a>
                 </h4>
             </li>
         {% endfor %}

@@ -1,13 +1,14 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
+from pmm_is2.apps.adm.models import Fase
 from pmm_is2.apps.adm.utils import get_project_list, get_phases_list
 
 from pmm_is2.apps.des.forms import TipoItemForm, AtributoTipoItemForm
 from pmm_is2.apps.des.models import TipoItem
 from pmm_is2.apps.des.forms import ItemForm
 
-from pmm_is2.apps.des.forms import ArchivoAdjuntoForm
+from pmm_is2.apps.des.forms import ArchivoAdjuntoForm, RelacionesForm
 from pmm_is2.apps.des.models import ArchivoAdjunto
 
 from pmm_is2.apps.des.models import Item
@@ -304,6 +305,9 @@ def get_item_list(max_results=0, starts_with=''):
 
         return cat_list
 
+def get_item_list(pk):
+    list_item = Item.objects.all()
+
 
 #agregado Adri
 def archivoadjunto_page(request,pk):
@@ -374,7 +378,6 @@ def desasignar(request,pk):
     existe=ArchivoAdjunto.objects.filter(id_item_relacionado=pk).exists()
     if existe:
         traer=ArchivoAdjunto.objects.filter(id_item_relacionado=pk)
-        print traer
 
         return render_to_response('des/desasignar.html',
                               {
@@ -437,5 +440,70 @@ def phases_list(request, pk):
 
     return render_to_response('des/phases_list.html', context_dict, context)
 
-def agregar_relaciones(request, pk):
-    return 'hola'
+def agregar_relaciones(request):
+
+    context = RequestContext(request)
+    creado = False
+    if request.method == 'POST':
+        relacion_form = RelacionesForm(data=request.POST)
+        if relacion_form.is_valid():
+            relacion = relacion_form.save()
+            if relacion.tipo == 'e':
+                error = "Debe elegir un tipo de relacion"
+                return render_to_response('des/agregar_relaciones.html',
+                              {
+                                  'relacion_form': relacion_form,
+                                  'error': error,
+                              },
+                              context
+                )
+            if relacion.del_item_id != relacion.al_item_id:
+                itemA = get_object_or_404(Item, pk=relacion.del_item_id)
+                itemB = get_object_or_404(Item, pk=relacion.al_item_id)
+                if itemA.id_fase == itemB.id_fase and relacion.tipo == "P":
+                    relacion.save()
+                    creado = True
+                else:
+                    error = "El tipo de relacion no puede ser Padre-Hijo ya que los items" \
+                            "no pertenecen a la misma fase. Cambie el tipo de relacion"
+                    return render_to_response('des/agregar_relaciones.html',
+                              {
+                                  'relacion_form': relacion_form,
+                                  'error': error,
+                              },
+                              context
+                    )
+                if itemA.id_fase != itemB.id_fase and relacion.tipo == "A":
+                    relacion.save()
+                    creado = True
+                else:
+                    error = "El tipo de relacion no puede ser Antecesor-Sucesor ya que los items" \
+                            "pertenecen a la misma fase. Cambie el tipo de relacion"
+                    return render_to_response('des/agregar_relaciones.html',
+                              {
+                                  'relacion_form': relacion_form,
+                                  'error': error,
+                              },
+                              context
+                    )
+            else:
+                error = "No se puede crear una relacion en el mismo ITEM"
+                return render_to_response('des/agregar_relaciones.html',
+                              {
+                                  'relacion_form': relacion_form,
+                                  'error': error,
+                              },
+                              context
+                )
+        else:
+            print relacion_form.errors
+    else:
+        relacion_form = RelacionesForm()
+
+    return render_to_response('des/agregar_relaciones.html',
+                              {
+                                  'relacion_form': relacion_form,
+                                  'creado': creado,
+                              },
+                              context
+    )

@@ -24,6 +24,11 @@ OBLIGATORIO = (
     ('N','NO'),
     ('S','SI'),
 )
+TIPO = (
+    ('e','elegir...'),
+    ('P','Padre-hijo'),
+    ('A','Antecesor-Sucesor'),
+)
 
 class TipoItem(models.Model):
     id_tipo_item = models.AutoField(primary_key=True)
@@ -71,49 +76,37 @@ class Item(models.Model):
 
     def save(self):
         primera_version = False
-        primera_version = Item.objects.filter(version_item=1, id_item=self.id_item).exists()
-        print('primera_version', primera_version)
-        if primera_version is True:
-            self.version_item = self.version_item + 1
+        primera_version = Item.objects.filter(version_item=1).exists()
+        if (primera_version is True):
             self.ultima_version_item_id = self.version_item
+            self.version_item = self.version_item + 1
         else:
             self.version_item = 1
-            self.ultima_version_item_id = 1
+            self.ultima_version_item_id = -1
 
         super(Item, self).save()
         return Item
 
 
-class VersionItem(models.Model):
-    id_version_item = models.AutoField(primary_key=True)
-    item = models.ForeignKey(Item)
-    nombre_item = models.CharField(unique=False, max_length=200)
-    version_item = models.IntegerField(blank=True)
-    prioridad = models.CharField(max_length=1) #Alta:'A', Media:'M', Baja:'B'
-    estado = models.CharField(max_length=1) # I:Inactivo  B:Bloqueado C:Revision A:Aprobado D:Desaprobado
-    descripcion = models.CharField(max_length=200)
-    observaciones = models.CharField(max_length=5000)
-    complejidad = models.IntegerField(max_length=10)
-    ultima_version_item_id = models.IntegerField(blank=True)
-    id_tipo_item = models.ForeignKey(TipoItem, verbose_name="Tipo de Item")
-    id_fase = models.ForeignKey('adm.Fase', verbose_name="Fase")
+# class RelacionItemFaseAnterior (models.Model):
+#     id_relacion_fase_anterior = models.AutoField(primary_key=True)
+#     id_item_fase_anterior = models.ForeignKey(Item)
+#     id_item_fase_actual = models.ForeignKey(Item, related_name='item_relacionados_fase_anterior')
+#     relacion_valida = models.BooleanField()
+#     # Verdadero: Relacion Valida - Falso: Relacion invalida
+#
+#
+# class RelacionPadreHijo (models.Model):
+#     id_relacion_padre_hijo = models.AutoField(primary_key=True)
+#     id_item_hijo = models.ForeignKey(Item)
+#     id_item_padre = models.ForeignKey(Item, related_name='item_hijos')
+#     relacion_valida = models.BooleanField()
+#     # Verdadero: Relacion Valida - Falso: Relacion invalida
 
-
-class RelacionItemFaseAnterior (models.Model):
-    id_relacion_fase_anterior = models.AutoField(primary_key=True)
-    id_item_fase_anterior = models.ForeignKey(Item)
-    id_item_fase_actual = models.ForeignKey(Item, related_name='item_relacionados_fase_anterior')
-    relacion_valida = models.BooleanField()
-    # Verdadero: Relacion Valida - Falso: Relacion invalida
-
-
-class RelacionPadreHijo (models.Model):
-    id_relacion_padre_hijo = models.AutoField(primary_key=True)
-    id_item_hijo = models.ForeignKey(Item)
-    id_item_padre = models.ForeignKey(Item, related_name='item_hijos')
-    relacion_valida = models.BooleanField()
-    # Verdadero: Relacion Valida - Falso: Relacion invalida
-
+class Relacion (models.Model):
+    del_item = models.ForeignKey(Item, related_name="ItemA")
+    al_item = models.ForeignKey(Item, related_name="ItemB")
+    tipo = models.CharField(max_length=1)
 
 
 class ArchivoAdjunto(models.Model):

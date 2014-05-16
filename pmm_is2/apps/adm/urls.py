@@ -33,7 +33,7 @@ urlpatterns = patterns('',
         url(r'^project_update/(?P<pk>\d+)$', views.project_update, name='project_update'),
 
         url(r'^project_delete/(?P<pk>\d+)$', views.project_delete, name='project_delete'),
-        url(r'^fase_create/(?P<pk>\d+)$', views.fase_create, name='fase_create'),
+        url(r'^phase_create/(?P<pk>\d+)$', views.phase_create, name='phase_create'),
         url(r'^phases_list/(?P<pk>\d+)$', views.phases_list, name='phases_list'),
         url(r'^phase_update/(?P<pk>\d+)$', views.phase_update, name='phase_update'),
         url(r'^phase_delete/(?P<pk>\d+)$', views.phase_delete, name='phase_delete'),

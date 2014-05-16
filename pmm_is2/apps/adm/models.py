@@ -84,8 +84,8 @@ class Fase(models.Model):
     nombre_fase = models.CharField(max_length=200)
     descripcion = models.CharField(max_length=200)
     estado_fase = models.CharField(max_length=11, choices=FASES_ESTADOS, default='NO-INICIADA')
-    numero_secuencia = models.IntegerField(blank=True)
-    tipo_item = models.ManyToManyField('des.TipoItem')
+    numero_secuencia = models.IntegerField(blank=True, default=1)
+    tipo_item = models.ManyToManyField(TipoItem)
     grupos = models.ManyToManyField(Group)
 
     class Meta:
@@ -99,7 +99,8 @@ class Fase(models.Model):
     def save(self):
         primera_fase = False
         primera_fase = Fase.objects.filter(numero_secuencia=1, proyecto_id=self.proyecto_id).exists()
-        if (primera_fase is True):
+        print primera_fase
+        if primera_fase is True:
             maximo = Fase.objects.filter(proyecto_id=self.proyecto_id).aggregate(Max('numero_secuencia'))['numero_secuencia__max']
             numero_secuencia = Fase.objects.get(proyecto_id=self.proyecto_id, numero_secuencia=maximo)
             top = numero_secuencia.numero_secuencia + 1

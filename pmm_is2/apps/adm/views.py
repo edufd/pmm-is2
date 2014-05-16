@@ -120,8 +120,8 @@ def project_create(request):
         if project_form.is_valid() and fase_form.is_valid():
             project = project_form.save()
             project.save()
-            fase = fase_form.save(commit=False)
-            fase.proyecto = project
+            fase_form.instance.proyecto = project
+            fase = fase_form.save()
             fase.save()
             registered = True
 
@@ -276,7 +276,8 @@ def phase_update(request, pk):
     if phase_form.is_valid():
         phase_form.save()
         registered = True
-        #return redirect('project_list')
+    else:
+        phase_form.errors
 
     return render_to_response('adm/phase_update.html',
                               {'phase_form': phase_form, 'id_proyecto': id_proyecto, 'id_fase': id_fase,
@@ -520,8 +521,9 @@ def phase_create(request, pk):
         fase_form = FaseForm(data=request.POST)
         proyecto = get_object_or_404(Proyecto, pk=pk)
         if fase_form.is_valid():
-            new_fase = fase_form.save(commit=False)
-            new_fase.proyecto = proyecto
+            #le gusta asi nomas para guardar los campos de seleccion multiple no se porque mierda
+            fase_form.instance.proyecto = proyecto
+            new_fase = fase_form.save()
             new_fase.save()
             return redirect('/adm/project_list')
             registered = True

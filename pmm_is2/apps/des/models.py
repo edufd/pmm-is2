@@ -24,6 +24,11 @@ OBLIGATORIO = (
     ('N','NO'),
     ('S','SI'),
 )
+TIPO = (
+    ('e','elegir...'),
+    ('P','Padre-hijo'),
+    ('A','Antecesor-Sucesor'),
+)
 
 class TipoItem(models.Model):
     id_tipo_item = models.AutoField(primary_key=True)
@@ -83,21 +88,25 @@ class Item(models.Model):
         return Item
 
 
-class RelacionItemFaseAnterior (models.Model):
-    id_relacion_fase_anterior = models.AutoField(primary_key=True)
-    id_item_fase_anterior = models.ForeignKey(Item)
-    id_item_fase_actual = models.ForeignKey(Item, related_name='item_relacionados_fase_anterior')
-    relacion_valida = models.BooleanField()
-    # Verdadero: Relacion Valida - Falso: Relacion invalida
+# class RelacionItemFaseAnterior (models.Model):
+#     id_relacion_fase_anterior = models.AutoField(primary_key=True)
+#     id_item_fase_anterior = models.ForeignKey(Item)
+#     id_item_fase_actual = models.ForeignKey(Item, related_name='item_relacionados_fase_anterior')
+#     relacion_valida = models.BooleanField()
+#     # Verdadero: Relacion Valida - Falso: Relacion invalida
+#
+#
+# class RelacionPadreHijo (models.Model):
+#     id_relacion_padre_hijo = models.AutoField(primary_key=True)
+#     id_item_hijo = models.ForeignKey(Item)
+#     id_item_padre = models.ForeignKey(Item, related_name='item_hijos')
+#     relacion_valida = models.BooleanField()
+#     # Verdadero: Relacion Valida - Falso: Relacion invalida
 
-
-class RelacionPadreHijo (models.Model):
-    id_relacion_padre_hijo = models.AutoField(primary_key=True)
-    id_item_hijo = models.ForeignKey(Item)
-    id_item_padre = models.ForeignKey(Item, related_name='item_hijos')
-    relacion_valida = models.BooleanField()
-    # Verdadero: Relacion Valida - Falso: Relacion invalida
-
+class Relacion (models.Model):
+    del_item = models.ForeignKey(Item, related_name="ItemA")
+    al_item = models.ForeignKey(Item, related_name="ItemB")
+    tipo = models.CharField(max_length=1)
 
 
 class ArchivoAdjunto(models.Model):

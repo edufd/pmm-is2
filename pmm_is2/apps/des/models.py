@@ -2,32 +2,34 @@ from django.db import models
 from django.contrib.auth.models import User
 
 ESTADO_CHOICES = (
-    ('e','elegir...'),
+    ('e', 'elegir...'),
     ('A', 'Aprobado'),
     ('N', 'No aprobado'),
 )
 
 PRIORIDAD_CHOICES = (
-    ('e','elegir...'),
+    ('e', 'elegir...'),
     ('A', 'Alta'),
     ('M', 'Media'),
-    ('B','Baja'),
+    ('B', 'Baja'),
 )
 
 TIPO_ATRIBUTO = (
-    ('e','elegir...'),
+    ('e', 'elegir...'),
     ('N', 'NUMERICO'),
     ('T', 'TEXTO'),
 )
+
 OBLIGATORIO = (
-    ('e','elegir...'),
-    ('N','NO'),
-    ('S','SI'),
+    ('e', 'elegir...'),
+    ('N', 'NO'),
+    ('S', 'SI'),
 )
+
 TIPO = (
-    ('e','elegir...'),
-    ('P','Padre-hijo'),
-    ('A','Antecesor-Sucesor'),
+    ('e', 'elegir...'),
+    ('P', 'Padre-hijo'),
+    ('A', 'Antecesor-Sucesor'),
 )
 
 

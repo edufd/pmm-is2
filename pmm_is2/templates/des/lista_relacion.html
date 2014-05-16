@@ -10,11 +10,15 @@
             <ul class="list-group">
                 {% for relacion in lista_relacion %}
                     <li class="list-group-item">
-                        Tipo de relacion: <h4 >{{ relacion.tipo}}</h4></br>
-                        Item 1: <h4 >{{ relacion.del_item}}</h4></br>
-                        Item 2: <h4 >{{ relacion.al_item}}</h4></br>
+                        Tipo de relacion: {% if relacion.tipo == "A" %}
+                                            Antecesor-Sucesor </br>
+                                          {% else %}
+                                            Padre-Hijo </br>
+                                          {% endif %}
+                        Item 1: {{ relacion.del_item}} </br>
+                        Item 2: {{ relacion.al_item}} </br>
 
-                        <a class="btn btn-danger" href="holas">
+                        <a class="btn btn-danger" href="{% url "eliminar_relacion" relacion.id %}">
                               <i class="icon-trash icon-white"></i>
                               Eliminar
                             </a>
@@ -22,7 +26,7 @@
 
                 {% endfor %}
             </ul>
-        <h4><a class="btn btn-success" href="/des/agregar_relaciones/">Agregar Relaciones</a></h4>
+        <h4><a class="btn btn-success" href="{% url "agregar_relaciones" %}">Agregar Relaciones</a></h4>
         </div>
     </div>
 {% endblock %}

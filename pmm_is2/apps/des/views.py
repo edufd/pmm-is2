@@ -436,6 +436,9 @@ def phases_list(request, pk):
 
     return render_to_response('des/phases_list.html', context_dict, context)
 
+def get_historial_item_list(pk):
+    item_historial_list = VersionItem.objects.filter(item_id=pk).order_by('version_item')
+    return item_historial_list
 
 def historial_item(request, pk):
 
@@ -448,11 +451,6 @@ def historial_item(request, pk):
     return render_to_response('des/historial_item.html', context_dict, context)
 
 
-def get_historial_item_list(pk):
-    item_historial_list = VersionItem.objects.filter(item_id=pk).order_by('version_item')
-    return item_historial_list
-
-
 def agregar_relaciones(request):
 
     context = RequestContext(request)
@@ -460,8 +458,10 @@ def agregar_relaciones(request):
     if request.method == 'POST':
         relacion_form = RelacionesForm(data=request.POST)
         if relacion_form.is_valid():
-            relacion = relacion_form.save()
-            if relacion.tipo == 'e':
+            itemA = relacion_form.cleaned_data['del_item']
+            itemB = relacion_form.cleaned_data['al_item']
+            tipo = relacion_form.cleaned_data['tipo']
+            if tipo == 'e':
                 error = "Debe elegir un tipo de relacion"
                 return render_to_response('des/agregar_relaciones.html',
                               {
@@ -470,28 +470,23 @@ def agregar_relaciones(request):
                               },
                               context
                 )
-            if relacion.del_item_id != relacion.al_item_id:
-                itemA = get_object_or_404(Item, pk=relacion.del_item_id)
-                itemB = get_object_or_404(Item, pk=relacion.al_item_id)
-                if itemA.id_fase == itemB.id_fase and relacion.tipo == "P":
+            if itemA.id_item != itemB.id_item:
+                if itemA.id_fase == itemB.id_fase and tipo == "P":
+                    relacion = relacion_form.save()
+                    relacion.save()
+                    creado = True
+                elif itemA.id_fase != itemB.id_fase and tipo == "A":
+                    relacion = relacion_form.save()
                     relacion.save()
                     creado = True
                 else:
-                    error = "El tipo de relacion no puede ser Padre-Hijo ya que los items" \
-                            "no pertenecen a la misma fase. Cambie el tipo de relacion"
-                    return render_to_response('des/agregar_relaciones.html',
-                              {
-                                  'relacion_form': relacion_form,
-                                  'error': error,
-                              },
-                              context
-                    )
-                if itemA.id_fase != itemB.id_fase and relacion.tipo == "A":
-                    relacion.save()
-                    creado = True
-                else:
-                    error = "El tipo de relacion no puede ser Antecesor-Sucesor ya que los items" \
-                            "pertenecen a la misma fase. Cambie el tipo de relacion"
+                    if tipo == "P":
+                        error = "El tipo de relacion no puede ser Padre-Hijo ya que los items" \
+                                " no pertenecen a la misma fase. Cambie el tipo de relacion"
+                    else:
+                        error = "El tipo de relacion no puede ser Antecesor-Sucesor ya que los items" \
+                            " pertenecen a la misma fase. Cambie el tipo de relacion"
+
                     return render_to_response('des/agregar_relaciones.html',
                               {
                                   'relacion_form': relacion_form,
@@ -521,6 +516,9 @@ def agregar_relaciones(request):
                               context
     )
 
+def get_lista_relacion():
+    lista_relacion = Relacion.objects.all()
+    return lista_relacion
 
 def import_item(request, pk):
     """Funcion para Importar Item.
@@ -560,3 +558,20 @@ def item_import_list(request, pk):
 def get_item_import_list(pk):
     lista_item = Item.objects.filter(id_fase=pk)
     return lista_item
+    
+def listar_relaciones(request):
+    context = RequestContext(request)
+    lista_relacion = get_lista_relacion()
+    context_dict = {}
+    context_dict['lista_relacion'] = lista_relacion
+
+    return render_to_response('des/lista_relacion.html', context_dict, context)
+
+def eliminar_relacion(request, pk):
+    context = RequestContext(request)
+    relacion = get_object_or_404(Relacion, pk=pk)
+    if request.method == 'POST':
+        relacion.delete()
+        return redirect('listar_relaciones')
+
+    return render_to_response('des/confirmar_eliminacion_relacion.html', {'relacion': relacion}, context)

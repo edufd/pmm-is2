@@ -1,9 +1,8 @@
 from django import forms
-from pmm_is2.apps.adm.models import Fase
 from pmm_is2.apps.des.models import TipoItem
 
-from pmm_is2.apps.des.models import ArchivoAdjunto
-from pmm_is2.apps.des.models import Item, ESTADO_CHOICES, PRIORIDAD_CHOICES
+from pmm_is2.apps.des.models import ArchivoAdjunto, TipoItem, Atributo
+from pmm_is2.apps.des.models import Item, ESTADO_CHOICES, PRIORIDAD_CHOICES, TIPO_ATRIBUTO, OBLIGATORIO
 
 
 #para probar archivo adjunto luego eliminar y poner como se debe
@@ -35,6 +34,13 @@ class TipoItemForm(forms.models.ModelForm):
         model = TipoItem
         fields = ('nombre_tipo_item', 'descripcion')
 
+class AtributoTipoItemForm(forms.models.ModelForm):
+
+    tipo_atributo = forms.CharField(widget=forms.Select(choices=TIPO_ATRIBUTO))
+    obligatorio = forms.CharField(widget=forms.Select(choices=OBLIGATORIO))
+    class Meta:
+        model = Atributo
+        fields = {'observacion', 'descripcion', 'obligatorio', 'tipo_atributo', 'nombre_atributo_tipo_item' }
 
 class ArchivoAdjuntoForm(forms.models.ModelForm):
     path_archivo = forms.FileField(label='Selecciona un archivo')

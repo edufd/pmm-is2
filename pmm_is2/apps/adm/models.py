@@ -116,6 +116,7 @@ class Fase(models.Model):
         return Fase
 
 
+
 class Comite(models.Model):
     id_comite = models.AutoField(primary_key=True)
     proyecto = models.ForeignKey(Proyecto)

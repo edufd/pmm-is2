@@ -14,19 +14,16 @@ PRIORIDAD_CHOICES = (
     ('B','Baja'),
 )
 
-class Atributo(models.Model):
-    id_atributo = models.AutoField(primary_key=True)
-    nombre_atributo_tipo_item = models.CharField(max_length=200, unique=True )
-    tipo_atributo = models.CharField(max_length=1)#N:NUMERICO #T:TEXTO
-    obligatorio=models.CharField(max_length=1)#Y:OBLIGATORIO #N;NO ES OBLIGATORIO
-    descripcion = models.CharField(max_length=200)
-    observacion = models.CharField(max_length=200)
-
-    def __unicode__(self):
-        return self.descripcion
-    # class Meta:
-    #     db_table = 'Atributo'
-
+TIPO_ATRIBUTO = (
+    ('e','elegir...'),
+    ('N', 'NUMERICO'),
+    ('T', 'TEXTO'),
+)
+OBLIGATORIO = (
+    ('e','elegir...'),
+    ('N','NO'),
+    ('S','SI'),
+)
 
 class TipoItem(models.Model):
     id_tipo_item = models.AutoField(primary_key=True)
@@ -35,32 +32,24 @@ class TipoItem(models.Model):
 
     def __unicode__(self):
         return self.nombre_tipo_item
-    #class Meta:
-         #db_table = 'TipoItem'
-
+    
 
 class AtributoTipoItem(models.Model):
     id_atributo_tipo_item = models.AutoField(primary_key=True)
     id_tipo_item = models.ForeignKey('TipoItem')
     id_atributo = models.ForeignKey('Atributo')
 
+class Atributo(models.Model):
+    id_atributo = models.AutoField(primary_key=True)
+    tipo_item = models.ForeignKey(TipoItem)
+    nombre_atributo_tipo_item = models.CharField(max_length=200, unique=True, verbose_name="Nombre del Atributo")
+    tipo_atributo = models.CharField(max_length=1, verbose_name="Tipo de Atributo")#N:NUMERICO #T:TEXTO
+    obligatorio = models.CharField(max_length=1)#Y:OBLIGATORIO #N;NO ES OBLIGATORIO
+    descripcion = models.CharField(max_length=200)
+    observacion = models.CharField(max_length=200)
+
     def __unicode__(self):
         return self.descripcion
-
-    class Meta:
-        #db_table = 'AtributoTipoItem'
-        unique_together = (("id_atributo", "id_tipo_item"),)
-
-
-# class TipoItemProyecto(models.Model):
-#     id_tipo_item_proyecto = models.AutoField(primary_key=True)
-#     nombre_tipo_item_proyecto = models.CharField(max_length=200)
-#     descripcion = models.CharField(max_length=200)
-#     id_tipo_item = models.ForeignKey('TipoItem')
-#     id_proyecto = models.ForeignKey('adm.Proyecto')
-#     # class Meta:
-#     #      db_table = 'TipoItem_proyecto'
-
 
 class Item(models.Model):
     id_item = models.AutoField(primary_key=True)
@@ -124,6 +113,7 @@ class RelacionPadreHijo (models.Model):
     id_item_padre = models.ForeignKey(Item, related_name='item_hijos')
     relacion_valida = models.BooleanField()
     # Verdadero: Relacion Valida - Falso: Relacion invalida
+
 
 
 class ArchivoAdjunto(models.Model):

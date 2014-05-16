@@ -1,5 +1,5 @@
 from django.contrib.admin import widgets
-from django.contrib.admin.widgets import FilteredSelectMultiple, AdminDateWidget
+from django.contrib.admin.widgets import AdminDateWidget
 from django.contrib.auth.models import User, Group, Permission
 from django import forms
 from django.forms.extras import SelectDateWidget

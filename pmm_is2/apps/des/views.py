@@ -80,7 +80,6 @@ def crear_item(request, pk):
         if item_form.is_valid():
             item_form.instance.id_fase = objeto_fase
             item = item_form.save()
-            item.save()
             creado = True
         else:
             print item_form.errors
@@ -558,3 +557,27 @@ def agregar_relaciones(request):
 #                               {'project_form': project_form, 'id_proyecto': id_proyecto,
 #                                'phases_list': phases_list,
 #                                'registered': registered}, context)
+
+
+def import_item(request, pk):
+    """Funcion para Importar Item.
+
+    :param request: Parametro a ser procesado.
+    :param pk: Parametro a ser procesado. Identificador del Item
+    :type request: HttpRequest.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
+    registered = False
+    context = RequestContext(request)
+    item = get_object_or_404(Item, pk=pk)
+    item.pk = None
+    item.nombre_item = 'import_'+item.nombre_item
+    item_form = ItemForm(request.POST or None, instance=item, id_fase=item.id_fase)
+
+    if item_form.is_valid():
+        item_form.save()
+        registered = True
+
+    return render_to_response('des/import_item.html',
+                              {'project_form': item_form, 'registered': registered}, context)

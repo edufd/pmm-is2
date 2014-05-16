@@ -122,7 +122,6 @@ def project_create(request):
             project.save()
             fase_form.instance.proyecto = project
             fase = fase_form.save()
-            fase.save()
             registered = True
 
         else:
@@ -524,7 +523,6 @@ def phase_create(request, pk):
             #le gusta asi nomas para guardar los campos de seleccion multiple no se porque mierda
             fase_form.instance.proyecto = proyecto
             new_fase = fase_form.save()
-            new_fase.save()
             return redirect('/adm/project_list')
             registered = True
         else:

@@ -30,6 +30,7 @@ TIPO = (
     ('A','Antecesor-Sucesor'),
 )
 
+
 class TipoItem(models.Model):
     id_tipo_item = models.AutoField(primary_key=True)
     nombre_tipo_item = models.CharField(max_length=200, unique=True)
@@ -44,6 +45,7 @@ class AtributoTipoItem(models.Model):
     id_tipo_item = models.ForeignKey('TipoItem')
     id_atributo = models.ForeignKey('Atributo')
 
+
 class Atributo(models.Model):
     id_atributo = models.AutoField(primary_key=True)
     tipo_item = models.ForeignKey(TipoItem)
@@ -55,6 +57,7 @@ class Atributo(models.Model):
 
     def __unicode__(self):
         return self.descripcion
+
 
 class Item(models.Model):
     id_item = models.AutoField(primary_key=True)
@@ -76,16 +79,32 @@ class Item(models.Model):
 
     def save(self):
         primera_version = False
-        primera_version = Item.objects.filter(version_item=1).exists()
-        if (primera_version is True):
-            self.ultima_version_item_id = self.version_item
+        primera_version = Item.objects.filter(version_item=1, id_item=self.id_item).exists()
+        print('primera_version', primera_version)
+        if primera_version is True:
             self.version_item = self.version_item + 1
+            self.ultima_version_item_id = self.version_item
         else:
             self.version_item = 1
-            self.ultima_version_item_id = -1
+            self.ultima_version_item_id = 1
 
         super(Item, self).save()
         return Item
+
+
+class VersionItem(models.Model):
+    id_version_item = models.AutoField(primary_key=True)
+    item = models.ForeignKey(Item)
+    nombre_item = models.CharField(unique=False, max_length=200)
+    version_item = models.IntegerField(blank=True)
+    prioridad = models.CharField(max_length=1) #Alta:'A', Media:'M', Baja:'B'
+    estado = models.CharField(max_length=1) # I:Inactivo  B:Bloqueado C:Revision A:Aprobado D:Desaprobado
+    descripcion = models.CharField(max_length=200)
+    observaciones = models.CharField(max_length=5000)
+    complejidad = models.IntegerField(max_length=10)
+    ultima_version_item_id = models.IntegerField(blank=True)
+    id_tipo_item = models.ForeignKey(TipoItem, verbose_name="Tipo de Item")
+    id_fase = models.ForeignKey('adm.Fase', verbose_name="Fase")
 
 
 # class RelacionItemFaseAnterior (models.Model):

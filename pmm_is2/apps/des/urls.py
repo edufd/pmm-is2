@@ -29,5 +29,6 @@ urlpatterns = patterns('',
 
         url(r'^project_list/$', views.project_list, name='project_list'),
         url(r'^phases_list/(?P<pk>\d+)$', views.phases_list, name='phases_list'),
+        url(r'^historial_item/(?P<pk>\d+)$', views.historial_item, name='historial_item'),
         url(r'^agregar_relaciones/$', views.agregar_relaciones, name='agregar_relaciones'),
 )

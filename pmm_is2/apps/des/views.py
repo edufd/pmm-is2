@@ -1,10 +1,9 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
-from pmm_is2.apps.adm.models import Fase
 from pmm_is2.apps.adm.utils import get_project_list, get_phases_list
 
-from pmm_is2.apps.des.forms import TipoItemForm
+from pmm_is2.apps.des.forms import TipoItemForm, AtributoTipoItemForm
 from pmm_is2.apps.des.models import TipoItem
 from pmm_is2.apps.des.forms import ItemForm
 
@@ -34,19 +33,26 @@ def crear_tipo_item(request):
     creado = False
     if request.method == 'POST':
         tipo_item_form = TipoItemForm(data=request.POST)
-        if tipo_item_form.is_valid():
+        atributo_tipo_item_form = AtributoTipoItemForm(data=request.POST)
+        if tipo_item_form.is_valid() and atributo_tipo_item_form.is_valid():
             tipo_item = tipo_item_form.save()
             tipo_item.save()
+            atributo = atributo_tipo_item_form.save(commit=False)
+            atributo.tipo_item = tipo_item
+            atributo.save()
             creado = True
         else:
             print tipo_item_form.errors
+            print atributo_tipo_item_form.errors
 
     else:
         tipo_item_form = TipoItemForm()
+        atributo_tipo_item_form = AtributoTipoItemForm()
 
     return render_to_response('des/crear_tipo_item.html',
                               {
                                   'tipo_item_form': tipo_item_form,
+                                  'atributo_tipo_item_form': atributo_tipo_item_form,
                                   'creado': creado,
                               },
                               context
@@ -424,5 +430,3 @@ def phases_list(request, pk):
     context_dict['object_list'] = phases_list
 
     return render_to_response('des/phases_list.html', context_dict, context)
-
-

@@ -20,6 +20,10 @@
                 {% csrf_token %}
 
                 {{ tipo_item_form.as_p }}
+
+                 <strong><h4>Debe asignar un atributo al tipo de item</h4></strong>
+
+                {{ atributo_tipo_item_form.as_p }}
                 <!-- Provide a button to click to submit the form. -->
                 <input class="btn btn-primary" type="submit" name="submit" value="Crear" />
             </form>

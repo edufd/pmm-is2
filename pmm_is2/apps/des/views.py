@@ -5,7 +5,7 @@ from pmm_is2.apps.adm.models import Fase
 from pmm_is2.apps.adm.utils import get_project_list, get_phases_list
 
 from pmm_is2.apps.des.forms import TipoItemForm, AtributoTipoItemForm
-from pmm_is2.apps.des.models import TipoItem, Relacion
+from pmm_is2.apps.des.models import TipoItem, VersionItem
 from pmm_is2.apps.des.forms import ItemForm
 
 from pmm_is2.apps.des.forms import ArchivoAdjuntoForm, RelacionesForm
@@ -442,20 +442,20 @@ def phases_list(request, pk):
     return render_to_response('des/phases_list.html', context_dict, context)
 
 
-# def historial_item(request, pk):
-#
-#     context = RequestContext(request)
-#     item_historial_list = get_historial_item_list(pk)
-#     print item_historial_list
-#     context_dict = {}
-#     context_dict['object_list'] = item_historial_list
-#
-#     return render_to_response('des/historial_item.html', context_dict, context)
-#
+def historial_item(request, pk):
 
-#def get_historial_item_list(pk):
-    #item_historial_list = VersionItem.objects.filter(item_id=pk).order_by('version_item')
-    #return item_historial_list
+    context = RequestContext(request)
+    item_historial_list = get_historial_item_list(pk)
+    print item_historial_list
+    context_dict = {}
+    context_dict['object_list'] = item_historial_list
+
+    return render_to_response('des/historial_item.html', context_dict, context)
+
+
+def get_historial_item_list(pk):
+    item_historial_list = VersionItem.objects.filter(item_id=pk).order_by('version_item')
+    return item_historial_list
 
 
 def agregar_relaciones(request):
@@ -481,17 +481,22 @@ def agregar_relaciones(request):
                 if itemA.id_fase == itemB.id_fase and relacion.tipo == "P":
                     relacion.save()
                     creado = True
-                elif itemA.id_fase != itemB.id_fase and relacion.tipo == "A":
+                else:
+                    error = "El tipo de relacion no puede ser Padre-Hijo ya que los items" \
+                            "no pertenecen a la misma fase. Cambie el tipo de relacion"
+                    return render_to_response('des/agregar_relaciones.html',
+                              {
+                                  'relacion_form': relacion_form,
+                                  'error': error,
+                              },
+                              context
+                    )
+                if itemA.id_fase != itemB.id_fase and relacion.tipo == "A":
                     relacion.save()
                     creado = True
                 else:
-                    if relacion.tipo == "P":
-                        error = "El tipo de relacion no puede ser Padre-Hijo ya que los items" \
-                                " no pertenecen a la misma fase. Cambie el tipo de relacion"
-                    else:
-                        error = "El tipo de relacion no puede ser Antecesor-Sucesor ya que los items" \
-                            " pertenecen a la misma fase. Cambie el tipo de relacion"
-
+                    error = "El tipo de relacion no puede ser Antecesor-Sucesor ya que los items" \
+                            "pertenecen a la misma fase. Cambie el tipo de relacion"
                     return render_to_response('des/agregar_relaciones.html',
                               {
                                   'relacion_form': relacion_form,
@@ -521,14 +526,35 @@ def agregar_relaciones(request):
                               context
     )
 
-def get_lista_relacion():
-    lista_relacion = Relacion.objects.all()
-    return lista_relacion
 
-def listar_relaciones(request):
+def import_item(request, pk):
+    """Funcion para Importar Proyecto.
+
+    :param request: Parametro a ser procesado.
+    :param pk: Parametro a ser procesado. Identificador del Proyecto
+    :type request: HttpRequest.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
+    registered = False
     context = RequestContext(request)
-    lista_relacion = get_lista_relacion()
-    context_dict = {}
-    context_dict['lista_relacion'] = lista_relacion
+    proyecto = get_object_or_404(Proyecto, pk=pk)
+    proyecto.pk = None
+    proyecto.nombre_proyecto = 'import_'+proyecto.nombre_proyecto
+    id_proyecto = pk
+    phases_list = get_phases_list(pk)
+    project_form = ProjectForm(request.POST or None, instance=proyecto)
 
-    return render_to_response('des/lista_relacion.html', context_dict, context)
+    if project_form.is_valid():
+        project = project_form.save()
+        for fase in phases_list:
+            fase.pk = None
+            fase.proyecto_id = project.id_proyecto
+            fase.save()
+
+        registered = True
+
+    return render_to_response('adm/import_project.html',
+                              {'project_form': project_form, 'id_proyecto': id_proyecto,
+                               'phases_list': phases_list,
+                               'registered': registered}, context)

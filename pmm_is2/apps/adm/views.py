@@ -253,7 +253,7 @@ def project_update(request, pk):
 
 @login_required
 @user_passes_test(not_in_admin_group, login_url='/login/')
-#@can_manage_phase
+@can_manage_phase
 def phase_update(request, pk):
     """Funcion para Modificar una Fase.
     Retorna la pagina con el formulario correspondiente para la modificacion
@@ -328,7 +328,7 @@ def group_delete(request, pk):
 
 @login_required
 @user_passes_test(not_in_admin_group, login_url='/login/')
-#@can_manage_phase
+@can_manage_phase
 def phase_delete(request, pk):
     """Funcion para Eliminar una fase.
 

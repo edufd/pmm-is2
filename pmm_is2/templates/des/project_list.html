@@ -23,7 +23,9 @@
                     <a href="/adm/project_profile/{{ proyecto.id_proyecto }}">Perfil</a>
                     {% if user == proyecto.lider_proyecto or valido %}
                         |
-                        <a href="/des/phases_list/{{ proyecto.id_proyecto }}">Fases</a>
+                        <a href="/des/phases_list/{{ proyecto.id_proyecto }}">Fases</a> </br>
+                        :
+                        <a href="/des/calcular_costo_total/{{ proyecto.id_proyecto }}">Calcular Costo Total</a>
                     {% endif %}
                 </h4>
             </li>

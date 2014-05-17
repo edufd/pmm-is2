@@ -227,7 +227,7 @@ def eliminar_item(request, pk):
 
     return render_to_response('des/confirmar_eliminacion_item.html', {'item': item}, context)
 
-
+@login_required
 def ver_tipo_item(request, pk):
     context = RequestContext(request)
     tipo_item = get_object_or_404(TipoItem, pk=pk)
@@ -236,7 +236,7 @@ def ver_tipo_item(request, pk):
 
     return render_to_response('des/tipo_item.html', context_dict, context)
 
-
+@login_required
 def ver_item(request, pk):
     context = RequestContext(request)
     item = get_object_or_404(Item, pk=pk)
@@ -306,6 +306,7 @@ def get_item_list(max_results=0, starts_with=''):
 
 
 #agregado Adri
+@login_required
 def archivoadjunto_page(request,pk):
     context = RequestContext(request)
     creado=False
@@ -335,7 +336,7 @@ def archivoadjunto_page(request,pk):
                               },
                               context)
 
-
+@login_required
 def crear_archivoAdjunto(request):
     """Funcion para Crear Item.
     Retorna la pagina correspondiente con el formulario para la creacion del ITem
@@ -366,7 +367,7 @@ def crear_archivoAdjunto(request):
                               context
     )
 
-
+@login_required
 def desasignar(request,pk):
     context = RequestContext(request)
     existe=ArchivoAdjunto.objects.filter(id_item_relacionado=pk).exists()
@@ -382,7 +383,7 @@ def desasignar(request,pk):
     else:
         return redirect('listar_item')
 
-
+@login_required
 def eliminar_adjunto(request, pk):
     """Funcion para Eliminar un Tipo Item.
 
@@ -401,7 +402,7 @@ def eliminar_adjunto(request, pk):
 
     return render_to_response('des/confirmar_eliminacion_adjunto.html', {'adjunto': adjunto}, context)
 
-
+@login_required
 def project_list(request):
     """Funcion para Listar Proyectos.
     Retorna la pagina correspondiente con la lista de Proyectos
@@ -424,7 +425,7 @@ def project_list(request):
 
     return render_to_response('des/project_list.html', context_dict, context)
 
-
+@login_required
 def phases_list(request, pk):
 
     context = RequestContext(request)
@@ -447,7 +448,7 @@ def historial_item(request, pk):
 
     return render_to_response('des/historial_item.html', context_dict, context)
 
-
+@login_required
 def agregar_relaciones(request):
 
     context = RequestContext(request)
@@ -517,6 +518,7 @@ def get_lista_relacion():
     lista_relacion = Relacion.objects.all()
     return lista_relacion
 
+@login_required
 def import_item(request, pk):
     """Funcion para Importar Item.
 
@@ -541,7 +543,7 @@ def import_item(request, pk):
     return render_to_response('des/import_item.html',
                               {'project_form': item_form, 'registered': registered, 'id_fase': id_fase}, context)
 
-
+@login_required
 def item_import_list(request, pk):
 
     context = RequestContext(request)
@@ -555,7 +557,8 @@ def item_import_list(request, pk):
 def get_item_import_list(pk):
     lista_item = Item.objects.filter(id_fase=pk)
     return lista_item
-    
+
+@login_required
 def listar_relaciones(request):
     context = RequestContext(request)
     lista_relacion = get_lista_relacion()
@@ -564,6 +567,7 @@ def listar_relaciones(request):
 
     return render_to_response('des/lista_relacion.html', context_dict, context)
 
+@login_required
 def eliminar_relacion(request, pk):
     context = RequestContext(request)
     relacion = get_object_or_404(Relacion, pk=pk)
@@ -578,7 +582,7 @@ def get_relaciones(id_item):
     return lista_relacion
 
 
-
+@login_required
 def calcular_impacto_y_costo_item(request, pk):
     """
     Retorna el impacto calculado correspondiente al item.
@@ -614,3 +618,28 @@ def recorrer(pk):
         num = int(relacion.al_item.id_item)
         if(visitados[num] == 0):
             recorrer(relacion.al_item.id_item)
+
+@login_required
+def calcular_costo_total(request, pk):
+    """Funcion que calcula el costo total del proyecto"""
+    context = RequestContext(request)
+    context_dict = {}
+    costo_total = 0
+
+    lista = getItemsProyecto(pk)
+    for item in lista:
+        costo_total = costo_total + item.costo
+
+    context_dict['costo_total'] = costo_total
+    return render_to_response('des/calcular_costo_total.html', context_dict, context)
+
+def getItemsProyecto(pk):
+    """Funcion que retorna todos los items de un proyecto"""
+    lista = []
+    fases = Fase.objects.filter(proyecto=pk)
+    for fase in fases:
+        items = Item.objects.filter(id_fase=fase.id_fase)
+        for item in items:
+            if not(item.estado == 'E' or item.estado == 'P'):
+                lista.append(item)
+    return lista

@@ -1,0 +1,32 @@
+{% extends 'gdc/gdc_base_logged.html' %}
+{% load static %}
+{% block link %}<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">{% endblock %}
+{% block title %}PMM{% endblock %}
+{% block content %}
+
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <h1 class="page-header">Solicitudes Pendientes de Confirmar</h1>
+        <div class="row">
+            <ul class="list-group">
+                {% for solicitud in lista_solicitud %}
+                    <li class="list-group-item">
+                        <h4 ><a href="{% url "editar_solicitudRecibido" solicitud.id_solicitud %}">{{ solicitud.nombre_item}}</a>
+
+                        </h4>
+                        <a class="btn btn-danger" href="{% url "imprimir_solicitud" solicitud.id_solicitud %}">
+                              <i class="icon-trash icon-white"></i>
+                              Ver
+                            </a>
+                        <a class="btn btn-danger" href="{% url "enviar_solicitud" solicitud.id_solicitud %}">
+                              <i class="icon-trash icon-white"></i>
+                              Enviar Solicitud
+                            </a>
+
+                    </li>
+
+                {% endfor %}
+            </ul>
+        <h4><a class="btn btn-success" href="/gdc/crear_solicitud/">Nueva Solicitud</a></h4>
+        </div>
+    </div>
+{% endblock %}

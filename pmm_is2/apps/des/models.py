@@ -110,7 +110,6 @@ class VersionItem(models.Model):
     id_tipo_item = models.ForeignKey(TipoItem, verbose_name="Tipo de Item")
     id_fase = models.ForeignKey('adm.Fase', verbose_name="Fase")
 
-
 # class RelacionItemFaseAnterior (models.Model):
 #     id_relacion_fase_anterior = models.AutoField(primary_key=True)
 #     id_item_fase_anterior = models.ForeignKey(Item)

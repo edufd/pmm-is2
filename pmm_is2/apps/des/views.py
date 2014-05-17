@@ -336,6 +336,7 @@ def archivoadjunto_page(request,pk):
                               },
                               context)
 
+
 @login_required
 def crear_archivoAdjunto(request):
     """Funcion para Crear Item.
@@ -367,6 +368,7 @@ def crear_archivoAdjunto(request):
                               context
     )
 
+
 @login_required
 def desasignar(request,pk):
     context = RequestContext(request)
@@ -382,6 +384,7 @@ def desasignar(request,pk):
     
     else:
         return redirect('listar_item')
+
 
 @login_required
 def eliminar_adjunto(request, pk):
@@ -425,6 +428,7 @@ def project_list(request):
 
     return render_to_response('des/project_list.html', context_dict, context)
 
+
 @login_required
 def phases_list(request, pk):
 
@@ -435,9 +439,11 @@ def phases_list(request, pk):
 
     return render_to_response('des/phases_list.html', context_dict, context)
 
+
 def get_historial_item_list(pk):
     item_historial_list = VersionItem.objects.filter(item_id=pk).order_by('version_item')
     return item_historial_list
+
 
 def historial_item(request, pk):
 
@@ -447,6 +453,7 @@ def historial_item(request, pk):
     context_dict['object_list'] = item_historial_list
 
     return render_to_response('des/historial_item.html', context_dict, context)
+
 
 @login_required
 def agregar_relaciones(request):
@@ -514,9 +521,11 @@ def agregar_relaciones(request):
                               context
     )
 
+
 def get_lista_relacion():
     lista_relacion = Relacion.objects.all()
     return lista_relacion
+
 
 @login_required
 def import_item(request, pk):
@@ -543,6 +552,7 @@ def import_item(request, pk):
     return render_to_response('des/import_item.html',
                               {'project_form': item_form, 'registered': registered, 'id_fase': id_fase}, context)
 
+
 @login_required
 def item_import_list(request, pk):
 
@@ -558,6 +568,7 @@ def get_item_import_list(pk):
     lista_item = Item.objects.filter(id_fase=pk)
     return lista_item
 
+
 @login_required
 def listar_relaciones(request):
     context = RequestContext(request)
@@ -566,6 +577,7 @@ def listar_relaciones(request):
     context_dict['lista_relacion'] = lista_relacion
 
     return render_to_response('des/lista_relacion.html', context_dict, context)
+
 
 @login_required
 def eliminar_relacion(request, pk):
@@ -576,6 +588,7 @@ def eliminar_relacion(request, pk):
         return redirect('listar_relaciones')
 
     return render_to_response('des/confirmar_eliminacion_relacion.html', {'relacion': relacion}, context)
+
 
 def get_relaciones(id_item):
     lista_relacion = Relacion.objects.filter(del_item=id_item)
@@ -605,6 +618,7 @@ def calcular_impacto_y_costo_item(request, pk):
 
     return render_to_response('des/calcular_impacto_y_costo_item.html', context_dict, context)
 
+
 def recorrer(pk):
     """Funcion recursiva que calcula sumas de los items recorriendo el grafo en profundidad"""
     global suma_costo, suma_impacto, visitados
@@ -618,6 +632,7 @@ def recorrer(pk):
         num = int(relacion.al_item.id_item)
         if(visitados[num] == 0):
             recorrer(relacion.al_item.id_item)
+
 
 @login_required
 def calcular_costo_total(request, pk):
@@ -633,6 +648,7 @@ def calcular_costo_total(request, pk):
     context_dict['costo_total'] = costo_total
     return render_to_response('des/calcular_costo_total.html', context_dict, context)
 
+
 def getItemsProyecto(pk):
     """Funcion que retorna todos los items de un proyecto"""
     lista = []
@@ -643,3 +659,66 @@ def getItemsProyecto(pk):
             if not(item.estado == 'E' or item.estado == 'P'):
                 lista.append(item)
     return lista
+
+
+def lista_item_revivir(request):
+    """Funcion para Listar Item Revivir.
+    Retorna la pagina correspondiente con la lista de item a revivir
+
+    :param request: Parametro a ser procesado.
+    :type request: HttpRequest.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
+    context = RequestContext(request)
+    lista_item = get_lista_item_revivir()
+    context_dict = {}
+    context_dict['lista_item'] = lista_item
+
+    return render_to_response('des/lista_item_revivir.html', context_dict, context)
+
+
+def get_lista_item_revivir():
+    lista_version_item = VersionItem.objects.values('item_id', 'nombre_item').annotate()
+    lista_item = Item.objects.values('id_item', 'nombre_item').all()
+    for version_item in lista_version_item:
+        for item in lista_item:
+            print('item', item)
+            print('version_item', version_item)
+            # if version_item.nombre_item == item.nombre_item:
+            #     lista_version_item.pop(version_item)
+
+    print('lista_version_item', lista_version_item)
+    return lista_version_item
+
+
+def revivir_item(request, pk):
+
+    context = RequestContext(request)
+    item_historial_list = get_historial_item_list(pk)
+    context_dict = {}
+    context_dict['object_list'] = item_historial_list
+
+    return render_to_response('des/revivir_item.html', context_dict, context)
+
+
+def revivir(request, pk):
+    context = RequestContext(request)
+    version_item = get_object_or_404(VersionItem, pk=pk)
+
+    if version_item:
+
+        item = Item(nombre_item=version_item.nombre_item, version_item=version_item.version_item,
+            prioridad=version_item.prioridad, estado=version_item.estado,
+            descripcion=version_item.descripcion, observaciones=version_item.observaciones,
+            complejidad=version_item.complejidad, costo=version_item.costo,
+            ultima_version_item_id=version_item.ultima_version_item_id, id_tipo_item=version_item.id_tipo_item,
+            id_fase=version_item.id_fase)
+
+        item.save()
+
+        return redirect('/des/lista_item_revivir/')
+    else:
+        return render_to_response('des/revivir_item.html', context)
+
+    return render_to_response('des/revivir_item.html', context)

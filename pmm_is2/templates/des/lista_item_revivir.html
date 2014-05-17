@@ -1,0 +1,31 @@
+{% extends 'des/des_base_logged.html' %}
+{% load static %}
+{% block link %}<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">{% endblock %}
+{% block title %}PMM{% endblock %}
+{% block content %}
+    <div class="row">
+        <div id="breadcrumb" class="col-md-12">
+            <ol class="breadcrumb">
+                <li><a href="/home/">PMM</a></li>
+                <li><a href="/des/">Desarrollo</a></li>
+                <li><a href="#">Lista Item Revivir</a></li>
+            </ol>
+        </div>
+    </div>
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <div class="row">
+            <ul class="list-group">
+                {% for item in lista_item %}
+                    <li class="list-group-item">
+                        <h4 ><a href="#">{{ item.nombre_item }}</a>
+                        </h4>
+                        <a class="btn btn-danger" href="/des/revivir_item/{{ item.item_id }}">
+                            <i class="icon-trash icon-white"></i>
+                            Revivir
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}

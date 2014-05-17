@@ -36,8 +36,6 @@ class UserProfile(models.Model):
 
 #funcion para validar las fecha de fin de los proyectos recibe una fecha
 def validate_even(value):
-    print value
-    print datetime.now().date()
     if value < datetime.now().date():
         raise ValidationError('%s No es una fecha valida' % value)
 
@@ -101,8 +99,6 @@ class Fase(models.Model):
         primera_fase = False
         primera_fase = Fase.objects.filter(numero_secuencia=1, proyecto_id=self.proyecto_id).exists()
         existe_fase = Fase.objects.filter(id_fase=self.id_fase).exists()
-        print ('primera_fase ', primera_fase)
-        print ('existe_fase ', existe_fase)
         if existe_fase is False:
             if primera_fase is True:
                 maximo = Fase.objects.filter(proyecto_id=self.proyecto_id).aggregate(Max('numero_secuencia'))['numero_secuencia__max']

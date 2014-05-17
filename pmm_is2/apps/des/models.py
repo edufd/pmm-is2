@@ -83,7 +83,6 @@ class Item(models.Model):
     def save(self):
         primera_version = False
         primera_version = Item.objects.filter(version_item=1, id_item=self.id_item).exists()
-        print('primera_version', primera_version)
         if primera_version is True:
             self.version_item = self.version_item + 1
             self.ultima_version_item_id = self.version_item

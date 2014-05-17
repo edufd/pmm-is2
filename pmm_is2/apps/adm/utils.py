@@ -44,7 +44,6 @@ def get_category_list(max_results=0, starts_with=''):
         cat_list = []
         if starts_with:
             starts_with = starts_with + '%'
-            print starts_with
             cat_list = User.objects.filter(username__like=starts_with)
         # else:
         #         cat_list = User.objects.all()

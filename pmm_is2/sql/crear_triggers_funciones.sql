@@ -1,12 +1,3 @@
-create trigger after_update_item 
-	after update on pmm.des_item 
-	for each row execute procedure pmm.agregar_version_item();
-
-create trigger after_insert_item
-	after insert on pmm.des_item
-	for each row execute procedure pmm.actualizar_version_item();
-
-
 /*create trigger after_insert_item
 	after insert on pmm.des_item
 	for each row execute procedure actualizar_version_item()*/
@@ -121,3 +112,46 @@ CREATE OR REPLACE FUNCTION pmm.agregar_version_item()
 	  COST 100;
 ALTER FUNCTION pmm.agregar_version_item()
   OWNER TO pmm;
+
+
+
+create trigger after_update_item
+	after update on pmm.des_item
+	for each row execute procedure pmm.agregar_version_item();
+
+create trigger after_insert_item
+	after insert on pmm.des_item
+	for each row execute procedure pmm.actualizar_version_item();
+
+
+/*create trigger after_update_linea_base
+	after update on pmm.gdc_lineabase
+	for each row execute procedure pmm.cerrar_fase()*/
+
+CREATE OR REPLACE FUNCTION pmm.cerrar_fase()
+  RETURNS trigger AS $$
+	DECLARE
+
+	BEGIN
+
+		IF new.estado = 'CERRADA' THEN
+
+			RAISE NOTICE 'Actualizar Fase:[%]', new.fase_id;
+
+			UPDATE pmm.adm_fase SET estado_fase = 'CERRADA'
+			WHERE id_fase = new.fase_id;
+
+		END IF;
+
+		RETURN new;
+	END;
+	$$
+	  LANGUAGE plpgsql VOLATILE
+	  COST 100;
+ALTER FUNCTION pmm.cerrar_fase()
+  OWNER TO pmm;
+
+
+create trigger after_update_linea_base
+	after update on pmm.gdc_lineabase
+	for each row execute procedure pmm.cerrar_fase();

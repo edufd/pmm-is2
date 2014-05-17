@@ -63,10 +63,13 @@ def crear_tipo_item(request):
 @login_required
 def crear_item(request, pk):
     """Funcion para Crear Item.
-    Retorna la pagina correspondiente con el formulario para la creacion del ITem
+    Retorna la pagina con el formulario correspondiente para la modificacion
+    del Tipo Item.
 
     :param request: Parametro a ser procesado.
+    :param pk: Parametro a ser procesado.
     :type request: HttpRequest.
+    :type pk: int.
     :returns: La pagina correspondiente.
     :rtype: El response correspondiente.
     """
@@ -308,6 +311,17 @@ def get_item_list(max_results=0, starts_with=''):
 #agregado Adri
 @login_required
 def archivoadjunto_page(request,pk):
+    """Funcion para Adjuntar un archivo a un Item.
+    Retorna la pagina con el formulario correspondiente para la modificacion
+    del item.
+
+    :param request: Parametro a ser procesado.
+    :param pk: Parametro a ser procesado el identificador del Item al que se le va a adjuntar el archivo.
+    :type request: HttpRequest.
+    :type pk: int.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
     context = RequestContext(request)
     creado=False
 
@@ -339,8 +353,8 @@ def archivoadjunto_page(request,pk):
 
 @login_required
 def crear_archivoAdjunto(request):
-    """Funcion para Crear Item.
-    Retorna la pagina correspondiente con el formulario para la creacion del ITem
+    """Funcion para Agregar un archivo adjunto eligiendo a cual item adjuntar.
+    Retorna la pagina correspondiente con el formulario para la agregacion
 
     :param request: Parametro a ser procesado.
     :type request: HttpRequest.
@@ -371,6 +385,7 @@ def crear_archivoAdjunto(request):
 
 @login_required
 def desasignar(request,pk):
+
     context = RequestContext(request)
     existe=ArchivoAdjunto.objects.filter(id_item_relacionado=pk).exists()
     if existe:
@@ -388,10 +403,10 @@ def desasignar(request,pk):
 
 @login_required
 def eliminar_adjunto(request, pk):
-    """Funcion para Eliminar un Tipo Item.
+    """Funcion para Eliminar o Desasignar un Archivo Adjunto.
 
     :param request: Parametro a ser procesado.
-    :param pk: Parametro a ser procesado el identificador del tipo de Item que va a eliminarse.
+    :param pk: Parametro a ser procesado el identificador del Archivo Adjunto que va a eliminarse.
     :type request: HttpRequest.
     :type pk: int.
     :returns: La pagina correspondiente.

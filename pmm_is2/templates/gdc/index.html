@@ -1,0 +1,44 @@
+{% extends 'gdc/gdc_base_logged.html' %}
+{% load static %}
+{% load tags %}
+{% block link %}
+    <link href="{% static 'css/dashboard.css' %}" rel="stylesheet" xmlns="http://www.w3.org/1999/html">{% endblock %}
+{% block title %}PMM{% endblock %}
+{% block content %}
+    <div class="row">
+        <div id="breadcrumb" class="col-md-12">
+            <ol class="breadcrumb">
+                <li><a href="/home/">PMM</a></li>
+                <li><a href="#">Gestion de Cambio</a></li>
+            </ol>
+        </div>
+    </div>
+    <h3 class="page-header"><a href="/adm/usuarios/">Linea Base</a></h3>
+    <div class="well">
+        <div class="row">
+            <div class="col-xs-6 col-sm-3 placeholder">
+                <ul class="nav nav-list">
+                    <li class="nav-header">Buscar Linea Base
+                    <form autocomplete="off">
+                        <label></label>
+                        <input  class="search-query span10" type="text" name="suggestion" value="" id="suggestion" />
+                    </form></li>
+                </ul>
+{#                <div id="cats">#}
+{#                    {% include 'adm/category_list.html' with cat_list=cat_list %}#}
+{#                </div>#}
+            </div>
+
+            <div class="col-xs-6 col-sm-3 placeholder">
+                <h4><a class="btn btn-primary" href="/gdc/project_list/"><span class="glyphicon glyphicon-plus"></span></a></h4>
+                <span class="text-muted">Crear Linea Base</span>
+            </div>
+            <div class="col-xs-6 col-sm-3 placeholder">
+
+                <h4><a class="btn btn-primary" href="/adm/user_list/"><span class="glyphicon glyphicon-th-list"></span></a></h4>
+                <span class="text-muted">Solicitud de Cambio</span>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

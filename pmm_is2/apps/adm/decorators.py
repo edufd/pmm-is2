@@ -1,6 +1,5 @@
 from django.shortcuts import redirect
-from pmm_is2.apps.adm.models import *
-from django.contrib.auth.models import User, Group, Permission
+from pmm_is2.apps.adm.models import Fase, Proyecto
 
 
 #decorador para evitar que se puedan crear fases si no es el duenho del proyecto

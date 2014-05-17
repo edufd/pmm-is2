@@ -50,6 +50,7 @@ class Proyecto(models.Model):
     costo_temporal = models.IntegerField(default=0)
     costo_monetario = models.IntegerField(default=0)
     estado_proyecto = models.CharField(max_length=11, choices=PROYECTOS_ESTADOS, default='NO-INICIADO')
+    numero_fases = models.IntegerField(blank=False)
     #cambiar despues para que sea la fecha actual al crear
     fecha_inicio = models.DateField(blank=True, default=datetime.now())
     fecha_fin = models.DateField(validators=[validate_even])

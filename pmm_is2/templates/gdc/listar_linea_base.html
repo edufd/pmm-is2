@@ -1,0 +1,27 @@
+{% extends 'adm/adm_base_logged.html' %}
+{% load static %}
+{% block link %}<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">{% endblock %}
+{% block title %}PMM{% endblock %}
+{% block content %}
+    <div class="row">
+        <div id="breadcrumb" class="col-md-12">
+            <ol class="breadcrumb">
+                <li><a href="/home/">PMM</a></li>
+                <li><a href="/gdc/">Gestion de Cambio</a></li>
+                <li><a href="/gdc/project_list/">Proyectos</a></li>
+                <li><a href="#">Lista de Lineas Bases</a></li>
+            </ol>
+        </div>
+    </div>
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        {% for proyecto in object_list %}
+            <li>
+                <h4>{{ proyecto.nombre_linea_base}}
+                    :
+                    <a href="/gdc/linea_base_update/{{ proyecto.id_linea_base }}">Modificar</a> |
+                    <a href="/gdc/phases_list/{{ proyecto.id_linea_base }}">Eliminar</a>
+                </h4>
+            </li>
+        {% endfor %}
+    </div>
+{% endblock %}

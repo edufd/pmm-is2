@@ -137,11 +137,3 @@ class ArchivoAdjunto(models.Model):
     id_item_relacionado = models.ForeignKey(Item)
 
 
-class LineaBase(models.Model):
-    id_linea_base = models.AutoField(primary_key=True)
-    nombre_linea_base = models.CharField(max_length=15)
-    creado_por = models.ForeignKey(User)
-    fase_linea_base = models.ForeignKey('adm.Fase', verbose_name="Fase")
-
-    def __unicode__(self):
-         return self.nombre_linea_base

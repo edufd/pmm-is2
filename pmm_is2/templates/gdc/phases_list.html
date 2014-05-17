@@ -13,7 +13,7 @@
             </ol>
         </div>
     </div>
-    <h3>Seleccionar la fase a agregar el item</h3>
+    <h3>Seleccionar la Fase a agregar la Linea Base</h3>
     </br>
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
         {% for fase in object_list %}
@@ -22,8 +22,8 @@
                     {% if fase.estado_fase == 'CERRADA' %}
                         Fase Cerrada
                     {% else %}
-                        <a href="/des/crear_item/{{ fase.id_fase }}">Agregar Item</a> |
-                        <a href="/des/item_import_list/{{ fase.id_fase }}">Importar Item</a>
+                        <a href="/gdc/crear_linea_base/{{ fase.id_fase }}">Crear Linea Base</a> |
+                        <a href="/gdc/listar_linea_base/{{ fase.id_fase }}">Listar Linea Base</a>
                     {% endif %}
                 </h4>
             </li>

@@ -81,9 +81,10 @@ class Item(models.Model):
     #      db_table = 'Item'
 
     def save(self):
-        primera_version = False
-        primera_version = Item.objects.filter(version_item=1, id_item=self.id_item).exists()
-        if primera_version is True:
+        existe = False
+        existe = Item.objects.filter(id_item=self.id_item).exists()
+        print('existe', existe)
+        if existe is True:
             self.version_item = self.version_item + 1
             self.ultima_version_item_id = self.version_item
         else:

@@ -19,10 +19,10 @@
         {% for proyecto in object_list %}
             <li>
                 <h4>{{ proyecto.nombre_proyecto}}
-
-                    <a href="/adm/project_profile/{{ proyecto.id_proyecto }}">Perfil</a> |
+                    :
+                    <a href="/adm/project_profile/{{ proyecto.id_proyecto }}">Perfil</a>
                     {% if user == proyecto.lider_proyecto or valido %}
-                        :
+                        |
                         <a href="/des/phases_list/{{ proyecto.id_proyecto }}">Fases</a>
                     {% endif %}
                 </h4>

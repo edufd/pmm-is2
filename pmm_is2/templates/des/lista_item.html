@@ -21,27 +21,27 @@
 
                         </h4>
                         {% if item.estado != 'A' %}
-                        <a class="btn btn-danger" href="{% url "eliminar_item" item.id_item %}">
+                            <a class="btn btn-danger" href="{% url "eliminar_item" item.id_item %}">
                               <i class="icon-trash icon-white"></i>
                               Eliminar
                             </a>
                         {% endif %}
-                        <a class="btn btn-danger" href="{% url "adjuntarArchivo_item" item.id_item %}">
+                            <a class="btn btn-danger" href="{% url "adjuntarArchivo_item" item.id_item %}">
                               <i class="icon-trash icon-white"></i>
                               AdjuntarArchivo
                             </a>
-                        <a class="btn btn-danger" href="{% url "desasignar" item.id_item %}">
-                              <i class="icon-trash icon-white"></i>
-                              Desasignar
-                        </a>
-                        <a class="btn btn-danger" href="/des/historial_item/{{ item.id_item }}">
-                              <i class="icon-trash icon-white"></i>
-                              Historial
-                        </a>
-                        <a class="btn btn-info" href="{% url "calcular" item.id_item %}">
-                              <i class="icon-trash icon-white"></i>
-                              Calcular
-                        </a>
+                            <a class="btn btn-danger" href="{% url "desasignar" item.id_item %}">
+                                  <i class="icon-trash icon-white"></i>
+                                  Desasignar
+                            </a>
+                            <a class="btn btn-danger" href="/des/historial_item/{{ item.id_item }}">
+                                  <i class="icon-trash icon-white"></i>
+                                  Historial
+                            </a>
+                            <a class="btn btn-info" href="{% url "calcular" item.id_item %}">
+                                  <i class="icon-trash icon-white"></i>
+                                  Calcular
+                            </a>
                     </li>
 
                 {% endfor %}

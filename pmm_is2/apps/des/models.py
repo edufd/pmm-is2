@@ -97,7 +97,7 @@ class Item(models.Model):
 
 class VersionItem(models.Model):
     id_version_item = models.AutoField(primary_key=True)
-    item = models.ForeignKey(Item)
+    item_id = models.IntegerField()
     nombre_item = models.CharField(unique=False, max_length=200)
     version_item = models.IntegerField(blank=True)
     prioridad = models.CharField(max_length=1) #Alta:'A', Media:'M', Baja:'B'

@@ -14,7 +14,6 @@ def iniciar_sesion(request, usuario):
     else:
         request.session.cycle_key()
         request.session[SESSION_KEY] = usuario.username
-        print request.session[SESSION_KEY]
         request.session[SESSION_KEY_MSG] = ["hola"]
     if hasattr(request, 'user'):
         request.user = usuario
@@ -40,7 +39,6 @@ def verificar_rol_usuario(user):
     if user:
         combined_queryset = user.groups.filter(name='Administrador').exists() |\
                             user.groups.filter(name='Lider de Proyecto').exists()
-        print combined_queryset
         valido = combined_queryset
     return valido
 

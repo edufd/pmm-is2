@@ -309,7 +309,6 @@ def get_item_list(max_results=0, starts_with=''):
 def archivoadjunto_page(request,pk):
     context = RequestContext(request)
     creado=False
-    print pk
 
     if request.method == 'POST':
         archivoAdjunto_form = ArchivoAdjuntoForm(request.POST, request.FILES)
@@ -370,7 +369,6 @@ def crear_archivoAdjunto(request):
 
 def desasignar(request,pk):
     context = RequestContext(request)
-    print pk
     existe=ArchivoAdjunto.objects.filter(id_item_relacionado=pk).exists()
     if existe:
         traer=ArchivoAdjunto.objects.filter(id_item_relacionado=pk)
@@ -444,7 +442,6 @@ def historial_item(request, pk):
 
     context = RequestContext(request)
     item_historial_list = get_historial_item_list(pk)
-    print item_historial_list
     context_dict = {}
     context_dict['object_list'] = item_historial_list
 
@@ -593,10 +590,8 @@ def calcular_impacto_y_costo_item(request, pk):
     context = RequestContext(request)
     lista_item = get_lista_item()
     max_id_item = lista_item.order_by('id_item').reverse()[0]
-    print max_id_item
     global suma_costo, suma_impacto, visitados
     visitados = [0]*(int(max_id_item.id_item) + 1)
-    print visitados
     suma_costo= 0
     suma_impacto= 0
     recorrer(pk)
@@ -610,14 +605,12 @@ def recorrer(pk):
     """Funcion recursiva que calcula sumas de los items recorriendo el grafo en profundidad"""
     global suma_costo, suma_impacto, visitados
     num = int(pk)
-    print num
     visitados[num] = 1
     item = get_object_or_404(Item, id_item=pk)
     suma_costo = suma_costo + item.costo
     suma_impacto = suma_impacto + item.complejidad
     relaciones = get_relaciones(pk)
     for relacion in relaciones:
-        print relacion.al_item.id_item
         num = int(relacion.al_item.id_item)
         if(visitados[num] == 0):
             recorrer(relacion.al_item.id_item)

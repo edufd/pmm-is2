@@ -49,8 +49,6 @@ class FaseForm(forms.ModelForm):
 class ComiteForm(forms.ModelForm):
     proyecto = forms.ModelChoiceField(queryset=Proyecto.objects.all(), widget=forms.Select(), required=False)
     usuario = forms.ModelMultipleChoiceField(queryset=User.objects.all(), widget=forms.CheckboxSelectMultiple, required=False)
-    print usuario
-
     class Meta:
         model = Comite
         fields = ('proyecto', 'usuario')

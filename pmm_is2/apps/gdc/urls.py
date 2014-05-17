@@ -15,4 +15,9 @@ urlpatterns = patterns('',
         url(r'^editar_solicitudRecibido/(?P<pk>\d+)$', views.editar_solicitudRecibido, name='editar_solicitudRecibido'),
 
 
+        url(r'^project_list/$', views.project_list, name='project_list'),
+        url(r'^listar_linea_base/(?P<pk>\d+)$', views.listar_linea_base, name='listar_linea_base'),
+        url(r'^phases_list/(?P<pk>\d+)$', views.phases_list, name='phases_list'),
+        url(r'^crear_linea_base/(?P<pk>\d+)$', views.crear_linea_base, name='crear_linea_base'),
+        url(r'^linea_base_update/(?P<pk>\d+)$', views.linea_base_update, name='linea_base_update'),
 )

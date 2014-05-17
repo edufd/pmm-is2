@@ -5,7 +5,7 @@ from django.contrib.admin.widgets import FilteredSelectMultiple, AdminDateWidget
 from django.contrib.auth.models import User, Group, Permission
 from django import forms
 from django.forms.extras import SelectDateWidget
-from pmm_is2.apps.gdc.models import Tipo, Solicitud
+from pmm_is2.apps.gdc.models import Tipo, Solicitud, LineaBase
 from pmm_is2.apps.adm.models import Proyecto,Fase
 from pmm_is2.apps.des.models import Item
 from pmm_is2.apps.gdc.models import PRIORIDAD_CHOICES
@@ -62,3 +62,16 @@ class SolicitudRecibidoForm(forms.ModelForm):
         self.fields['tipo'].widget.attrs['disabled'] = True
         self.fields['prioridad'].widget.attrs['disabled'] = True
         self.fields['descripcion'].widget.attrs['readonly'] = True
+
+
+class LineaBaseForm(forms.models.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        id_fase = kwargs.pop('id_fase')
+        super(LineaBaseForm, self).__init__(*args, **kwargs)
+        #self.fields['items'] = forms.MultipleChoiceField(queryset=Item.objects.select_related('fase').filter(id_fase=id_fase),
+        #                                                 widget=forms.Select(), required=False)
+
+    class Meta:
+        model = LineaBase
+        fields = ('nombre_linea_base', 'estado', 'tipo', 'numero', 'creado_por', 'items')

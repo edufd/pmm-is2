@@ -32,21 +32,26 @@ class opciones(models.Model):
 
 
 class Solicitud(models.Model):
-    id_solicitud = models.AutoField(primary_key=True)
+    id_solicitud= models.AutoField(primary_key=True)
     fecha_inicio = models.DateField(blank=True, default=datetime.now())
-    nombre_proyecto = models.ForeignKey('adm.Proyecto', verbose_name="Proyecto", null=True)
-    nombre_fase = models.ForeignKey('adm.Fase', verbose_name="Fase", null=True)
-    nombre_item = models.ForeignKey('des.Item', verbose_name="Item", null=True)
-    usuario = models.ForeignKey(User, null=True)
+    nombre_proyecto=models.ForeignKey('adm.Proyecto', verbose_name="Proyecto",null=True)
+    nombre_fase=models.ForeignKey('adm.Fase', verbose_name="Fase",null=True)
+    nombre_item=models.ForeignKey('des.Item', verbose_name="Item",null=True)
+    usuario=models.ForeignKey(User,null=True)
     estado = models.CharField(max_length=11, default='EN-ESPERA')
     prioridad = models.CharField(max_length=1) #Alta:'A', Media:'M', Baja:'B'
     comentarios = models.CharField(max_length=200)
     descripcion = models.CharField(max_length=5000)
-    nombre_linea_base = models.CharField(max_length=50, default='PRUEBA')#CAMBIAR DESPUES POR FOREINGNKEY CUANDO HAYA LB
+    nombre_linea_base=models.CharField(max_length=50, default='PRUEBA')#CAMBIAR DESPUES POR FOREINGNKEY CUANDO HAYA LB
     tipo = models.ManyToManyField(Tipo)
-    opciones = models.ForeignKey(opciones, null=True)
-    contador = models.IntegerField(blank=True, default=0, null=True)
-    encontra = models.IntegerField(blank=True, default=0, null=True)
+    opciones= models.ForeignKey(opciones, null=True)
+    contador=models.IntegerField(blank=True,default=0,null=True)
+    encontra=models.IntegerField(blank=True,default=0,null=True)
+
+    votado_por1 = models.CharField(max_length=200,default='null',null=True)
+    votado_por2 = models.CharField(max_length=200,default='null',null=True)
+    votado_por3 = models.CharField(max_length=200,default='null',null=True)
+
 
 
 LINEA_BASE_ESTADOS = (

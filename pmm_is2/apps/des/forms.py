@@ -20,7 +20,7 @@ class ItemForm(forms.models.ModelForm):
         #                                                 widget=forms.Select(), required=False)
         self.fields['id_tipo_item'] = \
             forms.ModelChoiceField(queryset=TipoItem.objects.select_related('fase').filter(fase=id_fase),
-                                                        widget=forms.Select(), required=False)
+                                                        widget=forms.Select(), required=True)
 
     class Meta:
         model = Item
@@ -34,13 +34,16 @@ class TipoItemForm(forms.models.ModelForm):
         model = TipoItem
         fields = ('nombre_tipo_item', 'descripcion')
 
+
 class AtributoTipoItemForm(forms.models.ModelForm):
 
     tipo_atributo = forms.CharField(widget=forms.Select(choices=TIPO_ATRIBUTO))
     obligatorio = forms.CharField(widget=forms.Select(choices=OBLIGATORIO))
+
     class Meta:
         model = Atributo
         fields = {'observacion', 'descripcion', 'obligatorio', 'tipo_atributo', 'nombre_atributo_tipo_item' }
+
 
 class ArchivoAdjuntoForm(forms.models.ModelForm):
     path_archivo = forms.FileField(label='Selecciona un archivo')
@@ -49,7 +52,8 @@ class ArchivoAdjuntoForm(forms.models.ModelForm):
 
     class Meta:
        model = ArchivoAdjunto
-       fields = ('path_archivo','filename','id_item_relacionado')
+       fields = ('path_archivo', 'filename', 'id_item_relacionado')
+
 
 class RelacionesForm(forms.models.ModelForm):
     tipo = forms.CharField(widget=forms.Select(choices=TIPO))

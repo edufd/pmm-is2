@@ -3,14 +3,11 @@ from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
 from pmm_is2.apps.adm.models import Fase
 from pmm_is2.apps.adm.utils import get_project_list, get_phases_list
-
 from pmm_is2.apps.des.forms import TipoItemForm, AtributoTipoItemForm
 from pmm_is2.apps.des.models import TipoItem, VersionItem, Relacion
 from pmm_is2.apps.des.forms import ItemForm
-
 from pmm_is2.apps.des.forms import ArchivoAdjuntoForm, RelacionesForm
 from pmm_is2.apps.des.models import ArchivoAdjunto
-
 from pmm_is2.apps.des.models import Item
 
 
@@ -106,7 +103,7 @@ def get_lista_tipo_item():
 
 
 def get_lista_item():
-    lista_item =Item.objects.all()
+    lista_item = Item.objects.all()
     return lista_item
 
 
@@ -229,6 +226,7 @@ def eliminar_item(request, pk):
         return redirect('listar_item')
 
     return render_to_response('des/confirmar_eliminacion_item.html', {'item': item}, context)
+
 
 @login_required
 def ver_tipo_item(request, pk):
@@ -393,7 +391,7 @@ def desasignar(request,pk):
 
         return render_to_response('des/desasignar.html',
                               {
-                                 'traer':traer,
+                                 'traer': traer,
                              },
                              context)
     

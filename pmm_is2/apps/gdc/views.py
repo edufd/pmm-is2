@@ -23,7 +23,8 @@ from reportlab.lib.units import cm
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.pdfmetrics import registerFontFamily
 from reportlab.pdfbase.ttfonts import TTFont
-_all_=[Proyecto,Comite]
+_all_ = [Proyecto, Comite]
+
 
 @login_required
 def index(request):
@@ -99,6 +100,7 @@ def editar_solicitud(request, pk):
         return redirect('listar_solicitud')
 
     return render_to_response('gdc/editar_solicitud.html', {'solicitud_form': solicitud_form}, context)
+
 
 @login_required
 def imprimir_solicitud(request, pk):
@@ -205,8 +207,6 @@ def imprimir_solicitud(request, pk):
  	])
     columnas1 = [100]
 
-
-
     t1=Table(data1, columnas1)
     t1.setStyle(ESTILO_GENERAL)
     elements.append(t1)
@@ -238,6 +238,7 @@ def enviar_solicitud(request, pk):
 
     return render_to_response("gdc/enviar.html", context_instance=RequestContext(request))
 
+
 def get_listar_solicitudRecibido():
     lista_solicitud = Solicitud.objects.filter(estado='EN-PROCESO')
     return lista_solicitud
@@ -260,7 +261,7 @@ def editar_solicitudRecibido(request, pk):
     solicitud = get_object_or_404(Solicitud, pk=pk)
     print request
 
-    validar=comprobar(solicitud,request)
+    validar=comprobar(solicitud, request)
     if validar is True\
             and solicitud.votado_por1 != request.user.username \
             and solicitud.votado_por2 != request.user.username \

@@ -28,9 +28,9 @@ CREATE OR REPLACE FUNCTION pmm.actualizar_version_item()
 
 			RAISE NOTICE 'id_item:[%]', new.id_item;
 			insert into pmm.des_versionitem (item_id, nombre_item,version_item, prioridad, estado, descripcion, observaciones,
-			complejidad,ultima_version_item_id, id_tipo_item_id, id_fase_id)
+			complejidad, costo, ultima_version_item_id, id_tipo_item_id, id_fase_id)
 			values (new.id_item, new.nombre_item, new.version_item, new.prioridad, new.estado, new.descripcion, new.observaciones,
-			new.complejidad, new.ultima_version_item_id, new.id_tipo_item_id, new.id_fase_id);
+			new.complejidad, new.costo, new.ultima_version_item_id, new.id_tipo_item_id, new.id_fase_id);
 			/*
 				item_id integer NOT NULL,
 				nombre_item character varying(200) NOT NULL,
@@ -99,9 +99,9 @@ CREATE OR REPLACE FUNCTION pmm.agregar_version_item()
 
 			RAISE NOTICE 'id_item:[%]', new.id_item;
 			insert into pmm.des_versionitem (item_id, nombre_item,version_item, prioridad, estado, descripcion, observaciones,
-			complejidad,ultima_version_item_id, id_tipo_item_id, id_fase_id)
+			complejidad, costo, ultima_version_item_id, id_tipo_item_id, id_fase_id)
 			values (new.id_item, new.nombre_item, new.version_item, new.prioridad, new.estado, new.descripcion, new.observaciones,
-			new.complejidad, new.ultima_version_item_id, new.id_tipo_item_id, new.id_fase_id);
+			new.complejidad, new.costo, new.ultima_version_item_id, new.id_tipo_item_id, new.id_fase_id);
 
 		END IF;
 

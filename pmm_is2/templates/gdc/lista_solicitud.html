@@ -3,9 +3,16 @@
 {% block link %}<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">{% endblock %}
 {% block title %}PMM{% endblock %}
 {% block content %}
-
+    <div class="row">
+        <div id="breadcrumb" class="col-md-12">
+            <ol class="breadcrumb">
+                <li><a href="/home/">PMM</a></li>
+                <li><a href="/gdc/">Gestion de Cambio</a></li>
+                <li><a href="#">Lista de Solicitudes de Cambio</a></li>
+            </ol>
+        </div>
+    </div>
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-        <h1 class="page-header">Solicitudes Pendientes de Envio</h1>
         <div class="row">
             <ul class="list-group">
                 {% for solicitud in lista_solicitud %}

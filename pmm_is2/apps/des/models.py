@@ -105,6 +105,7 @@ class VersionItem(models.Model):
     descripcion = models.CharField(max_length=200)
     observaciones = models.CharField(max_length=5000)
     complejidad = models.IntegerField(max_length=10)
+    costo = models.IntegerField()
     ultima_version_item_id = models.IntegerField(blank=True)
     id_tipo_item = models.ForeignKey(TipoItem, verbose_name="Tipo de Item")
     id_fase = models.ForeignKey('adm.Fase', verbose_name="Fase")

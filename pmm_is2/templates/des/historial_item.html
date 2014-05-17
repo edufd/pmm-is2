@@ -3,7 +3,16 @@
 {% block link %}<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">{% endblock %}
 {% block title %}PMM{% endblock %}
 {% block content %}
-
+    <div class="row">
+        <div id="breadcrumb" class="col-md-12">
+            <ol class="breadcrumb">
+                <li><a href="/home/">PMM</a></li>
+                <li><a href="/des/">Desarrollo</a></li>
+                <li><a href="/des/listar_item/">Item</a></li>
+                <li><a href="#">Historial Item</a></li>
+            </ol>
+        </div>
+    </div>
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
@@ -36,6 +45,7 @@
                                     <th class="col-sm-1">Descripcion</th>
                                     <th class="col-sm-1">Observacion</th>
                                     <th class="col-sm-1">Complejidad</th>
+                                    <th class="col-sm-1">Costo</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -48,6 +58,7 @@
                                         <td>{{ versionItem.descripcion }}</td>
                                         <td>{{ versionItem.observaciones }}</td>
                                         <td>{{ versionItem.complejidad }}</td>
+                                        <td>{{ versionItem.costo }}</td>
                                     </tr>
                                 {% endfor %}
                             </tbody>

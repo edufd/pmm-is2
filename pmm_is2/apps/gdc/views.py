@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django import forms
 from pmm_is2.apps.adm.models import Fase
 from pmm_is2.apps.adm.utils import not_in_admin_group, get_project_list, get_phases_list
-from pmm_is2.apps.gdc.models import Solicitud
+from pmm_is2.apps.gdc.models import Solicitud, LineaBase
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
@@ -19,17 +19,17 @@ from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib.enums import TA_LEFT, TA_RIGHT, TA_CENTER, TA_JUSTIFY
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
 from reportlab.lib.styles import getSampleStyleSheet
-
-
 from reportlab.lib.units import cm
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.pdfmetrics import registerFontFamily
 from reportlab.pdfbase.ttfonts import TTFont
 
+
 @login_required
 def index(request):
     context = RequestContext(request)
     return render_to_response('gdc/index.html', context)
+
 
 def crear_solicitud(request):
     """Funcion para Crear Solicitud.

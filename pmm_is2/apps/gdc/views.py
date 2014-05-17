@@ -6,7 +6,7 @@ from pmm_is2.apps.gdc.models import Solicitud, LineaBase
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
-
+from pmm_is2.apps.adm.models import Proyecto, Comite
 from pmm_is2.apps.gdc.forms import SolicitudForm, LineaBaseForm
 from pmm_is2.apps.gdc.forms import SolicitudRecibidoForm
 from django.http import HttpResponseRedirect
@@ -23,7 +23,7 @@ from reportlab.lib.units import cm
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.pdfmetrics import registerFontFamily
 from reportlab.pdfbase.ttfonts import TTFont
-
+_all_=[Proyecto,Comite]
 
 @login_required
 def index(request):
@@ -255,34 +255,73 @@ def listar_solicitudRecibido(request):
 
 @login_required
 def editar_solicitudRecibido(request, pk):
+    validar=False
     context = RequestContext(request)
     solicitud = get_object_or_404(Solicitud, pk=pk)
-    solicitud_form = SolicitudRecibidoForm(request.POST or None, instance=solicitud)
-    if request.method == 'POST':
-        votar=request.POST.getlist('opciones')
-        if votar[0]=='1':
-            solicitud.contador =  solicitud.contador + 1
-            solicitud.encontra=solicitud.encontra
+    print request
 
-        if votar[0]=='2':
-            solicitud.encontra =  solicitud.encontra + 1
-            solicitud.contador=solicitud.contador
+    validar=comprobar(solicitud,request)
+    if validar is True\
+            and solicitud.votado_por1 != request.user.username \
+            and solicitud.votado_por2 != request.user.username \
+            and solicitud.votado_por3 != request.user.username:
+            print solicitud.votado_por1
+            print request.user.username
+            solicitud_form = SolicitudRecibidoForm(request.POST or None, instance=solicitud)
+            if request.method == 'POST':
+                if solicitud.votado_por1=='null':
+                    solicitud.votado_por1=request.user.username
+                    print solicitud.votado_por1
+                else:
+                    if solicitud.votado_por2=='null' and request.user.username!= solicitud.votado_por1:
+                        solicitud.votado_por2=request.user.username
+                        print solicitud.votado_por2
+                    else:
+                        if solicitud.votado_por3=='null' and request.user.username!=solicitud.votado_por2:
+                            solicitud.votado_por3=request.user.username
+                        else:
+                            return redirect('listar_solicitudRecibido')
+                votar=request.POST.getlist('opciones')
+                if votar[0]=='1':
+                    solicitud.contador =  solicitud.contador + 1
+                    solicitud.encontra=solicitud.encontra
 
-        total=solicitud.contador+solicitud.encontra
-        if total==3:
-            solicitud.estado='RECHAZADA'
-        if solicitud.contador==3:
-            solicitud.estado='APROBADA'
-        if solicitud.encontra==3:
-            solicitud.estado='RECHAZADA'
-        commen=request.POST.getlist('comentarios')
-        solicitud.comentarios=commen[0]
-        solicitud.save()
+                if votar[0]=='2':
+                    solicitud.encontra =  solicitud.encontra + 1
+                    solicitud.contador=solicitud.contador
+
+                total=solicitud.contador+solicitud.encontra
+                if total==3:
+                    solicitud.estado='RECHAZADA'
+                if solicitud.contador==3:
+                    solicitud.estado='APROBADA'
+                if solicitud.encontra==3:
+                    solicitud.estado='RECHAZADA'
+                commen=request.POST.getlist('comentarios')
+                solicitud.comentarios=commen[0]
+                solicitud.save()
+                return redirect('listar_solicitudRecibido')
+
+            else:
+                return render_to_response('gdc/editar_solicitudRecibido.html', {'solicitud_form': solicitud_form}, context)
+
+    else:
         return redirect('listar_solicitudRecibido')
 
-    return render_to_response('gdc/editar_solicitudRecibido.html', {'solicitud_form': solicitud_form}, context)
+def comprobar(self,request):
+    proyect = get_object_or_404(Proyecto, nombre_proyecto=self.nombre_proyecto)
+    proyect1=Proyecto.objects.get(nombre_proyecto=self.nombre_proyecto)
+    jaja=True
+    print 'projec'
+    print proyect
+    print proyect1
+    #comitt=Comite.objects.filter(proyecto=self.nombre_proyecto).exists()
+    comitt = Comite.objects.filter(proyecto=self.nombre_proyecto).exists() &\
+                            Comite.objects.filter(usuario=request.user).exists()
+    print 'comite'
+    print comitt
 
-
+    return comitt
 
 @login_required
 @user_passes_test(not_in_admin_group)

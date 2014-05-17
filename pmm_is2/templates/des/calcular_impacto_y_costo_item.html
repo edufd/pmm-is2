@@ -1,0 +1,15 @@
+{% extends 'des/des_base_logged.html' %}
+{% load static %}
+{% block link %}
+    <link href="{% static 'css/dashboard.css' %}" rel="stylesheet" xmlns="http://www.w3.org/1999/html">{% endblock %}
+{% block title %}PMM{% endblock %}
+{% block content %}
+
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <h1 class="page-header">Costo e impacto de Item</h1>
+        <div class="row">
+            El costo del item {{ item }} es {{ suma_costo }} </br>
+            El impacto del item {{ item }} es {{ suma_impacto }} </br>
+        </div>
+    </div>
+{% endblock %}

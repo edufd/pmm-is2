@@ -5,7 +5,7 @@ from pmm_is2.apps.adm.models import Fase
 from pmm_is2.apps.adm.utils import get_project_list, get_phases_list
 
 from pmm_is2.apps.des.forms import TipoItemForm, AtributoTipoItemForm
-from pmm_is2.apps.des.models import TipoItem, VersionItem
+from pmm_is2.apps.des.models import TipoItem, VersionItem, Relacion
 from pmm_is2.apps.des.forms import ItemForm
 
 from pmm_is2.apps.des.forms import ArchivoAdjuntoForm, RelacionesForm
@@ -575,3 +575,49 @@ def eliminar_relacion(request, pk):
         return redirect('listar_relaciones')
 
     return render_to_response('des/confirmar_eliminacion_relacion.html', {'relacion': relacion}, context)
+
+def get_relaciones(id_item):
+    lista_relacion = Relacion.objects.filter(del_item=id_item)
+    return lista_relacion
+
+
+
+def calcular_impacto_y_costo_item(request, pk):
+    """
+    Retorna el impacto calculado correspondiente al item.
+    @type item: item
+    @param item: el item cuyo impacto se desea calcular
+    @rtype: int
+    @return: retorna el valor calculado del impacto del item
+    """
+    context = RequestContext(request)
+    lista_item = get_lista_item()
+    max_id_item = lista_item.order_by('id_item').reverse()[0]
+    print max_id_item
+    global suma_costo, suma_impacto, visitados
+    visitados = [0]*(int(max_id_item.id_item) + 1)
+    print visitados
+    suma_costo= 0
+    suma_impacto= 0
+    recorrer(pk)
+    context_dict = {}
+    context_dict['suma_costo'] = suma_costo
+    context_dict['suma_impacto'] = suma_impacto
+
+    return render_to_response('des/calcular_impacto_y_costo_item.html', context_dict, context)
+
+def recorrer(pk):
+    """Funcion recursiva que calcula sumas de los items recorriendo el grafo en profundidad"""
+    global suma_costo, suma_impacto, visitados
+    num = int(pk)
+    print num
+    visitados[num] = 1
+    item = get_object_or_404(Item, id_item=pk)
+    suma_costo = suma_costo + item.costo
+    suma_impacto = suma_impacto + item.complejidad
+    relaciones = get_relaciones(pk)
+    for relacion in relaciones:
+        print relacion.al_item.id_item
+        num = int(relacion.al_item.id_item)
+        if(visitados[num] == 0):
+            recorrer(relacion.al_item.id_item)

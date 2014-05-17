@@ -24,7 +24,7 @@ class ItemForm(forms.models.ModelForm):
 
     class Meta:
         model = Item
-        fields = ('nombre_item', 'prioridad', 'estado', 'complejidad', 'observaciones', 'id_tipo_item',
+        fields = ('nombre_item', 'prioridad', 'estado', 'complejidad', 'costo', 'observaciones', 'id_tipo_item',
                   'descripcion')
 
 

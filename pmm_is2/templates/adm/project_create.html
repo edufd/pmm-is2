@@ -52,7 +52,9 @@
                 {% csrf_token %}
 
                 {{ project_form.as_p }}
-                <p>Debe asignar una fase inicial:</p>
+                </br>
+                <h3>Debe asignar una fase inicial:</h3>
+                </br>
                 {{ fase_form.as_p }}
                 <!-- Provide a button to click to submit the form. -->
                 <input class="btn btn-primary" type="submit" name="submit" value="Crear" />

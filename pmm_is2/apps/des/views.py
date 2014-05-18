@@ -224,8 +224,9 @@ def eliminar_item(request, pk):
     """
     context = RequestContext(request)
     item = get_object_or_404(Item, pk=pk)
-    if (request.method == 'POST' and item.estado != 'A'):
-        item.delete()
+    if request.method == 'POST' and item.estado == 'ACTIVO':
+        item.estado = 'INACTIVO'
+        item.save()
         return redirect('listar_item')
 
     return render_to_response('des/confirmar_eliminacion_item.html', {'item': item}, context)
@@ -457,7 +458,7 @@ def phases_list(request, pk):
 
 
 def get_historial_item_list(pk):
-    item_historial_list = VersionItem.objects.filter(item_id=pk).order_by('version_item')
+    item_historial_list = VersionItem.objects.filter(item_id=pk, estado='ACTIVO').order_by('version_item')
     return item_historial_list
 
 
@@ -472,36 +473,44 @@ def historial_item(request, pk):
 
 
 @login_required
-def agregar_relaciones(request):
+def agregar_relaciones(request, id_fase):
 
     context = RequestContext(request)
     creado = False
+    pk = id_fase
+    object_fase = get_object_or_404(Fase, pk=pk)
+
     if request.method == 'POST':
-        relacion_form = RelacionesForm(data=request.POST)
+        print('mierda ', id_fase)
+        relacion_form = RelacionesForm(data=request.POST, id_fase=id_fase)
         if relacion_form.is_valid():
             itemA = relacion_form.cleaned_data['del_item']
             itemB = relacion_form.cleaned_data['al_item']
             tipo = relacion_form.cleaned_data['tipo']
+
             if tipo == 'e':
                 error = "Debe elegir un tipo de relacion"
                 return render_to_response('des/agregar_relaciones.html',
                               {
                                   'relacion_form': relacion_form,
                                   'error': error,
+                                  'fase': id_fase,
                               },
                               context
                 )
             if itemA.id_item != itemB.id_item:
-                if itemA.id_fase == itemB.id_fase and tipo == "P":
+                if itemA.id_fase == itemB.id_fase and tipo == "PADRE-HIJO":
+                    relacion_form.instance.fase = object_fase
                     relacion = relacion_form.save()
                     relacion.save()
                     creado = True
-                elif itemA.id_fase != itemB.id_fase and tipo == "A":
+                elif itemA.id_fase != itemB.id_fase and tipo == "ANTECESOR-SUCESOR":
+                    relacion_form.instance.fase = object_fase
                     relacion = relacion_form.save()
                     relacion.save()
                     creado = True
                 else:
-                    if tipo == "P":
+                    if tipo == "PADRE-HIJO":
                         error = "El tipo de relacion no puede ser Padre-Hijo ya que los items" \
                                 " no pertenecen a la misma fase. Cambie el tipo de relacion"
                     else:
@@ -512,6 +521,7 @@ def agregar_relaciones(request):
                               {
                                   'relacion_form': relacion_form,
                                   'error': error,
+                                  'fase': id_fase,
                               },
                               context
                     )
@@ -521,25 +531,28 @@ def agregar_relaciones(request):
                               {
                                   'relacion_form': relacion_form,
                                   'error': error,
+                                  'fase': id_fase,
                               },
                               context
                 )
         else:
             print relacion_form.errors
     else:
-        relacion_form = RelacionesForm()
+        print('ok ', pk)
+        relacion_form = RelacionesForm(id_fase=id_fase)
 
     return render_to_response('des/agregar_relaciones.html',
                               {
                                   'relacion_form': relacion_form,
                                   'creado': creado,
+                                  'fase': id_fase,
                               },
                               context
     )
 
 
-def get_lista_relacion():
-    lista_relacion = Relacion.objects.all()
+def get_lista_relacion(id_fase):
+    lista_relacion = Relacion.objects.filter(fase_id=id_fase)
     return lista_relacion
 
 
@@ -581,16 +594,17 @@ def item_import_list(request, pk):
 
 
 def get_item_import_list(pk):
-    lista_item = Item.objects.filter(id_fase=pk)
+    lista_item = Item.objects.filter(id_fase=pk, estado='ACTIVO')
     return lista_item
 
 
 @login_required
-def listar_relaciones(request):
+def listar_relaciones(request, id_fase):
     context = RequestContext(request)
-    lista_relacion = get_lista_relacion()
+    lista_relacion = get_lista_relacion(id_fase)
     context_dict = {}
     context_dict['lista_relacion'] = lista_relacion
+    context_dict['id_fase'] = id_fase
 
     return render_to_response('des/lista_relacion.html', context_dict, context)
 
@@ -601,9 +615,10 @@ def eliminar_relacion(request, pk):
     relacion = get_object_or_404(Relacion, pk=pk)
     if request.method == 'POST':
         relacion.delete()
-        return redirect('listar_relaciones')
+        return redirect('/des/')
 
-    return render_to_response('des/confirmar_eliminacion_relacion.html', {'relacion': relacion}, context)
+    return render_to_response('des/confirmar_eliminacion_relacion.html',
+                              {'relacion': relacion, 'fase': relacion.fase_id}, context)
 
 
 def get_relaciones(id_item):
@@ -677,7 +692,7 @@ def getItemsProyecto(pk):
     return lista
 
 
-def lista_item_revivir(request):
+def lista_item_revivir(request, id_fase):
     """Funcion para Listar Item Revivir.
     Retorna la pagina correspondiente con la lista de item a revivir
 
@@ -687,23 +702,15 @@ def lista_item_revivir(request):
     :rtype: El response correspondiente.
     """
     context = RequestContext(request)
-    lista_item = get_lista_item_revivir()
+    lista_item = get_lista_item_revivir(id_fase)
     context_dict = {}
     context_dict['lista_item'] = lista_item
 
     return render_to_response('des/lista_item_revivir.html', context_dict, context)
 
 
-def get_lista_item_revivir():
-    lista_version_item = VersionItem.objects.values('item_id', 'nombre_item').annotate()
-    lista_item = Item.objects.values('id_item', 'nombre_item').all()
-    for version_item in lista_version_item:
-        for item in lista_item:
-            print('item', item)
-            print('version_item', version_item)
-            # if version_item.nombre_item == item.nombre_item:
-            #     lista_version_item.pop(version_item)
-
+def get_lista_item_revivir(id_fase):
+    lista_version_item = VersionItem.objects.filter(id_fase_id=id_fase, estado='INACTIVO')#.values('item_id', 'nombre_item').annotate()
     print('lista_version_item', lista_version_item)
     return lista_version_item
 
@@ -721,6 +728,7 @@ def revivir_item(request, pk):
 def revivir(request, pk):
     context = RequestContext(request)
     version_item = get_object_or_404(VersionItem, pk=pk)
+    creado = False
 
     if version_item:
 
@@ -732,12 +740,12 @@ def revivir(request, pk):
             id_fase=version_item.id_fase)
 
         item.save()
+        creado = True
 
-        return redirect('/des/lista_item_revivir/')
     else:
         return render_to_response('des/revivir_item.html', context)
 
-    return render_to_response('des/revivir_item.html', context)
+    return render_to_response('des/revivir_item.html', {'creado': creado}, context)
 
 
 @login_required
@@ -772,5 +780,5 @@ def phase_item_list(request, id_proyecto, id_fase):
 
 
 def get_phase_item_list(id_fase):
-    lista_item = Item.objects.filter(id_fase_id=id_fase).all()
+    lista_item = Item.objects.filter(id_fase_id=id_fase, estado='ACTIVO').all()
     return lista_item

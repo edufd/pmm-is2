@@ -27,9 +27,9 @@ CREATE OR REPLACE FUNCTION pmm.actualizar_version_item()
 			WHERE id_contenido = v_ultimo_indice_guardado.id_contenido and id_promocion = new.id_promocion and tipo = new.tipo;*/
 
 			RAISE NOTICE 'id_item:[%]', new.id_item;
-			insert into pmm.des_versionitem (item_id, nombre_item,version_item, prioridad, estado, descripcion, observaciones,
+			insert into pmm.des_versionitem (item_id, nombre_item,version_item, prioridad, estado, descripcion, numero, observaciones,
 			complejidad, costo, ultima_version_item_id, id_tipo_item_id, id_fase_id)
-			values (new.id_item, new.nombre_item, new.version_item, new.prioridad, new.estado, new.descripcion, new.observaciones,
+			values (new.id_item, new.nombre_item, new.version_item, new.prioridad, new.estado, new.descripcion, new.numero, new.observaciones,
 			new.complejidad, new.costo, new.ultima_version_item_id, new.id_tipo_item_id, new.id_fase_id);
 			/*
 				item_id integer NOT NULL,
@@ -98,9 +98,9 @@ CREATE OR REPLACE FUNCTION pmm.agregar_version_item()
 			WHERE id_contenido = v_ultimo_indice_guardado.id_contenido and id_promocion = new.id_promocion and tipo = new.tipo;*/
 
 			RAISE NOTICE 'id_item:[%]', new.id_item;
-			insert into pmm.des_versionitem (item_id, nombre_item,version_item, prioridad, estado, descripcion, observaciones,
+			insert into pmm.des_versionitem (item_id, nombre_item,version_item, prioridad, estado, descripcion, numero, observaciones,
 			complejidad, costo, ultima_version_item_id, id_tipo_item_id, id_fase_id)
-			values (new.id_item, new.nombre_item, new.version_item, new.prioridad, new.estado, new.descripcion, new.observaciones,
+			values (new.id_item, new.nombre_item, new.version_item, new.prioridad, new.estado, new.descripcion, new.numero, new.observaciones,
 			new.complejidad, new.costo, new.ultima_version_item_id, new.id_tipo_item_id, new.id_fase_id);
 
 		END IF;

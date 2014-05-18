@@ -1,35 +1,31 @@
 from django.db import models
-from django.contrib.auth.models import User
 
-ESTADO_CHOICES = (
-    ('e', 'elegir...'),
-    ('A', 'Aprobado'),
-    ('N', 'No aprobado'),
+ITEM_ESTADOS = (
+    ('INACTIVO', 'INACTIVO'),
+    ('BLOQUEADO', 'BLOQUEADO'),
+    ('REVISION', 'REVISION'),
+    ('ACTIVO', 'ACTIVO'),
 )
 
 PRIORIDAD_CHOICES = (
-    ('e', 'elegir...'),
-    ('A', 'Alta'),
-    ('M', 'Media'),
-    ('B', 'Baja'),
+    ('ALTA', 'ALTA'),
+    ('MEDIA', 'MEDIA'),
+    ('BAJA', 'BAJA'),
 )
 
 TIPO_ATRIBUTO = (
-    ('e', 'elegir...'),
-    ('N', 'NUMERICO'),
-    ('T', 'TEXTO'),
+    ('NUMERICO', 'NUMERICO'),
+    ('TEXTO', 'TEXTO'),
 )
 
 OBLIGATORIO = (
-    ('e', 'elegir...'),
-    ('N', 'NO'),
-    ('S', 'SI'),
+    ('NO', 'NO'),
+    ('SI', 'SI'),
 )
 
-TIPO = (
-    ('e', 'elegir...'),
-    ('P', 'Padre-hijo'),
-    ('A', 'Antecesor-Sucesor'),
+RELACION_TIPO = (
+    ('PADRE-HIJO', 'PADRE-HIJO'),
+    ('ANTECESOR-SUCESOR', 'ANTECESOR-SUCESOR'),
 )
 
 
@@ -65,9 +61,10 @@ class Item(models.Model):
     id_item = models.AutoField(primary_key=True)
     nombre_item = models.CharField(unique=False, max_length=200)
     version_item = models.IntegerField(blank=True)
-    prioridad = models.CharField(max_length=1) #Alta:'A', Media:'M', Baja:'B'
-    estado = models.CharField(max_length=1) # I:Inactivo  B:Bloqueado C:Revision A:Aprobado D:Desaprobado
+    prioridad = models.CharField(max_length=5, choices=PRIORIDAD_CHOICES)
+    estado = models.CharField(max_length=10, choices=ITEM_ESTADOS, default='ACTIVO')
     descripcion = models.CharField(max_length=200)
+    numero = models.CharField(max_length=200, blank=True, default='1')
     observaciones = models.CharField(max_length=5000)
     complejidad = models.IntegerField(max_length=10)
     costo = models.IntegerField()
@@ -83,7 +80,6 @@ class Item(models.Model):
     def save(self):
         existe = False
         existe = Item.objects.filter(id_item=self.id_item).exists()
-        print('existe', existe)
         if existe is True:
             self.version_item = self.version_item + 1
             self.ultima_version_item_id = self.version_item
@@ -100,9 +96,10 @@ class VersionItem(models.Model):
     item_id = models.IntegerField()
     nombre_item = models.CharField(unique=False, max_length=200)
     version_item = models.IntegerField(blank=True)
-    prioridad = models.CharField(max_length=1) #Alta:'A', Media:'M', Baja:'B'
-    estado = models.CharField(max_length=1) # I:Inactivo  B:Bloqueado C:Revision A:Aprobado D:Desaprobado
+    prioridad = models.CharField(max_length=5) #Alta:'A', Media:'M', Baja:'B'
+    estado = models.CharField(max_length=10) # I:Inactivo  B:Bloqueado C:Revision A:Aprobado D:Desaprobado
     descripcion = models.CharField(max_length=200)
+    numero = models.CharField(max_length=200)
     observaciones = models.CharField(max_length=5000)
     complejidad = models.IntegerField(max_length=10)
     costo = models.IntegerField()
@@ -129,7 +126,11 @@ class VersionItem(models.Model):
 class Relacion (models.Model):
     del_item = models.ForeignKey(Item, related_name="ItemA")
     al_item = models.ForeignKey(Item, related_name="ItemB")
-    tipo = models.CharField(max_length=1)
+    tipo = models.CharField(max_length=20, choices=RELACION_TIPO)
+    fase = models.ForeignKey('adm.Fase')
+
+    class Meta:
+        unique_together = (("del_item", "al_item", "tipo", "fase"),)
 
 
 class ArchivoAdjunto(models.Model):

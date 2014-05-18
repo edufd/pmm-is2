@@ -84,7 +84,7 @@ class LineaBaseFormEdit(forms.models.ModelForm):
     def __init__(self, *args, **kwargs):
         id_fase = kwargs.pop('id_fase')
         super(LineaBaseFormEdit, self).__init__(*args, **kwargs)
-        #self.fields["items"].queryset = Item.objects.filter(id_fase_id=id_fase)
+        #self.fields["items"] = forms.ModelMultipleChoiceField(queryset=Item.objects.all(), widget=forms.CheckboxSelectMultiple, required=False)
 
     class Meta:
         model = LineaBase

@@ -1,0 +1,93 @@
+{% extends 'des/des_base_logged.html' %}
+{% load static %}
+{% load tags %}
+{% block link %}
+    <link href="{% static 'css/dashboard.css' %}" rel="stylesheet" xmlns="http://www.w3.org/1999/html">{% endblock %}
+{% block title %}PMM{% endblock %}
+{% block content %}
+    <div class="row">
+        <div id="breadcrumb" class="col-md-12">
+            <ol class="breadcrumb">
+                <li><a href="/home/">PMM</a></li>
+                <li><a href="/des/">Desarrollo</a></li>
+            </ol>
+        </div>
+    </div>
+    <h3 class="page-header"><a href="/des/listar_tipo_item/">Tipos de Item</a></h3>
+    <div class="well">
+        <div class="row">
+            <div class="col-xs-6 col-sm-3 placeholder">
+                
+                <ul class="nav nav-list">
+                    <li class="nav-header">Buscar Tipo de Item
+                    <form autocomplete="off">
+                        <label></label>
+                        <input  class="search-query span10" type="text" name="suggestion_tipo_item" value="" id="suggestion_tipo_item" />
+                    </form></li>
+                </ul>
+                <div id="cats_tipo_item">
+                    {% include 'des/tipo_item_list.html' with cat_list=cat_list %}
+                </div>
+
+            </div>
+            <div class="col-xs-6 col-sm-3 placeholder">
+                
+                <h4><a class="btn btn-primary" href="/des/crear_tipo_item/"><span class="glyphicon glyphicon-plus"></span></a></h4>
+                <span class="text-muted">Nuevo Item</span>
+            </div>
+
+            <div class="col-xs-6 col-sm-3 placeholder">
+                
+                <h4><a class="btn btn-primary" href="/des/listar_tipo_item/"><span class="glyphicon glyphicon-th-list"></span></a></h4>
+                <span class="text-muted">Listar Item</span>
+            </div>
+
+            <div class="col-xs-6 col-sm-3 placeholder">
+                
+                <h4>Label</h4>
+                <span class="text-muted">No implementado</span>
+            </div>
+        </div>
+    </div>
+
+    <h3 class="page-header"><a href="/des/listar_item/">Item</a></h3>
+    <div class="well">
+        <div class="row">
+            <div class="row placeholders">
+                <div class="col-xs-6 col-sm-3 placeholder">
+
+                    <ul class="nav nav-list">
+                        <li class="nav-header">Buscar Item
+                        <form autocomplete="off">
+                            <label></label>
+                            <input  class="search-query span10" type="text" name="suggestion_item" value="" id="suggestion_item" />
+                        </form></li>
+                    </ul>
+                    <div id="cats_item">
+                        {% include 'des/item_list.html' with cat_list=cat_list %}
+                    </div>
+
+                </div>
+
+                <div class="col-xs-6 col-sm-3 placeholder">
+
+                    <h4><a class="btn btn-primary" href="/des/project_list/"><span class="glyphicon glyphicon-plus"></span></a></h4>
+                    <span class="text-muted">Nuevo Item</span>
+                </div>
+
+                <div class="col-xs-6 col-sm-3 placeholder">
+
+                    <h4><a class="btn btn-primary" href="/des/listar_item/"><span class="glyphicon glyphicon-th-list"></span></a></h4>
+                    <span class="text-muted">Listar Item</span>
+                </div>
+
+                <div class="col-xs-6 col-sm-3 placeholder">
+
+                    <h4><a class="btn btn-primary" href="/des/lista_item_revivir/"><span class="glyphicon glyphicon-th-list"></span></a></h4>
+                    <span class="text-muted">Listar Item Revivir</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

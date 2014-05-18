@@ -36,7 +36,8 @@ urlpatterns = patterns('',
         url(r'^agregar_relaciones/$', views.agregar_relaciones, name='agregar_relaciones'),
         url(r'^listar_relaciones/$', views.listar_relaciones, name='listar_relaciones'),
         url(r'^eliminar_relacion/(?P<pk>\d+)$', views.eliminar_relacion, name='eliminar_relacion'),
-
+        url(r'^project_profile/(?P<pk>\d+)$', views.project_profile, name='project_profile'),
+        url(r'^phase_item_list/(?P<id_proyecto>(\d+))/(?P<id_fase>(\d+))/$', views.phase_item_list, name='phase_item_list'),
 
         #imports
         url(r'^import_item/(?P<pk>\d+)$', views.import_item, name='import_item'),

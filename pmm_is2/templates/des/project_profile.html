@@ -1,17 +1,24 @@
-{% extends 'des/des_base_logged.html' %}
+{% extends 'des/des_project_selected.html' %}
 {% load static %}
-{% load tags %}
-{% block link %}
-    <link href="{% static 'css/dashboard.css' %}" rel="stylesheet" xmlns="http://www.w3.org/1999/html">{% endblock %}
-{% block title %}Desarrollo{% endblock %}
+{% block link %}<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">{% endblock %}
+{% block title %}PMM{% endblock %}
 {% block content %}
     <div class="row">
         <div id="breadcrumb" class="col-md-12">
             <ol class="breadcrumb">
                 <li><a href="/home/">PMM</a></li>
                 <li><a href="/des/">Desarrollo</a></li>
+                <li><a href="#">{{ project.nombre_proyecto }}</a></li>
             </ol>
         </div>
+    </div>
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main form_class">
+        <h2>Proyecto: {{ project.nombre_proyecto }}</h2>
+        <br/>
+        <h4><strong>Estado:</strong> {{ project.estado_proyecto }}</h4>
+        <h4><strong>Fecha Inicio:</strong> {{ project.fecha_inicio }}</h4>
+        <h4><strong>Fecha Fin:</strong> {{ project.fecha_fin }}</h4>
+        <h4><strong>Lider de Proyecto:</strong> {{ project.lider_proyecto }}</h4>
     </div>
     <div class="row">
         <div class="col-xs-12">
@@ -19,7 +26,7 @@
                 <div class="box-header">
                     <div class="box-name">
                         <i class="fa fa-table"></i>
-                        <span>Seleccionar Proyecto</span>
+                        <span>Fases</span>
                     </div>
                     <div class="box-icons">
                         <a class="collapse-link">
@@ -39,20 +46,17 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Nombre Proyecto</th>
-                                <th>Lider de Proyecto</th>
-                                <th>Descripcion</th>
-                                <th>Accion</th>
+                                <th>Nombre Fase</th>
+                                <th colspan="2">Opciones</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {% for proyecto in proyectos %}
+                            {% for fase in phases_list %}
                                 <tr>
-                                    <td>{{ proyecto.id_proyecto }}</td>
-                                    <td><a href="/des/project_profile/{{ proyecto.id_proyecto }}">{{proyecto.nombre_proyecto}}</a></td>
-                                    <td><a href="/adm/perfil/{{ proyecto.lider_proyecto.id }}">{{ proyecto.lider_proyecto }}</a></td>
-                                    <td>{{ proyecto.descripcion }}</td>
-                                    <td>ok</td>
+                                    <td>{{ fase.numero_secuencia }}</td>
+                                    <td>{{ fase.nombre_fase }}</td>
+                                    <td><a href="/des/crear_item/{{ fase.id_fase }}">Agregar Item</a></td>
+                                    <td><a href="/des/phase_item_list/{{ fase.proyecto.id_proyecto }}/{{ fase.id_fase }}">Listar Items</a></td>
                                 </tr>
                             {% endfor %}
                         </tbody>

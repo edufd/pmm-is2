@@ -8,6 +8,8 @@
             <ol class="breadcrumb">
                 <li><a href="/home/">PMM</a></li>
                 <li><a href="/des/">Desarrollo</a></li>
+                <li><a href="/des/">{{ objeto_fase.proyecto }}</a></li>
+                <li><a href="/des/phase_item_list/{{ objeto_fase.proyecto.id_proyecto }}/{{ objeto_fase.id_fase }}">{{ objeto_fase.nombre_fase }}</a></li>
                 <li><a href="#">Crear Item</a></li>
             </ol>
         </div>
@@ -15,7 +17,7 @@
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
         {% if creado %}
             <strong>Se ha creado el item!</strong><br/>
-            <a href="/des/">Retornar a la pagina de inicio</a><br/>
+            <a href="/des/project_profile/{{ objeto_fase.proyecto.id_proyecto }}">Retornar a la pagina de inicio</a><br/>
         {% else %}
             <strong><h4>Complete los datos</h4></strong>
             </br>

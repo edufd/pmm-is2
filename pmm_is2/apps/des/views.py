@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
-from pmm_is2.apps.adm.models import Fase
+from pmm_is2.apps.adm.models import Fase, Proyecto
 from pmm_is2.apps.adm.utils import get_project_list, get_phases_list
 from pmm_is2.apps.des.forms import TipoItemForm, AtributoTipoItemForm
 from pmm_is2.apps.des.models import TipoItem, VersionItem, Relacion
@@ -14,7 +14,9 @@ from pmm_is2.apps.des.models import Item
 @login_required
 def index(request):
     context = RequestContext(request)
-    return render_to_response('des/index.html', context)
+    proyectos = get_project_list()
+    context_dict = {'proyectos': proyectos}
+    return render_to_response('des/index.html', context_dict, context)
 
 
 @login_required
@@ -92,6 +94,7 @@ def crear_item(request, pk):
                                   'item_form': item_form,
                                   'creado': creado,
                                   'fase': fase,
+                                  'objeto_fase': objeto_fase,
                               },
                               context
     )
@@ -735,3 +738,39 @@ def revivir(request, pk):
         return render_to_response('des/revivir_item.html', context)
 
     return render_to_response('des/revivir_item.html', context)
+
+
+@login_required
+def project_profile(request, pk):
+
+    context = RequestContext(request)
+    project = get_object_or_404(Proyecto, pk=pk)
+    phases_list = get_phases_list(pk)
+    context_dict = {'project': project, 'phases_list': phases_list}
+
+    return render_to_response('des/project_profile.html', context_dict, context)
+
+
+def phase_item_list(request, id_proyecto, id_fase):
+    """Funcion para Listar Item Revivir.
+    Retorna la pagina correspondiente con la lista de item a revivir
+
+    :param request: Parametro a ser procesado.
+    :type request: HttpRequest.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
+    fase = get_object_or_404(Fase, pk=id_fase)
+    context = RequestContext(request)
+    lista_item = get_phase_item_list(id_fase)
+    context_dict = {}
+    context_dict['lista_item'] = lista_item
+    context_dict['proyecto'] = fase.proyecto
+    context_dict['fase'] = fase
+
+    return render_to_response('des/phase_item_list.html', context_dict, context)
+
+
+def get_phase_item_list(id_fase):
+    lista_item = Item.objects.filter(id_fase_id=id_fase).all()
+    return lista_item

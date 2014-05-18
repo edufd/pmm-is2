@@ -1,0 +1,53 @@
+{% extends 'des/des_base_logged.html' %}
+{% load static %}
+{% block link %}<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">{% endblock %}
+{% block title %}PMM{% endblock %}
+{% block content %}
+    <div class="row">
+        <div id="breadcrumb" class="col-md-12">
+            <ol class="breadcrumb">
+                <li><a href="/home/">PMM</a></li>
+                <li><a href="/des/">Desarrollo</a></li>
+                <li><a href="/des/project_profile/{{ proyecto.id_proyecto }}">{{ proyecto }}</a></li>
+                <li><a href="/des/project_profile/{{ fase.id_fase }}">{{ fase.nombre_fase }}</a></li>
+                <li><a href="#">Lista Item</a></li>
+            </ol>
+        </div>
+    </div>
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <div class="row">
+            <ul class="list-group">
+                {% for item in lista_item %}
+                    <li class="list-group-item">
+                        <h4 ><a href="{% url "editar_item" item.id_item %}">{{ item.nombre_item}}</a>
+
+                        </h4>
+                        {% if item.estado != 'A' %}
+                            <a class="btn btn-danger" href="{% url "eliminar_item" item.id_item %}">
+                              <i class="icon-trash icon-white"></i>
+                              Eliminar
+                            </a>
+                        {% endif %}
+                            <a class="btn btn-danger" href="{% url "adjuntarArchivo_item" item.id_item %}">
+                              <i class="icon-trash icon-white"></i>
+                              AdjuntarArchivo
+                            </a>
+                            <a class="btn btn-danger" href="{% url "desasignar" item.id_item %}">
+                                  <i class="icon-trash icon-white"></i>
+                                  Desasignar
+                            </a>
+                            <a class="btn btn-danger" href="/des/historial_item/{{ item.id_item }}">
+                                  <i class="icon-trash icon-white"></i>
+                                  Historial
+                            </a>
+                            <a class="btn btn-info" href="{% url "calcular" item.id_item %}">
+                                  <i class="icon-trash icon-white"></i>
+                                  Calcular
+                            </a>
+                    </li>
+
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}

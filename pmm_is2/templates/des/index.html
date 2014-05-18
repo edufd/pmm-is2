@@ -52,7 +52,7 @@
                                     <td><a href="/des/project_profile/{{ proyecto.id_proyecto }}">{{proyecto.nombre_proyecto}}</a></td>
                                     <td><a href="/adm/perfil/{{ proyecto.lider_proyecto.id }}">{{ proyecto.lider_proyecto }}</a></td>
                                     <td>{{ proyecto.descripcion }}</td>
-                                    <td>ok</td>
+                                    <td><a href="/des/calcular_costo_total/{{ proyecto.id_proyecto }}">Calcular Costo Total</a></td>
                                 </tr>
                             {% endfor %}
                         </tbody>

@@ -72,8 +72,19 @@ class LineaBaseForm(forms.models.ModelForm):
     def __init__(self, *args, **kwargs):
         id_fase = kwargs.pop('id_fase')
         super(LineaBaseForm, self).__init__(*args, **kwargs)
-        #self.fields['items'] = forms.MultipleChoiceField(queryset=Item.objects.select_related('fase').filter(id_fase=id_fase),
-        #                                                 widget=forms.Select(), required=False)
+        self.fields["items"].queryset = Item.objects.filter(id_fase_id=id_fase)
+
+    class Meta:
+        model = LineaBase
+        fields = ('nombre_linea_base', 'tipo', 'numero', 'creado_por', 'items')
+
+
+class LineaBaseFormEdit(forms.models.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        id_fase = kwargs.pop('id_fase')
+        super(LineaBaseFormEdit, self).__init__(*args, **kwargs)
+        #self.fields["items"].queryset = Item.objects.filter(id_fase_id=id_fase)
 
     class Meta:
         model = LineaBase

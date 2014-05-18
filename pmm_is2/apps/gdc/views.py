@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
 from pmm_is2.apps.adm.models import Proyecto, Comite
-from pmm_is2.apps.gdc.forms import SolicitudForm, LineaBaseForm
+from pmm_is2.apps.gdc.forms import SolicitudForm, LineaBaseForm, LineaBaseFormEdit
 from pmm_is2.apps.gdc.forms import SolicitudRecibidoForm
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse, HttpResponseRedirect
@@ -379,22 +379,23 @@ def crear_linea_base(request, pk):
     objeto_fase = get_object_or_404(Fase, pk=pk)
 
     if request.method == 'POST':
-        item_form = LineaBaseForm(data=request.POST, id_fase=pk)
-        if item_form.is_valid():
-            item_form.instance.fase = objeto_fase
-            item = item_form.save()
+        linea_base_from = LineaBaseForm(data=request.POST, id_fase=pk)
+        if linea_base_from.is_valid():
+            linea_base_from.instance.fase = objeto_fase
+            item = linea_base_from.save()
             creado = True
         else:
-            print item_form.errors
+            print linea_base_from.errors
 
     else:
-        item_form = LineaBaseForm(id_fase=pk)
+        linea_base_from = LineaBaseForm(id_fase=pk)
 
     return render_to_response('gdc/crear_linea_base.html',
                               {
-                                  'item_form': item_form,
+                                  'linea_base_from': linea_base_from,
                                   'creado': creado,
                                   'fase': fase,
+                                  'objeto_fase': objeto_fase,
                               },
                               context
     )
@@ -446,7 +447,7 @@ def linea_base_update(request, pk):
     registered = False
     context = RequestContext(request)
     proyecto = get_object_or_404(LineaBase, pk=pk)
-    project_form = LineaBaseForm(request.POST or None, instance=proyecto, id_fase=pk)
+    project_form = LineaBaseFormEdit(request.POST or None, instance=proyecto, id_fase=pk)
     id_proyecto = pk
     if project_form.is_valid():
         project_form.save()
@@ -455,3 +456,15 @@ def linea_base_update(request, pk):
     return render_to_response('gdc/linea_base_update.html',
                               {'project_form': project_form, 'id_proyecto': id_proyecto,
                                'registered': registered}, context)
+
+
+@login_required
+def project_profile(request, pk):
+
+    context = RequestContext(request)
+    project = get_object_or_404(Proyecto, pk=pk)
+    phases_list = get_phases_list(pk)
+    context_dict = {'project': project, 'phases_list': phases_list}
+
+    return render_to_response('gdc/project_profile.html', context_dict, context)
+

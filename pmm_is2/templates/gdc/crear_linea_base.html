@@ -8,6 +8,8 @@
             <ol class="breadcrumb">
                 <li><a href="/home/">PMM</a></li>
                 <li><a href="/gdc/">Gestion de Cambio</a></li>
+                <li><a href="/gdc/project_profile/{{ objeto_fase.proyecto.id_proyecto }}">{{ objeto_fase.proyecto }}</a></li>
+                <li><a href="/gdc/project_profile/{{ objeto_fase.proyecto.id_proyecto }}">{{ objeto_fase.nombre_fase }}</a></li>
                 <li><a href="#">Crear Linea Base</a></li>
             </ol>
         </div>
@@ -25,7 +27,7 @@
 
                 {% csrf_token %}
 
-                {{ item_form.as_p }}
+                {{ linea_base_from.as_p }}
                 <input class="btn btn-primary" type="submit" name="submit" value="Crear" />
             </form>
         {% endif %}

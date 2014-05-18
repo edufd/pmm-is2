@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>adm/Views_1 &mdash; PMM 1.0.0 documentation</title>
+    <title>adm/Views_1 &mdash; PMM 3.0.0 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '1.0.0',
+        VERSION:     '3.0.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,9 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="PMM 1.0.0 documentation" href="index.html" />
-    <link rel="next" title="adm/Views_2" href="views_2.html" />
-    <link rel="prev" title="Urls" href="urls.html" /> 
+    <link rel="top" title="PMM 3.0.0 documentation" href="index.html" /> 
   </head>
   <body>
     <div class="related">
@@ -34,16 +32,7 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="views_2.html" title="adm/Views_2"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="urls.html" title="Urls"
-             accesskey="P">previous</a> |</li>
-        <li><a href="index.html">PMM 1.0.0 documentation</a> &raquo;</li> 
+        <li><a href="index.html">PMM 3.0.0 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -54,37 +43,6 @@
             
   <div class="section" id="adm-views-1">
 <h1>adm/Views_1<a class="headerlink" href="#adm-views-1" title="Permalink to this headline">¶</a></h1>
-<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13
-14
-15</pre></div></td><td class="code"><div class="highlight"><pre><span class="hll"><span class="kn">from</span> <span class="nn">django.contrib.auth.decorators</span> <span class="kn">import</span> <span class="n">login_required</span>
-</span><span class="kn">from</span> <span class="nn">django.contrib.auth.models</span> <span class="kn">import</span> <span class="n">User</span>
-<span class="kn">from</span> <span class="nn">django.template</span> <span class="kn">import</span> <span class="n">RequestContext</span>
-<span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="kn">import</span> <span class="n">render_to_response</span><span class="p">,</span> <span class="n">get_object_or_404</span><span class="p">,</span> <span class="n">redirect</span>
-<span class="kn">from</span> <span class="nn">adm.forms</span> <span class="kn">import</span> <span class="n">UserForm</span><span class="p">,</span> <span class="n">UserProfileForm</span>
-<span class="kn">from</span> <span class="nn">django.contrib.auth</span> <span class="kn">import</span> <span class="n">authenticate</span><span class="p">,</span> <span class="n">login</span><span class="p">,</span> <span class="n">logout</span>
-<span class="kn">from</span> <span class="nn">django.http</span> <span class="kn">import</span> <span class="n">HttpResponseRedirect</span><span class="p">,</span> <span class="n">HttpResponse</span>
-
-<span class="c"># Create your views here.</span>
-<span class="kn">from</span> <span class="nn">adm.models</span> <span class="kn">import</span> <span class="n">UserProfile</span>
-
-<span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
-
-    <span class="n">context</span> <span class="o">=</span> <span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;adm/index.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
-</pre></div>
-</td></tr></table></div>
 </div>
 
 
@@ -93,12 +51,6 @@
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="urls.html"
-                        title="previous chapter">Urls</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="views_2.html"
-                        title="next chapter">adm/Views_2</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/views.txt"
@@ -127,16 +79,7 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="views_2.html" title="adm/Views_2"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="urls.html" title="Urls"
-             >previous</a> |</li>
-        <li><a href="index.html">PMM 1.0.0 documentation</a> &raquo;</li> 
+        <li><a href="index.html">PMM 3.0.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

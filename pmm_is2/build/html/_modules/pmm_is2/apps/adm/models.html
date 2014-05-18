@@ -64,6 +64,7 @@
     <span class="p">(</span><span class="s">&#39;FINALIZADO&#39;</span><span class="p">,</span> <span class="s">&#39;FINALIZADO&#39;</span><span class="p">),</span>
 <span class="p">)</span>
 
+
 <div class="viewcode-block" id="UserProfile"><a class="viewcode-back" href="../../../../adm.html#pmm_is2.apps.adm.models.UserProfile">[docs]</a><span class="k">class</span> <span class="nc">UserProfile</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
 
     <span class="n">user</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">OneToOneField</span><span class="p">(</span><span class="n">User</span><span class="p">)</span>
@@ -80,13 +81,11 @@
 
 
 <span class="c">#funcion para validar las fecha de fin de los proyectos recibe una fecha</span></div>
-<div class="viewcode-block" id="validate_even"><a class="viewcode-back" href="../../../../adm.html#pmm_is2.apps.adm.models.validate_even">[docs]</a><span class="k">def</span> <span class="nf">validate_even</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
-    <span class="k">print</span> <span class="n">value</span>
-    <span class="k">print</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">date</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">validate_even</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">value</span> <span class="o">&lt;</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">date</span><span class="p">():</span>
         <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s"> No es una fecha valida&#39;</span> <span class="o">%</span> <span class="n">value</span><span class="p">)</span>
 
-</div>
+
 <div class="viewcode-block" id="Proyecto"><a class="viewcode-back" href="../../../../adm.html#pmm_is2.apps.adm.models.Proyecto">[docs]</a><span class="k">class</span> <span class="nc">Proyecto</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
     <span class="n">id_proyecto</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">AutoField</span><span class="p">(</span><span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">nombre_proyecto</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
@@ -95,6 +94,7 @@
     <span class="n">costo_temporal</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
     <span class="n">costo_monetario</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
     <span class="n">estado_proyecto</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">PROYECTOS_ESTADOS</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s">&#39;NO-INICIADO&#39;</span><span class="p">)</span>
+    <span class="n">numero_fases</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">blank</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
     <span class="c">#cambiar despues para que sea la fecha actual al crear</span>
     <span class="n">fecha_inicio</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateField</span><span class="p">(</span><span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">())</span>
     <span class="n">fecha_fin</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateField</span><span class="p">(</span><span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">validate_even</span><span class="p">])</span>
@@ -106,10 +106,10 @@
     <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nombre_proyecto</span>
 
-<div class="viewcode-block" id="Proyecto.delete"><a class="viewcode-back" href="../../../../adm.html#pmm_is2.apps.adm.models.Proyecto.delete">[docs]</a>    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">Fase</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">proyecto_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">id_proyecto</span><span class="p">)</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">Proyecto</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
-</div>
+
     <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
         <span class="c">#db_table = &#39;proyecto&#39;</span>
         <span class="n">app_label</span> <span class="o">=</span> <span class="s">&#39;adm&#39;</span>
@@ -128,40 +128,46 @@
     <span class="n">proyecto</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Proyecto</span><span class="p">)</span>
     <span class="n">nombre_fase</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
     <span class="n">descripcion</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
-    <span class="n">estado_fase</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">FASES_ESTADOS</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s">&#39;ABIERTA&#39;</span><span class="p">)</span>
+    <span class="n">estado_fase</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">FASES_ESTADOS</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s">&#39;NO-INICIADA&#39;</span><span class="p">)</span>
     <span class="n">numero_secuencia</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="c">#tipo_item = models.ManyToManyField(TipoItem)</span>
+    <span class="n">tipo_item</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="n">TipoItem</span><span class="p">)</span>
     <span class="n">grupos</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Group</span><span class="p">)</span>
 
     <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
         <span class="c">#db_table = &#39;fase&#39;</span>
         <span class="n">app_label</span> <span class="o">=</span> <span class="s">&#39;adm&#39;</span>
 
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nombre_fase</span>
 
     <span class="c">#Para aumentar el numero por cada fase creada</span>
-<div class="viewcode-block" id="Fase.save"><a class="viewcode-back" href="../../../../adm.html#pmm_is2.apps.adm.models.Fase.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">primera_fase</span> <span class="o">=</span> <span class="bp">False</span>
         <span class="n">primera_fase</span> <span class="o">=</span> <span class="n">Fase</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">numero_secuencia</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">proyecto_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">proyecto_id</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">primera_fase</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">):</span>
-            <span class="n">maximo</span> <span class="o">=</span> <span class="n">Fase</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">proyecto_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">proyecto_id</span><span class="p">)</span><span class="o">.</span><span class="n">aggregate</span><span class="p">(</span><span class="n">Max</span><span class="p">(</span><span class="s">&#39;numero_secuencia&#39;</span><span class="p">))[</span><span class="s">&#39;numero_secuencia__max&#39;</span><span class="p">]</span>
-            <span class="n">numero_secuencia</span> <span class="o">=</span> <span class="n">Fase</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">proyecto_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">proyecto_id</span><span class="p">,</span> <span class="n">numero_secuencia</span><span class="o">=</span><span class="n">maximo</span><span class="p">)</span>
-            <span class="n">top</span> <span class="o">=</span> <span class="n">numero_secuencia</span><span class="o">.</span><span class="n">numero_secuencia</span> <span class="o">+</span> <span class="mi">1</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">numero_secuencia</span> <span class="o">=</span> <span class="n">top</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">numero_secuencia</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">existe_fase</span> <span class="o">=</span> <span class="n">Fase</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">id_fase</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">id_fase</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">existe_fase</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">primera_fase</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">:</span>
+                <span class="n">maximo</span> <span class="o">=</span> <span class="n">Fase</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">proyecto_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">proyecto_id</span><span class="p">)</span><span class="o">.</span><span class="n">aggregate</span><span class="p">(</span><span class="n">Max</span><span class="p">(</span><span class="s">&#39;numero_secuencia&#39;</span><span class="p">))[</span><span class="s">&#39;numero_secuencia__max&#39;</span><span class="p">]</span>
+                <span class="n">numero_secuencia</span> <span class="o">=</span> <span class="n">Fase</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">proyecto_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">proyecto_id</span><span class="p">,</span> <span class="n">numero_secuencia</span><span class="o">=</span><span class="n">maximo</span><span class="p">)</span>
+                <span class="n">top</span> <span class="o">=</span> <span class="n">numero_secuencia</span><span class="o">.</span><span class="n">numero_secuencia</span> <span class="o">+</span> <span class="mi">1</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">numero_secuencia</span> <span class="o">=</span> <span class="n">top</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">numero_secuencia</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">estado_fase</span> <span class="o">=</span> <span class="s">&#39;ABIERTA&#39;</span>
 
         <span class="nb">super</span><span class="p">(</span><span class="n">Fase</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">Fase</span>
 
-</div></div>
+
+</div>
 <div class="viewcode-block" id="Comite"><a class="viewcode-back" href="../../../../adm.html#pmm_is2.apps.adm.models.Comite">[docs]</a><span class="k">class</span> <span class="nc">Comite</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
     <span class="n">id_comite</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">AutoField</span><span class="p">(</span><span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">proyecto</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Proyecto</span><span class="p">)</span>
-    <span class="n">usuario</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="n">User</span><span class="p">)</span>
-    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
-        <span class="n">db_table</span> <span class="o">=</span> <span class="s">&#39;Comite&#39;</span>
-        <span class="n">unique_together</span> <span class="o">=</span> <span class="p">((</span><span class="s">&quot;proyecto&quot;</span><span class="p">),)</span>
-</pre></div></div>
+    <span class="n">usuario</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="n">User</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">id_comite</span></div>
+</pre></div>
 
           </div>
         </div>

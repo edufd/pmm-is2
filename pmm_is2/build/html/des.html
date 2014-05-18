@@ -141,6 +141,170 @@ del Tipo Item.</p>
 </table>
 </dd></dl>
 
+<dl class="function">
+<dt id="pmm_is2.apps.des.views.crear_item">
+<tt class="descclassname">pmm_is2.apps.des.views.</tt><tt class="descname">crear_item</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/des/views.html#crear_item"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.des.views.crear_item" title="Permalink to this definition">¶</a></dt>
+<dd><p>Funcion para Crear Item.
+Retorna la pagina con el formulario correspondiente para la modificacion
+del Tipo Item.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>request</strong> (<em>HttpRequest.</em>) &#8211; Parametro a ser procesado.</li>
+<li><strong>pk</strong> (<em>int.</em>) &#8211; Parametro a ser procesado.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">La pagina correspondiente.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">El response correspondiente.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pmm_is2.apps.des.views.listar_item">
+<tt class="descclassname">pmm_is2.apps.des.views.</tt><tt class="descname">listar_item</tt><big>(</big><em>request</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/des/views.html#listar_item"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.des.views.listar_item" title="Permalink to this definition">¶</a></dt>
+<dd><p>Funcion para Listar Item.
+Retorna la pagina correspondiente con la lista de item</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>request</strong> (<em>HttpRequest.</em>) &#8211; Parametro a ser procesado.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">La pagina correspondiente.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">El response correspondiente.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pmm_is2.apps.des.views.editar_item">
+<tt class="descclassname">pmm_is2.apps.des.views.</tt><tt class="descname">editar_item</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/des/views.html#editar_item"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.des.views.editar_item" title="Permalink to this definition">¶</a></dt>
+<dd><p>Funcion para Modificar un Item.
+Retorna la pagina con el formulario correspondiente para la modificacion
+del Item.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>request</strong> (<em>HttpRequest.</em>) &#8211; Parametro a ser procesado.</li>
+<li><strong>pk</strong> (<em>int.</em>) &#8211; Parametro a ser procesado el identificador del Item que va a modificarse.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">La pagina correspondiente.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">El response correspondiente.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pmm_is2.apps.des.views.eliminar_item">
+<tt class="descclassname">pmm_is2.apps.des.views.</tt><tt class="descname">eliminar_item</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/des/views.html#eliminar_item"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.des.views.eliminar_item" title="Permalink to this definition">¶</a></dt>
+<dd><p>Funcion para Eliminar un Item.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>request</strong> (<em>HttpRequest.</em>) &#8211; Parametro a ser procesado.</li>
+<li><strong>pk</strong> (<em>int.</em>) &#8211; Parametro a ser procesado el identificador del Item que va a eliminarse.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">La pagina correspondiente.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">El response correspondiente.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pmm_is2.apps.des.views.archivoadjunto_page">
+<tt class="descclassname">pmm_is2.apps.des.views.</tt><tt class="descname">archivoadjunto_page</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/des/views.html#archivoadjunto_page"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.des.views.archivoadjunto_page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Funcion para Adjuntar un archivo a un Item.
+Retorna la pagina con el formulario correspondiente para la modificacion
+del item.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>request</strong> (<em>HttpRequest.</em>) &#8211; Parametro a ser procesado.</li>
+<li><strong>pk</strong> (<em>int.</em>) &#8211; Parametro a ser procesado el identificador del Item al que se le va a adjuntar el archivo.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">La pagina correspondiente.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">El response correspondiente.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pmm_is2.apps.des.views.crear_archivoAdjunto">
+<tt class="descclassname">pmm_is2.apps.des.views.</tt><tt class="descname">crear_archivoAdjunto</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/des/views.html#crear_archivoAdjunto"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.des.views.crear_archivoAdjunto" title="Permalink to this definition">¶</a></dt>
+<dd><p>Funcion para Agregar un archivo adjunto eligiendo a cual item adjuntar.
+Retorna la pagina correspondiente con el formulario para la agregacion</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>request</strong> (<em>HttpRequest.</em>) &#8211; Parametro a ser procesado.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">La pagina correspondiente.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">El response correspondiente.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pmm_is2.apps.des.views.eliminar_adjunto">
+<tt class="descclassname">pmm_is2.apps.des.views.</tt><tt class="descname">eliminar_adjunto</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/des/views.html#eliminar_adjunto"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.des.views.eliminar_adjunto" title="Permalink to this definition">¶</a></dt>
+<dd><p>Funcion para Eliminar o Desasignar un Archivo Adjunto.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>request</strong> (<em>HttpRequest.</em>) &#8211; Parametro a ser procesado.</li>
+<li><strong>pk</strong> (<em>int.</em>) &#8211; Parametro a ser procesado el identificador del Archivo Adjunto que va a eliminarse.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">La pagina correspondiente.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">El response correspondiente.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </div>
 <div class="section" id="des-models-module">
 <h2>des.models module<a class="headerlink" href="#des-models-module" title="Permalink to this headline">¶</a></h2>

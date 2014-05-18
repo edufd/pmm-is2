@@ -261,4 +261,4 @@ texinfo_documents = [
 # If true, do not generate a @detailmenu in the "Top" node's menu.
 #texinfo_no_detailmenu = False
 
-os.environ['DJANGO_SETTINGS_MODULE']='pmm_is2.settings'
+os.environ['DJANGO_SETTINGS_MODULE'] = 'pmm_is2.settings.development_settings'

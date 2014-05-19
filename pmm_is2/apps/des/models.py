@@ -48,8 +48,8 @@ class Atributo(models.Model):
     id_atributo = models.AutoField(primary_key=True)
     tipo_item = models.ForeignKey(TipoItem)
     nombre_atributo_tipo_item = models.CharField(max_length=200, unique=True, verbose_name="Nombre del Atributo")
-    tipo_atributo = models.CharField(max_length=1, verbose_name="Tipo de Atributo")#N:NUMERICO #T:TEXTO
-    obligatorio = models.CharField(max_length=1)#Y:OBLIGATORIO #N;NO ES OBLIGATORIO
+    tipo_atributo = models.CharField(max_length=50, verbose_name="Tipo de Atributo")#N:NUMERICO #T:TEXTO
+    obligatorio = models.CharField(max_length=50)#Y:OBLIGATORIO #N;NO ES OBLIGATORIO
     descripcion = models.CharField(max_length=200)
     observacion = models.CharField(max_length=200)
 

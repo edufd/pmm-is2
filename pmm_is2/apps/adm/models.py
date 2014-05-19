@@ -84,7 +84,7 @@ class Fase(models.Model):
     descripcion = models.CharField(max_length=200)
     estado_fase = models.CharField(max_length=11, choices=FASES_ESTADOS, default='NO-INICIADA')
     numero_secuencia = models.IntegerField(blank=True)
-    tipo_item = models.ManyToManyField(TipoItem)
+    tipo_item = models.ManyToManyField(TipoItem, blank=True)
     grupos = models.ManyToManyField(Group)
 
     class Meta:

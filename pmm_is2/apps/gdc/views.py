@@ -1,9 +1,10 @@
 from pmm_is2.apps.adm.models import Fase
 from pmm_is2.apps.adm.utils import not_in_admin_group, get_project_list, get_phases_list
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.shortcuts import render_to_response, get_object_or_404, redirect
+from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
-from pmm_is2.apps.adm.models import Proyecto, Comite
+from pmm_is2.apps.adm.models import Proyecto
+from pmm_is2.apps.gdc.forms import *
 
 
 @login_required

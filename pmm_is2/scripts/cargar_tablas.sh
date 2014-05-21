@@ -26,6 +26,7 @@ psql -U pmm -h 127.0.0.1 -d pmm < ../sql/crear_fase_grupo.sql
 psql -U pmm -h 127.0.0.1 -d pmm < ../sql/crear_tipos_items.sql
 psql -U pmm -h 127.0.0.1 -d pmm < ../sql/crear_atributos_tipos_items.sql
 psql -U pmm -h 127.0.0.1 -d pmm < ../sql/crear_fase_tipos_items.sql
+psql -U pmm -h 127.0.0.1 -d pmm < ../sql/crear_triggers_funciones.sql
 
 
 #Servidor de Produccion

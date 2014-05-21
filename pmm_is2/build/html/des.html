@@ -24,6 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="PMM 3.0.0 documentation" href="index.html" />
+    <link rel="next" title="gdc package" href="gdc.html" />
     <link rel="prev" title="adm package" href="adm.html" /> 
   </head>
   <body>
@@ -33,6 +34,9 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="gdc.html" title="gdc package"
+             accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="adm.html" title="adm package"
              accesskey="P">previous</a> |</li>
@@ -305,6 +309,321 @@ Retorna la pagina correspondiente con el formulario para la agregacion</p>
 </table>
 </dd></dl>
 
+<dl class="function">
+<dt id="pmm_is2.apps.des.views.historial_item">
+<tt class="descclassname">pmm_is2.apps.des.views.</tt><tt class="descname">historial_item</tt><big>(</big><em>request</em>, <em>pk</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/des/views.html#historial_item"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.des.views.historial_item" title="Permalink to this definition">¶</a></dt>
+<dd><p>Funcion para el historial de item.
+Retorna la pagina correspondiente con el historial del item</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>request</strong> (<em>HttpRequest.</em>) &#8211; Parametro a ser procesado.</li>
+<li><strong>pk</strong> &#8211; Parametro a ser procesado. Identificador del item del cual se solicita el historial.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">La pagina correspondiente.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">El response correspondiente.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pmm_is2.apps.des.views.agregar_relaciones">
+<tt class="descclassname">pmm_is2.apps.des.views.</tt><tt class="descname">agregar_relaciones</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/des/views.html#agregar_relaciones"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.des.views.agregar_relaciones" title="Permalink to this definition">¶</a></dt>
+<dd><p>Funcion para agregar relaciones de item.
+Retorna la pagina correspondiente de la agregacion del item</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>request</strong> (<em>HttpRequest.</em>) &#8211; Parametro a ser procesado.</li>
+<li><strong>id_fase</strong> &#8211; Parametro a ser procesado. Identificador de la fase.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">La pagina correspondiente.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">El response correspondiente.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pmm_is2.apps.des.views.listar_relaciones">
+<tt class="descclassname">pmm_is2.apps.des.views.</tt><tt class="descname">listar_relaciones</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/des/views.html#listar_relaciones"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.des.views.listar_relaciones" title="Permalink to this definition">¶</a></dt>
+<dd><p>Funcion para Listar relaciones de Items de una fase especifica.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>request</strong> (<em>HttpRequest.</em>) &#8211; Parametro a ser procesado.</li>
+<li><strong>pk</strong> &#8211; Parametro a ser procesado. Identificador de la fase</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">La pagina correspondiente.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">El response correspondiente.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pmm_is2.apps.des.views.eliminar_relacion">
+<tt class="descclassname">pmm_is2.apps.des.views.</tt><tt class="descname">eliminar_relacion</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/des/views.html#eliminar_relacion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.des.views.eliminar_relacion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Funcion para eliminar relaciones de Items de una fase especifica.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>request</strong> (<em>HttpRequest.</em>) &#8211; Parametro a ser procesado.</li>
+<li><strong>pk</strong> &#8211; Parametro a ser procesado. Identificador de la relacion a eliminarse</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">La pagina correspondiente.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">El response correspondiente.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pmm_is2.apps.des.views.calcular_impacto_y_costo_item">
+<tt class="descclassname">pmm_is2.apps.des.views.</tt><tt class="descname">calcular_impacto_y_costo_item</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/des/views.html#calcular_impacto_y_costo_item"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.des.views.calcular_impacto_y_costo_item" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retorna el impacto calculado correspondiente al item.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>pk</strong> &#8211; el item cuyo impacto se desea calcular</li>
+<li><strong>request</strong> &#8211; Parametro a ser procesado</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">retorna el valor calculado del impacto del item</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pmm_is2.apps.des.views.recorrer">
+<tt class="descclassname">pmm_is2.apps.des.views.</tt><tt class="descname">recorrer</tt><big>(</big><em>pk</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/des/views.html#recorrer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.des.views.recorrer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Funcion recursiva que calcula sumas de los items recorriendo el grafo en profundidad</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pmm_is2.apps.des.views.calcular_costo_total">
+<tt class="descclassname">pmm_is2.apps.des.views.</tt><tt class="descname">calcular_costo_total</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/des/views.html#calcular_costo_total"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.des.views.calcular_costo_total" title="Permalink to this definition">¶</a></dt>
+<dd><p>Funcion que calcula el costo total del proyecto.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>request</strong> (<em>HttpRequest.</em>) &#8211; Parametro a ser procesado.</li>
+<li><strong>pk</strong> &#8211; Parametro a ser procesado. Identificador del Proyecto.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">La pagina correspondiente.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">El response correspondiente.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pmm_is2.apps.des.views.lista_item_revivir">
+<tt class="descclassname">pmm_is2.apps.des.views.</tt><tt class="descname">lista_item_revivir</tt><big>(</big><em>request</em>, <em>id_fase</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/des/views.html#lista_item_revivir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.des.views.lista_item_revivir" title="Permalink to this definition">¶</a></dt>
+<dd><p>Funcion para Listar Item Revivir.
+Retorna la pagina correspondiente con la lista de item a revivir.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>request</strong> (<em>HttpRequest.</em>) &#8211; Parametro a ser procesado.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">La pagina correspondiente.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">El response correspondiente.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pmm_is2.apps.des.views.revivir_item">
+<tt class="descclassname">pmm_is2.apps.des.views.</tt><tt class="descname">revivir_item</tt><big>(</big><em>request</em>, <em>pk</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/des/views.html#revivir_item"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.des.views.revivir_item" title="Permalink to this definition">¶</a></dt>
+<dd><p>Funcion para Revivir Item.
+Retorna la pagina correspondiente de revivir item.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>request</strong> (<em>HttpRequest.</em>) &#8211; Parametro a ser procesado.</li>
+<li><strong>pk</strong> &#8211; Parametro a ser procesado. Identificador del item a ser procesado</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">La pagina correspondiente.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">El response correspondiente.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pmm_is2.apps.des.views.phase_item_list">
+<tt class="descclassname">pmm_is2.apps.des.views.</tt><tt class="descname">phase_item_list</tt><big>(</big><em>request</em>, <em>id_proyecto</em>, <em>id_fase</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/des/views.html#phase_item_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.des.views.phase_item_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Funcion para Listar Item de una fase.
+Retorna la pagina correspondiente con la lista de item de una fase.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>request</strong> (<em>HttpRequest.</em>) &#8211; Parametro a ser procesado.</li>
+<li><strong>id_proyecto</strong> &#8211; Parametro a ser procesado. Identificador del Proyecto</li>
+<li><strong>id_fase</strong> &#8211; Parametro a ser procesado.Identificador de la Fase</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">La pagina correspondiente.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">El response correspondiente.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pmm_is2.apps.des.views.crear_solicitud">
+<tt class="descclassname">pmm_is2.apps.des.views.</tt><tt class="descname">crear_solicitud</tt><big>(</big><em>request</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/des/views.html#crear_solicitud"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.des.views.crear_solicitud" title="Permalink to this definition">¶</a></dt>
+<dd><p>Funcion para Crear Solicitud.
+Retorna la pagina correspondiente con el formulario para la creacion de la Solicitud</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>request</strong> (<em>HttpRequest.</em>) &#8211; Parametro a ser procesado.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">La pagina correspondiente.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">El response correspondiente.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pmm_is2.apps.des.views.editar_solicitud">
+<tt class="descclassname">pmm_is2.apps.des.views.</tt><tt class="descname">editar_solicitud</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/des/views.html#editar_solicitud"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.des.views.editar_solicitud" title="Permalink to this definition">¶</a></dt>
+<dd><p>Funcion para Modificar una Solicitud.
+Retorna la pagina con el formulario correspondiente para la modificacion
+de la Solicitud.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>request</strong> (<em>HttpRequest.</em>) &#8211; Parametro a ser procesado.</li>
+<li><strong>pk</strong> (<em>int.</em>) &#8211; Parametro a ser procesado el identificador de la Solicitud que va a modificarse.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">La pagina correspondiente.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">El response correspondiente.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pmm_is2.apps.des.views.imprimir_solicitud">
+<tt class="descclassname">pmm_is2.apps.des.views.</tt><tt class="descname">imprimir_solicitud</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/des/views.html#imprimir_solicitud"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.des.views.imprimir_solicitud" title="Permalink to this definition">¶</a></dt>
+<dd><p>Funcion para Imprimir una Solicitud.
+Retorna la pagina con el formulario correspondiente a la visualizacion de
+de la solicitud</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>request</strong> (<em>HttpRequest.</em>) &#8211; Parametro a ser procesado.</li>
+<li><strong>pk</strong> (<em>int.</em>) &#8211; Parametro a ser procesado el identificador de la Solicitud.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">La pagina correspondiente.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">El response correspondiente.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pmm_is2.apps.des.views.enviar_solicitud">
+<tt class="descclassname">pmm_is2.apps.des.views.</tt><tt class="descname">enviar_solicitud</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/des/views.html#enviar_solicitud"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.des.views.enviar_solicitud" title="Permalink to this definition">¶</a></dt>
+<dd><p>Funcion para enviar solicitud.
+Retorna la pagina con el formulario correspondiente para la emision de la solicitud.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>request</strong> (<em>HttpRequest.</em>) &#8211; Parametro a ser procesado.</li>
+<li><strong>pk</strong> (<em>int.</em>) &#8211; Parametro a ser procesado el identificador de la solicitud.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">La pagina correspondiente.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">El response correspondiente.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </div>
 <div class="section" id="des-models-module">
 <h2>des.models module<a class="headerlink" href="#des-models-module" title="Permalink to this headline">¶</a></h2>
@@ -312,6 +631,60 @@ Retorna la pagina correspondiente con el formulario para la agregacion</p>
 <dt id="pmm_is2.apps.des.models.TipoItem">
 <em class="property">class </em><tt class="descclassname">pmm_is2.apps.des.models.</tt><tt class="descname">TipoItem</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/des/models.html#TipoItem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.des.models.TipoItem" title="Permalink to this definition">¶</a></dt>
 <dd><p>TipoItem(id_tipo_item, nombre_tipo_item, descripcion)</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pmm_is2.apps.des.models.AtributoTipoItem">
+<em class="property">class </em><tt class="descclassname">pmm_is2.apps.des.models.</tt><tt class="descname">AtributoTipoItem</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/des/models.html#AtributoTipoItem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.des.models.AtributoTipoItem" title="Permalink to this definition">¶</a></dt>
+<dd><p>AtributoTipoItem(id_atributo_tipo_item, id_tipo_item_id, id_atributo_id)</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pmm_is2.apps.des.models.Atributo">
+<em class="property">class </em><tt class="descclassname">pmm_is2.apps.des.models.</tt><tt class="descname">Atributo</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/des/models.html#Atributo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.des.models.Atributo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Atributo(id_atributo, tipo_item_id, nombre_atributo_tipo_item, tipo_atributo, obligatorio, descripcion, observacion)</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pmm_is2.apps.des.models.Item">
+<em class="property">class </em><tt class="descclassname">pmm_is2.apps.des.models.</tt><tt class="descname">Item</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/des/models.html#Item"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.des.models.Item" title="Permalink to this definition">¶</a></dt>
+<dd><p>Item(id_item, nombre_item, version_item, prioridad, estado, descripcion, numero, observaciones, complejidad, costo, ultima_version_item_id, id_tipo_item_id, id_fase_id)</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pmm_is2.apps.des.models.VersionItem">
+<em class="property">class </em><tt class="descclassname">pmm_is2.apps.des.models.</tt><tt class="descname">VersionItem</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/des/models.html#VersionItem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.des.models.VersionItem" title="Permalink to this definition">¶</a></dt>
+<dd><p>VersionItem(id_version_item, item_id, nombre_item, version_item, prioridad, estado, descripcion, numero, observaciones, complejidad, costo, ultima_version_item_id, id_tipo_item_id, id_fase_id)</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pmm_is2.apps.des.models.Relacion">
+<em class="property">class </em><tt class="descclassname">pmm_is2.apps.des.models.</tt><tt class="descname">Relacion</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/des/models.html#Relacion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.des.models.Relacion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Relacion(id, del_item_id, al_item_id, tipo, fase_id)</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pmm_is2.apps.des.models.Tipo">
+<em class="property">class </em><tt class="descclassname">pmm_is2.apps.des.models.</tt><tt class="descname">Tipo</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/des/models.html#Tipo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.des.models.Tipo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tipo(id_tipo, descripcion)</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pmm_is2.apps.des.models.ArchivoAdjunto">
+<em class="property">class </em><tt class="descclassname">pmm_is2.apps.des.models.</tt><tt class="descname">ArchivoAdjunto</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/des/models.html#ArchivoAdjunto"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.des.models.ArchivoAdjunto" title="Permalink to this definition">¶</a></dt>
+<dd><p>ArchivoAdjunto(id_archivo_adjunto, filename, path_archivo, id_item_relacionado_id)</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pmm_is2.apps.des.models.opciones">
+<em class="property">class </em><tt class="descclassname">pmm_is2.apps.des.models.</tt><tt class="descname">opciones</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/des/models.html#opciones"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.des.models.opciones" title="Permalink to this definition">¶</a></dt>
+<dd><p>opciones(id_opciones, opcion1)</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pmm_is2.apps.des.models.Solicitud">
+<em class="property">class </em><tt class="descclassname">pmm_is2.apps.des.models.</tt><tt class="descname">Solicitud</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/des/models.html#Solicitud"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.des.models.Solicitud" title="Permalink to this definition">¶</a></dt>
+<dd><p>Solicitud(id_solicitud, fecha_inicio, nombre_proyecto_id, nombre_fase_id, nombre_item_id, usuario_id, estado, prioridad, comentarios, descripcion, nombre_linea_base, opciones_id, contador, encontra, votado_por1, votado_por2, votado_por3)</p>
 </dd></dl>
 
 </div>
@@ -335,6 +708,9 @@ Retorna la pagina correspondiente con el formulario para la agregacion</p>
   <h4>Previous topic</h4>
   <p class="topless"><a href="adm.html"
                         title="previous chapter">adm package</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="gdc.html"
+                        title="next chapter">gdc package</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/des.txt"
@@ -363,6 +739,9 @@ Retorna la pagina correspondiente con el formulario para la agregacion</p>
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
+        <li class="right" >
+          <a href="gdc.html" title="gdc package"
+             >next</a> |</li>
         <li class="right" >
           <a href="adm.html" title="adm package"
              >previous</a> |</li>

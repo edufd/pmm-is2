@@ -469,7 +469,15 @@ def get_historial_item_list(pk):
 
 
 def historial_item(request, pk):
+    """Funcion para el historial de item.
+    Retorna la pagina correspondiente con el historial del item
 
+    :param request: Parametro a ser procesado.
+    :param pk: Parametro a ser procesado. Identificador del item del cual se solicita el historial.
+    :type request: HttpRequest.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
     context = RequestContext(request)
     item_historial_list = get_historial_item_list(pk)
     context_dict = {}
@@ -480,7 +488,15 @@ def historial_item(request, pk):
 
 @login_required
 def agregar_relaciones(request, id_fase):
+    """Funcion para agregar relaciones de item.
+    Retorna la pagina correspondiente de la agregacion del item
 
+    :param request: Parametro a ser procesado.
+    :param id_fase: Parametro a ser procesado. Identificador de la fase.
+    :type request: HttpRequest.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
     context = RequestContext(request)
     creado = False
     pk = id_fase
@@ -596,6 +612,14 @@ def get_item_import_list(pk):
 
 @login_required
 def listar_relaciones(request, id_fase):
+    """Funcion para Listar relaciones de Items de una fase especifica.
+
+    :param request: Parametro a ser procesado.
+    :param pk: Parametro a ser procesado. Identificador de la fase
+    :type request: HttpRequest.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
     context = RequestContext(request)
     lista_relacion = get_lista_relacion(id_fase)
     context_dict = {}
@@ -607,6 +631,14 @@ def listar_relaciones(request, id_fase):
 
 @login_required
 def eliminar_relacion(request, pk):
+    """Funcion para eliminar relaciones de Items de una fase especifica.
+
+    :param request: Parametro a ser procesado.
+    :param pk: Parametro a ser procesado. Identificador de la relacion a eliminarse
+    :type request: HttpRequest.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
     context = RequestContext(request)
     relacion = get_object_or_404(Relacion, pk=pk)
     if request.method == 'POST':
@@ -626,10 +658,10 @@ def get_relaciones(id_item):
 def calcular_impacto_y_costo_item(request, pk):
     """
     Retorna el impacto calculado correspondiente al item.
-    @type item: item
-    @param item: el item cuyo impacto se desea calcular
-    @rtype: int
-    @return: retorna el valor calculado del impacto del item
+
+    :param pk: el item cuyo impacto se desea calcular
+    :param request: Parametro a ser procesado
+    :returns: retorna el valor calculado del impacto del item
     """
     context = RequestContext(request)
     lista_item = get_lista_item()
@@ -663,7 +695,14 @@ def recorrer(pk):
 
 @login_required
 def calcular_costo_total(request, pk):
-    """Funcion que calcula el costo total del proyecto"""
+    """Funcion que calcula el costo total del proyecto.
+
+    :param request: Parametro a ser procesado.
+    :param pk: Parametro a ser procesado. Identificador del Proyecto.
+    :type request: HttpRequest.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
     context = RequestContext(request)
     context_dict = {}
     costo_total = 0
@@ -690,7 +729,7 @@ def getItemsProyecto(pk):
 
 def lista_item_revivir(request, id_fase):
     """Funcion para Listar Item Revivir.
-    Retorna la pagina correspondiente con la lista de item a revivir
+    Retorna la pagina correspondiente con la lista de item a revivir.
 
     :param request: Parametro a ser procesado.
     :type request: HttpRequest.
@@ -712,7 +751,15 @@ def get_lista_item_revivir(id_fase):
 
 
 def revivir_item(request, pk):
+    """Funcion para Revivir Item.
+    Retorna la pagina correspondiente de revivir item.
 
+    :param request: Parametro a ser procesado.
+    :param pk: Parametro a ser procesado. Identificador del item a ser procesado
+    :type request: HttpRequest.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
     context = RequestContext(request)
     item_historial_list = get_historial_item_list(pk)
     context_dict = {}
@@ -756,10 +803,12 @@ def project_profile(request, pk):
 
 
 def phase_item_list(request, id_proyecto, id_fase):
-    """Funcion para Listar Item Revivir.
-    Retorna la pagina correspondiente con la lista de item a revivir
+    """Funcion para Listar Item de una fase.
+    Retorna la pagina correspondiente con la lista de item de una fase.
 
     :param request: Parametro a ser procesado.
+    :param id_proyecto: Parametro a ser procesado. Identificador del Proyecto
+    :param id_fase: Parametro a ser procesado.Identificador de la Fase
     :type request: HttpRequest.
     :returns: La pagina correspondiente.
     :rtype: El response correspondiente.
@@ -829,12 +878,12 @@ def listar_solicitud(request):
 
 @login_required
 def editar_solicitud(request, pk):
-    """Funcion para Modificar un Tipo Item.
+    """Funcion para Modificar una Solicitud.
     Retorna la pagina con el formulario correspondiente para la modificacion
-    del Tipo Item.
+    de la Solicitud.
 
     :param request: Parametro a ser procesado.
-    :param pk: Parametro a ser procesado el identificador del tipo de Item que va a modificarse.
+    :param pk: Parametro a ser procesado el identificador de la Solicitud que va a modificarse.
     :type request: HttpRequest.
     :type pk: int.
     :returns: La pagina correspondiente.
@@ -852,12 +901,12 @@ def editar_solicitud(request, pk):
 
 @login_required
 def imprimir_solicitud(request, pk):
-    """Funcion para Modificar un Tipo Item.
-    Retorna la pagina con el formulario correspondiente para la modificacion
-    del Tipo Item.
+    """Funcion para Imprimir una Solicitud.
+    Retorna la pagina con el formulario correspondiente a la visualizacion de
+    de la solicitud
 
     :param request: Parametro a ser procesado.
-    :param pk: Parametro a ser procesado el identificador del tipo de Item que va a modificarse.
+    :param pk: Parametro a ser procesado el identificador de la Solicitud.
     :type request: HttpRequest.
     :type pk: int.
     :returns: La pagina correspondiente.
@@ -968,12 +1017,11 @@ def imprimir_solicitud(request, pk):
 
 @login_required
 def enviar_solicitud(request, pk):
-    """Funcion para Modificar un Tipo Item.
-    Retorna la pagina con el formulario correspondiente para la modificacion
-    del Tipo Item.
+    """Funcion para enviar solicitud.
+    Retorna la pagina con el formulario correspondiente para la emision de la solicitud.
 
     :param request: Parametro a ser procesado.
-    :param pk: Parametro a ser procesado el identificador del tipo de Item que va a modificarse.
+    :param pk: Parametro a ser procesado el identificador de la solicitud.
     :type request: HttpRequest.
     :type pk: int.
     :returns: La pagina correspondiente.

@@ -1,0 +1,238 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pmm_is2.apps.gdc.views &mdash; PMM 3.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '3.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <link rel="top" title="PMM 3.0.0 documentation" href="../../../../index.html" />
+    <link rel="up" title="Module code" href="../../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../../../../index.html">PMM 3.0.0 documentation</a> &raquo;</li>
+          <li><a href="../../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for pmm_is2.apps.gdc.views</h1><div class="highlight"><pre>
+<span class="kn">from</span> <span class="nn">pmm_is2.apps.adm.models</span> <span class="kn">import</span> <span class="n">Fase</span>
+<span class="kn">from</span> <span class="nn">pmm_is2.apps.adm.utils</span> <span class="kn">import</span> <span class="n">not_in_admin_group</span><span class="p">,</span> <span class="n">get_project_list</span><span class="p">,</span> <span class="n">get_phases_list</span>
+<span class="kn">from</span> <span class="nn">django.contrib.auth.decorators</span> <span class="kn">import</span> <span class="n">login_required</span><span class="p">,</span> <span class="n">user_passes_test</span>
+<span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="kn">import</span> <span class="n">render_to_response</span><span class="p">,</span> <span class="n">get_object_or_404</span>
+<span class="kn">from</span> <span class="nn">django.template</span> <span class="kn">import</span> <span class="n">RequestContext</span>
+<span class="kn">from</span> <span class="nn">pmm_is2.apps.adm.models</span> <span class="kn">import</span> <span class="n">Proyecto</span>
+<span class="kn">from</span> <span class="nn">pmm_is2.apps.gdc.forms</span> <span class="kn">import</span> <span class="o">*</span>
+
+
+<span class="nd">@login_required</span>
+<span class="nd">@user_passes_test</span><span class="p">(</span><span class="n">not_in_admin_group</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;gdc/index.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="project_list"><a class="viewcode-back" href="../../../../gdc.html#pmm_is2.apps.gdc.views.project_list">[docs]</a><span class="k">def</span> <span class="nf">project_list</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Funcion para Listar Proyectos.</span>
+<span class="sd">    Retorna la pagina correspondiente con la lista de Proyectos</span>
+
+<span class="sd">    :param request: Parametro a ser procesado.</span>
+<span class="sd">    :type request: HttpRequest.</span>
+<span class="sd">    :returns: La pagina correspondiente.</span>
+<span class="sd">    :rtype: El response correspondiente.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+    <span class="n">project_list</span> <span class="o">=</span> <span class="n">get_project_list</span><span class="p">()</span>
+    <span class="n">context_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">context_dict</span><span class="p">[</span><span class="s">&#39;object_list&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">project_list</span>
+
+    <span class="n">valido</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">is_superuser</span><span class="p">:</span>
+        <span class="n">valido</span> <span class="o">=</span> <span class="bp">True</span>
+
+    <span class="n">context_dict</span><span class="p">[</span><span class="s">&#39;valido&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">valido</span>
+
+    <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;gdc/project_list.html&#39;</span><span class="p">,</span> <span class="n">context_dict</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+
+</div>
+<span class="k">def</span> <span class="nf">phases_list</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
+
+    <span class="n">context</span> <span class="o">=</span> <span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+    <span class="n">phases_list</span> <span class="o">=</span> <span class="n">get_phases_list</span><span class="p">(</span><span class="n">pk</span><span class="p">)</span>
+    <span class="n">context_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">context_dict</span><span class="p">[</span><span class="s">&#39;object_list&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">phases_list</span>
+
+    <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;gdc/phases_list.html&#39;</span><span class="p">,</span> <span class="n">context_dict</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="crear_linea_base"><a class="viewcode-back" href="../../../../gdc.html#pmm_is2.apps.gdc.views.crear_linea_base">[docs]</a><span class="k">def</span> <span class="nf">crear_linea_base</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Funcion para Crear Linea Base.</span>
+<span class="sd">    Retorna la pagina correspondiente con el formulario para la creacion de la Linea Base</span>
+
+<span class="sd">    :param request: Parametro a ser procesado.</span>
+<span class="sd">    :type request: HttpRequest.</span>
+<span class="sd">    :returns: La pagina correspondiente.</span>
+<span class="sd">    :rtype: El response correspondiente.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+    <span class="n">creado</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">fase</span> <span class="o">=</span> <span class="n">pk</span>
+    <span class="n">objeto_fase</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Fase</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s">&#39;POST&#39;</span><span class="p">:</span>
+        <span class="n">linea_base_from</span> <span class="o">=</span> <span class="n">LineaBaseForm</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">,</span> <span class="n">id_fase</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">linea_base_from</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="n">linea_base_from</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">fase</span> <span class="o">=</span> <span class="n">objeto_fase</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="n">linea_base_from</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+            <span class="n">creado</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">print</span> <span class="n">linea_base_from</span><span class="o">.</span><span class="n">errors</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">linea_base_from</span> <span class="o">=</span> <span class="n">LineaBaseForm</span><span class="p">(</span><span class="n">id_fase</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;gdc/crear_linea_base.html&#39;</span><span class="p">,</span>
+                              <span class="p">{</span>
+                                  <span class="s">&#39;linea_base_from&#39;</span><span class="p">:</span> <span class="n">linea_base_from</span><span class="p">,</span>
+                                  <span class="s">&#39;creado&#39;</span><span class="p">:</span> <span class="n">creado</span><span class="p">,</span>
+                                  <span class="s">&#39;fase&#39;</span><span class="p">:</span> <span class="n">fase</span><span class="p">,</span>
+                                  <span class="s">&#39;objeto_fase&#39;</span><span class="p">:</span> <span class="n">objeto_fase</span><span class="p">,</span>
+                              <span class="p">},</span>
+                              <span class="n">context</span>
+    <span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="listar_linea_base"><a class="viewcode-back" href="../../../../gdc.html#pmm_is2.apps.gdc.views.listar_linea_base">[docs]</a><span class="k">def</span> <span class="nf">listar_linea_base</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Funcion para Listar Linea Base.</span>
+<span class="sd">    Retorna la pagina correspondiente con la lista de Lineas Base</span>
+
+<span class="sd">    :param request: Parametro a ser procesado.</span>
+<span class="sd">    :type request: HttpRequest.</span>
+<span class="sd">    :returns: La pagina correspondiente.</span>
+<span class="sd">    :rtype: El response correspondiente.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+    <span class="n">project_list</span> <span class="o">=</span> <span class="n">get_linea_base_list</span><span class="p">(</span><span class="n">pk</span><span class="p">)</span>
+    <span class="n">context_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">context_dict</span><span class="p">[</span><span class="s">&#39;object_list&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">project_list</span>
+
+    <span class="n">valido</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">is_superuser</span><span class="p">:</span>
+        <span class="n">valido</span> <span class="o">=</span> <span class="bp">True</span>
+
+    <span class="n">context_dict</span><span class="p">[</span><span class="s">&#39;valido&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">valido</span>
+
+    <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;gdc/listar_linea_base.html&#39;</span><span class="p">,</span> <span class="n">context_dict</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+
+
+<span class="c">#busca el texto ingresado en fases</span></div>
+<span class="k">def</span> <span class="nf">get_linea_base_list</span><span class="p">(</span><span class="n">pk</span><span class="p">):</span>
+    <span class="n">phases_list</span> <span class="o">=</span> <span class="n">LineaBase</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">fase</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s">&#39;id_linea_base&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">phases_list</span>
+
+
+<div class="viewcode-block" id="linea_base_update"><a class="viewcode-back" href="../../../../gdc.html#pmm_is2.apps.gdc.views.linea_base_update">[docs]</a><span class="k">def</span> <span class="nf">linea_base_update</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;Funcion para Modificar una Linea Base.</span>
+<span class="sd">    Retorna la pagina con el formulario correspondiente para la modificacion</span>
+<span class="sd">    de la Linea Base.</span>
+
+<span class="sd">    :param request: Parametro a ser procesado.</span>
+<span class="sd">    :param pk: Parametro a ser procesado el identificador de la Linea Base que va a modificarse.</span>
+<span class="sd">    :type request: HttpRequest.</span>
+<span class="sd">    :type pk: int.</span>
+<span class="sd">    :returns: La pagina correspondiente.</span>
+<span class="sd">    :rtype: El response correspondiente.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">registered</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+    <span class="n">proyecto</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">LineaBase</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
+    <span class="n">project_form</span> <span class="o">=</span> <span class="n">LineaBaseFormEdit</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span> <span class="ow">or</span> <span class="bp">None</span><span class="p">,</span> <span class="n">instance</span><span class="o">=</span><span class="n">proyecto</span><span class="p">,</span> <span class="n">id_fase</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
+    <span class="n">id_proyecto</span> <span class="o">=</span> <span class="n">pk</span>
+    <span class="k">if</span> <span class="n">project_form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+        <span class="n">project_form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="n">registered</span> <span class="o">=</span> <span class="bp">True</span>
+
+    <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;gdc/linea_base_update.html&#39;</span><span class="p">,</span>
+                              <span class="p">{</span><span class="s">&#39;project_form&#39;</span><span class="p">:</span> <span class="n">project_form</span><span class="p">,</span> <span class="s">&#39;id_proyecto&#39;</span><span class="p">:</span> <span class="n">id_proyecto</span><span class="p">,</span>
+                               <span class="s">&#39;registered&#39;</span><span class="p">:</span> <span class="n">registered</span><span class="p">},</span> <span class="n">context</span><span class="p">)</span>
+
+</div>
+<span class="nd">@login_required</span>
+<span class="k">def</span> <span class="nf">project_profile</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
+
+    <span class="n">context</span> <span class="o">=</span> <span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+    <span class="n">project</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Proyecto</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
+    <span class="n">phases_list</span> <span class="o">=</span> <span class="n">get_phases_list</span><span class="p">(</span><span class="n">pk</span><span class="p">)</span>
+    <span class="n">context_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;project&#39;</span><span class="p">:</span> <span class="n">project</span><span class="p">,</span> <span class="s">&#39;phases_list&#39;</span><span class="p">:</span> <span class="n">phases_list</span><span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;gdc/project_profile.html&#39;</span><span class="p">,</span> <span class="n">context_dict</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../../../../index.html">PMM 3.0.0 documentation</a> &raquo;</li>
+          <li><a href="../../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Derlis Arquello Eduardo Florencio Adriana Torales.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

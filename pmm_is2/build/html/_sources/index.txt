@@ -13,6 +13,7 @@ Contents:
 
    adm.rst
    des.rst
+   gdc.rst
 
 
 Indices and tables

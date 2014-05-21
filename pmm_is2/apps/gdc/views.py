@@ -48,8 +48,8 @@ def phases_list(request, pk):
 
 
 def crear_linea_base(request, pk):
-    """Funcion para Crear Item.
-    Retorna la pagina correspondiente con el formulario para la creacion del ITem
+    """Funcion para Crear Linea Base.
+    Retorna la pagina correspondiente con el formulario para la creacion de la Linea Base
 
     :param request: Parametro a ser procesado.
     :type request: HttpRequest.
@@ -85,8 +85,8 @@ def crear_linea_base(request, pk):
 
 
 def listar_linea_base(request, pk):
-    """Funcion para Listar Proyectos.
-    Retorna la pagina correspondiente con la lista de Proyectos
+    """Funcion para Listar Linea Base.
+    Retorna la pagina correspondiente con la lista de Lineas Base
 
     :param request: Parametro a ser procesado.
     :type request: HttpRequest.
@@ -115,12 +115,12 @@ def get_linea_base_list(pk):
 
 def linea_base_update(request, pk):
 
-    """Funcion para Modificar un Proyecto.
+    """Funcion para Modificar una Linea Base.
     Retorna la pagina con el formulario correspondiente para la modificacion
-    del proyecto.
+    de la Linea Base.
 
     :param request: Parametro a ser procesado.
-    :param pk: Parametro a ser procesado el identificador del proyecto que va a modificarse.
+    :param pk: Parametro a ser procesado el identificador de la Linea Base que va a modificarse.
     :type request: HttpRequest.
     :type pk: int.
     :returns: La pagina correspondiente.

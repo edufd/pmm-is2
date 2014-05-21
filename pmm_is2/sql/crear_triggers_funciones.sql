@@ -155,3 +155,26 @@ ALTER FUNCTION pmm.cerrar_fase()
 create trigger after_update_linea_base
 	after update on pmm.gdc_lineabase
 	for each row execute procedure pmm.cerrar_fase();
+
+
+CREATE OR REPLACE FUNCTION pmm.actualizar_estado_item()
+  RETURNS trigger AS $$
+	DECLARE
+
+	BEGIN
+
+		RAISE NOTICE 'Actualizar Item:[%]', new.item_id;
+		UPDATE pmm.des_item SET estado = 'BLOQUEADO'
+		WHERE id_item= new.item_id;
+
+		RETURN new;
+	END;
+	$$
+	  LANGUAGE plpgsql VOLATILE
+	  COST 100;
+ALTER FUNCTION pmm.actualizar_estado_item()
+  OWNER TO pmm;
+
+create trigger after_insert_linea_base_item
+	after insert on pmm.gdc_lineabase_items
+	for each row execute procedure pmm.actualizar_estado_item();

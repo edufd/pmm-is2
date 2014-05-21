@@ -488,16 +488,6 @@ def agregar_relaciones(request, id_fase):
             itemB = relacion_form.cleaned_data['al_item']
             tipo = relacion_form.cleaned_data['tipo']
 
-            if tipo == 'e':
-                error = "Debe elegir un tipo de relacion"
-                return render_to_response('des/agregar_relaciones.html',
-                              {
-                                  'relacion_form': relacion_form,
-                                  'error': error,
-                                  'fase': id_fase,
-                              },
-                              context
-                )
             if itemA.id_item != itemB.id_item:
                 if itemA.id_fase == itemB.id_fase and tipo == "PADRE-HIJO":
                     relacion_form.instance.fase = object_fase

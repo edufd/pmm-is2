@@ -1,4 +1,4 @@
-{% extends 'gdc/gdc_base_logged.html' %}
+{% extends 'des/des_base_logged.html' %}
 {% load static %}
 {% block link %}<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">{% endblock %}
 {% block title %}PMM{% endblock %}
@@ -7,7 +7,7 @@
         <div id="breadcrumb" class="col-md-12">
             <ol class="breadcrumb">
                 <li><a href="/home/">PMM</a></li>
-                <li><a href="/gdc/">Gestion de Cambio</a></li>
+                <li><a href="/des/">Desarrollo</a></li>
                 <li><a href="#">Crear Solicitud de Cambio</a></li>
             </ol>
         </div>
@@ -15,12 +15,12 @@
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
         {% if creado %}
             <strong>Se ha creado la solicitud!</strong><br/>
-            <a href="/gdc/">Retornar a la pagina de inicio</a><br/>
+            <a href="/des/">Retornar a la pagina de inicio</a><br/>
         {% else %}
             <strong><h4>Complete los datos</h4></strong>
             </br>
 
-            <form class="form_class" id="form_class" method="post" action="/gdc/crear_solicitud/" enctype="multipart/form-data">
+            <form class="form_class" id="form_class" method="post" action="/des/crear_solicitud/" enctype="multipart/form-data">
 
                 {% csrf_token %}
 

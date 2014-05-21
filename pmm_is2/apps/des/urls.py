@@ -45,4 +45,13 @@ urlpatterns = patterns('',
         url(r'^calcular/(?P<pk>\d+)$', views.calcular_impacto_y_costo_item, name='calcular'),
         url(r'^calcular_costo_total/(?P<pk>\d+)$', views.calcular_costo_total, name='calcular_costo_total'),
 
+
+        url(r'^crear_solicitud/$', views.crear_solicitud, name='crear_solicitud'),
+        url(r'^listar_solicitud/$', views.listar_solicitud, name='listar_solicitud'),
+        url(r'^editar_solicitud/(?P<pk>\d+)$', views.editar_solicitud, name='editar_solicitud'),
+        url(r'^imprimir_solicitud/(?P<pk>\d+)$', views.imprimir_solicitud, name='imprimir_solicitud'),
+        url(r'^enviar_solicitud/(?P<pk>\d+)$', views.enviar_solicitud, name='enviar_solicitud'),
+        url(r'^listar_solicitudRecibido/$', views.listar_solicitudRecibido, name='listar_solicitudRecibido'),
+        url(r'^editar_solicitudRecibido/(?P<pk>\d+)$', views.editar_solicitudRecibido, name='editar_solicitudRecibido'),
+
 )

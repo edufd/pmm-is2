@@ -1,4 +1,4 @@
-{% extends 'gdc/gdc_base_logged.html' %}
+{% extends 'des/des_base_logged.html' %}
 {% load static %}
 {% block link %}<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">{% endblock %}
 {% block title %}PMM{% endblock %}
@@ -7,7 +7,7 @@
         <div id="breadcrumb" class="col-md-12">
             <ol class="breadcrumb">
                 <li><a href="/home/">PMM</a></li>
-                <li><a href="/gdc/">Gestion de Cambio</a></li>
+                <li><a href="/des/">Desarrollo</a></li>
                 <li><a href="#">Lista de Solicitudes de Cambio</a></li>
             </ol>
         </div>
@@ -33,7 +33,7 @@
 
                 {% endfor %}
             </ul>
-        <h4><a class="btn btn-success" href="/gdc/crear_solicitud/">Nueva Solicitud</a></h4>
+        <h4><a class="btn btn-success" href="/des/crear_solicitud/">Nueva Solicitud</a></h4>
         </div>
     </div>
 {% endblock %}

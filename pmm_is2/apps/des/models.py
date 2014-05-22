@@ -164,7 +164,7 @@ class Solicitud(models.Model):
     prioridad = models.CharField(max_length=1) #Alta:'A', Media:'M', Baja:'B'
     comentarios = models.CharField(max_length=200)
     descripcion = models.CharField(max_length=5000)
-    nombre_linea_base=models.CharField(max_length=50, default='PRUEBA')#CAMBIAR DESPUES POR FOREINGNKEY CUANDO HAYA LB
+    nombre_linea_base=models.ForeignKey('gdc.LineaBase', verbose_name="LineaBase", null=True)
     tipo = models.ManyToManyField(Tipo)
     opciones= models.ForeignKey(opciones, null=True)
     contador=models.IntegerField(blank=True, default=0, null=True)

@@ -5,6 +5,8 @@ from django.contrib.admin.widgets import FilteredSelectMultiple, AdminDateWidget
 from django.contrib.auth.models import User, Group, Permission
 from django.forms.extras import SelectDateWidget
 from pmm_is2.apps.adm.models import Proyecto, Fase
+from pmm_is2.apps.des.models import Solicitud
+from pmm_is2.apps.gdc.models import LineaBase
 
 
 #para probar archivo adjunto luego eliminar y poner como se debe
@@ -79,13 +81,13 @@ _all_ = [Proyecto, Fase, Item]
 class SolicitudForm(forms.ModelForm):
     nombre_proyecto = forms.ModelChoiceField(queryset=Proyecto.objects.all(), widget=forms.Select(), required=False)
     fecha_inicio = forms.DateField(widget=AdminDateWidget)
-    nombre_fase = forms.ModelChoiceField(queryset=Fase.objects.all(), widget=forms.Select(), required=False)
-    nombre_item = forms.ModelChoiceField(queryset=Item.objects.all(), widget=forms.Select(), required=False)
+    nombre_fase = forms.ModelChoiceField(queryset=Fase.objects.filter(estado_fase='FINALIZADA'), widget=forms.Select(), required=False)
+    nombre_item = forms.ModelChoiceField(queryset=Item.objects.filter(estado='BLOQUEADO'), widget=forms.Select(), required=False)
     usuario = forms.ModelChoiceField(queryset=User.objects.all(), widget=forms.Select(), required=False)
     tipo = forms.ModelMultipleChoiceField(queryset=Tipo.objects.all(), widget=forms.CheckboxSelectMultiple, required=False)
     prioridad = forms.CharField(max_length=4, widget=forms.Select(choices=PRIORIDAD_CHOICES))
     descripcion = forms.CharField(label=u"descripcion", widget=forms.Textarea({'cols': 60, 'rows': 10}), error_messages={'required': 'Ingrese observaciones'})
-
+    nombre_linea_base= forms.ModelChoiceField(queryset=LineaBase.objects.filter(estado='CERRADA'), widget=forms.Select(), required=False)
     class Meta:
         model = Solicitud
         fields = ('fecha_inicio', 'nombre_proyecto', 'nombre_fase',
@@ -95,7 +97,7 @@ class SolicitudForm(forms.ModelForm):
         super(SolicitudForm, self).__init__(*args, **kwargs)
         self.fields['fecha_inicio'].widget = widgets.AdminDateWidget()
         self.fields['estado'].widget.attrs['readonly'] = True
-        self.fields['nombre_linea_base'].widget.attrs['readonly'] = True
+
 
 
 class SolicitudRecibidoForm(forms.ModelForm):

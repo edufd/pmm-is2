@@ -879,7 +879,7 @@ def phase_item_list(request, id_proyecto, id_fase):
 
 
 def get_phase_item_list(id_fase):
-    lista_item = Item.objects.filter(id_fase_id=id_fase, estado='ACTIVO').all()
+    lista_item = Item.objects.filter(id_fase_id=id_fase, estado='ACTIVO').all().order_by('id_item')
     return lista_item
 
 

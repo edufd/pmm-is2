@@ -153,7 +153,7 @@ class Solicitud(models.Model):
     nombre_item=models.ForeignKey('des.Item', verbose_name="Item", null=True)
     usuario=models.ForeignKey(User, null=True)
     estado = models.CharField(max_length=11, default='EN-ESPERA')
-    prioridad = models.CharField(max_length=1) #Alta:'A', Media:'M', Baja:'B'
+    prioridad = models.CharField(max_length=5) #Alta:'A', Media:'M', Baja:'B'
     comentarios = models.CharField(max_length=200)
     descripcion = models.CharField(max_length=5000)
     nombre_linea_base=models.ForeignKey('gdc.LineaBase', verbose_name="LineaBase", null=True)

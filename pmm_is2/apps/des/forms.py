@@ -129,7 +129,7 @@ class SolicitudRecibidoForm(forms.ModelForm):
         self.fields['nombre_item'].widget.attrs['disabled'] = True
         self.fields['usuario'].widget.attrs['disabled '] = True
         self.fields['estado'].widget.attrs['readonly'] = True
-        self.fields['nombre_linea_base'].widget.attrs['readonly'] = True
+        self.fields['nombre_linea_base'].widget.attrs['disabled'] = True
         self.fields['tipo'].widget.attrs['disabled'] = True
         self.fields['prioridad'].widget.attrs['disabled'] = True
         self.fields['descripcion'].widget.attrs['readonly'] = True

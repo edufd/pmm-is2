@@ -83,11 +83,11 @@ class SolicitudForm(forms.ModelForm):
     fecha_inicio = forms.DateField(widget=AdminDateWidget)
     nombre_fase = forms.ModelChoiceField(queryset=Fase.objects.filter(estado_fase='FINALIZADA'), widget=forms.Select(), required=True)
     nombre_item = forms.ModelChoiceField(queryset=Item.objects.filter(estado='BLOQUEADO'), widget=forms.Select(), required=True)
-    usuario = forms.ModelChoiceField(queryset=User.objects.all(), widget=forms.Select(), required=False)
+    usuario = forms.ModelChoiceField(queryset=User.objects.all(), widget=forms.Select(), required=True)
     tipo = forms.ModelMultipleChoiceField(queryset=Tipo.objects.all(), widget=forms.CheckboxSelectMultiple, required=True)
     prioridad = forms.CharField(max_length=4, widget=forms.Select(choices=PRIORIDAD_CHOICES))
     descripcion = forms.CharField(label=u"descripcion", widget=forms.Textarea({'cols': 60, 'rows': 10}), error_messages={'required': 'Ingrese observaciones'})
-    nombre_linea_base= forms.ModelChoiceField(queryset=LineaBase.objects.filter(estado='CERRADA'), widget=forms.Select(), required=False)
+    nombre_linea_base= forms.ModelChoiceField(queryset=LineaBase.objects.filter(estado='CERRADA'), widget=forms.Select(), required=True)
     class Meta:
         model = Solicitud
         fields = ('fecha_inicio', 'nombre_proyecto', 'nombre_fase',

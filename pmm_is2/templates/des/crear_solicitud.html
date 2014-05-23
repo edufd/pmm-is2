@@ -20,7 +20,8 @@
             <strong><h4>Complete los datos</h4></strong>
             </br>
 
-            <form class="form_class" id="form_class" method="post" action="/des/crear_solicitud/" enctype="multipart/form-data">
+            <form class="form_class" id="form_class" method="post" action="{% url "crear_solicitud" id_proyecto id_fase %}"
+                  enctype="multipart/form-data">
 
                 {% csrf_token %}
 

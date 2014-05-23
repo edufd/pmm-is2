@@ -883,7 +883,7 @@ def get_phase_item_list(id_fase):
     return lista_item
 
 
-def crear_solicitud(request):
+def crear_solicitud(request, id_proyecto, id_fase):
     """Funcion para Crear Solicitud.
     Retorna la pagina correspondiente con el formulario para la creacion de la Solicitud
 
@@ -895,7 +895,7 @@ def crear_solicitud(request):
     context = RequestContext(request)
     creado = False
     if request.method == 'POST':
-        solicitud_form = SolicitudForm(data=request.POST)
+        solicitud_form = SolicitudForm(data=request.POST,idproyecto=id_proyecto,idfase=id_fase)
         if solicitud_form.is_valid():
             solicitud = solicitud_form.save()
             solicitud.save()
@@ -904,26 +904,28 @@ def crear_solicitud(request):
             print solicitud_form.errors
 
     else:
-        solicitud_form = SolicitudForm()
+        solicitud_form = SolicitudForm(idproyecto=id_proyecto,idfase=id_fase)
 
     return render_to_response('des/crear_solicitud.html',
                               {
                                   'solicitud_form':solicitud_form,
                                   'creado': creado,
+                                  'id_proyecto':id_proyecto,
+                                  'id_fase':id_fase,
                               },
                               context
     )
 
 
-def get_listar_solicitud():
-    lista_solicitud = Solicitud.objects.filter(estado='EN-ESPERA')
+def get_listar_solicitud(id_proyecto,id_fase):
+    lista_solicitud = Solicitud.objects.filter(estado='EN-ESPERA',nombre_proyecto=id_proyecto,nombre_fase=id_fase)
     return lista_solicitud
 
 
 @login_required
-def listar_solicitud(request):
+def listar_solicitud(request, id_proyecto, id_fase):
     context = RequestContext(request)
-    lista_solicitud = get_listar_solicitud()
+    lista_solicitud = get_listar_solicitud(id_proyecto,id_fase)
     context_dict = {}
     context_dict['lista_solicitud'] = lista_solicitud
 

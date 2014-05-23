@@ -17,7 +17,7 @@
             <ul class="list-group">
                 {% for solicitud in lista_solicitud %}
                     <li class="list-group-item">
-                        <h4 ><a href="{% url "editar_solicitud" solicitud.id_solicitud %}">{{ solicitud.nombre_item}}</a>
+                        <h4 >Nombre Item Bloqueado: {{ solicitud.nombre_item}}
 
                         </h4>
                         <a class="btn btn-danger" href="{% url "imprimir_solicitud" solicitud.id_solicitud %}">
@@ -33,7 +33,6 @@
 
                 {% endfor %}
             </ul>
-        <h4><a class="btn btn-success" href="/des/crear_solicitud/">Nueva Solicitud</a></h4>
         </div>
     </div>
 {% endblock %}

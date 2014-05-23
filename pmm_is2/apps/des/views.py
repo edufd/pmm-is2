@@ -768,6 +768,30 @@ def revivir_item(request, pk):
     return render_to_response('des/revivir_item.html', context_dict, context)
 
 
+def get_version_item_list(pk, version_item):
+    item_version_list = VersionItem.objects.exclude(version_item=version_item).filter(item_id=pk, estado='ACTIVO').order_by('version_item')
+    return item_version_list
+
+
+def item_reversion_list(request, pk):
+    """Funcion para Reversionar Item.
+    Retorna la pagina correspondiente de revivir item.
+
+    :param request: Parametro a ser procesado.
+    :param pk: Parametro a ser procesado. Identificador del item a ser procesado
+    :type request: HttpRequest.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
+    context = RequestContext(request)
+    item = get_object_or_404(Item, pk=pk)
+    item_historial_list = get_version_item_list(pk, item.version_item)
+    context_dict = {}
+    context_dict['object_list'] = item_historial_list
+
+    return render_to_response('des/item_reversion_list.html', context_dict, context)
+
+
 def revivir(request, pk):
     context = RequestContext(request)
     version_item = get_object_or_404(VersionItem, pk=pk)
@@ -781,6 +805,36 @@ def revivir(request, pk):
             complejidad=version_item.complejidad, costo=version_item.costo,
             ultima_version_item_id=version_item.ultima_version_item_id, id_tipo_item=version_item.id_tipo_item,
             id_fase=version_item.id_fase)
+
+        item.save()
+        creado = True
+
+    else:
+        return render_to_response('des/revivir_item.html', context)
+
+    return render_to_response('des/revivir_item.html', {'creado': creado}, context)
+
+
+def item_reversion(request, pk):
+    context = RequestContext(request)
+    version_item = get_object_or_404(VersionItem, pk=pk)
+    print version_item.estado
+    item = get_object_or_404(Item, pk=version_item.item_id)
+    creado = False
+
+    if version_item:
+
+        item.nombre_item = version_item.nombre_item
+        item.version_item = version_item.version_item
+        item.prioridad = version_item.prioridad
+        item.estado = version_item.estado
+        item.descripcion = version_item.descripcion
+        item.observaciones = version_item.observaciones
+        item.complejidad = version_item.complejidad
+        item.costo = version_item.costo
+        item.ultima_version_item_id = version_item.ultima_version_item_id
+        item.id_tipo_item = version_item.id_tipo_item
+        item.id_fase = version_item.id_fase
 
         item.save()
         creado = True

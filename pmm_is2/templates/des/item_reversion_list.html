@@ -1,0 +1,77 @@
+{% extends 'des/des_base_logged.html' %}
+{% load static %}
+{% block link %}<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">{% endblock %}
+{% block title %}PMM{% endblock %}
+{% block content %}
+    <div class="row">
+        <div id="breadcrumb" class="col-md-12">
+            <ol class="breadcrumb">
+                <li><a href="/home/">PMM</a></li>
+                <li><a href="/des/">Desarrollo</a></li>
+                <li><a href="/des/listar_item/">Item</a></li>
+                <li><a href="#">Revivir Item</a></li>
+            </ol>
+        </div>
+    </div>
+    {% if creado %}
+            <strong>Se ha creado el item!</strong><br/>
+            <a href="/des/">Retornar a la pagina de inicio</a><br/>
+    {% else %}
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-header">
+                        <div class="box-name">
+                            <i class="fa fa-table"></i>
+                            <span>Historial Item</span>
+                        </div>
+                        <div class="box-icons">
+                            <a class="collapse-link">
+                                <i class="glyphicon glyphicon-chevron-down"></i>
+                            </a>
+                            <a class="expand-link">
+                                <i class="glyphicon glyphicon-resize-full"></i>
+                            </a>
+                            <a class="close-link">
+                                <i class="glyphicon glyphicon-remove-circle"></i>
+                            </a>
+                        </div>
+                        <div class="no-move"></div>
+                    </div>
+                        <div class="box-content no-padding">
+                            <table class="table table-striped table-bordered table-hover table-heading no-border-bottom">
+                                <thead>
+                                    <tr>
+                                        <th class="col-sm-1">Version</th>
+                                        <th class="col-sm-1">Nombre</th>
+                                        <th class="col-sm-1">Prioridad</th>
+                                        <th class="col-sm-1">Estado</th>
+                                        <th class="col-sm-1">Descripcion</th>
+                                        <th class="col-sm-1">Observacion</th>
+                                        <th class="col-sm-1">Complejidad</th>
+                                        <th class="col-sm-1">Costo</th>
+                                        <th class="col-sm-1">Accion</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for versionItem in object_list %}
+                                        <tr>
+                                            <td>{{ versionItem.version_item }}</td>
+                                            <td>{{ versionItem.nombre_item }}</td>
+                                            <td>{{ versionItem.prioridad }}</td>
+                                            <td>{{ versionItem.estado }}</td>
+                                            <td>{{ versionItem.descripcion }}</td>
+                                            <td>{{ versionItem.observaciones }}</td>
+                                            <td>{{ versionItem.complejidad }}</td>
+                                            <td>{{ versionItem.costo }}</td>
+                                            <td><a href="/des/item_reversion/{{ versionItem.id_version_item }}">Reversionar</a></td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                 </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

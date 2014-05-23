@@ -31,14 +31,6 @@ RELACION_TIPO = (
 )
 
 
-PRIORIDAD_CHOICES = (
-    ('e', 'elegir...'),
-    ('A', 'ALTA'),
-    ('M', 'MEDIA'),
-    ('B', 'BAJA'),
-)
-
-
 class TipoItem(models.Model):
     id_tipo_item = models.AutoField(primary_key=True)
     nombre_tipo_item = models.CharField(max_length=200, unique=True)

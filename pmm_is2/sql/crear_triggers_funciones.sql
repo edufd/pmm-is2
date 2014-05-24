@@ -178,3 +178,34 @@ ALTER FUNCTION pmm.actualizar_estado_item()
 create trigger after_insert_linea_base_item
 	after insert on pmm.gdc_lineabase_items
 	for each row execute procedure pmm.actualizar_estado_item();
+
+
+CREATE OR REPLACE FUNCTION pmm.actualizar_estado_fase()
+  RETURNS trigger AS $$
+	DECLARE
+
+		v_ultimo_version_item_guardada record;
+
+	BEGIN
+
+		IF new.fase_id IS NOT NULL THEN
+
+			RAISE NOTICE 'Nuevo linea base:[%]', new.fase_id;
+
+			UPDATE pmm.adm_fase SET estado_fase = 'CERRADA'
+			WHERE id_fase = new.fase_id;
+
+		END IF;
+
+		RETURN new;
+	END;
+	$$
+	  LANGUAGE plpgsql VOLATILE
+	  COST 100;
+ALTER FUNCTION pmm.actualizar_estado_fase()
+  OWNER TO pmm;
+
+create trigger after_insert_item
+	after insert on pmm.gdc_lineabase
+	for each row execute procedure pmm.actualizar_estado_fase();
+

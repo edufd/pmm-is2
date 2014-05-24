@@ -22,12 +22,11 @@
                         <h4 ><a href="{% url "editar_item" item.id_item %}">{{ item.nombre_item}}</a>
 
                         </h4>
-                        {% if item.estado != 'A' %}
+                        {% if item.estado != 'BLOQUEADO' %}
                             <a class="btn btn-danger" href="{% url "eliminar_item" item.id_item %}">
                               <i class="icon-trash icon-white"></i>
                               Eliminar
                             </a>
-                        {% endif %}
                             <a class="btn btn-danger" href="{% url "adjuntarArchivo_item" item.id_item %}">
                               <i class="icon-trash icon-white"></i>
                               AdjuntarArchivo
@@ -36,6 +35,11 @@
                                   <i class="icon-trash icon-white"></i>
                                   Desasignar
                             </a>
+                            <a class="btn btn-info" href="/des/item_reversion_list/{{ item.id_item }}">
+                                  <i class="icon-trash icon-white"></i>
+                                  Reversionar Item
+                            </a>
+                        {% endif %}
                             <a class="btn btn-danger" href="/des/historial_item/{{ item.id_item }}">
                                   <i class="icon-trash icon-white"></i>
                                   Historial
@@ -47,10 +51,6 @@
                             <a class="btn btn-info" href="/des/import_item/{{ item.id_item }}">
                                   <i class="icon-trash icon-white"></i>
                                   Importar Item
-                            </a>
-                            <a class="btn btn-info" href="/des/item_reversion_list/{{ item.id_item }}">
-                                  <i class="icon-trash icon-white"></i>
-                                  Reversionar Item
                             </a>
                     </li>
 

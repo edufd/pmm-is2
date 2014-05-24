@@ -234,7 +234,7 @@ def eliminar_item(request, pk):
     if request.method == 'POST' and item.estado == 'ACTIVO':
         item.estado = 'INACTIVO'
         item.save()
-        return redirect('listar_item')
+        return redirect('/des/')
 
     return render_to_response('des/confirmar_eliminacion_item.html', {'item': item}, context)
 

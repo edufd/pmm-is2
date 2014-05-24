@@ -6,12 +6,12 @@ from pmm_is2.apps.adm.models import Proyecto, Comite
 from pmm_is2.apps.des.forms import *
 from django.http import HttpResponse
 from io import BytesIO
-from reportlab.lib import colors
-from reportlab.lib.pagesizes import letter
-from reportlab.lib.styles import ParagraphStyle
-from reportlab.lib.enums import TA_CENTER
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table
-from reportlab.lib.units import cm
+# from reportlab.lib import colors
+# from reportlab.lib.pagesizes import letter
+# from reportlab.lib.styles import ParagraphStyle
+# from reportlab.lib.enums import TA_CENTER
+# from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table
+# from reportlab.lib.units import cm
 
 
 _all_ = [Proyecto, Comite]

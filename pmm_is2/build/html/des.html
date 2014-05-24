@@ -467,11 +467,17 @@ Retorna la pagina correspondiente con la lista de item a revivir.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>request</strong> (<em>HttpRequest.</em>) &#8211; Parametro a ser procesado.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>request</strong> (<em>HttpRequest.</em>) &#8211; Parametro a ser procesado.</li>
+<li><strong>pk</strong> &#8211; Parametro a ser procesado. Identificador de la Fase.</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">La pagina correspondiente.</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">La pagina correspondiente.</p>
+</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">El response correspondiente.</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">El response correspondiente.</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -530,18 +536,25 @@ Retorna la pagina correspondiente con la lista de item de una fase.</p>
 
 <dl class="function">
 <dt id="pmm_is2.apps.des.views.crear_solicitud">
-<tt class="descclassname">pmm_is2.apps.des.views.</tt><tt class="descname">crear_solicitud</tt><big>(</big><em>request</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/des/views.html#crear_solicitud"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.des.views.crear_solicitud" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">pmm_is2.apps.des.views.</tt><tt class="descname">crear_solicitud</tt><big>(</big><em>request</em>, <em>id_proyecto</em>, <em>id_fase</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/des/views.html#crear_solicitud"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.des.views.crear_solicitud" title="Permalink to this definition">¶</a></dt>
 <dd><p>Funcion para Crear Solicitud.
 Retorna la pagina correspondiente con el formulario para la creacion de la Solicitud</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>request</strong> (<em>HttpRequest.</em>) &#8211; Parametro a ser procesado.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>request</strong> (<em>HttpRequest.</em>) &#8211; Parametro a ser procesado.</li>
+<li><strong>pk</strong> &#8211; Parametro a ser procesado. Identificador de Proyecto</li>
+<li><strong>pk</strong> &#8211; Parametro a ser procesado. Identificador de Fase</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">La pagina correspondiente.</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">La pagina correspondiente.</p>
+</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">El response correspondiente.</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">El response correspondiente.</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -624,6 +637,106 @@ Retorna la pagina con el formulario correspondiente para la emision de la solici
 </table>
 </dd></dl>
 
+<dl class="function">
+<dt id="pmm_is2.apps.des.views.editar_solicitudRecibido">
+<tt class="descclassname">pmm_is2.apps.des.views.</tt><tt class="descname">editar_solicitudRecibido</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/des/views.html#editar_solicitudRecibido"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.des.views.editar_solicitudRecibido" title="Permalink to this definition">¶</a></dt>
+<dd><p>Funcion para votar solicitud.
+Retorna la pagina con el formulario correspondiente para la votacion de la solicitud.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>request</strong> (<em>HttpRequest.</em>) &#8211; Parametro a ser procesado.</li>
+<li><strong>pk</strong> (<em>int.</em>) &#8211; Parametro a ser procesado el identificador de la solicitud.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">La pagina correspondiente.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">El response correspondiente.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pmm_is2.apps.des.views.item_reversion">
+<tt class="descclassname">pmm_is2.apps.des.views.</tt><tt class="descname">item_reversion</tt><big>(</big><em>request</em>, <em>pk</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/des/views.html#item_reversion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.des.views.item_reversion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Funcion para Reversionar Item.
+Retorna la pagina correspondiente de reversion item.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>request</strong> (<em>HttpRequest.</em>) &#8211; Parametro a ser procesado.</li>
+<li><strong>pk</strong> &#8211; Parametro a ser procesado. Identificador del item a ser procesado</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">La pagina correspondiente.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">El response correspondiente.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pmm_is2.apps.des.views.item_reversion_list">
+<tt class="descclassname">pmm_is2.apps.des.views.</tt><tt class="descname">item_reversion_list</tt><big>(</big><em>request</em>, <em>pk</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/des/views.html#item_reversion_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.des.views.item_reversion_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Funcion para listar historialde Reversionaes de Items.
+Retorna la pagina correspondiente de reversionar item.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>request</strong> (<em>HttpRequest.</em>) &#8211; Parametro a ser procesado.</li>
+<li><strong>pk</strong> &#8211; Parametro a ser procesado. Identificador del item a ser procesado</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">La pagina correspondiente.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">El response correspondiente.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pmm_is2.apps.des.views.revivir">
+<tt class="descclassname">pmm_is2.apps.des.views.</tt><tt class="descname">revivir</tt><big>(</big><em>request</em>, <em>pk</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/des/views.html#revivir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.des.views.revivir" title="Permalink to this definition">¶</a></dt>
+<dd><p>Funcion para Revivir Item.
+Retorna la pagina correspondiente de revivir item.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>request</strong> (<em>HttpRequest.</em>) &#8211; Parametro a ser procesado.</li>
+<li><strong>pk</strong> &#8211; Parametro a ser procesado. Identificador del item a ser procesado</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">La pagina correspondiente.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">El response correspondiente.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </div>
 <div class="section" id="des-models-module">
 <h2>des.models module<a class="headerlink" href="#des-models-module" title="Permalink to this headline">¶</a></h2>
@@ -684,7 +797,7 @@ Retorna la pagina con el formulario correspondiente para la emision de la solici
 <dl class="class">
 <dt id="pmm_is2.apps.des.models.Solicitud">
 <em class="property">class </em><tt class="descclassname">pmm_is2.apps.des.models.</tt><tt class="descname">Solicitud</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/des/models.html#Solicitud"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.des.models.Solicitud" title="Permalink to this definition">¶</a></dt>
-<dd><p>Solicitud(id_solicitud, fecha_inicio, nombre_proyecto_id, nombre_fase_id, nombre_item_id, usuario_id, estado, prioridad, comentarios, descripcion, nombre_linea_base, opciones_id, contador, encontra, votado_por1, votado_por2, votado_por3)</p>
+<dd><p>Solicitud(id_solicitud, fecha_inicio, nombre_proyecto_id, nombre_fase_id, nombre_item_id, usuario_id, estado, prioridad, comentarios, descripcion, nombre_linea_base_id, opciones_id, contador, encontra, votado_por1, votado_por2, votado_por3)</p>
 </dd></dl>
 
 </div>

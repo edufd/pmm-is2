@@ -53,6 +53,7 @@ def crear_linea_base(request, pk):
 
     :param request: Parametro a ser procesado.
     :type request: HttpRequest.
+    :param pk: Parametro a ser procesado. Identificador de la Fase donde se creara la Linea Base.
     :returns: La pagina correspondiente.
     :rtype: El response correspondiente.
     """
@@ -90,6 +91,7 @@ def listar_linea_base(request, pk):
 
     :param request: Parametro a ser procesado.
     :type request: HttpRequest.
+    :param pk: Parametro a ser procesado. Identificador de la Fase del cual se listara la LB.
     :returns: La pagina correspondiente.
     :rtype: El response correspondiente.
     """

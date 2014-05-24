@@ -53,6 +53,7 @@
     <span class="p">(</span><span class="s">&#39;BLOQUEADO&#39;</span><span class="p">,</span> <span class="s">&#39;BLOQUEADO&#39;</span><span class="p">),</span>
     <span class="p">(</span><span class="s">&#39;REVISION&#39;</span><span class="p">,</span> <span class="s">&#39;REVISION&#39;</span><span class="p">),</span>
     <span class="p">(</span><span class="s">&#39;ACTIVO&#39;</span><span class="p">,</span> <span class="s">&#39;ACTIVO&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s">&#39;APROBADO&#39;</span><span class="p">,</span> <span class="s">&#39;APROBADO&#39;</span><span class="p">),</span>
 <span class="p">)</span>
 
 <span class="n">PRIORIDAD_CHOICES</span> <span class="o">=</span> <span class="p">(</span>
@@ -74,14 +75,6 @@
 <span class="n">RELACION_TIPO</span> <span class="o">=</span> <span class="p">(</span>
     <span class="p">(</span><span class="s">&#39;PADRE-HIJO&#39;</span><span class="p">,</span> <span class="s">&#39;PADRE-HIJO&#39;</span><span class="p">),</span>
     <span class="p">(</span><span class="s">&#39;ANTECESOR-SUCESOR&#39;</span><span class="p">,</span> <span class="s">&#39;ANTECESOR-SUCESOR&#39;</span><span class="p">),</span>
-<span class="p">)</span>
-
-
-<span class="n">PRIORIDAD_CHOICES</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="p">(</span><span class="s">&#39;e&#39;</span><span class="p">,</span> <span class="s">&#39;elegir...&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;A&#39;</span><span class="p">,</span> <span class="s">&#39;ALTA&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;M&#39;</span><span class="p">,</span> <span class="s">&#39;MEDIA&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&#39;B&#39;</span><span class="p">,</span> <span class="s">&#39;BAJA&#39;</span><span class="p">),</span>
 <span class="p">)</span>
 
 
@@ -207,10 +200,10 @@
     <span class="n">nombre_item</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s">&#39;des.Item&#39;</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="s">&quot;Item&quot;</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">usuario</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">User</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">estado</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s">&#39;EN-ESPERA&#39;</span><span class="p">)</span>
-    <span class="n">prioridad</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="c">#Alta:&#39;A&#39;, Media:&#39;M&#39;, Baja:&#39;B&#39;</span>
+    <span class="n">prioridad</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span> <span class="c">#Alta:&#39;A&#39;, Media:&#39;M&#39;, Baja:&#39;B&#39;</span>
     <span class="n">comentarios</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
     <span class="n">descripcion</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">5000</span><span class="p">)</span>
-    <span class="n">nombre_linea_base</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s">&#39;PRUEBA&#39;</span><span class="p">)</span><span class="c">#CAMBIAR DESPUES POR FOREINGNKEY CUANDO HAYA LB</span>
+    <span class="n">nombre_linea_base</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s">&#39;gdc.LineaBase&#39;</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="s">&quot;LineaBase&quot;</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">tipo</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Tipo</span><span class="p">)</span>
     <span class="n">opciones</span><span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">opciones</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">contador</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>

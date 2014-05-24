@@ -7,12 +7,12 @@ from pmm_is2.apps.adm.models import Proyecto, Comite
 from pmm_is2.apps.des.forms import *
 from django.http import HttpResponse
 from io import BytesIO
-# from reportlab.lib import colors
-# from reportlab.lib.pagesizes import letter
-# from reportlab.lib.styles import ParagraphStyle
-# from reportlab.lib.enums import TA_CENTER
-# from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table
-# from reportlab.lib.units import cm
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import letter
+from reportlab.lib.styles import ParagraphStyle
+from reportlab.lib.enums import TA_CENTER
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table
+from reportlab.lib.units import cm
 
 
 _all_ = [Proyecto, Comite]
@@ -771,6 +771,7 @@ def lista_item_revivir(request, id_fase):
 
     :param request: Parametro a ser procesado.
     :type request: HttpRequest.
+    :param pk: Parametro a ser procesado. Identificador de la Fase.
     :returns: La pagina correspondiente.
     :rtype: El response correspondiente.
     """
@@ -811,8 +812,8 @@ def get_version_item_list(pk, version_item):
 
 
 def item_reversion_list(request, pk):
-    """Funcion para Reversionar Item.
-    Retorna la pagina correspondiente de revivir item.
+    """Funcion para listar historialde Reversionaes de Items.
+    Retorna la pagina correspondiente de reversionar item.
 
     :param request: Parametro a ser procesado.
     :param pk: Parametro a ser procesado. Identificador del item a ser procesado
@@ -830,6 +831,15 @@ def item_reversion_list(request, pk):
 
 
 def revivir(request, pk):
+    """Funcion para Revivir Item.
+    Retorna la pagina correspondiente de revivir item.
+
+    :param request: Parametro a ser procesado.
+    :param pk: Parametro a ser procesado. Identificador del item a ser procesado
+    :type request: HttpRequest.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
     context = RequestContext(request)
     item = get_object_or_404(Item, pk=pk)
     max_version_item = VersionItem.objects.filter(item_id=pk, estado='ACTIVO').aggregate(Max('id_version_item'))['id_version_item__max']
@@ -865,6 +875,15 @@ def revivir(request, pk):
 
 
 def item_reversion(request, pk):
+    """Funcion para Reversionar Item.
+    Retorna la pagina correspondiente de reversion item.
+
+    :param request: Parametro a ser procesado.
+    :param pk: Parametro a ser procesado. Identificador del item a ser procesado
+    :type request: HttpRequest.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
     context = RequestContext(request)
     version_item = get_object_or_404(VersionItem, pk=pk)
     print version_item.estado
@@ -937,6 +956,8 @@ def crear_solicitud(request, id_proyecto, id_fase):
     Retorna la pagina correspondiente con el formulario para la creacion de la Solicitud
 
     :param request: Parametro a ser procesado.
+    :param pk: Parametro a ser procesado. Identificador de Proyecto
+    :param pk: Parametro a ser procesado. Identificador de Fase
     :type request: HttpRequest.
     :returns: La pagina correspondiente.
     :rtype: El response correspondiente.
@@ -1157,6 +1178,16 @@ def listar_solicitudRecibido(request):
 
 @login_required
 def editar_solicitudRecibido(request, pk):
+    """Funcion para votar solicitud.
+    Retorna la pagina con el formulario correspondiente para la votacion de la solicitud.
+
+    :param request: Parametro a ser procesado.
+    :param pk: Parametro a ser procesado el identificador de la solicitud.
+    :type request: HttpRequest.
+    :type pk: int.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
     validar=False
     context = RequestContext(request)
     solicitud = get_object_or_404(Solicitud, pk=pk)

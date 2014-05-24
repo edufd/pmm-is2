@@ -28,6 +28,9 @@ psql -U pmm -h 127.0.0.1 -d pmm < ../sql/crear_atributos_tipos_items.sql
 psql -U pmm -h 127.0.0.1 -d pmm < ../sql/crear_fase_tipos_items.sql
 psql -U pmm -h 127.0.0.1 -d pmm < ../sql/crear_triggers_funciones.sql
 
+psql -U pmm -h 127.0.0.1 -d pmm < ../sql/crear_tipo.sql
+psql -U pmm -h 127.0.0.1 -d pmm < ../sql/crear_opciones.sql
+
 
 #Servidor de Produccion
 #echo cargando tablas

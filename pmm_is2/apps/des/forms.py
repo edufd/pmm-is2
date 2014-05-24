@@ -29,6 +29,25 @@ class ItemForm(forms.models.ModelForm):
                   'descripcion')
 
 
+class ItemFormEdit(forms.models.ModelForm):
+    complejidad = forms.IntegerField(label=u"Complejidad (del 1 al 10)", error_messages={'required': 'Ingrese la complejidad del item'}, max_value=10)
+    descripcion = forms.CharField(label=u"Descripcion", max_length=30, error_messages={'required': 'Ingrese una descripcion del item'})
+    observaciones = forms.CharField(label=u"Observaciones", widget=forms.Textarea({'cols': 60, 'rows': 10}), error_messages={'required': 'Ingrese observaciones'})
+
+    def __init__(self, *args, **kwargs):
+        id_fase = kwargs.pop('id_fase')
+        super(ItemFormEdit, self).__init__(*args, **kwargs)
+
+        self.fields['id_tipo_item'] = \
+            forms.ModelChoiceField(queryset=TipoItem.objects.select_related('fase').filter(fase=id_fase),
+                                                        widget=forms.Select(), required=True)
+
+    class Meta:
+        model = Item
+        fields = ('nombre_item', 'prioridad', 'estado', 'complejidad', 'costo', 'observaciones', 'id_tipo_item',
+                  'descripcion')
+
+
 class TipoItemForm(forms.models.ModelForm):
 
     class Meta:
@@ -48,7 +67,7 @@ class AtributoTipoItemForm(forms.models.ModelForm):
 
 class ArchivoAdjuntoForm(forms.models.ModelForm):
     path_archivo = forms.FileField(label='Selecciona un archivo')
-    filename = forms.CharField(max_length=100,label='Nombre Archivo:')
+    filename = forms.CharField(max_length=100, label='Nombre Archivo:')
     id_item_relacionado = forms.ModelChoiceField(queryset=Item.objects.all(), widget=forms.Select(), required=False)
 
     class Meta:
@@ -63,11 +82,11 @@ class RelacionesForm(forms.models.ModelForm):
         super(RelacionesForm, self).__init__(*args, **kwargs)
 
         self.fields['del_item'] = \
-            forms.ModelChoiceField(queryset=Item.objects.filter(id_fase_id=id_fase, estado='ACTIVO'),
+            forms.ModelChoiceField(queryset=Item.objects.filter(id_fase_id=id_fase),
                                                         widget=forms.Select(), required=True)
 
         self.fields['al_item'] = \
-            forms.ModelChoiceField(queryset=Item.objects.filter(id_fase_id=id_fase, estado='ACTIVO'),
+            forms.ModelChoiceField(queryset=Item.objects.all(),
                                                         widget=forms.Select(), required=True)
 
     class Meta:

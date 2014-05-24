@@ -1,3 +1,4 @@
+from django.db.models import Max
 from pmm_is2.apps.adm.utils import get_project_list, get_phases_list
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import render_to_response, get_object_or_404, redirect
@@ -15,6 +16,7 @@ from reportlab.lib.units import cm
 
 
 _all_ = [Proyecto, Comite]
+
 
 @login_required
 def index(request):
@@ -188,7 +190,7 @@ def editar_item(request, pk):
     """
     context = RequestContext(request)
     item = get_object_or_404(Item, pk=pk)
-    item_form = ItemForm(request.POST or None, instance=item, id_fase=item.id_fase)
+    item_form = ItemFormEdit(request.POST or None, instance=item, id_fase=item.id_fase)
     if item_form.is_valid():
         item_form.save()
         return redirect('listar_item')
@@ -464,7 +466,7 @@ def phases_list(request, pk):
 
 
 def get_historial_item_list(pk):
-    item_historial_list = VersionItem.objects.filter(item_id=pk, estado='ACTIVO').order_by('version_item')
+    item_historial_list = VersionItem.objects.filter(item_id=pk).order_by('version_item')
     return item_historial_list
 
 
@@ -503,42 +505,79 @@ def agregar_relaciones(request, id_fase):
     object_fase = get_object_or_404(Fase, pk=pk)
 
     if request.method == 'POST':
-        print('mierda ', id_fase)
         relacion_form = RelacionesForm(data=request.POST, id_fase=id_fase)
         if relacion_form.is_valid():
             itemA = relacion_form.cleaned_data['del_item']
             itemB = relacion_form.cleaned_data['al_item']
             tipo = relacion_form.cleaned_data['tipo']
 
-            if itemA.id_item != itemB.id_item:
-                if itemA.id_fase == itemB.id_fase and tipo == "PADRE-HIJO":
-                    relacion_form.instance.fase = object_fase
-                    relacion = relacion_form.save()
-                    relacion.save()
-                    creado = True
-                elif itemA.id_fase != itemB.id_fase and tipo == "ANTECESOR-SUCESOR":
-                    relacion_form.instance.fase = object_fase
-                    relacion = relacion_form.save()
-                    relacion.save()
-                    creado = True
-                else:
-                    if tipo == "PADRE-HIJO":
-                        error = "El tipo de relacion no puede ser Padre-Hijo ya que los items" \
-                                " no pertenecen a la misma fase. Cambie el tipo de relacion"
-                    else:
-                        error = "El tipo de relacion no puede ser Antecesor-Sucesor ya que los items" \
-                            " pertenecen a la misma fase. Cambie el tipo de relacion"
+            if not Relacion.objects.filter(del_item_id=itemA, al_item_id=itemB).exists():
 
+                if itemA.id_item != itemB.id_item:
+
+                    lista_item = get_lista_item()
+                    max_id_item = lista_item.order_by('id_item').reverse()[0]
+                    global padre, visitados, ciclo, hijo
+                    visitados = [0]*(int(max_id_item.id_item) + 1)
+                    hijo = itemB.id_item
+                    padre = itemA.id_item
+                    ciclo = True
+                    print('ciclo1: ', ciclo)
+                    print('padre: ', padre)
+                    print('hijo: ', hijo)
+                    verificar_relacion(hijo)
+                    print('ciclo2: ', ciclo)
+
+                    if ciclo == False:
+                        if itemA.id_fase == itemB.id_fase and tipo == "PADRE-HIJO":
+                            relacion_form.instance.fase = object_fase
+                            relacion = relacion_form.save()
+                            relacion.save()
+                            creado = True
+                        elif itemA.id_fase != itemB.id_fase and tipo == "ANTECESOR-SUCESOR":
+                            relacion_form.instance.fase = object_fase
+                            relacion = relacion_form.save()
+                            relacion.save()
+                            creado = True
+                        else:
+                            if tipo == "PADRE-HIJO":
+                                error = "El tipo de relacion no puede ser Padre-Hijo ya que los items" \
+                                        " no pertenecen a la misma fase. Cambie el tipo de relacion"
+                            else:
+                                error = "El tipo de relacion no puede ser Antecesor-Sucesor ya que los items" \
+                                    " pertenecen a la misma fase. Cambie el tipo de relacion"
+
+                            return render_to_response('des/agregar_relaciones.html',
+                                      {
+                                          'relacion_form': relacion_form,
+                                          'error': error,
+                                          'fase': id_fase,
+                                      },
+                                      context
+                            )
+                    else:
+                        error = "No se puede generar esta relacion. Formara un ciclo!!"
+                        return render_to_response('des/agregar_relaciones.html',
+                                      {
+                                          'relacion_form': relacion_form,
+                                          'error': error,
+                                          'fase': id_fase,
+                                      },
+                                      context
+                        )
+                else:
+                    error = "No se puede crear una relacion en el mismo ITEM"
                     return render_to_response('des/agregar_relaciones.html',
-                              {
-                                  'relacion_form': relacion_form,
-                                  'error': error,
-                                  'fase': id_fase,
-                              },
-                              context
+                                  {
+                                      'relacion_form': relacion_form,
+                                      'error': error,
+                                      'fase': id_fase,
+                                  },
+                                  context
                     )
+
             else:
-                error = "No se puede crear una relacion en el mismo ITEM"
+                error = "Esta relacion ya existe!!"
                 return render_to_response('des/agregar_relaciones.html',
                               {
                                   'relacion_form': relacion_form,
@@ -550,7 +589,6 @@ def agregar_relaciones(request, id_fase):
         else:
             print relacion_form.errors
     else:
-        print('ok ', pk)
         relacion_form = RelacionesForm(id_fase=id_fase)
 
     return render_to_response('des/agregar_relaciones.html',
@@ -668,8 +706,8 @@ def calcular_impacto_y_costo_item(request, pk):
     max_id_item = lista_item.order_by('id_item').reverse()[0]
     global suma_costo, suma_impacto, visitados
     visitados = [0]*(int(max_id_item.id_item) + 1)
-    suma_costo= 0
-    suma_impacto= 0
+    suma_costo = 0
+    suma_impacto = 0
     recorrer(pk)
     context_dict = {}
     context_dict['suma_costo'] = suma_costo
@@ -685,7 +723,7 @@ def recorrer(pk):
     visitados[num] = 1
     item = get_object_or_404(Item, id_item=pk)
     suma_costo = suma_costo + item.costo
-    suma_impacto = suma_impacto + item.complejidad
+    suma_impacto = suma_impacto + item.complejidad4
     relaciones = get_relaciones(pk)
     for relacion in relaciones:
         num = int(relacion.al_item.id_item)
@@ -745,8 +783,7 @@ def lista_item_revivir(request, id_fase):
 
 
 def get_lista_item_revivir(id_fase):
-    lista_version_item = VersionItem.objects.filter(id_fase_id=id_fase, estado='INACTIVO')#.values('item_id', 'nombre_item').annotate()
-    print('lista_version_item', lista_version_item)
+    lista_version_item = Item.objects.filter(id_fase_id=id_fase, estado='INACTIVO')#.values('item_id', 'nombre_item').annotate()
     return lista_version_item
 
 
@@ -794,18 +831,30 @@ def item_reversion_list(request, pk):
 
 def revivir(request, pk):
     context = RequestContext(request)
-    version_item = get_object_or_404(VersionItem, pk=pk)
+    item = get_object_or_404(Item, pk=pk)
+    max_version_item = VersionItem.objects.filter(item_id=pk, estado='ACTIVO').aggregate(Max('id_version_item'))['id_version_item__max']
+    version_item = VersionItem.objects.get(pk=max_version_item)
     creado = False
 
     if version_item:
 
-        item = Item(nombre_item=version_item.nombre_item, version_item=version_item.version_item,
-            prioridad=version_item.prioridad, estado=version_item.estado,
-            descripcion=version_item.descripcion, observaciones=version_item.observaciones,
-            complejidad=version_item.complejidad, costo=version_item.costo,
-            ultima_version_item_id=version_item.ultima_version_item_id, id_tipo_item=version_item.id_tipo_item,
-            id_fase=version_item.id_fase)
-
+        # item = Item(nombre_item=version_item.nombre_item, version_item=version_item.version_item,
+        #     prioridad=version_item.prioridad, estado=version_item.estado,
+        #     descripcion=version_item.descripcion, observaciones=version_item.observaciones,
+        #     complejidad=version_item.complejidad, costo=version_item.costo,
+        #     ultima_version_item_id=version_item.ultima_version_item_id, id_tipo_item=version_item.id_tipo_item,
+        #     id_fase=version_item.id_fase)
+        item.nombre_item = version_item.nombre_item
+        item.iversion_item = version_item.version_item
+        item.prioridad = version_item.prioridad
+        item.estado = version_item.estado
+        item.descripcion = version_item.descripcion
+        item.observaciones = version_item.observaciones
+        item.complejidad = version_item.complejidad
+        item.costo=version_item.costo
+        item.ultima_version_item_id = version_item.ultima_version_item_id + 1
+        item.id_tipo_item = version_item.id_tipo_item
+        item.id_fase = version_item.id_fase
         item.save()
         creado = True
 
@@ -825,7 +874,7 @@ def item_reversion(request, pk):
     if version_item:
 
         item.nombre_item = version_item.nombre_item
-        item.version_item = version_item.version_item
+        item.version_item = item.version_item
         item.prioridad = version_item.prioridad
         item.estado = version_item.estado
         item.descripcion = version_item.descripcion
@@ -879,7 +928,7 @@ def phase_item_list(request, id_proyecto, id_fase):
 
 
 def get_phase_item_list(id_fase):
-    lista_item = Item.objects.filter(id_fase_id=id_fase, estado='ACTIVO').all().order_by('id_item')
+    lista_item = Item.objects.filter(id_fase_id=id_fase).exclude(estado='INACTIVO').order_by('id_item')
     return lista_item
 
 
@@ -1182,3 +1231,28 @@ def comprobar(self, request):
     print comitt
 
     return comitt
+
+
+def verificar_relacion(pk):
+    """Funcion recursiva que calcula sumas de los items recorriendo el grafo en profundidad"""
+    print('mirar ', pk)
+    global padre, visitados, ciclo, hijo
+
+    if pk != padre:
+        num = int(pk)
+        visitados[num] = 1
+        relaciones = get_relaciones(pk)
+        print('relaciones ', relaciones)
+
+        if relaciones:
+            for relacion in relaciones:
+                num = int(relacion.al_item.id_item)
+                print('siguiente: ', num)
+                if(visitados[num] == 0):
+                    if(relacion.al_item != padre):
+                        ciclo = False
+                        verificar_relacion(relacion.al_item.id_item)
+        else:
+            ciclo = False
+    else:
+        ciclo = True

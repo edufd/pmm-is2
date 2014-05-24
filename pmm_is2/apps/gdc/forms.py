@@ -8,7 +8,7 @@ class LineaBaseForm(forms.models.ModelForm):
     def __init__(self, *args, **kwargs):
         id_fase = kwargs.pop('id_fase')
         super(LineaBaseForm, self).__init__(*args, **kwargs)
-        self.fields["items"].queryset = Item.objects.filter(id_fase_id=id_fase)
+        self.fields["items"].queryset = Item.objects.filter(id_fase_id=id_fase, estado='APROBADO').order_by('id_item')
 
     class Meta:
         model = LineaBase

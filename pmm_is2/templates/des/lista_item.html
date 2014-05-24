@@ -20,7 +20,7 @@
                         <h4 ><a href="{% url "editar_item" item.id_item %}">{{ item.nombre_item}}</a>
 
                         </h4>
-                        {% if item.estado != 'A' %}
+                        {% if item.estado != 'APROBADO' or item.estado != 'BLOQUEADO' %}
                             <a class="btn btn-danger" href="{% url "eliminar_item" item.id_item %}">
                               <i class="icon-trash icon-white"></i>
                               Eliminar

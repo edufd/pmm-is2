@@ -1,0 +1,23 @@
+{% extends 'gdc/gdc_base_logged.html' %}
+{% load static %}
+{% block link %}<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">{% endblock %}
+{% block title %}PMM{% endblock %}
+{% block content %}
+    <div class="row">
+        <div id="breadcrumb" class="col-md-12">
+            <ol class="breadcrumb">
+                <li><a href="/home/">PMM</a></li>
+                <li><a href="/gdc/">Gestion de Cambio</a></li>
+                <li><a href="#">Linea Base</a></li>
+            </ol>
+        </div>
+    </div>
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main form_class">
+        <h2>Linea Base: {{ project.nombre_linea_base }}</h2>
+        <br/>
+        <h4><strong>Estado:</strong> {{ project.estado }}</h4>
+        <h4><strong>Tipo:</strong> {{ project.tipo }}</h4>
+        <h4><strong>Numero:</strong> {{ project.numero }}</h4>
+        <h4><strong>Creado por:</strong> {{ project.creado_por }}</h4>
+    </div>
+{% endblock %}

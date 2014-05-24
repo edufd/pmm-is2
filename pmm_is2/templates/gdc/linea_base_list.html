@@ -1,0 +1,9 @@
+<ul class="nav nav-list">
+   {% if cat_list %}
+    {% for cat in cat_list %}
+      <li><a href="/gdc/linea_base_profile/{{ cat.id_linea_base}}">{{ cat.nombre_linea_base }}</a></li>
+    {% endfor %}
+   {% else %}
+    <li>Ninguna Linea Base</li>
+   {% endif %}
+</ul>

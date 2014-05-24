@@ -14,4 +14,7 @@ urlpatterns = patterns('',
         url(r'^linea_base_update/(?P<pk>\d+)$', views.linea_base_update, name='linea_base_update'),
 
         url(r'^project_profile/(?P<pk>\d+)$', views.project_profile, name='project_profile'),
+
+        url(r'^suggest_linea_base/$', views.suggest_linea_base, name='suggest_linea_base'),
+        url(r'^linea_base_profile/(?P<pk>\d+)$', views.linea_base_profile, name='linea_base_profile'),
 )

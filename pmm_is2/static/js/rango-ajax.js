@@ -59,6 +59,14 @@ $(document).ready(function() {
             });
 	});
 
+    $('#suggest_linea_base').keyup(function(){
+            var query;
+            query = $(this).val();
+            $.get('/gdc/suggest_linea_base/', {suggestion: query}, function(data){
+                     $('#cats').html(data);
+            });
+	});
+
 
 	$('.rango-add').click(function(){
 	    var catid = $(this).attr("data-catid");

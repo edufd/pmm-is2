@@ -248,6 +248,7 @@ def ver_tipo_item(request, pk):
 
     return render_to_response('des/tipo_item.html', context_dict, context)
 
+
 @login_required
 def ver_item(request, pk):
     context = RequestContext(request)

@@ -153,3 +153,29 @@ def project_profile(request, pk):
 
     return render_to_response('gdc/project_profile.html', context_dict, context)
 
+
+def suggest_linea_base(request):
+        context = RequestContext(request)
+        cat_list = []
+        starts_with = ''
+        if request.method == 'GET':
+                starts_with = request.GET['suggestion']
+        cat_list = get_linea_base_list_search()
+
+        return render_to_response('gdc/linea_base_list.html', {'cat_list': cat_list}, context)
+
+
+def get_linea_base_list_search():
+    linea_base_list = LineaBase.objects.all().order_by('id_linea_base')
+    return linea_base_list
+
+
+@login_required
+@user_passes_test(not_in_admin_group, login_url='/login/')
+def linea_base_profile(request, pk):
+
+    context = RequestContext(request)
+    project = get_object_or_404(LineaBase, pk=pk)
+    context_dict = {'project': project}
+
+    return render_to_response('gdc/linea_base_profile.html', context_dict, context)

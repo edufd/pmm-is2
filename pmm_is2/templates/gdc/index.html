@@ -21,12 +21,12 @@
                     <li class="nav-header">Buscar Linea Base
                     <form autocomplete="off">
                         <label></label>
-                        <input  class="search-query span10" type="text" name="suggestion" value="" id="suggestion" />
+                        <input  class="search-query span10" type="text" name="suggest_linea_base" value="" id="suggest_linea_base" />
                     </form></li>
                 </ul>
-{#                <div id="cats">#}
-{#                    {% include 'adm/category_list.html' with cat_list=cat_list %}#}
-{#                </div>#}
+                <div id="cats">
+                    {% include 'gdc/linea_base_list.html' with cat_list=cat_list %}
+                </div>
             </div>
 
             <div class="col-xs-6 col-sm-3 placeholder">

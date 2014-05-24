@@ -78,7 +78,65 @@ else
     echo $GIT;
 fi
 
+echo 'comprobamos e instalamos pip'
+sleep 1s
+sudo apt-get install python-pip
+#Creamos el entorno virtual
+clear
+echo 'Primero instalamos lo necesario para el entorno Virtual'
+sleep 1s
+sudo pip install virtualenvwrapper
 
+export WORKON_HOME=$HOME/entornoVirtual/
+mkdir -p $WORKON_HOME
+source /usr/local/bin/virtualenvwrapper.sh
+mkvirtualenv pmm_venv
+
+clear
+echo 'instalando librerias'
+sleep 1s
+#instalamos el conector de la basde de datos con django
+pip install psycopg2
+
+#instalamos la libreria para Paths
+pip install unipath
+
+#instalamos la libreria Django-like
+pip install django-like
+
+clear
+echo 'instalando apache'
+sleep 1s
+#instalamos apache
+sudo apt-get install apache2
+sudo apt-get install libapache2-mod-wsgi
+sudo service apache2 restart
+
+clear
+echo 'copiamos el entorno al proyecto'
+sleep 1s
+#copiamos el entorno a el proyecto
+cp -R $HOME/entornoVirtual/pmm_venv $HOME/pmm-is2/
+
+
+
+#ir a la carpeta del proyecto e iniciar el entorno virtual
+cd $HOME/pmm-is2/
+source ./pmm_venv/bin/activate
+
+./cargar_tablas.sh
+
+sudo apt-get install libgnome2-bin
+clear
+echo 'abriendo el navegador'
+#levantar los servidores
+/usr/bin/python ../../manage.py runserver 9000 --settings=pmm_is2.settings.production_settings &
+/usr/bin/python ../../manage.py runserver 8000 --settings=pmm_is2.settings.development_settings &
+sleep 1s
+
+#abrir firefox
+/usr/bin/firefox http://127.0.0.1:8000 &
+/usr/bin/firefox http://127.0.0.1:9000 &
 
 
 

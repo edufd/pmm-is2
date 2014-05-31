@@ -43,7 +43,7 @@ class FaseForm(forms.ModelForm):
 
     class Meta:
         model = Fase
-        fields = ('nombre_fase', 'descripcion', 'grupos', 'tipo_item')
+        fields = ('nombre_fase', 'descripcion', 'tipo_item')
 
 
 class ComiteForm(forms.ModelForm):

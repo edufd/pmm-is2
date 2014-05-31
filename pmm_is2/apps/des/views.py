@@ -724,7 +724,7 @@ def recorrer(pk):
     visitados[num] = 1
     item = get_object_or_404(Item, id_item=pk)
     suma_costo = suma_costo + item.costo
-    suma_impacto = suma_impacto + item.complejidad4
+    suma_impacto = suma_impacto + item.complejidad
     relaciones = get_relaciones(pk)
     for relacion in relaciones:
         num = int(relacion.al_item.id_item)
@@ -975,7 +975,7 @@ def crear_solicitud(request, id_proyecto, id_fase):
             print solicitud_form.errors
 
     else:
-        solicitud_form = SolicitudForm(idproyecto=id_proyecto,idfase=id_fase)
+        solicitud_form = SolicitudForm(idproyecto=id_proyecto, idfase=id_fase)
 
     return render_to_response('des/crear_solicitud.html',
                               {

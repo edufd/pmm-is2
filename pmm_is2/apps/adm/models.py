@@ -30,9 +30,6 @@ class UserProfile(models.Model):
     def __unicode__(self):
         return self.user.username
 
-    # class Meta:
-    #     db_table = 'userprofile'
-
 
 #funcion para validar las fecha de fin de los proyectos recibe una fecha
 def validate_even(value):
@@ -65,7 +62,6 @@ class Proyecto(models.Model):
         super(Proyecto, self).delete()
 
     class Meta:
-        #db_table = 'proyecto'
         app_label = 'adm'
 
 
@@ -110,7 +106,6 @@ class Fase(models.Model):
 
         super(Fase, self).save()
         return Fase
-
 
 
 class Comite(models.Model):

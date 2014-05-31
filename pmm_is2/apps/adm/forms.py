@@ -1,8 +1,7 @@
 from django.contrib.admin import widgets
 from django.contrib.admin.widgets import AdminDateWidget
-from django.contrib.auth.models import User, Group
 from django import forms
-from pmm_is2.apps.adm.models import UserProfile, Proyecto, Fase, Comite
+from pmm_is2.apps.adm.models import *
 
 
 class UserForm(forms.ModelForm):
@@ -49,6 +48,7 @@ class FaseForm(forms.ModelForm):
 class ComiteForm(forms.ModelForm):
     proyecto = forms.ModelChoiceField(queryset=Proyecto.objects.all(), widget=forms.Select(), required=False)
     usuario = forms.ModelMultipleChoiceField(queryset=User.objects.all(), widget=forms.CheckboxSelectMultiple, required=False)
+
     class Meta:
         model = Comite
         fields = ('proyecto', 'usuario')

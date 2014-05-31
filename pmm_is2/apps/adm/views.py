@@ -3,8 +3,8 @@ from django.contrib.auth.decorators import login_required, user_passes_test, per
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
 from pmm_is2.apps.adm.decorators import *
-from pmm_is2.apps.adm.forms import UserForm, UserProfileForm, GroupForm, ProjectForm, FaseForm, ComiteForm
-from pmm_is2.apps.adm.models import UserProfile
+from pmm_is2.apps.adm.forms import *
+from pmm_is2.apps.adm.models import *
 from pmm_is2.apps.adm.utils import *
 
 

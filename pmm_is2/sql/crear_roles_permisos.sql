@@ -57,9 +57,12 @@ INSERT INTO pmm.auth_group_permissions VALUES (54, 2, 3);
 INSERT INTO pmm.auth_group_permissions VALUES (55, 2, 4);
 INSERT INTO pmm.auth_group_permissions VALUES (56, 2, 5);
 INSERT INTO pmm.auth_group_permissions VALUES (57, 2, 6);
+INSERT INTO pmm.auth_group_permissions VALUES (58, 2, 25);
+INSERT INTO pmm.auth_group_permissions VALUES (59, 2, 26);
+INSERT INTO pmm.auth_group_permissions VALUES (60, 2, 27);
 --usuario desarrollador
-INSERT INTO pmm.auth_group_permissions VALUES (58, 3, 49);
-INSERT INTO pmm.auth_group_permissions VALUES (59, 3, 50);
-INSERT INTO pmm.auth_group_permissions VALUES (60, 3, 51);
+INSERT INTO pmm.auth_group_permissions VALUES (61, 3, 49);
+INSERT INTO pmm.auth_group_permissions VALUES (62, 3, 50);
+INSERT INTO pmm.auth_group_permissions VALUES (63, 3, 51);
 --setear al siguiente valor siguiente de la secuencia
-SELECT setval('pmm.auth_group_permissions_id_seq',61, false);
+SELECT setval('pmm.auth_group_permissions_id_seq',64, false);

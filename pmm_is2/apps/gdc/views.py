@@ -1,5 +1,6 @@
+from pmm_is2.apps.adm.decorators import not_in_admin_group
 from pmm_is2.apps.adm.models import Fase
-from pmm_is2.apps.adm.utils import not_in_admin_group, get_project_list, get_phases_list
+from pmm_is2.apps.adm.utils import get_project_list, get_phases_list
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
@@ -8,7 +9,7 @@ from pmm_is2.apps.gdc.forms import *
 
 
 @login_required
-@user_passes_test(not_in_admin_group)
+@user_passes_test(not_in_admin_group, login_url='/home/')
 def index(request):
     context = RequestContext(request)
     return render_to_response('gdc/index.html', context)
@@ -175,7 +176,7 @@ def get_linea_base_list_search():
 
 
 @login_required
-@user_passes_test(not_in_admin_group, login_url='/login/')
+@user_passes_test(not_in_admin_group, login_url='/home/')
 def linea_base_profile(request, pk):
 
     context = RequestContext(request)

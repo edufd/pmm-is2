@@ -46,6 +46,20 @@ class ProjectForm(forms.ModelForm):
         self.fields['fecha_fin'].widget = widgets.AdminDateWidget()
 
 
+class ProjectEditForm(forms.ModelForm):
+
+    fecha_fin = forms.DateField(widget=AdminDateWidget)
+
+    class Meta:
+        model = Proyecto
+        fields = ('nombre_proyecto', 'estado_proyecto', 'descripcion', 'presupuesto',
+                  'fecha_fin', 'lider_proyecto', 'numero_fases')
+
+    def __init__(self, *args, **kwargs):
+        super(ProjectEditForm, self).__init__(*args, **kwargs)
+        self.fields['fecha_fin'].widget = widgets.AdminDateWidget()
+
+
 class ProjectMembersForm(forms.ModelForm):
 
     class Meta:

@@ -7,22 +7,17 @@ from pmm_is2.apps.adm.models import *
 from pmm_is2.apps.adm.utils import *
 
 
+#los decorators por defecto te envian al /home/ porque es la vista inicial del modulo de administracion
 @login_required
-@user_passes_test(not_in_admin_group)
+@user_passes_test(not_in_admin_group, login_url='/home/')
 def index(request):
     context = RequestContext(request)
     return render_to_response('adm/index.html', context)
 
 
+#los demas todos por defecto te envian a /adm/
 @login_required
-@user_passes_test(not_in_admin_group)
-def index2(request):
-    context = RequestContext(request)
-    return render_to_response('adm/index2.html', context)
-
-
-@login_required
-@user_passes_test(not_in_admin_group)
+@user_passes_test(not_in_admin_group, login_url='/adm/')
 @permission_required('auth_user.add_user', login_url='/adm/')
 def usuarios(request):
     context = RequestContext(request)
@@ -35,7 +30,7 @@ def usuarios(request):
 
 
 @login_required
-@user_passes_test(not_in_admin_group)
+@user_passes_test(not_in_admin_group, login_url='/adm/')
 @permission_required('auth_groups.change_group', login_url='/adm/')
 def roles(request):
     context = RequestContext(request)
@@ -47,7 +42,7 @@ def roles(request):
 
 
 @login_required
-@user_passes_test(not_in_admin_group)
+@user_passes_test(not_in_admin_group, login_url='/adm/')
 def permisos(request):
     context = RequestContext(request)
     current_user = request.user
@@ -58,7 +53,7 @@ def permisos(request):
 
 
 @login_required
-@user_passes_test(not_in_admin_group)
+@user_passes_test(not_in_admin_group, login_url='/adm/')
 def proyectos(request):
     context = RequestContext(request)
     project_list = get_project_list()
@@ -67,7 +62,7 @@ def proyectos(request):
 
 
 @login_required
-@user_passes_test(not_in_admin_group)
+@user_passes_test(not_in_admin_group, login_url='/adm/')
 @permission_required('auth_groups.change_group', login_url='/adm/')
 def group_create(request):
     """Funcion para crear un Grupo.
@@ -97,8 +92,8 @@ def group_create(request):
 
 
 @login_required
-@user_passes_test(not_in_admin_group)
-@permission_required('adm.add_proyecto', login_url='/adm/')
+@user_passes_test(not_in_admin_group, login_url='/adm/proyectos/')
+@permission_required('adm.add_proyecto', login_url='/adm/proyectos/')
 def project_create(request):
 
     """Funcion para Crear un Proyecto.
@@ -187,7 +182,7 @@ def user_list(request):
 
 
 @login_required
-@user_passes_test(not_in_admin_group, login_url='/login/')
+@user_passes_test(not_in_admin_group, login_url='/adm/')
 def user_update(request, pk):
     context = RequestContext(request)
     user = get_object_or_404(User, pk=pk)
@@ -206,7 +201,7 @@ def user_update(request, pk):
 
 
 @login_required
-@user_passes_test(not_in_admin_group, login_url='/login/')
+@user_passes_test(not_in_admin_group, login_url='/adm/')
 def group_update(request, pk):
     context = RequestContext(request)
     group = get_object_or_404(Group, pk=pk)
@@ -219,7 +214,7 @@ def group_update(request, pk):
 
 
 @login_required
-@user_passes_test(not_in_admin_group, login_url='/login/')
+@user_passes_test(not_in_admin_group, login_url='/adm/')
 @can_manage_project
 @permission_required('adm.change_proyecto', login_url='/adm/')
 def project_update(request, pk):
@@ -239,7 +234,7 @@ def project_update(request, pk):
     registered = False
     context = RequestContext(request)
     proyecto = get_object_or_404(Proyecto, pk=pk)
-    project_form = ProjectForm(request.POST or None, instance=proyecto)
+    project_form = ProjectEditForm(request.POST or None, instance=proyecto)
     id_proyecto = pk
     if project_form.is_valid():
         project_form.save()
@@ -251,7 +246,7 @@ def project_update(request, pk):
 
 
 @login_required
-@user_passes_test(not_in_admin_group, login_url='/login/')
+@user_passes_test(not_in_admin_group, login_url='/adm/')
 @can_manage_phase
 def phase_update(request, pk):
     """Funcion para Modificar una Fase.
@@ -283,7 +278,7 @@ def phase_update(request, pk):
 
 
 @login_required
-@user_passes_test(not_in_admin_group, login_url='/login/')
+@user_passes_test(not_in_admin_group, login_url='/adm/')
 def user_delete(request, pk):
     """Funcion para Eliminar un User.
 
@@ -305,7 +300,7 @@ def user_delete(request, pk):
 
 
 @login_required
-@user_passes_test(not_in_admin_group, login_url='/login/')
+@user_passes_test(not_in_admin_group, login_url='/adm/')
 def group_delete(request, pk):
     """Funcion para Eliminar un Grupo.
 
@@ -326,7 +321,7 @@ def group_delete(request, pk):
 
 
 @login_required
-@user_passes_test(not_in_admin_group, login_url='/login/')
+@user_passes_test(not_in_admin_group, login_url='/adm/')
 @can_manage_phase
 def phase_delete(request, pk):
     """Funcion para Eliminar una fase.
@@ -354,7 +349,7 @@ def phase_delete(request, pk):
 
 
 @login_required
-@user_passes_test(not_in_admin_group, login_url='/login/')
+@user_passes_test(not_in_admin_group, login_url='/adm/')
 @can_manage_project
 @permission_required('adm.delete_proyecto', login_url='/adm/')
 def project_delete(request, pk):
@@ -381,7 +376,7 @@ def project_delete(request, pk):
 
 
 @login_required
-@user_passes_test(not_in_admin_group, login_url='/login/')
+@user_passes_test(not_in_admin_group, login_url='/adm/')
 @permission_required('auth_user.add_user', login_url='/adm/')
 def register(request):
     context = RequestContext(request)
@@ -457,7 +452,7 @@ def suggest_proyecto(request):
 
 
 @login_required
-@user_passes_test(not_in_admin_group, login_url='/login/')
+@user_passes_test(not_in_admin_group, login_url='/adm/')
 def perfil(request, pk):
 
     context = RequestContext(request)
@@ -476,7 +471,7 @@ def perfil(request, pk):
 
 
 @login_required
-@user_passes_test(not_in_admin_group, login_url='/login/')
+@user_passes_test(not_in_admin_group, login_url='/adm/')
 def rol(request, pk):
 
     context = RequestContext(request)
@@ -487,7 +482,7 @@ def rol(request, pk):
 
 
 @login_required
-@user_passes_test(not_in_admin_group, login_url='/login/')
+@user_passes_test(not_in_admin_group, login_url='/adm/')
 def permiso(request, pk):
 
     context = RequestContext(request)
@@ -499,7 +494,7 @@ def permiso(request, pk):
 
 #probando
 @login_required
-@user_passes_test(not_in_admin_group, login_url='/login/')
+@user_passes_test(not_in_admin_group, login_url='/adm/')
 @can_create_phase
 def phase_create(request, pk):
     """Funcion para crear una Fase.
@@ -535,7 +530,7 @@ def phase_create(request, pk):
 
 
 @login_required
-@user_passes_test(not_in_admin_group, login_url='/login/')
+@user_passes_test(not_in_admin_group, login_url='/adm/')
 def project_list(request):
     """Funcion para Listar Proyectos.
     Retorna la pagina correspondiente con la lista de Proyectos
@@ -547,6 +542,9 @@ def project_list(request):
     """
     context = RequestContext(request)
     project_list = get_project_list()
+    for proyecto in project_list:
+        print proyecto.nombre_proyecto
+        print proyecto.fase_set.all().__len__()
     context_dict = {}
     context_dict['object_list'] = project_list
 
@@ -581,7 +579,6 @@ def phases_list(request, pk):
     return render_to_response('adm/phases_list.html', context_dict, context)
 
 
-#probando1
 def comite_create(request):
     """Funcion para Crear Comite.
     Retorna la pagina correspondiente con el formulario para la creacion del Comite
@@ -640,7 +637,7 @@ def comite_update(request, pk):
 
 
 @login_required
-@user_passes_test(not_in_admin_group, login_url='/login/')
+@user_passes_test(not_in_admin_group, login_url='/adm/')
 def import_project(request, pk):
     """Funcion para Importar Proyecto.
 
@@ -675,7 +672,7 @@ def import_project(request, pk):
 
 
 @login_required
-@user_passes_test(not_in_admin_group, login_url='/login/')
+@user_passes_test(not_in_admin_group, login_url='/adm/')
 def project_profile(request, pk):
 
     context = RequestContext(request)

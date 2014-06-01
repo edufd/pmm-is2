@@ -36,5 +36,5 @@ def cerrar_sesion(request):
 
 def usuario_verificarRolUsuario(user):
     valido = False
-    valido=user.has_perm ('adm.crearusuario_user')
+    valido = user.has_perm('adm.crearusuario_user')
     return valido

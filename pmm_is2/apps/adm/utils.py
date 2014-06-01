@@ -2,17 +2,6 @@ from django.contrib.auth.models import User, Group, Permission
 from pmm_is2.apps.adm.models import Proyecto, Fase, Comite
 
 
-#decorators
-def not_in_admin_group(user):
-    valido = False
-    if user:
-        combined_queryset = user.groups.filter(name='Administrador').exists() | \
-                            user.groups.filter(name='Lider de Proyecto').exists()
-        #print combined_queryset
-        valido = combined_queryset and user.is_authenticated()
-    return valido
-
-
 def get_project_list():
     project_list = Proyecto.objects.all().order_by('id_proyecto')
     return project_list

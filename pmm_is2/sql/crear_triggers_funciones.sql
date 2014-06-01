@@ -134,11 +134,11 @@ CREATE OR REPLACE FUNCTION pmm.cerrar_fase()
 
 	BEGIN
 
-		IF new.estado = 'CERRADA' THEN
+		IF new.estado = 'FINALIZADA' THEN
 
 			RAISE NOTICE 'Actualizar Fase:[%]', new.fase_id;
 
-			UPDATE pmm.adm_fase SET estado_fase = 'CERRADA'
+			UPDATE pmm.adm_fase SET estado_fase = 'FINALIZADA'
 			WHERE id_fase = new.fase_id;
 
 		END IF;
@@ -192,7 +192,7 @@ CREATE OR REPLACE FUNCTION pmm.actualizar_estado_fase()
 
 			RAISE NOTICE 'Nuevo linea base:[%]', new.fase_id;
 
-			UPDATE pmm.adm_fase SET estado_fase = 'CERRADA'
+			UPDATE pmm.adm_fase SET estado_fase = 'FINALIZADA'
 			WHERE id_fase = new.fase_id;
 
 		END IF;

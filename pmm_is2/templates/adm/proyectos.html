@@ -41,6 +41,7 @@
                                     <th class="col-sm-1">Descripcion</th>
                                     <th class="col-sm-1">Presupuesto</th>
                                     <th class="col-sm-1">Fecha Inicio</th>
+                                    <th class="col-sm-1">Accion</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -50,6 +51,7 @@
                                         <td>{{ proyecto.descripcion }}</td>
                                         <td>{{ proyecto.presupuesto }}</td>
                                         <td>{{ proyecto.fecha_inicio }}</td>
+                                        <td><a href="/adm/project_add_members/{{ proyecto.id_proyecto }}">Miembros</a></td>
                                     </tr>
                                 {% endfor %}
                             </tbody>

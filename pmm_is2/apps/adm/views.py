@@ -1,4 +1,3 @@
-from symbol import decorator
 from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
@@ -684,3 +683,33 @@ def project_profile(request, pk):
     context_dict = {'project': project}
 
     return render_to_response('adm/project_profile.html', context_dict, context)
+
+
+def project_add_members(request, id_proyecto):
+    """Funcion para crear un Grupo.
+    Retorna la pagina con el formulario correspondiente para la creacion
+    del Grupo.
+
+    :param request: Parametro a ser procesado.
+    :type request: HttpRequest.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
+
+    context = RequestContext(request)
+    proyecto = get_object_or_404(Proyecto, pk=id_proyecto)
+    group_form = ProjectMembersForm(request.POST or None, instance=proyecto)
+    registered = False
+
+    if group_form.is_valid():
+        group = group_form.save()
+        group.save()
+        registered = True
+    else:
+        print group_form.errors
+
+    return render_to_response('adm/project_add_members.html', {
+                                                            'group_form': group_form,
+                                                            'id_proyecto': id_proyecto,
+                                                            'registered': registered
+                                                        }, context)

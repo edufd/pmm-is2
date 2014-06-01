@@ -21,7 +21,7 @@ _all_ = [Proyecto, Comite]
 @login_required
 def index(request):
     context = RequestContext(request)
-    proyectos = get_project_list()
+    proyectos = request.user.proyectos.all()
     context_dict = {'proyectos': proyectos}
     return render_to_response('des/index.html', context_dict, context)
 

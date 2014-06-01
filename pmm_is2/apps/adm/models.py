@@ -51,6 +51,7 @@ class Proyecto(models.Model):
     fecha_fin = models.DateField(validators=[validate_even])
     plazo = models.IntegerField()
     lider_proyecto = models.ForeignKey(User)
+    miembros = models.ManyToManyField(User, related_name='proyectos')
 
     #para el perfil de proyecto es interesante
 

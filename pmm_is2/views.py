@@ -27,6 +27,7 @@ def contact(request):
 @login_required
 def home(request):
     context = RequestContext(request)
+
     proyectos = get_project_list()
     context_dict = {'proyectos': proyectos}
     return render_to_response('pmm_is2/home.html', context_dict, context)

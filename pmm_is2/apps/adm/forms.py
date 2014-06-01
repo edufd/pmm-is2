@@ -26,6 +26,7 @@ class GroupForm(forms.ModelForm):
 
 
 class ProjectForm(forms.ModelForm):
+
     fecha_fin = forms.DateField(widget=AdminDateWidget)
 
     class Meta:
@@ -36,6 +37,13 @@ class ProjectForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ProjectForm, self).__init__(*args, **kwargs)
         self.fields['fecha_fin'].widget = widgets.AdminDateWidget()
+
+
+class ProjectMembersForm(forms.ModelForm):
+
+    class Meta:
+        model = Proyecto
+        fields = ('miembros',)
 
 
 class FaseForm(forms.ModelForm):

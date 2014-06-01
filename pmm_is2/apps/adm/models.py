@@ -49,11 +49,9 @@ class Proyecto(models.Model):
     #cambiar despues para que sea la fecha actual al crear
     fecha_inicio = models.DateField(blank=True, default=datetime.now())
     fecha_fin = models.DateField(validators=[validate_even])
-    plazo = models.IntegerField()
+    plazo = models.IntegerField(blank=True, null=True)
     lider_proyecto = models.ForeignKey(User)
     miembros = models.ManyToManyField(User, related_name='proyectos')
-
-    #para el perfil de proyecto es interesante
 
     def __unicode__(self):
         return self.nombre_proyecto

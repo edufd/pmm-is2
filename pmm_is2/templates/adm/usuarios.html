@@ -53,7 +53,7 @@
                             <tbody>
                                 {% for user in object_list %}
                                     <tr>
-                                        <td><a href="/adm/user_edit/{{ user.id }}">{{ user.username }}</a></td>
+                                        <td><a href="/adm/user_update/{{ user.id }}">{{ user.username }}</a></td>
                                         <td>{{ user.userprofile.nombre }}</td>
                                         <td>{{ user.userprofile.apellido }}</td>
                                         <td>{{ user.userprofile.ci }}</td>

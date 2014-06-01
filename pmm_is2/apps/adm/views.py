@@ -191,7 +191,7 @@ def user_list(request):
 def user_update(request, pk):
     context = RequestContext(request)
     user = get_object_or_404(User, pk=pk)
-    user_form = UserForm(request.POST or None, instance=user)
+    user_form = UserEditForm(request.POST or None, instance=user)
     profile_user = get_object_or_404(UserProfile, user_id=user.id)
     profile_form = UserProfileForm(request.POST or None, instance=profile_user)
     if user_form.is_valid() and profile_form.is_valid():
@@ -200,9 +200,9 @@ def user_update(request, pk):
         user_form.save()
         profile_form.save()
 
-        return redirect('user_list')
+        return redirect('usuarios')
 
-    return render_to_response('adm/user_form.html', {'userform': user_form, 'profile_form': profile_form}, context)
+    return render_to_response('adm/user_update.html', {'userform': user_form, 'profile_form': profile_form}, context)
 
 
 @login_required

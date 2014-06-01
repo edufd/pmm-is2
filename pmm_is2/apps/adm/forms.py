@@ -12,6 +12,13 @@ class UserForm(forms.ModelForm):
         fields = ('username', 'password', 'groups')
 
 
+class UserEditForm(forms.ModelForm):
+
+    class Meta:
+        model = User
+        fields = ('username', 'groups')
+
+
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
@@ -31,8 +38,8 @@ class ProjectForm(forms.ModelForm):
 
     class Meta:
         model = Proyecto
-        fields = ('nombre_proyecto', 'descripcion', 'presupuesto', 'costo_temporal',
-                  'costo_monetario', 'fecha_fin', 'plazo', 'lider_proyecto', 'numero_fases')
+        fields = ('nombre_proyecto', 'descripcion', 'presupuesto',
+                  'fecha_fin', 'lider_proyecto', 'numero_fases')
 
     def __init__(self, *args, **kwargs):
         super(ProjectForm, self).__init__(*args, **kwargs)

@@ -10,6 +10,7 @@ psql -U pmm -h 127.0.0.1 -d pmm < ../sql/crear_schema.sql
 
 psql -U pmm -h 127.0.0.1 -d pmm < ../sql/truncar_tablas.sql
 psql -U pmm -h 127.0.0.1 -d pmm < ../sql/crear_django_content_type.sql
+psql -U pmm -h 127.0.0.1 -d pmm < ../sql/crear_triggers_funciones.sql
 psql -U pmm -h 127.0.0.1 -d pmm < ../sql/crear_permisos.sql
 psql -U pmm -h 127.0.0.1 -d pmm < ../sql/crear_roles.sql
 psql -U pmm -h 127.0.0.1 -d pmm < ../sql/crear_usuario_administrador.sql
@@ -26,8 +27,6 @@ psql -U pmm -h 127.0.0.1 -d pmm < ../sql/crear_fase_grupo.sql
 psql -U pmm -h 127.0.0.1 -d pmm < ../sql/crear_tipos_items.sql
 psql -U pmm -h 127.0.0.1 -d pmm < ../sql/crear_atributos_tipos_items.sql
 psql -U pmm -h 127.0.0.1 -d pmm < ../sql/crear_fase_tipos_items.sql
-psql -U pmm -h 127.0.0.1 -d pmm < ../sql/crear_triggers_funciones.sql
-
 psql -U pmm -h 127.0.0.1 -d pmm < ../sql/crear_tipo.sql
 psql -U pmm -h 127.0.0.1 -d pmm < ../sql/crear_opciones.sql
 

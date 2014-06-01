@@ -24,7 +24,11 @@ def project_list(request):
     :rtype: El response correspondiente.
     """
     context = RequestContext(request)
-    project_list = get_project_list()
+    if request.user.is_superuser:
+        project_list = get_project_list()
+    else:
+        project_list = request.user.proyectos.all()
+
     context_dict = {}
     context_dict['object_list'] = project_list
 

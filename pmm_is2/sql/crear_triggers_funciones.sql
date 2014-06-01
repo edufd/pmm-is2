@@ -209,3 +209,57 @@ create trigger after_insert_item
 	after insert on pmm.gdc_lineabase
 	for each row execute procedure pmm.actualizar_estado_fase();
 
+
+CREATE OR REPLACE FUNCTION pmm.anhadir_lider_proyecto()
+  RETURNS trigger AS $$
+
+	BEGIN
+
+		IF new.id_proyecto IS NOT NULL THEN
+
+			RAISE NOTICE 'id_proyecto:[%]', new.id_proyecto;
+
+			insert into pmm.adm_proyecto_miembros (proyecto_id, user_id)
+			values (new.id_proyecto, new.lider_proyecto_id);
+
+		END IF;
+
+		RETURN new;
+	END;
+	$$
+	  LANGUAGE plpgsql VOLATILE
+	  COST 100;
+ALTER FUNCTION pmm.anhadir_lider_proyecto()
+  OWNER TO pmm;
+
+create trigger after_insert_proyecto
+	after insert on pmm.adm_proyecto
+	for each row execute procedure pmm.anhadir_lider_proyecto();
+
+
+CREATE OR REPLACE FUNCTION pmm.actualizar_lider_proyecto()
+  RETURNS trigger AS $$
+
+	BEGIN
+
+		IF new.lider_proyecto_id IS NOT NULL THEN
+
+			RAISE NOTICE 'id_proyecto:[%]', new.id_proyecto;
+
+			UPDATE pmm.adm_proyecto_miembros SET user_id = new.lider_proyecto_id
+			WHERE proyecto_id = old.lider_proyecto_id;
+
+		END IF;
+
+		RETURN new;
+	END;
+	$$
+	  LANGUAGE plpgsql VOLATILE
+	  COST 100;
+ALTER FUNCTION pmm.actualizar_lider_proyecto()
+  OWNER TO pmm;
+
+
+create trigger after_update_proyecto
+	after update on pmm.adm_proyecto
+	for each row execute procedure pmm.actualizar_lider_proyecto();

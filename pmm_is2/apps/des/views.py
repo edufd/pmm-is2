@@ -21,7 +21,12 @@ _all_ = [Proyecto, Comite]
 @login_required
 def index(request):
     context = RequestContext(request)
-    proyectos = request.user.proyectos.all()
+
+    if request.user.is_superuser:
+        proyectos = get_project_list()
+    else:
+        proyectos = request.user.proyectos.all()
+
     context_dict = {'proyectos': proyectos}
     return render_to_response('des/index.html', context_dict, context)
 

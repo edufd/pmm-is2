@@ -117,8 +117,8 @@ def project_create(request):
         project_form = ProjectForm(request.POST or None, instance=Proyecto())
         fase_form = FaseForm(request.POST or None, instance=Fase())
         if project_form.is_valid() and fase_form.is_valid():
+            print project_form
             project = project_form.save()
-            project.save()
             fase_form.instance.proyecto = project
             fase = fase_form.save()
             registered = True

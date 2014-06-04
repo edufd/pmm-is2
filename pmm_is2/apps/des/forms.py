@@ -98,9 +98,9 @@ _all_ = [Proyecto, Fase, Item]
 
 
 class SolicitudForm(forms.ModelForm):
-    nombre_proyecto = forms.ModelChoiceField(queryset=Proyecto.objects.none(), widget=forms.Select(), required=True)
+    #nombre_proyecto = forms.ModelChoiceField(queryset=Proyecto.objects.none(), widget=forms.Textarea({'cols': 50, 'rows': 2}), required=True)
     fecha_inicio = forms.DateField(widget=AdminDateWidget)
-    nombre_fase = forms.ModelChoiceField(queryset=Fase.objects.filter(estado_fase='CERRADA'), widget=forms.Select(), required=True)
+    #nombre_fase = forms.ModelChoiceField(queryset=Fase.objects.filter(estado_fase='CERRADA'), widget=forms.Select(), required=True)
     nombre_item = forms.ModelChoiceField(queryset=Item.objects.filter(estado='BLOQUEADO'), widget=forms.Select(), required=True)
     usuario = forms.ModelChoiceField(queryset=User.objects.all(), widget=forms.Select(), required=True)
     tipo = forms.ModelMultipleChoiceField(queryset=Tipo.objects.all(), widget=forms.CheckboxSelectMultiple, required=True)
@@ -109,15 +109,14 @@ class SolicitudForm(forms.ModelForm):
     nombre_linea_base= forms.ModelChoiceField(queryset=LineaBase.objects.filter(estado='CERRADA'), widget=forms.Select(), required=True)
     class Meta:
         model = Solicitud
-        fields = ('fecha_inicio', 'nombre_proyecto', 'nombre_fase',
-                  'nombre_item', 'usuario', 'estado', 'nombre_linea_base', 'tipo', 'prioridad', 'descripcion')
+        fields = ('fecha_inicio','nombre_item', 'usuario', 'estado', 'nombre_linea_base', 'tipo', 'prioridad', 'descripcion')
 
-    def __init__(self,idproyecto,idfase, *args, **kwargs):
+    def __init__(self,idfase, *args, **kwargs):
         super(SolicitudForm, self).__init__(*args, **kwargs)
         self.fields['fecha_inicio'].widget = widgets.AdminDateWidget()
         self.fields['estado'].widget.attrs['readonly'] = True
-        self.fields['nombre_proyecto'].queryset = Proyecto.objects.filter(id_proyecto=idproyecto)
-        self.fields['nombre_fase'].queryset = Fase.objects.filter(id_fase=idfase, estado_fase='CERRADA')
+        #self.fields['nombre_proyecto'].queryset = Proyecto.objects.filter(id_proyecto=idproyecto)
+        #self.fields['nombre_fase'].queryset = Fase.objects.filter(id_fase=idfase, estado_fase='CERRADA')
         self.fields['nombre_item'].queryset = Item.objects.filter(id_fase=idfase, estado='BLOQUEADO')
         self.fields['nombre_linea_base'].queryset = LineaBase.objects.filter(fase=idfase, estado='CERRADA')
 

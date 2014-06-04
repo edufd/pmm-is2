@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
 from pmm_is2.apps.adm.models import Proyecto, Comite
+from pmm_is2.apps.des.models import Solicitud
 from pmm_is2.apps.des.forms import *
 from django.http import HttpResponse
 from io import BytesIO
@@ -971,16 +972,22 @@ def crear_solicitud(request, id_proyecto, id_fase):
     context = RequestContext(request)
     creado = False
     if request.method == 'POST':
-        solicitud_form = SolicitudForm(data=request.POST,idproyecto=id_proyecto,idfase=id_fase)
+        solicitud_form = SolicitudForm(data=request.POST,idfase=id_fase)
         if solicitud_form.is_valid():
             solicitud = solicitud_form.save()
             solicitud.save()
+            print 'El que se guardo recientemente'
+            print solicitud.id_solicitud
+            guardar=Solicitud.objects.get(id_solicitud=solicitud.id_solicitud)
+            guardar.nombre_proyecto=Proyecto.objects.get(id_proyecto=id_proyecto)
+            guardar.nombre_fase=Fase.objects.get(id_fase=id_fase)
+            guardar.save()
             creado = True
         else:
             print solicitud_form.errors
 
     else:
-        solicitud_form = SolicitudForm(idproyecto=id_proyecto, idfase=id_fase)
+        solicitud_form = SolicitudForm(idfase=id_fase)
 
     return render_to_response('des/crear_solicitud.html',
                               {

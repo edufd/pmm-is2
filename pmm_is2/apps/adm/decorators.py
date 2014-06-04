@@ -12,13 +12,13 @@ def not_in_admin_group(user):
     return valido
 
 
-#decorador para evitar que se puedan crear fases si no es el duenho del proyecto
+#decorador para evitar que se puedan crear fases si no es el duenho del proyecto o no es superusuario
 def can_manage_phase(view_func):
     def _wrapped_view_func(request, *args, **kwargs):
         id_fase = kwargs['pk']
         fase = Fase.objects.get(id_fase=id_fase)
-        if not fase.proyecto.lider_proyecto == request.user:
-            return redirect('/adm/')
+        if not (fase.proyecto.lider_proyecto == request.user or request.user.is_superuser is True):
+            return redirect('/adm/proyectos/')
         return view_func(request, *args, **kwargs)
     return _wrapped_view_func
 
@@ -42,7 +42,7 @@ def can_manage_project(view_func):
         administrador = request.user.groups.filter(name='Administrador').exists()
         valido = lider_proyecto | administrador
         if not valido:
-            return redirect('/adm/')
+            return redirect('/adm/proyectos/')
         return view_func(request, *args, **kwargs)
     return _wrapped_view_func
 

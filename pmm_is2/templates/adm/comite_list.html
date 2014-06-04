@@ -17,9 +17,11 @@
         <h5 class="page-header"><a href="/adm/comite_create/">Agregar</a> | <a href="/adm/comite_list/">Listar</a></h5>
         {% for comite in object_list %}
             <li>
-                <h4>{{ comite.proyecto}}:
-                    <a href="{% url "comite_edit" comite.id_comite %}">Modificar</a>
-{#                    <a >Eliminar</a>#}
+                <h4>{{ comite.proyecto}}
+                    {% if comite.proyecto.lider_proyecto == user or user.is_superuser == True %}
+                        :
+                        <a href="{% url "comite_edit" comite.id_comite %}">Modificar</a>
+                    {% endif %}
                 </h4>
             </li>
         {% endfor %}

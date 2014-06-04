@@ -1,5 +1,5 @@
-from django.shortcuts import redirect
-from pmm_is2.apps.adm.models import Fase, Proyecto
+from django.shortcuts import redirect, get_object_or_404
+from pmm_is2.apps.adm.models import Fase, Proyecto, Comite
 
 
 #decorators
@@ -48,5 +48,17 @@ def can_manage_project(view_func):
         valido = lider_proyecto | administrador
         if not valido:
             return redirect('/adm/')
+        return view_func(request, *args, **kwargs)
+    return _wrapped_view_func
+
+
+def can_manage_comite(view_func):
+    def _wrapped_view_func(request, *args, **kwargs):
+        id_comite = kwargs['pk']
+        comite = get_object_or_404(Comite, pk=id_comite)
+        valido = (comite.proyecto.lider_proyecto == request.user or request.user.is_superuser is True)
+        print("es valido: ", valido)
+        if not valido:
+            return redirect('/adm/comite_list/')
         return view_func(request, *args, **kwargs)
     return _wrapped_view_func

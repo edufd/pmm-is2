@@ -619,7 +619,7 @@ def comite_list(request):
 
     return render_to_response('adm/comite_list.html', context_dict, context)
 
-
+@can_manage_comite
 def comite_update(request, pk):
     context = RequestContext(request)
     comite = get_object_or_404(Comite, pk=pk)

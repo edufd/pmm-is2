@@ -33,7 +33,7 @@ def get_category_list(max_results=0, starts_with=''):
         cat_list = []
         if starts_with:
             starts_with = starts_with + '%'
-            cat_list = User.objects.filter(username__like=starts_with)
+            cat_list = User.objects.filter(username__ilike=starts_with)
         # else:
         #         cat_list = User.objects.all()
         #
@@ -50,7 +50,7 @@ def get_roles_list(max_results=0, starts_with=''):
         cat_list = []
         if starts_with:
             starts_with = starts_with + '%'
-            cat_list = Group.objects.filter(name__like=starts_with)
+            cat_list = Group.objects.filter(name__ilike=starts_with)
         # else:
         #         cat_list = User.objects.all()
         #
@@ -68,7 +68,7 @@ def get_permisos_list(max_results=0, starts_with=''):
         cat_list = []
         if starts_with:
             starts_with = starts_with + '%'
-            cat_list = Permission.objects.filter(name__like=starts_with)
+            cat_list = Permission.objects.filter(name__ilike=starts_with)
         # else:
         #         cat_list = User.objects.all()
         #
@@ -86,7 +86,7 @@ def get_proyectos_list(max_results=0, starts_with=''):
         cat_list = []
         if starts_with:
             starts_with = starts_with + '%'
-            cat_list = Proyecto.objects.filter(nombre_proyecto__like=starts_with)
+            cat_list = Proyecto.objects.filter(nombre_proyecto__ilike=starts_with)
         # else:
         #         cat_list = User.objects.all()
         #

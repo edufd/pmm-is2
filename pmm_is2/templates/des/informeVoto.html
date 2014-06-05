@@ -16,7 +16,7 @@
         <div class="row">
             <ul class="list-group">
                 {%if validar %}
-                    {% if solicitud.estado == "APROBADA" or solicitud.estado == "RECHAZADO"  %}
+                    {% if solicitud.estado == "APROBADA" or solicitud.estado == "RECHAZADA"  %}
                         <li class="list-group-item">
                         <h2 >RESOLUCION FINAL!!!...</h2 >
                         <h4 ><font color="#008b8b">Nombre Item Bloqueado:</font>  {{ solicitud.nombre_item}}

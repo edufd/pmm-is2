@@ -1,0 +1,54 @@
+{% extends 'des/des_base_logged.html' %}
+{% load static %}
+{% block link %}<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">{% endblock %}
+{% block title %}PMM{% endblock %}
+{% block content %}
+    <div class="row">
+        <div id="breadcrumb" class="col-md-12">
+            <ol class="breadcrumb">
+                <li><a href="/home/">PMM</a></li>
+                <li><a href="/des/">Desarrollo</a></li>
+                <li><a href="#">Informe de Votacion</a></li>
+            </ol>
+        </div>
+    </div>
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <div class="row">
+            <ul class="list-group">
+                {%if validar %}
+                    {% if solicitud.estado == "APROBADA" or solicitud.estado == "RECHAZADA"  %}
+                        <li class="list-group-item">
+                        <h2 >RESOLUCION FINAL!!!...</h2 >
+                        <h4 ><font color="#008b8b">Nombre Item Bloqueado:</font>  {{ solicitud.nombre_item}}
+                        <br><br>
+                        <font color="#008b8b">Estado Solicitud:</font> <font color="red"> {{ solicitud.estado}}</font>
+                        <br><br>
+                        <font color="#008b8b">Cantidad de Votos a favor:</font>  {{ solicitud.contador}}
+                        <br><br>
+                        <font color="#008b8b">Cantidad de Votos en contra: </font> {{ solicitud.encontra}}
+                        </h4>
+                        </li>
+                    {% else %}
+                                <li class="list-group-item">
+                                 <h2 >Usted ya ha votado!!!...</h2 >
+                                <h4 ><font color="#008b8b">Nombre Item Bloqueado:</font>  {{ solicitud.nombre_item}}
+                                <br><br>
+                                <font color="#008b8b">Estado Solicitud:</font>  {{ solicitud.estado}}
+                                <br><br>
+                                <font color="#008b8b">Cantidad de Votos a favor:</font>  {{ solicitud.contador}}
+                                <br><br>
+                                <font color="#008b8b">Cantidad de Votos en contra: </font> {{ solicitud.encontra}}
+                                </h4>
+                                 </li>
+                    {% endif %}
+                {% else %}
+                    <h2 ><font color="red">Usted No puede votar. No es miembro del Comite!!!...</font></h2 >
+                {% endif %}
+            <a class="btn btn-danger" href="{% url "listar_solicitudRecibido" %}">
+             <i class="icon-trash icon-white"></i>
+                              Volver
+                        </a>
+            </ul>
+        </div>
+    </div>
+{% endblock %}

@@ -1257,13 +1257,13 @@ def editar_solicitudRecibido(request, pk):
                 commen=request.POST.getlist('comentarios')
                 solicitud.comentarios=commen[0]
                 solicitud.save()
-                return redirect('listar_solicitudRecibido')
-
+                #return redirect('listar_solicitudRecibido')
+                return render_to_response('des/informeVoto.html', {'solicitud': solicitud,'validar':validar})
             else:
                 return render_to_response('des/editar_solicitudRecibido.html', {'solicitud_form': solicitud_form}, context)
 
     else:
-        return redirect('/des/listar_solicitudRecibido/')
+        return render_to_response('des/informeVoto.html', {'solicitud': solicitud,'validar':validar})
 
 
 def comprobar(self, request):

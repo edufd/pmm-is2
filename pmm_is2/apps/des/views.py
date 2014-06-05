@@ -294,7 +294,7 @@ def get_tipo_item_list(max_results=0, starts_with=''):
         cat_list = []
         if starts_with:
             starts_with = starts_with + '%'
-            cat_list = TipoItem.objects.filter(nombre_tipo_item__like=starts_with)
+            cat_list = TipoItem.objects.filter(nombre_tipo_item__ilike=starts_with)
         # else:
         #         cat_list = User.objects.all()
         #
@@ -311,7 +311,7 @@ def get_item_list(max_results=0, starts_with=''):
         cat_list = []
         if starts_with:
             starts_with = starts_with + '%'
-            cat_list = Item.objects.filter(nombre_item__like=starts_with)
+            cat_list = Item.objects.filter(nombre_item__ilike=starts_with)
         # else:
         #         cat_list = User.objects.all()
         #

@@ -12,6 +12,12 @@ urlpatterns = patterns('',
         url(r'^tipo_item/(?P<pk>\d+)$', views.ver_tipo_item, name='tipo_item'),
         url(r'^suggest_tipo_item/$', views.suggest_tipo_item, name='suggest_tipo_item'),
 
+        url(r'^crear_atributo_tipo_item/$', views.crear_atributo_tipo_item, name='crear_atributo_tipo_item'),
+        url(r'^listar_atributo_tipo_item/$', views.listar_atributo_tipo_item, name='listar_atributo_tipo_item'),
+        url(r'^editar_atributo_tipo_item/(?P<pk>\d+)$', views.editar_atributo_tipo_item, name='editar_atributo_tipo_item'),
+        url(r'^eliminar_atributo_tipo_item/(?P<pk>\d+)$', views.eliminar_atributo_tipo_item, name='eliminar_atributo_tipo_item'),
+        url(r'^atributo_tipo_item/(?P<pk>\d+)$', views.ver_atributo_tipo_item, name='atributo_tipo_item'),
+
         #agregado para probar mi parte
         url(r'^crear_item/(?P<pk>\d+)$', views.crear_item, name='crear_item'),
         url(r'^listar_item/$', views.listar_item, name='listar_item'),

@@ -31,33 +31,27 @@ RELACION_TIPO = (
     ('ANTECESOR-SUCESOR', 'ANTECESOR-SUCESOR'),
 )
 
+    
+
+
+class Atributo(models.Model):
+    id_atributo = models.AutoField(primary_key=True)
+    nombre_atributo_tipo_item = models.CharField(max_length=200, unique=True, verbose_name="Nombre del Atributo")
+    tipo_atributo = models.CharField(max_length=50, verbose_name="Tipo de Atributo")#N:NUMERICO #T:TEXTO
+    obligatorio = models.CharField(max_length=50)#Y:OBLIGATORIO #N;NO ES OBLIGATORIO
+    detalle = models.CharField(max_length=200)
+    observacion = models.CharField(max_length=200)
+
+    def __unicode__(self):
+        return self.detalle
 
 class TipoItem(models.Model):
     id_tipo_item = models.AutoField(primary_key=True)
     nombre_tipo_item = models.CharField(max_length=200, unique=True)
     descripcion = models.CharField(max_length=200)
-
+    atributo = models.ForeignKey(Atributo, null=True)
     def __unicode__(self):
         return self.nombre_tipo_item
-    
-
-class AtributoTipoItem(models.Model):
-    id_atributo_tipo_item = models.AutoField(primary_key=True)
-    id_tipo_item = models.ForeignKey('TipoItem')
-    id_atributo = models.ForeignKey('Atributo')
-
-
-class Atributo(models.Model):
-    id_atributo = models.AutoField(primary_key=True)
-    tipo_item = models.ForeignKey(TipoItem)
-    nombre_atributo_tipo_item = models.CharField(max_length=200, unique=True, verbose_name="Nombre del Atributo")
-    tipo_atributo = models.CharField(max_length=50, verbose_name="Tipo de Atributo")#N:NUMERICO #T:TEXTO
-    obligatorio = models.CharField(max_length=50)#Y:OBLIGATORIO #N;NO ES OBLIGATORIO
-    descripcion = models.CharField(max_length=200)
-    observacion = models.CharField(max_length=200)
-
-    def __unicode__(self):
-        return self.descripcion
 
 
 class Item(models.Model):

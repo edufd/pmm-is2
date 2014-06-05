@@ -35,6 +35,18 @@
             src="{% static 'admin/js/calendar.js' %}"></script>
         <script type="text/javascript"
             src="{% static 'admin/js/admin/DateTimeShortcuts.js' %}"></script>
+            <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <!--<script src="http://code.jquery.com/jquery.js"></script>-->
+        <script src="{% static 'js/jquery-2.1.0.min.js' %}"></script>
+        <script src="{% static 'plugins/jquery-ui/jquery-ui.min.js' %}"></script>
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'plugins/justified-gallery/jquery.justifiedgallery.min.js' %}"></script>
+        <script src="{% static 'plugins/tinymce/tinymce.min.js' %}"></script>
+        <script src="{% static 'plugins/tinymce/jquery.tinymce.min.js' %}"></script>
+        <!-- All functions for this theme + document.ready processing -->
+        <script src="{% static 'js/devoops.js' %}"></script>
+        <script src="{% static 'js/rango-ajax.js' %}"></script>
 	</head>
     <body>
     <!--Start Header-->
@@ -155,6 +167,8 @@
                             <li><a href="/des/">Main</a></li>
                             <li><a href="/des/crear_tipo_item/">Crear Tipo Item</a></li>
                             <li><a href="/des/listar_tipo_item/">Lista de Tipos Items</a></li>
+                            <li><a href="/des/crear_atributo_tipo_item/">Crear Atributo de Tipo Item</a></li>
+                            <li><a href="/des/listar_atributo_tipo_item/">Lista de Atributos de Tipos de Items</a></li>
                             <li><a href="/des/listar_item/">Lista de Items</a></li>
                             <li><a href="/des/listar_solicitudRecibido/">Ver Solicitudes Recibidas</a></li>
                         </ul>
@@ -174,17 +188,8 @@
         </div>
     </div>
     <!--End Container-->
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <!--<script src="http://code.jquery.com/jquery.js"></script>-->
-    <script src="{% static 'js/jquery-2.1.0.min.js' %}"></script>
-    <script src="{% static 'plugins/jquery-ui/jquery-ui.min.js' %}"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'plugins/justified-gallery/jquery.justifiedgallery.min.js' %}"></script>
-    <script src="{% static 'plugins/tinymce/tinymce.min.js' %}"></script>
-    <script src="{% static 'plugins/tinymce/jquery.tinymce.min.js' %}"></script>
-    <!-- All functions for this theme + document.ready processing -->
-    <script src="{% static 'js/devoops.js' %}"></script>
-    <script src="{% static 'js/rango-ajax.js' %}"></script>
+
+    {% block js %}
+    {% endblock %}
     </body>
 </html>

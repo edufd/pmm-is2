@@ -49,10 +49,11 @@ class ItemFormEdit(forms.models.ModelForm):
 
 
 class TipoItemForm(forms.models.ModelForm):
+    atributo = forms.ModelChoiceField(queryset=Atributo.objects.all().order_by('nombre_atributo_tipo_item'), required=False)
 
     class Meta:
         model = TipoItem
-        fields = ('nombre_tipo_item', 'descripcion')
+        fields = ('nombre_tipo_item', 'descripcion', 'atributo')
 
 
 class AtributoTipoItemForm(forms.models.ModelForm):
@@ -62,7 +63,7 @@ class AtributoTipoItemForm(forms.models.ModelForm):
 
     class Meta:
         model = Atributo
-        fields = {'observacion', 'descripcion', 'obligatorio', 'tipo_atributo', 'nombre_atributo_tipo_item' }
+        fields = {'observacion', 'detalle', 'obligatorio', 'tipo_atributo', 'nombre_atributo_tipo_item'}
 
 
 class ArchivoAdjuntoForm(forms.models.ModelForm):

@@ -31,6 +31,36 @@ def index(request):
     context_dict = {'proyectos': proyectos}
     return render_to_response('des/index.html', context_dict, context)
 
+@login_required
+def crear_atributo_tipo_item(request):
+    """Funcion para Crear Tipo Item.
+    Retorna la pagina correspondiente con el formulario para la creacion del atributo Tipo ITem
+
+    :param request: Parametro a ser procesado.
+    :type request: HttpRequest.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
+    context = RequestContext(request)
+    creado = False
+    if request.method == 'POST':
+        atributo_tipo_item_form = AtributoTipoItemForm(data=request.POST)
+        if atributo_tipo_item_form.is_valid():
+            atributo = atributo_tipo_item_form.save()
+            atributo.save()
+            creado = True
+        else:
+            print atributo_tipo_item_form.errors
+    else:
+        atributo_tipo_item_form = AtributoTipoItemForm()
+
+    return render_to_response('des/crear_atributo_tipo_item.html',
+                              {
+                                  'atributo_tipo_item_form': atributo_tipo_item_form,
+                                  'creado': creado,
+                              },
+                              context
+    )
 
 @login_required
 def crear_tipo_item(request):
@@ -47,16 +77,27 @@ def crear_tipo_item(request):
     if request.method == 'POST':
         tipo_item_form = TipoItemForm(data=request.POST)
         atributo_tipo_item_form = AtributoTipoItemForm(data=request.POST)
-        if tipo_item_form.is_valid() and atributo_tipo_item_form.is_valid():
-            tipo_item = tipo_item_form.save()
-            tipo_item.save()
-            atributo = atributo_tipo_item_form.save(commit=False)
-            atributo.tipo_item = tipo_item
-            atributo.save()
-            creado = True
+        if tipo_item_form.is_valid():
+            atr = tipo_item_form.cleaned_data['atributo']
+            print tipo_item_form
+            if atr != None:
+                tipo_item = tipo_item_form.save()
+                tipo_item.save()
+                creado = True
+            else:
+
+                if atributo_tipo_item_form.is_valid():
+                    atributo = atributo_tipo_item_form.save()
+                    atributo.save()
+                    tipo_item = tipo_item_form.save(commit=False)
+                    tipo_item.atributo = atributo
+                    tipo_item.save()
+                    creado = True
+                else:
+                    print atributo_tipo_item_form.errors
+
         else:
             print tipo_item_form.errors
-            print atributo_tipo_item_form.errors
 
     else:
         tipo_item_form = TipoItemForm()
@@ -117,11 +158,30 @@ def get_lista_tipo_item():
     lista_tipo_item = TipoItem.objects.all()
     return lista_tipo_item
 
+def get_lista_atributo_tipo_item():
+    lista_atributo_tipo_item = Atributo.objects.all()
+    return lista_atributo_tipo_item
 
 def get_lista_item():
     lista_item = Item.objects.all()
     return lista_item
 
+@login_required
+def listar_atributo_tipo_item(request):
+    """Funcion para Listar tipo de Item.
+    Retorna la pagina correspondiente con la lista de atributos tipos de item
+
+    :param request: Parametro a ser procesado.
+    :type request: HttpRequest.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
+    context = RequestContext(request)
+    lista_atributo_tipo_item = get_lista_atributo_tipo_item()
+    context_dict = {}
+    context_dict['lista_atributo_tipo_item'] = lista_atributo_tipo_item
+
+    return render_to_response('des/lista_atributo_tipo_item.html', context_dict, context)
 
 @login_required
 def listar_tipo_item(request):
@@ -157,6 +217,28 @@ def listar_item(request):
 
     return render_to_response('des/lista_item.html', context_dict, context)
 
+
+@login_required
+def editar_atributo_tipo_item(request, pk):
+    """Funcion para Modificar un Tipo Item.
+    Retorna la pagina con el formulario correspondiente para la modificacion
+    del atributo Tipo Item.
+
+    :param request: Parametro a ser procesado.
+    :param pk: Parametro a ser procesado el identificador del atributo tipo de Item que va a modificarse.
+    :type request: HttpRequest.
+    :type pk: int.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
+    context = RequestContext(request)
+    atributo_tipo_item = get_object_or_404(Atributo, pk=pk)
+    atributo_tipo_item_form = AtributoTipoItemForm(request.POST or None, instance=atributo_tipo_item)
+    if atributo_tipo_item_form.is_valid():
+        atributo_tipo_item_form.save()
+        return redirect('listar_atributo_tipo_item')
+
+    return render_to_response('des/editar_atributo_tipo_item.html', {'atributo_tipo_item_form': atributo_tipo_item_form}, context)
 
 @login_required
 def editar_tipo_item(request, pk):
@@ -205,6 +287,25 @@ def editar_item(request, pk):
 
 
 @login_required
+def eliminar_atributo_tipo_item(request, pk):
+    """Funcion para Eliminar un atributo Tipo Item.
+
+    :param request: Parametro a ser procesado.
+    :param pk: Parametro a ser procesado el identificador del tipo de Item que va a eliminarse.
+    :type request: HttpRequest.
+    :type pk: int.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
+    context = RequestContext(request)
+    atributo_tipo_item = get_object_or_404(Atributo, pk=pk)
+    if request.method == 'POST':
+        atributo_tipo_item.delete()
+        return redirect('listar_atributo_tipo_item')
+
+    return render_to_response('des/confirmar_eliminacion_atributo_tipo_item.html', {'atributo_tipo_item': atributo_tipo_item}, context)
+
+@login_required
 def eliminar_tipo_item(request, pk):
     """Funcion para Eliminar un Tipo Item.
 
@@ -243,6 +344,15 @@ def eliminar_item(request, pk):
         return redirect('/des/')
 
     return render_to_response('des/confirmar_eliminacion_item.html', {'item': item}, context)
+
+@login_required
+def ver_atributo_tipo_item(request, pk):
+    context = RequestContext(request)
+    atributo_tipo_item = get_object_or_404(AtributoTipoItem, pk=pk)
+
+    context_dict = {'atributo_tipo_item': atributo_tipo_item}
+
+    return render_to_response('des/atributo_tipo_item.html', context_dict, context)
 
 
 @login_required

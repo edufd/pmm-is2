@@ -3,7 +3,6 @@ from django.db import models
 from django.contrib.auth.models import User, Group
 from django.db.models import Max
 from django.utils.datetime_safe import datetime
-from pmm_is2.apps.des.models import TipoItem
 # Create your models here.
 
 FASES_ESTADOS = (
@@ -79,7 +78,7 @@ class Fase(models.Model):
     descripcion = models.CharField(max_length=200)
     estado_fase = models.CharField(max_length=11, choices=FASES_ESTADOS, default='NO-INICIADA')
     numero_secuencia = models.IntegerField(blank=True)
-    tipo_item = models.ManyToManyField(TipoItem, blank=True)
+    tipo_item = models.ManyToManyField('des.TipoItem', blank=True)
 
     class Meta:
         #db_table = 'fase'

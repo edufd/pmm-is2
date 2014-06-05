@@ -31,8 +31,6 @@ RELACION_TIPO = (
     ('ANTECESOR-SUCESOR', 'ANTECESOR-SUCESOR'),
 )
 
-    
-
 
 class Atributo(models.Model):
     id_atributo = models.AutoField(primary_key=True)
@@ -45,11 +43,13 @@ class Atributo(models.Model):
     def __unicode__(self):
         return self.detalle
 
+
 class TipoItem(models.Model):
     id_tipo_item = models.AutoField(primary_key=True)
     nombre_tipo_item = models.CharField(max_length=200, unique=True)
     descripcion = models.CharField(max_length=200)
     atributo = models.ForeignKey(Atributo, null=True)
+
     def __unicode__(self):
         return self.nombre_tipo_item
 
@@ -109,7 +109,8 @@ class Relacion (models.Model):
     del_item = models.ForeignKey(Item, related_name="ItemA")
     al_item = models.ForeignKey(Item, related_name="ItemB")
     tipo = models.CharField(max_length=20, choices=RELACION_TIPO)
-    fase = models.ForeignKey('adm.Fase')
+    fase = models.ForeignKey('adm.Fase', related_name='fases')
+    esta_activa = models.BooleanField(default=True)
 
     class Meta:
         unique_together = (("del_item", "al_item", "tipo", "fase"),)
@@ -117,7 +118,7 @@ class Relacion (models.Model):
 
 class ArchivoAdjunto(models.Model):
     id_archivo_adjunto = models.AutoField(primary_key=True)
-    filename=models.CharField(max_length=100)
+    filename = models.CharField(max_length=100)
     path_archivo = models.FileField(upload_to='documents/%Y%m%d')
     id_item_relacionado = models.ForeignKey(Item)
 
@@ -141,21 +142,21 @@ class opciones(models.Model):
 
 
 class Solicitud(models.Model):
-    id_solicitud= models.AutoField(primary_key=True)
+    id_solicitud = models.AutoField(primary_key=True)
     fecha_inicio = models.DateField(blank=True, default=datetime.now())
-    nombre_proyecto=models.ForeignKey('adm.Proyecto', verbose_name="Proyecto", null=True)
-    nombre_fase=models.ForeignKey('adm.Fase', verbose_name="Fase", null=True)
-    nombre_item=models.ForeignKey('des.Item', verbose_name="Item", null=True)
-    usuario=models.ForeignKey(User, null=True)
+    nombre_proyecto = models.ForeignKey('adm.Proyecto', verbose_name="Proyecto", null=True)
+    nombre_fase = models.ForeignKey('adm.Fase', verbose_name="Fase", null=True)
+    nombre_item = models.ForeignKey('des.Item', verbose_name="Item", null=True)
+    usuario = models.ForeignKey(User, null=True)
     estado = models.CharField(max_length=11, default='EN-ESPERA')
     prioridad = models.CharField(max_length=5) #Alta:'A', Media:'M', Baja:'B'
     comentarios = models.CharField(max_length=200)
     descripcion = models.CharField(max_length=5000)
-    nombre_linea_base=models.ForeignKey('gdc.LineaBase', verbose_name="LineaBase", null=True)
+    nombre_linea_base = models.ForeignKey('gdc.LineaBase', verbose_name="LineaBase", null=True)
     tipo = models.ManyToManyField(Tipo)
-    opciones= models.ForeignKey(opciones, null=True)
-    contador=models.IntegerField(blank=True, default=0, null=True)
-    encontra=models.IntegerField(blank=True, default=0, null=True)
+    opciones = models.ForeignKey(opciones, null=True)
+    contador = models.IntegerField(blank=True, default=0, null=True)
+    encontra = models.IntegerField(blank=True, default=0, null=True)
 
     votado_por1 = models.CharField(max_length=200, default='null', null=True)
     votado_por2 = models.CharField(max_length=200, default='null', null=True)

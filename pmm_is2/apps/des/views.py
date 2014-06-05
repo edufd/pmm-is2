@@ -194,14 +194,19 @@ def editar_item(request, pk):
     :returns: La pagina correspondiente.
     :rtype: El response correspondiente.
     """
+    registered = False
+
     context = RequestContext(request)
     item = get_object_or_404(Item, pk=pk)
     item_form = ItemFormEdit(request.POST or None, instance=item, id_fase=item.id_fase)
     if item_form.is_valid():
         item_form.save()
-        return redirect('listar_item')
+        registered = True
 
-    return render_to_response('des/editar_item.html', {'item_form': item_form}, context)
+    return render_to_response('des/editar_item.html',
+                              {
+                                'item_form': item_form, 'registered': registered
+                              }, context)
 
 
 @login_required

@@ -490,6 +490,131 @@ def relation_fix(request, item_id):
 
 
 @login_required
+def relation_fix_revive(request, item_id, item_id_sucesor):
+    """Funcion para agregar relaciones de item.
+    Retorna la pagina correspondiente de la agregacion del item
+
+    :param request: Parametro a ser procesado.
+    :param id_fase: Parametro a ser procesado. Identificador de la fase.
+    :type request: HttpRequest.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
+    context = RequestContext(request)
+    creado = False
+    item = get_object_or_404(Item, pk=item_id)
+    id_fase = item.id_fase_id
+    pk = id_fase
+    object_fase = get_object_or_404(Fase, pk=pk)
+
+    if request.method == 'POST':
+        relacion_form = RelationFixReviveForm(data=request.POST, item_id=item_id, id_fase=id_fase, item_id_sucesor=item_id_sucesor)
+
+        if relacion_form.is_valid():
+            itemA = relacion_form.cleaned_data['del_item']
+            itemB = relacion_form.cleaned_data['al_item']
+            tipo = relacion_form.cleaned_data['tipo']
+
+            if not Relacion.objects.filter(del_item_id=itemA, al_item_id=itemB).exists():
+
+                if itemA.id_item != itemB.id_item:
+
+                    lista_item = get_lista_item()
+                    max_id_item = lista_item.order_by('id_item').reverse()[0]
+                    global padre, visitados, ciclo, hijo
+                    visitados = [0]*(int(max_id_item.id_item) + 1)
+                    hijo = itemB.id_item
+                    padre = itemA.id_item
+                    ciclo = True
+                    print('ciclo1: ', ciclo)
+                    print('padre: ', padre)
+                    print('hijo: ', hijo)
+                    verificar_relacion(hijo)
+                    print('ciclo2: ', ciclo)
+
+                    if ciclo == False:
+                        if itemA.id_fase == itemB.id_fase and tipo == "PADRE-HIJO":
+                            relacion_form.instance.fase = object_fase
+                            relacion_form.save()
+                            creado = True
+                        elif itemA.id_fase != itemB.id_fase and tipo == "ANTECESOR-SUCESOR":
+                            print('entro ak:')
+                            relacion_form.instance.fase = object_fase
+                            relacion_form.save()
+                            creado = True
+                            # for relacion in item.ItemA.filter(esta_activa=True, tipo='ANTECESOR-SUCESOR'):
+                            #     relacion.esta_activa = False
+                            #     relacion.save()
+                            # for relacion in item.ItemB.filter(esta_activa=True, tipo='ANTECESOR-SUCESOR'):
+                            #     relacion.esta_activa = False
+                            #     relacion.save()
+                        else:
+                            if tipo == "PADRE-HIJO":
+                                error = "El tipo de relacion no puede ser Padre-Hijo ya que los items" \
+                                        " no pertenecen a la misma fase. Cambie el tipo de relacion"
+                            else:
+                                error = "El tipo de relacion no puede ser Antecesor-Sucesor ya que los items" \
+                                    " pertenecen a la misma fase. Cambie el tipo de relacion"
+
+                            return render_to_response('des/relation_fix_revive.html',
+                                      {
+                                          'relacion_form': relacion_form,
+                                          'error': error,
+                                          'fase': id_fase,
+                                      },
+                                      context
+                            )
+                    else:
+                        error = "No se puede generar esta relacion. Formara un ciclo!!"
+                        return render_to_response('des/relation_fix_revive.html',
+                                      {
+                                          'relacion_form': relacion_form,
+                                          'error': error,
+                                          'fase': id_fase,
+                                      },
+                                      context
+                        )
+                else:
+                    error = "No se puede crear una relacion en el mismo ITEM"
+                    return render_to_response('des/relation_fix_revive.html',
+                                  {
+                                      'relacion_form': relacion_form,
+                                      'error': error,
+                                      'fase': id_fase,
+                                  },
+                                  context
+                    )
+
+            else:
+                error = "Esta relacion ya existe!!"
+                return render_to_response('des/relation_fix_revive.html',
+                              {
+                                  'relacion_form': relacion_form,
+                                  'error': error,
+                                  'fase': id_fase,
+                                  'item_id': item.id_item,
+                                  'item_id_sucesor': item_id_sucesor,
+                              },
+                              context
+                )
+        else:
+            print RelationFixForm.errors
+    else:
+        relacion_form = RelationFixReviveForm(item_id=item_id, id_fase=id_fase, item_id_sucesor=item_id_sucesor)
+
+    return render_to_response('des/relation_fix_revive.html',
+                              {
+                                  'relacion_form': relacion_form,
+                                  'creado': creado,
+                                  'fase': id_fase,
+                                  'item_id': item.id_item,
+                                  'item_id_sucesor': item_id_sucesor,
+                              },
+                              context
+    )
+
+
+@login_required
 def ver_atributo_tipo_item(request, pk):
     context = RequestContext(request)
     atributo_tipo_item = get_object_or_404(AtributoTipoItem, pk=pk)
@@ -1146,9 +1271,34 @@ def revivir(request, pk):
         item.id_fase = version_item.id_fase
         item.save()
 
+        lista_item = get_lista_item()
+        max_id_item = lista_item.order_by('id_item').reverse()[0]
+        global padre, visitados, ciclo, hijo
+        visitados = [0]*(int(max_id_item.id_item) + 1)
+
         for relaciones in item.ItemA.all():
-            relaciones.esta_activa = True
-            relaciones.save()
+            print('relaciones: ', relaciones.al_item_id)
+            hijo = relaciones.al_item_id
+            padre = relaciones.del_item_id
+            ciclo = True
+            print('ciclo1: ', ciclo)
+            print('padre: ', padre)
+            print('hijo: ', hijo)
+            verificar_relacion(hijo)
+            print('ciclo2: ', ciclo)
+
+            if ciclo is False:
+                descendientes = Relacion.objects.filter(al_item_id=hijo).count()
+                print('descendientes: ', descendientes)
+                if descendientes is 1:
+                    relaciones.esta_activa = True
+                    relaciones.save()
+                else:
+                    print('quilombo')
+                    return redirect('relation_fix_revive', item_id=item.id_item, item_id_sucesor=hijo)
+            else:
+                print('quilombo')
+                return redirect('relation_fix_revive', item_id=item.id_item, item_id_sucesor=hijo)
 
         for relaciones in item.ItemB.all():
             relaciones.esta_activa = True

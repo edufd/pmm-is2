@@ -128,7 +128,7 @@ create trigger after_insert_item
 	after update on pmm.gdc_lineabase
 	for each row execute procedure pmm.cerrar_fase()*/
 
-CREATE OR REPLACE FUNCTION pmm.cerrar_fase()
+/*CREATE OR REPLACE FUNCTION pmm.cerrar_fase()
   RETURNS trigger AS $$
 	DECLARE
 
@@ -155,9 +155,9 @@ ALTER FUNCTION pmm.cerrar_fase()
 create trigger after_update_linea_base
 	after update on pmm.gdc_lineabase
 	for each row execute procedure pmm.cerrar_fase();
+*/
 
-
-CREATE OR REPLACE FUNCTION pmm.actualizar_estado_item()
+/*CREATE OR REPLACE FUNCTION pmm.actualizar_estado_item()
   RETURNS trigger AS $$
 	DECLARE
 
@@ -179,8 +179,8 @@ create trigger after_insert_linea_base_item
 	after insert on pmm.gdc_lineabase_items
 	for each row execute procedure pmm.actualizar_estado_item();
 
-
-CREATE OR REPLACE FUNCTION pmm.actualizar_estado_fase()
+*/
+/*CREATE OR REPLACE FUNCTION pmm.actualizar_estado_fase()
   RETURNS trigger AS $$
 	DECLARE
 
@@ -209,7 +209,7 @@ create trigger after_insert_item
 	after insert on pmm.gdc_lineabase
 	for each row execute procedure pmm.actualizar_estado_fase();
 
-
+*/
 CREATE OR REPLACE FUNCTION pmm.anhadir_lider_proyecto()
   RETURNS trigger AS $$
 

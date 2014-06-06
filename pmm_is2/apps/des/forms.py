@@ -73,7 +73,7 @@ class ArchivoAdjuntoForm(forms.models.ModelForm):
 
     class Meta:
        model = ArchivoAdjunto
-       fields = ('path_archivo', 'filename', 'id_item_relacionado')
+       fields = ('filename', 'id_item_relacionado', 'path_archivo')
 
 
 class RelacionesForm(forms.models.ModelForm):

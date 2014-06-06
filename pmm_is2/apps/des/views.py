@@ -450,7 +450,7 @@ def get_item_list(max_results=0, starts_with=''):
 
 #agregado Adri
 @login_required
-def archivoadjunto_page(request,pk):
+def archivoadjunto_page(request, pk):
     """Funcion para Adjuntar un archivo a un Item.
     Retorna la pagina con el formulario correspondiente para la modificacion
     del item.
@@ -468,11 +468,26 @@ def archivoadjunto_page(request,pk):
     if request.method == 'POST':
         archivoAdjunto_form = ArchivoAdjuntoForm(request.POST, request.FILES)
         if archivoAdjunto_form.is_valid():
+            item_relacionado = archivoAdjunto_form.instance.id_item_relacionado
+            archivoAdjunto_form.instance.id_version_item = item_relacionado.version_item+1
+            item_relacionado.save()
+            version_item_id = item_relacionado.version_item - 1
+            print('archivo_adjunto', item_relacionado.archivo_adjunto.filter(id_version_item=version_item_id))
+            for archivo_adjunto in item_relacionado.archivo_adjunto.filter(id_version_item=version_item_id):
+                a = ArchivoAdjunto(
+                                        filename=archivo_adjunto.filename,
+                                        path_archivo=archivo_adjunto.path_archivo,
+                                        id_item_relacionado=archivo_adjunto.id_item_relacionado,
+                                        id_version_item=item_relacionado.version_item
+                                  )
+                a.save()
+
             archivoAdjunto_form.save()
+
             creado = True
             return render_to_response('des/archivoadjunto.html',
                               {
-                                  'archivoAdjunto_form':archivoAdjunto_form,
+                                  'archivoAdjunto_form': archivoAdjunto_form,
                                   'creado': creado,
                               },
                               context)
@@ -481,12 +496,12 @@ def archivoadjunto_page(request,pk):
     else:
         archivoAdjunto_form = ArchivoAdjuntoForm()
         item = get_object_or_404(Item, pk=pk)
-        datap = {'id_item_relacionado':item}
+        datap = {'id_item_relacionado': item}
         archivoAdjunto_form = ArchivoAdjuntoForm(initial=datap)
     return render_to_response('des/archivoadjunto.html',
                               {
-                                  'archivoAdjunto_form':archivoAdjunto_form,
-                                  'creado': creado,'item':item,
+                                  'archivoAdjunto_form': archivoAdjunto_form,
+                                  'creado': creado, 'item': item,
                               },
                               context)
 
@@ -516,7 +531,7 @@ def crear_archivoAdjunto(request):
 
     return render_to_response('des/crear_archivoAdjunto.html',
                               {
-                                  'archivoAdjunto_form':archivoAdjunto_form,
+                                  'archivoAdjunto_form': archivoAdjunto_form,
                                   'creado': creado,
                               },
                               context
@@ -527,12 +542,14 @@ def crear_archivoAdjunto(request):
 def desasignar(request, pk):
 
     context = RequestContext(request)
-    existe=ArchivoAdjunto.objects.filter(id_item_relacionado=pk).exists()
+    item = get_object_or_404(Item, pk=pk)
+    existe = ArchivoAdjunto.objects.filter(id_item_relacionado=pk).exists()
+
     if existe:
-        traer=ArchivoAdjunto.objects.filter(id_item_relacionado=pk)
+        traer = ArchivoAdjunto.objects.filter(id_item_relacionado=pk, id_version_item=item.version_item)
 
         return render_to_response('des/desasignar.html',
-                              {
+                             {
                                  'traer': traer,
                              },
                              context)
@@ -1047,6 +1064,15 @@ def item_reversion(request, pk):
 
         item.save()
         creado = True
+
+        for archivo_adjunto in item.archivo_adjunto.filter(id_version_item=version_item.version_item):
+                a = ArchivoAdjunto(
+                                        filename=archivo_adjunto.filename,
+                                        path_archivo=archivo_adjunto.path_archivo,
+                                        id_item_relacionado=archivo_adjunto.id_item_relacionado,
+                                        id_version_item=item.version_item
+                                  )
+                a.save()
 
     else:
         return render_to_response('des/revivir_item.html', context)

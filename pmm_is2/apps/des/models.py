@@ -121,7 +121,8 @@ class ArchivoAdjunto(models.Model):
     id_archivo_adjunto = models.AutoField(primary_key=True)
     filename = models.CharField(max_length=100)
     path_archivo = models.FileField(upload_to='documents/%Y%m%d')
-    id_item_relacionado = models.ForeignKey(Item)
+    id_item_relacionado = models.ForeignKey(Item, related_name='archivo_adjunto')
+    id_version_item = models.IntegerField()
 
 
 # Cargar en la base de datos por defecto Ej> Nuevo Requerimiento > Cambio en requisito > Cambio en el disenho

@@ -72,8 +72,11 @@ class Item(models.Model):
     def __unicode__(self):
         return self.nombre_item
 
-    def en_relacion(self):
-        return self.ItemA.filter(esta_activa=True)
+    def relacion_padre_hijo(self):
+        return self.ItemA.filter(esta_activa=True, tipo='PADRE-HIJO')
+
+    def relacion_hijo_padre(self):
+        return self.ItemB.filter(esta_activa=True, tipo='PADRE-HIJO')
 
     def save(self):
         existe = False

@@ -345,19 +345,149 @@ def eliminar_item(request, pk):
     item = get_object_or_404(Item, pk=pk)
     if request.method == 'POST' and item.estado == 'ACTIVO':
         item.estado = 'INACTIVO'
-        for relacion in item.ItemA.all():
+        for relacion in item.ItemA.filter(esta_activa=True, tipo='PADRE-HIJO'):
             print("itemA: ", relacion)
             relacion.esta_activa = False
             relacion.save()
-        for relacion in item.ItemB.all():
+        for relacion in item.ItemB.filter(esta_activa=True, tipo='PADRE-HIJO'):
             print("itemB: ", relacion)
             relacion.esta_activa = False
             relacion.save()
 
         item.save()
+
+        if item.ItemA.filter(tipo='ANTECESOR-SUCESOR').exists():
+            print('existe antecesor-sucesor')
+            return redirect('relation_fix', item_id=item.id_item)
+
         return redirect('/des/')
 
     return render_to_response('des/confirmar_eliminacion_item.html', {'item': item}, context)
+
+
+@login_required
+def relation_fix(request, item_id):
+    """Funcion para agregar relaciones de item.
+    Retorna la pagina correspondiente de la agregacion del item
+
+    :param request: Parametro a ser procesado.
+    :param id_fase: Parametro a ser procesado. Identificador de la fase.
+    :type request: HttpRequest.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
+    context = RequestContext(request)
+    creado = False
+    item = get_object_or_404(Item, pk=item_id)
+    id_fase = item.id_fase_id
+    pk = id_fase
+    object_fase = get_object_or_404(Fase, pk=pk)
+
+    if request.method == 'POST':
+        relacion_form = RelationFixForm(data=request.POST, item_id=item_id, id_fase=id_fase)
+
+        if relacion_form.is_valid():
+            itemA = relacion_form.cleaned_data['del_item']
+            itemB = relacion_form.cleaned_data['al_item']
+            tipo = relacion_form.cleaned_data['tipo']
+
+            if not Relacion.objects.filter(del_item_id=itemA, al_item_id=itemB).exists():
+
+                if itemA.id_item != itemB.id_item:
+
+                    lista_item = get_lista_item()
+                    max_id_item = lista_item.order_by('id_item').reverse()[0]
+                    global padre, visitados, ciclo, hijo
+                    visitados = [0]*(int(max_id_item.id_item) + 1)
+                    hijo = itemB.id_item
+                    padre = itemA.id_item
+                    ciclo = True
+                    print('ciclo1: ', ciclo)
+                    print('padre: ', padre)
+                    print('hijo: ', hijo)
+                    verificar_relacion(hijo)
+                    print('ciclo2: ', ciclo)
+
+                    if ciclo == False:
+                        if itemA.id_fase == itemB.id_fase and tipo == "PADRE-HIJO":
+                            relacion_form.instance.fase = object_fase
+                            relacion = relacion_form.save()
+                            relacion.save()
+                            creado = True
+                        elif itemA.id_fase != itemB.id_fase and tipo == "ANTECESOR-SUCESOR":
+                            relacion_form.instance.fase = object_fase
+                            relacion = relacion_form.save()
+                            relacion.save()
+                            creado = True
+                            for relacion in item.ItemA.filter(esta_activa=True, tipo='ANTECESOR-SUCESOR'):
+                                relacion.esta_activa = False
+                                relacion.save()
+                            for relacion in item.ItemB.filter(esta_activa=True, tipo='ANTECESOR-SUCESOR'):
+                                relacion.esta_activa = False
+                                relacion.save()
+                        else:
+                            if tipo == "PADRE-HIJO":
+                                error = "El tipo de relacion no puede ser Padre-Hijo ya que los items" \
+                                        " no pertenecen a la misma fase. Cambie el tipo de relacion"
+                            else:
+                                error = "El tipo de relacion no puede ser Antecesor-Sucesor ya que los items" \
+                                    " pertenecen a la misma fase. Cambie el tipo de relacion"
+
+                            return render_to_response('des/relation_fix.html',
+                                      {
+                                          'relacion_form': relacion_form,
+                                          'error': error,
+                                          'fase': id_fase,
+                                      },
+                                      context
+                            )
+                    else:
+                        error = "No se puede generar esta relacion. Formara un ciclo!!"
+                        return render_to_response('des/relation_fix.html',
+                                      {
+                                          'relacion_form': relacion_form,
+                                          'error': error,
+                                          'fase': id_fase,
+                                      },
+                                      context
+                        )
+                else:
+                    error = "No se puede crear una relacion en el mismo ITEM"
+                    return render_to_response('des/relation_fix.html',
+                                  {
+                                      'relacion_form': relacion_form,
+                                      'error': error,
+                                      'fase': id_fase,
+                                  },
+                                  context
+                    )
+
+            else:
+                error = "Esta relacion ya existe!!"
+                return render_to_response('des/relation_fix.html',
+                              {
+                                  'relacion_form': relacion_form,
+                                  'error': error,
+                                  'fase': id_fase,
+                                  'item_id': item.id_item,
+                              },
+                              context
+                )
+        else:
+            print RelationFixForm.errors
+    else:
+        relacion_form = RelationFixForm(item_id=item_id, id_fase=id_fase)
+
+    return render_to_response('des/relation_fix.html',
+                              {
+                                  'relacion_form': relacion_form,
+                                  'creado': creado,
+                                  'fase': id_fase,
+                                  'item_id': item.id_item,
+                              },
+                              context
+    )
+
 
 @login_required
 def ver_atributo_tipo_item(request, pk):

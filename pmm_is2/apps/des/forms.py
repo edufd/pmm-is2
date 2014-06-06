@@ -82,17 +82,54 @@ class RelacionesForm(forms.models.ModelForm):
         id_fase = kwargs.pop('id_fase')
         super(RelacionesForm, self).__init__(*args, **kwargs)
 
+        self.fields.keyOrder = [
+            'del_item',
+            'tipo',
+            'al_item'
+        ]
+
         self.fields['del_item'] = \
             forms.ModelChoiceField(queryset=Item.objects.filter(id_fase_id=id_fase),
                                                         widget=forms.Select(), required=True)
 
         self.fields['al_item'] = \
-            forms.ModelChoiceField(queryset=Item.objects.all(),
+            forms.ModelChoiceField(queryset=Item.objects.filter(id_fase_id=id_fase),
                                                         widget=forms.Select(), required=True)
 
     class Meta:
         model = Relacion
-        fields = {'al_item', 'del_item', 'tipo'}
+        fields = {'del_item', 'al_item', 'tipo'}
+
+
+class RelationFixForm(forms.models.ModelForm):
+
+    tipo = forms.CharField(widget=forms.Select(choices=RELACION_TIPO), initial='ANTECESOR-SUCESOR')
+
+    def __init__(self, *args, **kwargs):
+        id_fase = kwargs.pop('id_fase')
+        id_item = kwargs.pop('item_id')
+
+        super(RelationFixForm, self).__init__(*args, **kwargs)
+
+        self.fields.keyOrder = [
+            'del_item',
+            'tipo',
+            'al_item'
+        ]
+
+        self.fields['del_item'] = \
+            forms.ModelChoiceField(queryset=Item.objects.filter(id_fase_id=id_fase).exclude(id_item=id_item),
+                                                        widget=forms.Select(), required=True)
+
+        id_fase += 1
+
+        self.fields['al_item'] = \
+            forms.ModelChoiceField(queryset=Item.objects.filter(id_fase=id_fase),
+                                                        widget=forms.Select(), required=True)
+
+    class Meta:
+        model = Relacion
+        fields = {'del_item', 'al_item', 'tipo'}
 
 
 _all_ = [Proyecto, Fase, Item]
@@ -107,10 +144,11 @@ class SolicitudForm(forms.ModelForm):
     tipo = forms.ModelMultipleChoiceField(queryset=Tipo.objects.all(), widget=forms.CheckboxSelectMultiple, required=True)
     prioridad = forms.CharField(max_length=4, widget=forms.Select(choices=PRIORIDAD_CHOICES))
     descripcion = forms.CharField(label=u"descripcion", widget=forms.Textarea({'cols': 60, 'rows': 10}), error_messages={'required': 'Ingrese observaciones'})
-    nombre_linea_base= forms.ModelChoiceField(queryset=LineaBase.objects.filter(estado='CERRADA'), widget=forms.Select(), required=True)
+    nombre_linea_base = forms.ModelChoiceField(queryset=LineaBase.objects.filter(estado='CERRADA'), widget=forms.Select(), required=True)
+
     class Meta:
         model = Solicitud
-        fields = ('fecha_inicio','nombre_item', 'usuario', 'estado', 'nombre_linea_base', 'tipo', 'prioridad', 'descripcion')
+        fields = ('fecha_inicio', 'nombre_item', 'usuario', 'estado', 'nombre_linea_base', 'tipo', 'prioridad', 'descripcion')
 
     def __init__(self,idfase, *args, **kwargs):
         super(SolicitudForm, self).__init__(*args, **kwargs)

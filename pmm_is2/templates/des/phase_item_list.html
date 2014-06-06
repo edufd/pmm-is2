@@ -24,7 +24,7 @@
                         </h4>
                         {% if item.estado != 'BLOQUEADO' %}
 
-                            {% if item.en_relacion|length == 0 %}
+                            {% if item.relacion_padre_hijo|length == 0 %}
                                 <a class="btn btn-danger" href="{% url "eliminar_item" item.id_item %}">
                                   <i class="icon-trash icon-white"></i>
                                   Eliminar

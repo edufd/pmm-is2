@@ -71,8 +71,9 @@ class Item(models.Model):
 
     def __unicode__(self):
         return self.nombre_item
-    # class Meta:
-    #      db_table = 'Item'
+
+    def en_relacion(self):
+        return self.ItemA.filter(esta_activa=True)
 
     def save(self):
         existe = False

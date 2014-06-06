@@ -23,10 +23,13 @@
 
                         </h4>
                         {% if item.estado != 'BLOQUEADO' %}
-                            <a class="btn btn-danger" href="{% url "eliminar_item" item.id_item %}">
-                              <i class="icon-trash icon-white"></i>
-                              Eliminar
-                            </a>
+
+                            {% if item.en_relacion|length == 0 %}
+                                <a class="btn btn-danger" href="{% url "eliminar_item" item.id_item %}">
+                                  <i class="icon-trash icon-white"></i>
+                                  Eliminar
+                                </a>
+                            {% endif %}
                             <a class="btn btn-danger" href="{% url "adjuntarArchivo_item" item.id_item %}">
                               <i class="icon-trash icon-white"></i>
                               AdjuntarArchivo

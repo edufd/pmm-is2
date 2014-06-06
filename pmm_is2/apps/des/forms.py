@@ -118,6 +118,7 @@ class SolicitudForm(forms.ModelForm):
         self.fields['estado'].widget.attrs['readonly'] = True
         #self.fields['nombre_proyecto'].queryset = Proyecto.objects.filter(id_proyecto=idproyecto)
         #self.fields['nombre_fase'].queryset = Fase.objects.filter(id_fase=idfase, estado_fase='CERRADA')
+
         self.fields['nombre_item'].queryset = Item.objects.filter(id_fase=idfase, estado='BLOQUEADO')
         self.fields['nombre_linea_base'].queryset = LineaBase.objects.filter(fase=idfase, estado='CERRADA')
 

@@ -239,9 +239,20 @@ def linea_base_update(request, pk):
     project_form = LineaBaseFormEdit(request.POST or None, instance=proyecto, id_fase=pk)
     id_proyecto = pk
     if project_form.is_valid():
+        print 'updateLine'
+        print request.POST
+
+        esta = request.POST.getlist('estado')
+        print 'esta'
+        print esta[0]
+        if esta[0]=='CERRADA':
+            items=request.POST.getlist('items')
+            for ite in items:
+                adaptar=Item.objects.get(id_item=ite)
+                adaptar.estado='BLOQUEADO'
+                adaptar.save()
         project_form.save()
         registered = True
-
     return render_to_response('gdc/linea_base_update.html',
                               {'project_form': project_form, 'id_proyecto': id_proyecto,
                                'registered': registered}, context)

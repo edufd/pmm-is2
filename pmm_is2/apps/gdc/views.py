@@ -72,7 +72,7 @@ def crear_linea_base(request, pk):
     print 'activos'
     print (activo)
     aprobado = len(Item.objects.filter(id_fase_id=pk, estado='APROBADO'))
-    print 'aprobados'
+    print 'APROBADOS'
     print (aprobado)
     if request.method == 'POST':
         linea_base_from = LineaBaseForm(data=request.POST, id_fase=pk)
@@ -98,6 +98,8 @@ def crear_linea_base(request, pk):
                         linea_base_from.instance.fase = objeto_fase
                         item = linea_base_from.save()
                         creado = True
+                        item.estado="CERRADA"
+                        item.save()
                     else:
                         print linea_base_from.errors
                     return render_to_response('gdc/crear_linea_base.html',
@@ -133,6 +135,8 @@ def crear_linea_base(request, pk):
                             linea_base_from.instance.fase = objeto_fase
                             item = linea_base_from.save()
                             creado = True
+                            item.estado="CERRADA"
+                            item.save()
                         else:
                             print linea_base_from.errors
                         return render_to_response('gdc/crear_linea_base.html',
@@ -166,6 +170,8 @@ def crear_linea_base(request, pk):
                                 creado = True
                                 objeto_fase.estado_fase='FINALIZADA'
                                 objeto_fase.save()
+                                item.estado="CERRADA"
+                                item.save()
                             else:
                                 print linea_base_from.errors
                             return render_to_response('gdc/crear_linea_base.html',

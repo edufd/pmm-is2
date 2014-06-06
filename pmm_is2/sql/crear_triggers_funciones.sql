@@ -157,7 +157,7 @@ create trigger after_update_linea_base
 	for each row execute procedure pmm.cerrar_fase();
 */
 
-/*CREATE OR REPLACE FUNCTION pmm.actualizar_estado_item()
+CREATE OR REPLACE FUNCTION pmm.actualizar_estado_item()
   RETURNS trigger AS $$
 	DECLARE
 
@@ -179,7 +179,6 @@ create trigger after_insert_linea_base_item
 	after insert on pmm.gdc_lineabase_items
 	for each row execute procedure pmm.actualizar_estado_item();
 
-*/
 /*CREATE OR REPLACE FUNCTION pmm.actualizar_estado_fase()
   RETURNS trigger AS $$
 	DECLARE

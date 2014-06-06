@@ -345,6 +345,15 @@ def eliminar_item(request, pk):
     item = get_object_or_404(Item, pk=pk)
     if request.method == 'POST' and item.estado == 'ACTIVO':
         item.estado = 'INACTIVO'
+        for relacion in item.ItemA.all():
+            print("itemA: ", relacion)
+            relacion.esta_activa = False
+            relacion.save()
+        for relacion in item.ItemB.all():
+            print("itemB: ", relacion)
+            relacion.esta_activa = False
+            relacion.save()
+
         item.save()
         return redirect('/des/')
 
@@ -724,7 +733,7 @@ def agregar_relaciones(request, id_fase):
 
 
 def get_lista_relacion(id_fase):
-    lista_relacion = Relacion.objects.filter(fase_id=id_fase)
+    lista_relacion = Relacion.objects.filter(fase_id=id_fase, esta_activa=True)
     return lista_relacion
 
 
@@ -976,6 +985,7 @@ def revivir(request, pk):
         #     complejidad=version_item.complejidad, costo=version_item.costo,
         #     ultima_version_item_id=version_item.ultima_version_item_id, id_tipo_item=version_item.id_tipo_item,
         #     id_fase=version_item.id_fase)
+
         item.nombre_item = version_item.nombre_item
         item.iversion_item = version_item.version_item
         item.prioridad = version_item.prioridad
@@ -988,6 +998,15 @@ def revivir(request, pk):
         item.id_tipo_item = version_item.id_tipo_item
         item.id_fase = version_item.id_fase
         item.save()
+
+        for relaciones in item.ItemA.all():
+            relaciones.esta_activa = True
+            relaciones.save()
+
+        for relaciones in item.ItemB.all():
+            relaciones.esta_activa = True
+            relaciones.save()
+
         creado = True
 
     else:
@@ -1060,6 +1079,10 @@ def phase_item_list(request, id_proyecto, id_fase):
     fase = get_object_or_404(Fase, pk=id_fase)
     context = RequestContext(request)
     lista_item = get_phase_item_list(id_fase)
+    for item in lista_item:
+        print("mirar", item.ItemA.filter(esta_activa=True))
+        item.ItemA.all = item.ItemA.filter(esta_activa=True)
+        print("ver", item.ItemA.all())
     context_dict = {}
     context_dict['lista_item'] = lista_item
     context_dict['proyecto'] = fase.proyecto

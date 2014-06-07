@@ -29,7 +29,7 @@ def can_create_phase(view_func):
         proyecto = Proyecto.objects.get(id_proyecto=id_proyecto)
         if not proyecto.lider_proyecto == request.user:
             return redirect('/adm/proyectos/')
-        elif proyecto.fase_set.all().__len__() == proyecto.numero_fases:
+        elif proyecto.fases.all().__len__() == proyecto.numero_fases:
             return redirect('/adm/proyectos/')
         return view_func(request, *args, **kwargs)
     return _wrapped_view_func

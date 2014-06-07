@@ -1304,6 +1304,9 @@ def revivir(request, pk):
                     relaciones.esta_activa = True
                     relaciones.save()
                 else:
+                    for relaciones in item.ItemB.all():
+                        relaciones.esta_activa = True
+                        relaciones.save()
                     print('quilombo')
                     return redirect('relation_fix_revive', item_id=item.id_item, item_id_sucesor=hijo)
             else:

@@ -89,7 +89,7 @@ class RelacionesForm(forms.models.ModelForm):
         ]
 
         self.fields['del_item'] = \
-            forms.ModelChoiceField(queryset=Item.objects.filter(id_fase=id_fase, estado='BLOQUEADO').order_by('id_item'),
+            forms.ModelChoiceField(queryset=Item.objects.filter(id_fase=id_fase).order_by('id_item'),
                                                         widget=forms.Select(), required=True)
 
         fase = Fase.objects.get(pk=id_fase)
@@ -98,7 +98,7 @@ class RelacionesForm(forms.models.ModelForm):
         fases = proyecto.fases.all()
 
         self.fields['al_item'] = \
-            forms.ModelChoiceField(queryset=Item.objects.filter(id_fase__in=fases, estado='BLOQUEADO').order_by('id_item'),
+            forms.ModelChoiceField(queryset=Item.objects.filter(id_fase__in=fases).order_by('id_item'),
                                                         widget=forms.Select(), required=True)
 
     class Meta:
@@ -123,13 +123,16 @@ class RelationFixForm(forms.models.ModelForm):
         ]
 
         self.fields['del_item'] = \
-            forms.ModelChoiceField(queryset=Item.objects.filter(id_fase_id=id_fase, estado='BLOQUEADO').exclude(id_item=id_item).order_by('id_item'),
+            forms.ModelChoiceField(queryset=Item.objects.filter(id_fase_id=id_fase).exclude(id_item=id_item).order_by('id_item'),
                                                         widget=forms.Select(), required=True)
 
-        id_fase += 1
+        fase = Fase.objects.get(pk=id_fase)
+        fase_siguiente = fase.numero_secuencia + 1
+        fase_siguiente = Fase.objects.get(proyecto_id=fase.proyecto_id, numero_secuencia=fase_siguiente)
+
 
         self.fields['al_item'] = \
-            forms.ModelChoiceField(queryset=Item.objects.filter(id_fase=id_fase, estado='BLOQUEADO').order_by('id_item'),
+            forms.ModelChoiceField(queryset=Item.objects.filter(id_fase=fase_siguiente).order_by('id_item'),
                                                         widget=forms.Select(), required=True)
 
     class Meta:
@@ -155,13 +158,15 @@ class RelationFixReviveForm(forms.models.ModelForm):
         ]
 
         self.fields['del_item'] = \
-            forms.ModelChoiceField(queryset=Item.objects.filter(id_item=id_item, estado='BLOQUEADO'),
+            forms.ModelChoiceField(queryset=Item.objects.filter(id_item=id_item),
                                                         widget=forms.Select(), required=True)
 
-        id_fase += 1
+        fase = Fase.objects.get(pk=id_fase)
+        fase_siguiente = fase.numero_secuencia + 1
+        fase_siguiente = Fase.objects.get(proyecto_id=fase.proyecto_id, numero_secuencia=fase_siguiente)
 
         self.fields['al_item'] = \
-            forms.ModelChoiceField(queryset=Item.objects.filter(id_fase=id_fase, estado='BLOQUEADO').exclude(id_item=item_id_sucesor),
+            forms.ModelChoiceField(queryset=Item.objects.filter(id_fase=fase_siguiente).exclude(id_item=item_id_sucesor),
                                                         widget=forms.Select(), required=True)
 
     class Meta:

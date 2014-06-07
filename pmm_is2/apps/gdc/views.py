@@ -169,9 +169,25 @@ def crear_linea_base(request, pk):
                                 item = linea_base_from.save()
                                 creado = True
                                 objeto_fase.estado_fase='FINALIZADA'
+                                idpro=objeto_fase.proyecto.id_proyecto
                                 objeto_fase.save()
                                 item.estado="CERRADA"
                                 item.save()
+                                proj=Proyecto.objects.get(id_proyecto=idpro)
+                                #ver estados de fases del proyecto de esta fase recientemente finalizada
+                                cuanto=Fase.objects.filter(proyecto=proj)
+                                cantidad=len(cuanto)
+                                print 'proyecto finalizado'
+                                contar=0
+                                print cuanto
+                                print cantidad
+                                for c in cuanto:
+                                    if cuanto[0].estado_fase=='FINALIZADA':
+                                       contar=contar+1
+
+                                if contar==cantidad:
+                                    proj.estado_proyecto='FINALIZADO'
+                                    proj.save()
                             else:
                                 print linea_base_from.errors
                             return render_to_response('gdc/crear_linea_base.html',

@@ -89,11 +89,13 @@ class RelacionesForm(forms.models.ModelForm):
         ]
 
         self.fields['del_item'] = \
-            forms.ModelChoiceField(queryset=Item.objects.filter(id_fase_id=id_fase),
+            forms.ModelChoiceField(queryset=Item.objects.filter(id_fase_id=id_fase).order_by('id_item'),
                                                         widget=forms.Select(), required=True)
 
+        #id_fase = int(id_fase) + 1
+
         self.fields['al_item'] = \
-            forms.ModelChoiceField(queryset=Item.objects.filter(id_fase_id=id_fase),
+            forms.ModelChoiceField(queryset=Item.objects.all().order_by('id_item'),
                                                         widget=forms.Select(), required=True)
 
     class Meta:
@@ -118,13 +120,45 @@ class RelationFixForm(forms.models.ModelForm):
         ]
 
         self.fields['del_item'] = \
-            forms.ModelChoiceField(queryset=Item.objects.filter(id_fase_id=id_fase).exclude(id_item=id_item),
+            forms.ModelChoiceField(queryset=Item.objects.filter(id_fase_id=id_fase).exclude(id_item=id_item).order_by('id_item'),
                                                         widget=forms.Select(), required=True)
 
         id_fase += 1
 
         self.fields['al_item'] = \
-            forms.ModelChoiceField(queryset=Item.objects.filter(id_fase=id_fase),
+            forms.ModelChoiceField(queryset=Item.objects.filter(id_fase=id_fase).order_by('id_item'),
+                                                        widget=forms.Select(), required=True)
+
+    class Meta:
+        model = Relacion
+        fields = {'del_item', 'al_item', 'tipo'}
+
+
+class RelationFixReviveForm(forms.models.ModelForm):
+
+    tipo = forms.CharField(widget=forms.Select(choices=RELACION_TIPO), initial='ANTECESOR-SUCESOR')
+
+    def __init__(self, *args, **kwargs):
+        id_fase = kwargs.pop('id_fase')
+        id_item = kwargs.pop('item_id')
+        item_id_sucesor = kwargs.pop('item_id_sucesor')
+
+        super(RelationFixReviveForm, self).__init__(*args, **kwargs)
+
+        self.fields.keyOrder = [
+            'del_item',
+            'tipo',
+            'al_item'
+        ]
+
+        self.fields['del_item'] = \
+            forms.ModelChoiceField(queryset=Item.objects.filter(id_item=id_item),
+                                                        widget=forms.Select(), required=True)
+
+        id_fase += 1
+
+        self.fields['al_item'] = \
+            forms.ModelChoiceField(queryset=Item.objects.filter(id_fase=id_fase).exclude(id_item=item_id_sucesor),
                                                         widget=forms.Select(), required=True)
 
     class Meta:

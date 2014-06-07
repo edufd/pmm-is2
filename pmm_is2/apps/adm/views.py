@@ -542,9 +542,6 @@ def project_list(request):
     """
     context = RequestContext(request)
     project_list = get_project_list()
-    for proyecto in project_list:
-        print proyecto.nombre_proyecto
-        print proyecto.fase_set.all().__len__()
     context_dict = {}
     context_dict['object_list'] = project_list
 

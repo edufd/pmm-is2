@@ -21,7 +21,7 @@
                     <a href="/adm/project_profile/{{ proyecto.id_proyecto }}">Perfil</a>
                     {% if user == proyecto.lider_proyecto or valido %}
                         |
-                        {% if proyecto.fase_set.all|length < proyecto.numero_fases %}
+                        {% if proyecto.fases.all|length < proyecto.numero_fases %}
                             <a href="/adm/phase_create/{{ proyecto.id_proyecto }}">Agregar Fase</a> |
                         {% endif %}
                         <a href="/adm/project_update/{{ proyecto.id_proyecto }}">Modificar</a> |

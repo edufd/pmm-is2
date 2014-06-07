@@ -1,10 +1,9 @@
 from django.db.models import Max
 from pmm_is2.apps.adm.utils import get_project_list, get_phases_list
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
-from pmm_is2.apps.adm.models import Proyecto, Comite
-from pmm_is2.apps.des.models import Solicitud
+from pmm_is2.apps.adm.models import Comite
 from pmm_is2.apps.des.forms import *
 from django.http import HttpResponse
 from io import BytesIO
@@ -61,6 +60,7 @@ def crear_atributo_tipo_item(request):
                               },
                               context
     )
+
 
 @login_required
 def crear_tipo_item(request):
@@ -135,7 +135,8 @@ def crear_item(request, pk):
         item_form = ItemForm(data=request.POST, id_fase=pk)
         if item_form.is_valid():
             item_form.instance.id_fase = objeto_fase
-            item = item_form.save()
+            item_form.instance.modificado = request.user
+            item_form.save()
             creado = True
         else:
             print item_form.errors
@@ -158,13 +159,16 @@ def get_lista_tipo_item():
     lista_tipo_item = TipoItem.objects.all()
     return lista_tipo_item
 
+
 def get_lista_atributo_tipo_item():
     lista_atributo_tipo_item = Atributo.objects.all()
     return lista_atributo_tipo_item
 
+
 def get_lista_item():
     lista_item = Item.objects.all()
     return lista_item
+
 
 @login_required
 def listar_atributo_tipo_item(request):
@@ -182,6 +186,7 @@ def listar_atributo_tipo_item(request):
     context_dict['lista_atributo_tipo_item'] = lista_atributo_tipo_item
 
     return render_to_response('des/lista_atributo_tipo_item.html', context_dict, context)
+
 
 @login_required
 def listar_tipo_item(request):
@@ -240,6 +245,7 @@ def editar_atributo_tipo_item(request, pk):
 
     return render_to_response('des/editar_atributo_tipo_item.html', {'atributo_tipo_item_form': atributo_tipo_item_form}, context)
 
+
 @login_required
 def editar_tipo_item(request, pk):
     """Funcion para Modificar un Tipo Item.
@@ -282,6 +288,8 @@ def editar_item(request, pk):
     item = get_object_or_404(Item, pk=pk)
     item_form = ItemFormEdit(request.POST or None, instance=item, id_fase=item.id_fase)
     if item_form.is_valid():
+        item_form.instance.modificado = request.user
+        item_form.instance.fecha_modificacion = datetime.now()
         item_form.save()
         registered = True
 
@@ -309,6 +317,7 @@ def eliminar_atributo_tipo_item(request, pk):
         return redirect('listar_atributo_tipo_item')
 
     return render_to_response('des/confirmar_eliminacion_atributo_tipo_item.html', {'atributo_tipo_item': atributo_tipo_item}, context)
+
 
 @login_required
 def eliminar_tipo_item(request, pk):
@@ -724,7 +733,8 @@ def archivoadjunto_page(request, pk):
         archivoAdjunto_form = ArchivoAdjuntoForm(request.POST, request.FILES)
         if archivoAdjunto_form.is_valid():
             item_relacionado = archivoAdjunto_form.instance.id_item_relacionado
-            archivoAdjunto_form.instance.id_version_item = item_relacionado.version_item+1
+            archivoAdjunto_form.instance.id_version_item = item_relacionado.version_item + 1
+            item_relacionado.modificado = request.user
             item_relacionado.save()
             version_item_id = item_relacionado.version_item - 1
             print('archivo_adjunto', item_relacionado.archivo_adjunto.filter(id_version_item=version_item_id))
@@ -1341,6 +1351,7 @@ def item_reversion(request, pk):
         item.ultima_version_item_id = version_item.ultima_version_item_id
         item.id_tipo_item = version_item.id_tipo_item
         item.id_fase = version_item.id_fase
+        item.modificado = request.user
 
         item.save()
         creado = True
@@ -1441,11 +1452,11 @@ def crear_solicitud(request, id_proyecto, id_fase):
                 error="Error de Seleccion de Linea Base. No corresponde al item bloqueado seleccionado..."
                 return render_to_response('des/crear_solicitud.html',
                               {
-                                  'error':error,
-                                  'solicitud_form':solicitud_form,
+                                  'error': error,
+                                  'solicitud_form': solicitud_form,
                                   'creado': creado,
-                                  'id_proyecto':id_proyecto,
-                                  'id_fase':id_fase,
+                                  'id_proyecto': id_proyecto,
+                                  'id_fase': id_fase,
                               },
                               context
                 )
@@ -1458,16 +1469,16 @@ def crear_solicitud(request, id_proyecto, id_fase):
 
     return render_to_response('des/crear_solicitud.html',
                               {
-                                  'solicitud_form':solicitud_form,
+                                  'solicitud_form': solicitud_form,
                                   'creado': creado,
-                                  'id_proyecto':id_proyecto,
-                                  'id_fase':id_fase,
+                                  'id_proyecto': id_proyecto,
+                                  'id_fase': id_fase,
                               },
                               context
     )
 
 
-def get_listar_solicitud(id_proyecto,id_fase):
+def get_listar_solicitud(id_proyecto, id_fase):
     lista_solicitud = Solicitud.objects.filter(estado='EN-ESPERA',nombre_proyecto=id_proyecto,nombre_fase=id_fase)
     return lista_solicitud
 
@@ -1475,7 +1486,7 @@ def get_listar_solicitud(id_proyecto,id_fase):
 @login_required
 def listar_solicitud(request, id_proyecto, id_fase):
     context = RequestContext(request)
-    lista_solicitud = get_listar_solicitud(id_proyecto,id_fase)
+    lista_solicitud = get_listar_solicitud(id_proyecto, id_fase)
     context_dict = {}
     context_dict['lista_solicitud'] = lista_solicitud
 

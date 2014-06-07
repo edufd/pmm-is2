@@ -68,6 +68,8 @@ class Item(models.Model):
     ultima_version_item_id = models.IntegerField(blank=True)
     id_tipo_item = models.ForeignKey(TipoItem, verbose_name="Tipo de Item")
     id_fase = models.ForeignKey('adm.Fase', verbose_name="Fase")
+    modificado = models.ForeignKey(User)
+    fecha_modificacion = models.DateTimeField(default=datetime.now())
 
     def __unicode__(self):
         return self.nombre_item
@@ -107,6 +109,8 @@ class VersionItem(models.Model):
     ultima_version_item_id = models.IntegerField(blank=True)
     id_tipo_item = models.ForeignKey(TipoItem, verbose_name="Tipo de Item")
     id_fase = models.ForeignKey('adm.Fase', verbose_name="Fase")
+    modificado = models.ForeignKey(User)
+    fecha_modificacion = models.DateTimeField(default=datetime.now())
 
 
 class Relacion (models.Model):

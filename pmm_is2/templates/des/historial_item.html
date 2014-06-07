@@ -46,6 +46,8 @@
                                     <th class="col-sm-1">Observacion</th>
                                     <th class="col-sm-1">Complejidad</th>
                                     <th class="col-sm-1">Costo</th>
+                                    <th class="col-sm-1">Modificado</th>
+                                    <th class="col-sm-1">Fecha Modificacion</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -59,6 +61,8 @@
                                         <td>{{ versionItem.observaciones }}</td>
                                         <td>{{ versionItem.complejidad }}</td>
                                         <td>{{ versionItem.costo }}</td>
+                                        <td>{{ versionItem.modificado }}</td>
+                                        <td>{{ versionItem.fecha_modificacion|date:"Y-d-m-h-m-d" }}</td>
                                     </tr>
                                 {% endfor %}
                             </tbody>

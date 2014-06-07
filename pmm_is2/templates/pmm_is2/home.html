@@ -38,7 +38,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for proyecto in proyectos %}
+                            {% for proyecto in proyectos_activos %}
                                 <tr>
                                     <td>{{ proyecto.id_proyecto }}</td>
                                     <td><a href="/adm/project_profile/{{ proyecto.id_proyecto }}">{{proyecto.nombre_proyecto}}</a></td>
@@ -86,13 +86,15 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Ninguno</td>
-                                <td>Ninguno</td>
-                                <td>Ninguno</td>
-                                <td>Ninguno</td>
-                                <td>ok</td>
-                            </tr>
+                            {% for proyecto in proyectos_finalizados %}
+                                <tr>
+                                    <td>{{ proyecto.id_proyecto }}</td>
+                                    <td><a href="/adm/project_profile/{{ proyecto.id_proyecto }}">{{proyecto.nombre_proyecto}}</a></td>
+                                    <td><a href="/adm/perfil/{{ proyecto.lider_proyecto.id }}">{{ proyecto.lider_proyecto }}</a></td>
+                                    <td>{{ proyecto.descripcion }}</td>
+                                    <td>ok</td>
+                                </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>

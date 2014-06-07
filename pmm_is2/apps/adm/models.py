@@ -73,7 +73,7 @@ class UsuarioProyecto(models.Model):
 
 class Fase(models.Model):
     id_fase = models.AutoField(primary_key=True)
-    proyecto = models.ForeignKey(Proyecto)
+    proyecto = models.ForeignKey(Proyecto, related_name='fases')
     nombre_fase = models.CharField(max_length=200)
     descripcion = models.CharField(max_length=200)
     estado_fase = models.CharField(max_length=11, choices=FASES_ESTADOS, default='NO-INICIADA')

@@ -28,8 +28,11 @@ def contact(request):
 def home(request):
     context = RequestContext(request)
 
-    proyectos = get_project_list()
-    context_dict = {'proyectos': proyectos}
+    proyectos_activos = Proyecto.objects.exclude(estado_proyecto='FINALIZADO').order_by('id_proyecto')
+    proyectos_finalizados = Proyecto.objects.filter(estado_proyecto='FINALIZADO').order_by('id_proyecto')
+
+    context_dict = {'proyectos_activos': proyectos_activos, 'proyectos_finalizados': proyectos_finalizados}
+
     return render_to_response('pmm_is2/home.html', context_dict, context)
 
 

@@ -174,7 +174,7 @@ def crear_linea_base(request, pk):
                                 item.estado="CERRADA"
                                 item.save()
                                 proj=Proyecto.objects.get(id_proyecto=idpro)
-                                #ver estados de fases del proyecto de esta fase recientemente finalizada
+                                #contamos en cantidad las fases que tiene el proyecto
                                 cuanto=Fase.objects.filter(proyecto=proj)
                                 cantidad=len(cuanto)
                                 print 'proyecto finalizado'
@@ -184,7 +184,7 @@ def crear_linea_base(request, pk):
                                 for c in cuanto:
                                     if cuanto[0].estado_fase=='FINALIZADA':
                                        contar=contar+1
-
+                                #Si todas las fases del proyecto estan finalizada entonces finalizamos proyecto
                                 if contar==cantidad:
                                     proj.estado_proyecto='FINALIZADO'
                                     proj.save()

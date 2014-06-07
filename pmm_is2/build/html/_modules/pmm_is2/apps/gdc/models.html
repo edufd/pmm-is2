@@ -61,13 +61,19 @@
     <span class="p">(</span><span class="s">&#39;CERRADA&#39;</span><span class="p">,</span> <span class="s">&#39;CERRADA&#39;</span><span class="p">),</span>
 <span class="p">)</span>
 
+<span class="c">#Cargar con Parcial Total</span>
+<span class="k">class</span> <span class="nc">opcionesLineaBase</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">id_tipo</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">AutoField</span><span class="p">(</span><span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">opcion1</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">opcion1</span>
 
 <div class="viewcode-block" id="LineaBase"><a class="viewcode-back" href="../../../../gdc.html#pmm_is2.apps.gdc.models.LineaBase">[docs]</a><span class="k">class</span> <span class="nc">LineaBase</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
     <span class="n">id_linea_base</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">AutoField</span><span class="p">(</span><span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">nombre_linea_base</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
     <span class="n">estado</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">LINEA_BASE_ESTADOS</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s">&#39;ABIERTA&#39;</span><span class="p">)</span>
-    <span class="n">tipo</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">()</span>
-    <span class="n">numero</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">()</span>
+    <span class="n">opciones</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">opcionesLineaBase</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">creado_por</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">User</span><span class="p">)</span>
     <span class="n">fase</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Fase</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="s">&quot;Fase&quot;</span><span class="p">)</span>
     <span class="n">items</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Item</span><span class="p">)</span>
@@ -77,8 +83,8 @@
 
     <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
         <span class="c">#db_table = &#39;LineaBase&#39;</span>
-        <span class="n">app_label</span> <span class="o">=</span> <span class="s">&#39;gdc&#39;</span></div>
-</pre></div>
+        <span class="n">app_label</span> <span class="o">=</span> <span class="s">&#39;gdc&#39;</span>
+</pre></div></div>
 
           </div>
         </div>

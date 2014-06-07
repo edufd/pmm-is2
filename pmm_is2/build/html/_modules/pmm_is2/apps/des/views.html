@@ -46,10 +46,10 @@
   <h1>Source code for pmm_is2.apps.des.views</h1><div class="highlight"><pre>
 <span class="kn">from</span> <span class="nn">django.db.models</span> <span class="kn">import</span> <span class="n">Max</span>
 <span class="kn">from</span> <span class="nn">pmm_is2.apps.adm.utils</span> <span class="kn">import</span> <span class="n">get_project_list</span><span class="p">,</span> <span class="n">get_phases_list</span>
-<span class="kn">from</span> <span class="nn">django.contrib.auth.decorators</span> <span class="kn">import</span> <span class="n">login_required</span><span class="p">,</span> <span class="n">user_passes_test</span>
+<span class="kn">from</span> <span class="nn">django.contrib.auth.decorators</span> <span class="kn">import</span> <span class="n">login_required</span>
 <span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="kn">import</span> <span class="n">render_to_response</span><span class="p">,</span> <span class="n">get_object_or_404</span><span class="p">,</span> <span class="n">redirect</span>
 <span class="kn">from</span> <span class="nn">django.template</span> <span class="kn">import</span> <span class="n">RequestContext</span>
-<span class="kn">from</span> <span class="nn">pmm_is2.apps.adm.models</span> <span class="kn">import</span> <span class="n">Proyecto</span><span class="p">,</span> <span class="n">Comite</span>
+<span class="kn">from</span> <span class="nn">pmm_is2.apps.adm.models</span> <span class="kn">import</span> <span class="n">Comite</span>
 <span class="kn">from</span> <span class="nn">pmm_is2.apps.des.forms</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">django.http</span> <span class="kn">import</span> <span class="n">HttpResponse</span>
 <span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">BytesIO</span>
@@ -67,9 +67,45 @@
 <span class="nd">@login_required</span>
 <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
     <span class="n">context</span> <span class="o">=</span> <span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
-    <span class="n">proyectos</span> <span class="o">=</span> <span class="n">get_project_list</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">is_superuser</span><span class="p">:</span>
+        <span class="n">proyectos</span> <span class="o">=</span> <span class="n">get_project_list</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">proyectos</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">proyectos</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+
     <span class="n">context_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;proyectos&#39;</span><span class="p">:</span> <span class="n">proyectos</span><span class="p">}</span>
     <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;des/index.html&#39;</span><span class="p">,</span> <span class="n">context_dict</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+
+<span class="nd">@login_required</span>
+<span class="k">def</span> <span class="nf">crear_atributo_tipo_item</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Funcion para Crear Tipo Item.</span>
+<span class="sd">    Retorna la pagina correspondiente con el formulario para la creacion del atributo Tipo ITem</span>
+
+<span class="sd">    :param request: Parametro a ser procesado.</span>
+<span class="sd">    :type request: HttpRequest.</span>
+<span class="sd">    :returns: La pagina correspondiente.</span>
+<span class="sd">    :rtype: El response correspondiente.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+    <span class="n">creado</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s">&#39;POST&#39;</span><span class="p">:</span>
+        <span class="n">atributo_tipo_item_form</span> <span class="o">=</span> <span class="n">AtributoTipoItemForm</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">atributo_tipo_item_form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="n">atributo</span> <span class="o">=</span> <span class="n">atributo_tipo_item_form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+            <span class="n">atributo</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+            <span class="n">creado</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">print</span> <span class="n">atributo_tipo_item_form</span><span class="o">.</span><span class="n">errors</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">atributo_tipo_item_form</span> <span class="o">=</span> <span class="n">AtributoTipoItemForm</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;des/crear_atributo_tipo_item.html&#39;</span><span class="p">,</span>
+                              <span class="p">{</span>
+                                  <span class="s">&#39;atributo_tipo_item_form&#39;</span><span class="p">:</span> <span class="n">atributo_tipo_item_form</span><span class="p">,</span>
+                                  <span class="s">&#39;creado&#39;</span><span class="p">:</span> <span class="n">creado</span><span class="p">,</span>
+                              <span class="p">},</span>
+                              <span class="n">context</span>
+    <span class="p">)</span>
 
 
 <span class="nd">@login_required</span>
@@ -87,16 +123,27 @@
     <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s">&#39;POST&#39;</span><span class="p">:</span>
         <span class="n">tipo_item_form</span> <span class="o">=</span> <span class="n">TipoItemForm</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
         <span class="n">atributo_tipo_item_form</span> <span class="o">=</span> <span class="n">AtributoTipoItemForm</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">tipo_item_form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">()</span> <span class="ow">and</span> <span class="n">atributo_tipo_item_form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
-            <span class="n">tipo_item</span> <span class="o">=</span> <span class="n">tipo_item_form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
-            <span class="n">tipo_item</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
-            <span class="n">atributo</span> <span class="o">=</span> <span class="n">atributo_tipo_item_form</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">commit</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-            <span class="n">atributo</span><span class="o">.</span><span class="n">tipo_item</span> <span class="o">=</span> <span class="n">tipo_item</span>
-            <span class="n">atributo</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
-            <span class="n">creado</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">if</span> <span class="n">tipo_item_form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="n">atr</span> <span class="o">=</span> <span class="n">tipo_item_form</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s">&#39;atributo&#39;</span><span class="p">]</span>
+            <span class="k">print</span> <span class="n">tipo_item_form</span>
+            <span class="k">if</span> <span class="n">atr</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">tipo_item</span> <span class="o">=</span> <span class="n">tipo_item_form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+                <span class="n">tipo_item</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+                <span class="n">creado</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="k">else</span><span class="p">:</span>
+
+                <span class="k">if</span> <span class="n">atributo_tipo_item_form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+                    <span class="n">atributo</span> <span class="o">=</span> <span class="n">atributo_tipo_item_form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+                    <span class="n">atributo</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+                    <span class="n">tipo_item</span> <span class="o">=</span> <span class="n">tipo_item_form</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">commit</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+                    <span class="n">tipo_item</span><span class="o">.</span><span class="n">atributo</span> <span class="o">=</span> <span class="n">atributo</span>
+                    <span class="n">tipo_item</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+                    <span class="n">creado</span> <span class="o">=</span> <span class="bp">True</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">print</span> <span class="n">atributo_tipo_item_form</span><span class="o">.</span><span class="n">errors</span>
+
         <span class="k">else</span><span class="p">:</span>
             <span class="k">print</span> <span class="n">tipo_item_form</span><span class="o">.</span><span class="n">errors</span>
-            <span class="k">print</span> <span class="n">atributo_tipo_item_form</span><span class="o">.</span><span class="n">errors</span>
 
     <span class="k">else</span><span class="p">:</span>
         <span class="n">tipo_item_form</span> <span class="o">=</span> <span class="n">TipoItemForm</span><span class="p">()</span>
@@ -134,7 +181,8 @@
         <span class="n">item_form</span> <span class="o">=</span> <span class="n">ItemForm</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">,</span> <span class="n">id_fase</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">item_form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
             <span class="n">item_form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">id_fase</span> <span class="o">=</span> <span class="n">objeto_fase</span>
-            <span class="n">item</span> <span class="o">=</span> <span class="n">item_form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+            <span class="n">item_form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">modificado</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span>
+            <span class="n">item_form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
             <span class="n">creado</span> <span class="o">=</span> <span class="bp">True</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">print</span> <span class="n">item_form</span><span class="o">.</span><span class="n">errors</span>
@@ -158,9 +206,32 @@
     <span class="k">return</span> <span class="n">lista_tipo_item</span>
 
 
+<span class="k">def</span> <span class="nf">get_lista_atributo_tipo_item</span><span class="p">():</span>
+    <span class="n">lista_atributo_tipo_item</span> <span class="o">=</span> <span class="n">Atributo</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">lista_atributo_tipo_item</span>
+
+
 <span class="k">def</span> <span class="nf">get_lista_item</span><span class="p">():</span>
     <span class="n">lista_item</span> <span class="o">=</span> <span class="n">Item</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">lista_item</span>
+
+
+<span class="nd">@login_required</span>
+<span class="k">def</span> <span class="nf">listar_atributo_tipo_item</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Funcion para Listar tipo de Item.</span>
+<span class="sd">    Retorna la pagina correspondiente con la lista de atributos tipos de item</span>
+
+<span class="sd">    :param request: Parametro a ser procesado.</span>
+<span class="sd">    :type request: HttpRequest.</span>
+<span class="sd">    :returns: La pagina correspondiente.</span>
+<span class="sd">    :rtype: El response correspondiente.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+    <span class="n">lista_atributo_tipo_item</span> <span class="o">=</span> <span class="n">get_lista_atributo_tipo_item</span><span class="p">()</span>
+    <span class="n">context_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">context_dict</span><span class="p">[</span><span class="s">&#39;lista_atributo_tipo_item&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lista_atributo_tipo_item</span>
+
+    <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;des/lista_atributo_tipo_item.html&#39;</span><span class="p">,</span> <span class="n">context_dict</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
 
 
 <span class="nd">@login_required</span>
@@ -199,6 +270,29 @@
 
 </div>
 <span class="nd">@login_required</span>
+<span class="k">def</span> <span class="nf">editar_atributo_tipo_item</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Funcion para Modificar un Tipo Item.</span>
+<span class="sd">    Retorna la pagina con el formulario correspondiente para la modificacion</span>
+<span class="sd">    del atributo Tipo Item.</span>
+
+<span class="sd">    :param request: Parametro a ser procesado.</span>
+<span class="sd">    :param pk: Parametro a ser procesado el identificador del atributo tipo de Item que va a modificarse.</span>
+<span class="sd">    :type request: HttpRequest.</span>
+<span class="sd">    :type pk: int.</span>
+<span class="sd">    :returns: La pagina correspondiente.</span>
+<span class="sd">    :rtype: El response correspondiente.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+    <span class="n">atributo_tipo_item</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Atributo</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
+    <span class="n">atributo_tipo_item_form</span> <span class="o">=</span> <span class="n">AtributoTipoItemForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span> <span class="ow">or</span> <span class="bp">None</span><span class="p">,</span> <span class="n">instance</span><span class="o">=</span><span class="n">atributo_tipo_item</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">atributo_tipo_item_form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+        <span class="n">atributo_tipo_item_form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s">&#39;listar_atributo_tipo_item&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;des/editar_atributo_tipo_item.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;atributo_tipo_item_form&#39;</span><span class="p">:</span> <span class="n">atributo_tipo_item_form</span><span class="p">},</span> <span class="n">context</span><span class="p">)</span>
+
+
+<span class="nd">@login_required</span>
 <div class="viewcode-block" id="editar_tipo_item"><a class="viewcode-back" href="../../../../des.html#pmm_is2.apps.des.views.editar_tipo_item">[docs]</a><span class="k">def</span> <span class="nf">editar_tipo_item</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Funcion para Modificar un Tipo Item.</span>
 <span class="sd">    Retorna la pagina con el formulario correspondiente para la modificacion</span>
@@ -234,16 +328,43 @@
 <span class="sd">    :returns: La pagina correspondiente.</span>
 <span class="sd">    :rtype: El response correspondiente.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">registered</span> <span class="o">=</span> <span class="bp">False</span>
+
     <span class="n">context</span> <span class="o">=</span> <span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
     <span class="n">item</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Item</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
     <span class="n">item_form</span> <span class="o">=</span> <span class="n">ItemFormEdit</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span> <span class="ow">or</span> <span class="bp">None</span><span class="p">,</span> <span class="n">instance</span><span class="o">=</span><span class="n">item</span><span class="p">,</span> <span class="n">id_fase</span><span class="o">=</span><span class="n">item</span><span class="o">.</span><span class="n">id_fase</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">item_form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+        <span class="n">item_form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">modificado</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span>
+        <span class="n">item_form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">fecha_modificacion</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
         <span class="n">item_form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s">&#39;listar_item&#39;</span><span class="p">)</span>
+        <span class="n">registered</span> <span class="o">=</span> <span class="bp">True</span>
 
-    <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;des/editar_item.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;item_form&#39;</span><span class="p">:</span> <span class="n">item_form</span><span class="p">},</span> <span class="n">context</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;des/editar_item.html&#39;</span><span class="p">,</span>
+                              <span class="p">{</span>
+                                <span class="s">&#39;item_form&#39;</span><span class="p">:</span> <span class="n">item_form</span><span class="p">,</span> <span class="s">&#39;registered&#39;</span><span class="p">:</span> <span class="n">registered</span>
+                              <span class="p">},</span> <span class="n">context</span><span class="p">)</span>
 
 </div>
+<span class="nd">@login_required</span>
+<span class="k">def</span> <span class="nf">eliminar_atributo_tipo_item</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Funcion para Eliminar un atributo Tipo Item.</span>
+
+<span class="sd">    :param request: Parametro a ser procesado.</span>
+<span class="sd">    :param pk: Parametro a ser procesado el identificador del tipo de Item que va a eliminarse.</span>
+<span class="sd">    :type request: HttpRequest.</span>
+<span class="sd">    :type pk: int.</span>
+<span class="sd">    :returns: La pagina correspondiente.</span>
+<span class="sd">    :rtype: El response correspondiente.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+    <span class="n">atributo_tipo_item</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Atributo</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s">&#39;POST&#39;</span><span class="p">:</span>
+        <span class="n">atributo_tipo_item</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s">&#39;listar_atributo_tipo_item&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;des/confirmar_eliminacion_atributo_tipo_item.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;atributo_tipo_item&#39;</span><span class="p">:</span> <span class="n">atributo_tipo_item</span><span class="p">},</span> <span class="n">context</span><span class="p">)</span>
+
+
 <span class="nd">@login_required</span>
 <div class="viewcode-block" id="eliminar_tipo_item"><a class="viewcode-back" href="../../../../des.html#pmm_is2.apps.des.views.eliminar_tipo_item">[docs]</a><span class="k">def</span> <span class="nf">eliminar_tipo_item</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Funcion para Eliminar un Tipo Item.</span>
@@ -279,12 +400,285 @@
     <span class="n">item</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Item</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s">&#39;POST&#39;</span> <span class="ow">and</span> <span class="n">item</span><span class="o">.</span><span class="n">estado</span> <span class="o">==</span> <span class="s">&#39;ACTIVO&#39;</span><span class="p">:</span>
         <span class="n">item</span><span class="o">.</span><span class="n">estado</span> <span class="o">=</span> <span class="s">&#39;INACTIVO&#39;</span>
+        <span class="k">for</span> <span class="n">relacion</span> <span class="ow">in</span> <span class="n">item</span><span class="o">.</span><span class="n">ItemA</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">esta_activa</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">tipo</span><span class="o">=</span><span class="s">&#39;PADRE-HIJO&#39;</span><span class="p">):</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">&quot;itemA: &quot;</span><span class="p">,</span> <span class="n">relacion</span><span class="p">)</span>
+            <span class="n">relacion</span><span class="o">.</span><span class="n">esta_activa</span> <span class="o">=</span> <span class="bp">False</span>
+            <span class="n">relacion</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">relacion</span> <span class="ow">in</span> <span class="n">item</span><span class="o">.</span><span class="n">ItemB</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">esta_activa</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">tipo</span><span class="o">=</span><span class="s">&#39;PADRE-HIJO&#39;</span><span class="p">):</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">&quot;itemB: &quot;</span><span class="p">,</span> <span class="n">relacion</span><span class="p">)</span>
+            <span class="n">relacion</span><span class="o">.</span><span class="n">esta_activa</span> <span class="o">=</span> <span class="bp">False</span>
+            <span class="n">relacion</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
         <span class="n">item</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">ItemA</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">tipo</span><span class="o">=</span><span class="s">&#39;ANTECESOR-SUCESOR&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">&#39;existe antecesor-sucesor&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s">&#39;relation_fix&#39;</span><span class="p">,</span> <span class="n">item_id</span><span class="o">=</span><span class="n">item</span><span class="o">.</span><span class="n">id_item</span><span class="p">)</span>
+
         <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s">&#39;/des/&#39;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;des/confirmar_eliminacion_item.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;item&#39;</span><span class="p">:</span> <span class="n">item</span><span class="p">},</span> <span class="n">context</span><span class="p">)</span>
 
 </div>
+<span class="nd">@login_required</span>
+<span class="k">def</span> <span class="nf">relation_fix</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">item_id</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Funcion para agregar relaciones de item.</span>
+<span class="sd">    Retorna la pagina correspondiente de la agregacion del item</span>
+
+<span class="sd">    :param request: Parametro a ser procesado.</span>
+<span class="sd">    :param id_fase: Parametro a ser procesado. Identificador de la fase.</span>
+<span class="sd">    :type request: HttpRequest.</span>
+<span class="sd">    :returns: La pagina correspondiente.</span>
+<span class="sd">    :rtype: El response correspondiente.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+    <span class="n">creado</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">item</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Item</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">item_id</span><span class="p">)</span>
+    <span class="n">id_fase</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">id_fase_id</span>
+    <span class="n">pk</span> <span class="o">=</span> <span class="n">id_fase</span>
+    <span class="n">object_fase</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Fase</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s">&#39;POST&#39;</span><span class="p">:</span>
+        <span class="n">relacion_form</span> <span class="o">=</span> <span class="n">RelationFixForm</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">,</span> <span class="n">item_id</span><span class="o">=</span><span class="n">item_id</span><span class="p">,</span> <span class="n">id_fase</span><span class="o">=</span><span class="n">id_fase</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">relacion_form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="n">itemA</span> <span class="o">=</span> <span class="n">relacion_form</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s">&#39;del_item&#39;</span><span class="p">]</span>
+            <span class="n">itemB</span> <span class="o">=</span> <span class="n">relacion_form</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s">&#39;al_item&#39;</span><span class="p">]</span>
+            <span class="n">tipo</span> <span class="o">=</span> <span class="n">relacion_form</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s">&#39;tipo&#39;</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">Relacion</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">del_item_id</span><span class="o">=</span><span class="n">itemA</span><span class="p">,</span> <span class="n">al_item_id</span><span class="o">=</span><span class="n">itemB</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+
+                <span class="k">if</span> <span class="n">itemA</span><span class="o">.</span><span class="n">id_item</span> <span class="o">!=</span> <span class="n">itemB</span><span class="o">.</span><span class="n">id_item</span><span class="p">:</span>
+
+                    <span class="n">lista_item</span> <span class="o">=</span> <span class="n">get_lista_item</span><span class="p">()</span>
+                    <span class="n">max_id_item</span> <span class="o">=</span> <span class="n">lista_item</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s">&#39;id_item&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">reverse</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="k">global</span> <span class="n">padre</span><span class="p">,</span> <span class="n">visitados</span><span class="p">,</span> <span class="n">ciclo</span><span class="p">,</span> <span class="n">hijo</span>
+                    <span class="n">visitados</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">max_id_item</span><span class="o">.</span><span class="n">id_item</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                    <span class="n">hijo</span> <span class="o">=</span> <span class="n">itemB</span><span class="o">.</span><span class="n">id_item</span>
+                    <span class="n">padre</span> <span class="o">=</span> <span class="n">itemA</span><span class="o">.</span><span class="n">id_item</span>
+                    <span class="n">ciclo</span> <span class="o">=</span> <span class="bp">True</span>
+                    <span class="k">print</span><span class="p">(</span><span class="s">&#39;ciclo1: &#39;</span><span class="p">,</span> <span class="n">ciclo</span><span class="p">)</span>
+                    <span class="k">print</span><span class="p">(</span><span class="s">&#39;padre: &#39;</span><span class="p">,</span> <span class="n">padre</span><span class="p">)</span>
+                    <span class="k">print</span><span class="p">(</span><span class="s">&#39;hijo: &#39;</span><span class="p">,</span> <span class="n">hijo</span><span class="p">)</span>
+                    <span class="n">verificar_relacion</span><span class="p">(</span><span class="n">hijo</span><span class="p">)</span>
+                    <span class="k">print</span><span class="p">(</span><span class="s">&#39;ciclo2: &#39;</span><span class="p">,</span> <span class="n">ciclo</span><span class="p">)</span>
+
+                    <span class="k">if</span> <span class="n">ciclo</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">itemA</span><span class="o">.</span><span class="n">id_fase</span> <span class="o">==</span> <span class="n">itemB</span><span class="o">.</span><span class="n">id_fase</span> <span class="ow">and</span> <span class="n">tipo</span> <span class="o">==</span> <span class="s">&quot;PADRE-HIJO&quot;</span><span class="p">:</span>
+                            <span class="n">relacion_form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">fase</span> <span class="o">=</span> <span class="n">object_fase</span>
+                            <span class="n">relacion</span> <span class="o">=</span> <span class="n">relacion_form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+                            <span class="n">relacion</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+                            <span class="n">creado</span> <span class="o">=</span> <span class="bp">True</span>
+                        <span class="k">elif</span> <span class="n">itemA</span><span class="o">.</span><span class="n">id_fase</span> <span class="o">!=</span> <span class="n">itemB</span><span class="o">.</span><span class="n">id_fase</span> <span class="ow">and</span> <span class="n">tipo</span> <span class="o">==</span> <span class="s">&quot;ANTECESOR-SUCESOR&quot;</span><span class="p">:</span>
+                            <span class="n">relacion_form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">fase</span> <span class="o">=</span> <span class="n">object_fase</span>
+                            <span class="n">relacion</span> <span class="o">=</span> <span class="n">relacion_form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+                            <span class="n">relacion</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+                            <span class="n">creado</span> <span class="o">=</span> <span class="bp">True</span>
+                            <span class="k">for</span> <span class="n">relacion</span> <span class="ow">in</span> <span class="n">item</span><span class="o">.</span><span class="n">ItemA</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">esta_activa</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">tipo</span><span class="o">=</span><span class="s">&#39;ANTECESOR-SUCESOR&#39;</span><span class="p">):</span>
+                                <span class="n">relacion</span><span class="o">.</span><span class="n">esta_activa</span> <span class="o">=</span> <span class="bp">False</span>
+                                <span class="n">relacion</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+                            <span class="k">for</span> <span class="n">relacion</span> <span class="ow">in</span> <span class="n">item</span><span class="o">.</span><span class="n">ItemB</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">esta_activa</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">tipo</span><span class="o">=</span><span class="s">&#39;ANTECESOR-SUCESOR&#39;</span><span class="p">):</span>
+                                <span class="n">relacion</span><span class="o">.</span><span class="n">esta_activa</span> <span class="o">=</span> <span class="bp">False</span>
+                                <span class="n">relacion</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="n">tipo</span> <span class="o">==</span> <span class="s">&quot;PADRE-HIJO&quot;</span><span class="p">:</span>
+                                <span class="n">error</span> <span class="o">=</span> <span class="s">&quot;El tipo de relacion no puede ser Padre-Hijo ya que los items&quot;</span> \
+                                        <span class="s">&quot; no pertenecen a la misma fase. Cambie el tipo de relacion&quot;</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="n">error</span> <span class="o">=</span> <span class="s">&quot;El tipo de relacion no puede ser Antecesor-Sucesor ya que los items&quot;</span> \
+                                    <span class="s">&quot; pertenecen a la misma fase. Cambie el tipo de relacion&quot;</span>
+
+                            <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;des/relation_fix.html&#39;</span><span class="p">,</span>
+                                      <span class="p">{</span>
+                                          <span class="s">&#39;relacion_form&#39;</span><span class="p">:</span> <span class="n">relacion_form</span><span class="p">,</span>
+                                          <span class="s">&#39;error&#39;</span><span class="p">:</span> <span class="n">error</span><span class="p">,</span>
+                                          <span class="s">&#39;fase&#39;</span><span class="p">:</span> <span class="n">id_fase</span><span class="p">,</span>
+                                      <span class="p">},</span>
+                                      <span class="n">context</span>
+                            <span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">error</span> <span class="o">=</span> <span class="s">&quot;No se puede generar esta relacion. Formara un ciclo!!&quot;</span>
+                        <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;des/relation_fix.html&#39;</span><span class="p">,</span>
+                                      <span class="p">{</span>
+                                          <span class="s">&#39;relacion_form&#39;</span><span class="p">:</span> <span class="n">relacion_form</span><span class="p">,</span>
+                                          <span class="s">&#39;error&#39;</span><span class="p">:</span> <span class="n">error</span><span class="p">,</span>
+                                          <span class="s">&#39;fase&#39;</span><span class="p">:</span> <span class="n">id_fase</span><span class="p">,</span>
+                                      <span class="p">},</span>
+                                      <span class="n">context</span>
+                        <span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">error</span> <span class="o">=</span> <span class="s">&quot;No se puede crear una relacion en el mismo ITEM&quot;</span>
+                    <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;des/relation_fix.html&#39;</span><span class="p">,</span>
+                                  <span class="p">{</span>
+                                      <span class="s">&#39;relacion_form&#39;</span><span class="p">:</span> <span class="n">relacion_form</span><span class="p">,</span>
+                                      <span class="s">&#39;error&#39;</span><span class="p">:</span> <span class="n">error</span><span class="p">,</span>
+                                      <span class="s">&#39;fase&#39;</span><span class="p">:</span> <span class="n">id_fase</span><span class="p">,</span>
+                                  <span class="p">},</span>
+                                  <span class="n">context</span>
+                    <span class="p">)</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">error</span> <span class="o">=</span> <span class="s">&quot;Esta relacion ya existe!!&quot;</span>
+                <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;des/relation_fix.html&#39;</span><span class="p">,</span>
+                              <span class="p">{</span>
+                                  <span class="s">&#39;relacion_form&#39;</span><span class="p">:</span> <span class="n">relacion_form</span><span class="p">,</span>
+                                  <span class="s">&#39;error&#39;</span><span class="p">:</span> <span class="n">error</span><span class="p">,</span>
+                                  <span class="s">&#39;fase&#39;</span><span class="p">:</span> <span class="n">id_fase</span><span class="p">,</span>
+                                  <span class="s">&#39;item_id&#39;</span><span class="p">:</span> <span class="n">item</span><span class="o">.</span><span class="n">id_item</span><span class="p">,</span>
+                              <span class="p">},</span>
+                              <span class="n">context</span>
+                <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">print</span> <span class="n">RelationFixForm</span><span class="o">.</span><span class="n">errors</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">relacion_form</span> <span class="o">=</span> <span class="n">RelationFixForm</span><span class="p">(</span><span class="n">item_id</span><span class="o">=</span><span class="n">item_id</span><span class="p">,</span> <span class="n">id_fase</span><span class="o">=</span><span class="n">id_fase</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;des/relation_fix.html&#39;</span><span class="p">,</span>
+                              <span class="p">{</span>
+                                  <span class="s">&#39;relacion_form&#39;</span><span class="p">:</span> <span class="n">relacion_form</span><span class="p">,</span>
+                                  <span class="s">&#39;creado&#39;</span><span class="p">:</span> <span class="n">creado</span><span class="p">,</span>
+                                  <span class="s">&#39;fase&#39;</span><span class="p">:</span> <span class="n">id_fase</span><span class="p">,</span>
+                                  <span class="s">&#39;item_id&#39;</span><span class="p">:</span> <span class="n">item</span><span class="o">.</span><span class="n">id_item</span><span class="p">,</span>
+                              <span class="p">},</span>
+                              <span class="n">context</span>
+    <span class="p">)</span>
+
+
+<span class="nd">@login_required</span>
+<span class="k">def</span> <span class="nf">relation_fix_revive</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">item_id</span><span class="p">,</span> <span class="n">item_id_sucesor</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Funcion para agregar relaciones de item.</span>
+<span class="sd">    Retorna la pagina correspondiente de la agregacion del item</span>
+
+<span class="sd">    :param request: Parametro a ser procesado.</span>
+<span class="sd">    :param id_fase: Parametro a ser procesado. Identificador de la fase.</span>
+<span class="sd">    :type request: HttpRequest.</span>
+<span class="sd">    :returns: La pagina correspondiente.</span>
+<span class="sd">    :rtype: El response correspondiente.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+    <span class="n">creado</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">item</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Item</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">item_id</span><span class="p">)</span>
+    <span class="n">id_fase</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">id_fase_id</span>
+    <span class="n">pk</span> <span class="o">=</span> <span class="n">id_fase</span>
+    <span class="n">object_fase</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Fase</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s">&#39;POST&#39;</span><span class="p">:</span>
+        <span class="n">relacion_form</span> <span class="o">=</span> <span class="n">RelationFixReviveForm</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">,</span> <span class="n">item_id</span><span class="o">=</span><span class="n">item_id</span><span class="p">,</span> <span class="n">id_fase</span><span class="o">=</span><span class="n">id_fase</span><span class="p">,</span> <span class="n">item_id_sucesor</span><span class="o">=</span><span class="n">item_id_sucesor</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">relacion_form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="n">itemA</span> <span class="o">=</span> <span class="n">relacion_form</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s">&#39;del_item&#39;</span><span class="p">]</span>
+            <span class="n">itemB</span> <span class="o">=</span> <span class="n">relacion_form</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s">&#39;al_item&#39;</span><span class="p">]</span>
+            <span class="n">tipo</span> <span class="o">=</span> <span class="n">relacion_form</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s">&#39;tipo&#39;</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">Relacion</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">del_item_id</span><span class="o">=</span><span class="n">itemA</span><span class="p">,</span> <span class="n">al_item_id</span><span class="o">=</span><span class="n">itemB</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+
+                <span class="k">if</span> <span class="n">itemA</span><span class="o">.</span><span class="n">id_item</span> <span class="o">!=</span> <span class="n">itemB</span><span class="o">.</span><span class="n">id_item</span><span class="p">:</span>
+
+                    <span class="n">lista_item</span> <span class="o">=</span> <span class="n">get_lista_item</span><span class="p">()</span>
+                    <span class="n">max_id_item</span> <span class="o">=</span> <span class="n">lista_item</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s">&#39;id_item&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">reverse</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="k">global</span> <span class="n">padre</span><span class="p">,</span> <span class="n">visitados</span><span class="p">,</span> <span class="n">ciclo</span><span class="p">,</span> <span class="n">hijo</span>
+                    <span class="n">visitados</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">max_id_item</span><span class="o">.</span><span class="n">id_item</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                    <span class="n">hijo</span> <span class="o">=</span> <span class="n">itemB</span><span class="o">.</span><span class="n">id_item</span>
+                    <span class="n">padre</span> <span class="o">=</span> <span class="n">itemA</span><span class="o">.</span><span class="n">id_item</span>
+                    <span class="n">ciclo</span> <span class="o">=</span> <span class="bp">True</span>
+                    <span class="k">print</span><span class="p">(</span><span class="s">&#39;ciclo1: &#39;</span><span class="p">,</span> <span class="n">ciclo</span><span class="p">)</span>
+                    <span class="k">print</span><span class="p">(</span><span class="s">&#39;padre: &#39;</span><span class="p">,</span> <span class="n">padre</span><span class="p">)</span>
+                    <span class="k">print</span><span class="p">(</span><span class="s">&#39;hijo: &#39;</span><span class="p">,</span> <span class="n">hijo</span><span class="p">)</span>
+                    <span class="n">verificar_relacion</span><span class="p">(</span><span class="n">hijo</span><span class="p">)</span>
+                    <span class="k">print</span><span class="p">(</span><span class="s">&#39;ciclo2: &#39;</span><span class="p">,</span> <span class="n">ciclo</span><span class="p">)</span>
+
+                    <span class="k">if</span> <span class="n">ciclo</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">itemA</span><span class="o">.</span><span class="n">id_fase</span> <span class="o">==</span> <span class="n">itemB</span><span class="o">.</span><span class="n">id_fase</span> <span class="ow">and</span> <span class="n">tipo</span> <span class="o">==</span> <span class="s">&quot;PADRE-HIJO&quot;</span><span class="p">:</span>
+                            <span class="n">relacion_form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">fase</span> <span class="o">=</span> <span class="n">object_fase</span>
+                            <span class="n">relacion_form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+                            <span class="n">creado</span> <span class="o">=</span> <span class="bp">True</span>
+                        <span class="k">elif</span> <span class="n">itemA</span><span class="o">.</span><span class="n">id_fase</span> <span class="o">!=</span> <span class="n">itemB</span><span class="o">.</span><span class="n">id_fase</span> <span class="ow">and</span> <span class="n">tipo</span> <span class="o">==</span> <span class="s">&quot;ANTECESOR-SUCESOR&quot;</span><span class="p">:</span>
+                            <span class="k">print</span><span class="p">(</span><span class="s">&#39;entro ak:&#39;</span><span class="p">)</span>
+                            <span class="n">relacion_form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">fase</span> <span class="o">=</span> <span class="n">object_fase</span>
+                            <span class="n">relacion_form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+                            <span class="n">creado</span> <span class="o">=</span> <span class="bp">True</span>
+                            <span class="c"># for relacion in item.ItemA.filter(esta_activa=True, tipo=&#39;ANTECESOR-SUCESOR&#39;):</span>
+                            <span class="c">#     relacion.esta_activa = False</span>
+                            <span class="c">#     relacion.save()</span>
+                            <span class="c"># for relacion in item.ItemB.filter(esta_activa=True, tipo=&#39;ANTECESOR-SUCESOR&#39;):</span>
+                            <span class="c">#     relacion.esta_activa = False</span>
+                            <span class="c">#     relacion.save()</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="n">tipo</span> <span class="o">==</span> <span class="s">&quot;PADRE-HIJO&quot;</span><span class="p">:</span>
+                                <span class="n">error</span> <span class="o">=</span> <span class="s">&quot;El tipo de relacion no puede ser Padre-Hijo ya que los items&quot;</span> \
+                                        <span class="s">&quot; no pertenecen a la misma fase. Cambie el tipo de relacion&quot;</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="n">error</span> <span class="o">=</span> <span class="s">&quot;El tipo de relacion no puede ser Antecesor-Sucesor ya que los items&quot;</span> \
+                                    <span class="s">&quot; pertenecen a la misma fase. Cambie el tipo de relacion&quot;</span>
+
+                            <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;des/relation_fix_revive.html&#39;</span><span class="p">,</span>
+                                      <span class="p">{</span>
+                                          <span class="s">&#39;relacion_form&#39;</span><span class="p">:</span> <span class="n">relacion_form</span><span class="p">,</span>
+                                          <span class="s">&#39;error&#39;</span><span class="p">:</span> <span class="n">error</span><span class="p">,</span>
+                                          <span class="s">&#39;fase&#39;</span><span class="p">:</span> <span class="n">id_fase</span><span class="p">,</span>
+                                      <span class="p">},</span>
+                                      <span class="n">context</span>
+                            <span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">error</span> <span class="o">=</span> <span class="s">&quot;No se puede generar esta relacion. Formara un ciclo!!&quot;</span>
+                        <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;des/relation_fix_revive.html&#39;</span><span class="p">,</span>
+                                      <span class="p">{</span>
+                                          <span class="s">&#39;relacion_form&#39;</span><span class="p">:</span> <span class="n">relacion_form</span><span class="p">,</span>
+                                          <span class="s">&#39;error&#39;</span><span class="p">:</span> <span class="n">error</span><span class="p">,</span>
+                                          <span class="s">&#39;fase&#39;</span><span class="p">:</span> <span class="n">id_fase</span><span class="p">,</span>
+                                      <span class="p">},</span>
+                                      <span class="n">context</span>
+                        <span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">error</span> <span class="o">=</span> <span class="s">&quot;No se puede crear una relacion en el mismo ITEM&quot;</span>
+                    <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;des/relation_fix_revive.html&#39;</span><span class="p">,</span>
+                                  <span class="p">{</span>
+                                      <span class="s">&#39;relacion_form&#39;</span><span class="p">:</span> <span class="n">relacion_form</span><span class="p">,</span>
+                                      <span class="s">&#39;error&#39;</span><span class="p">:</span> <span class="n">error</span><span class="p">,</span>
+                                      <span class="s">&#39;fase&#39;</span><span class="p">:</span> <span class="n">id_fase</span><span class="p">,</span>
+                                  <span class="p">},</span>
+                                  <span class="n">context</span>
+                    <span class="p">)</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">error</span> <span class="o">=</span> <span class="s">&quot;Esta relacion ya existe!!&quot;</span>
+                <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;des/relation_fix_revive.html&#39;</span><span class="p">,</span>
+                              <span class="p">{</span>
+                                  <span class="s">&#39;relacion_form&#39;</span><span class="p">:</span> <span class="n">relacion_form</span><span class="p">,</span>
+                                  <span class="s">&#39;error&#39;</span><span class="p">:</span> <span class="n">error</span><span class="p">,</span>
+                                  <span class="s">&#39;fase&#39;</span><span class="p">:</span> <span class="n">id_fase</span><span class="p">,</span>
+                                  <span class="s">&#39;item_id&#39;</span><span class="p">:</span> <span class="n">item</span><span class="o">.</span><span class="n">id_item</span><span class="p">,</span>
+                                  <span class="s">&#39;item_id_sucesor&#39;</span><span class="p">:</span> <span class="n">item_id_sucesor</span><span class="p">,</span>
+                              <span class="p">},</span>
+                              <span class="n">context</span>
+                <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">print</span> <span class="n">RelationFixForm</span><span class="o">.</span><span class="n">errors</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">relacion_form</span> <span class="o">=</span> <span class="n">RelationFixReviveForm</span><span class="p">(</span><span class="n">item_id</span><span class="o">=</span><span class="n">item_id</span><span class="p">,</span> <span class="n">id_fase</span><span class="o">=</span><span class="n">id_fase</span><span class="p">,</span> <span class="n">item_id_sucesor</span><span class="o">=</span><span class="n">item_id_sucesor</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;des/relation_fix_revive.html&#39;</span><span class="p">,</span>
+                              <span class="p">{</span>
+                                  <span class="s">&#39;relacion_form&#39;</span><span class="p">:</span> <span class="n">relacion_form</span><span class="p">,</span>
+                                  <span class="s">&#39;creado&#39;</span><span class="p">:</span> <span class="n">creado</span><span class="p">,</span>
+                                  <span class="s">&#39;fase&#39;</span><span class="p">:</span> <span class="n">id_fase</span><span class="p">,</span>
+                                  <span class="s">&#39;item_id&#39;</span><span class="p">:</span> <span class="n">item</span><span class="o">.</span><span class="n">id_item</span><span class="p">,</span>
+                                  <span class="s">&#39;item_id_sucesor&#39;</span><span class="p">:</span> <span class="n">item_id_sucesor</span><span class="p">,</span>
+                              <span class="p">},</span>
+                              <span class="n">context</span>
+    <span class="p">)</span>
+
+
+<span class="nd">@login_required</span>
+<span class="k">def</span> <span class="nf">ver_atributo_tipo_item</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+    <span class="n">atributo_tipo_item</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">AtributoTipoItem</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
+
+    <span class="n">context_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;atributo_tipo_item&#39;</span><span class="p">:</span> <span class="n">atributo_tipo_item</span><span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;des/atributo_tipo_item.html&#39;</span><span class="p">,</span> <span class="n">context_dict</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+
+
 <span class="nd">@login_required</span>
 <span class="k">def</span> <span class="nf">ver_tipo_item</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
     <span class="n">context</span> <span class="o">=</span> <span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
@@ -293,6 +687,7 @@
     <span class="n">context_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;tipo_item&#39;</span><span class="p">:</span> <span class="n">tipo_item</span><span class="p">}</span>
 
     <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;des/tipo_item.html&#39;</span><span class="p">,</span> <span class="n">context_dict</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+
 
 <span class="nd">@login_required</span>
 <span class="k">def</span> <span class="nf">ver_item</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
@@ -333,7 +728,7 @@
         <span class="n">cat_list</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="n">starts_with</span><span class="p">:</span>
             <span class="n">starts_with</span> <span class="o">=</span> <span class="n">starts_with</span> <span class="o">+</span> <span class="s">&#39;%&#39;</span>
-            <span class="n">cat_list</span> <span class="o">=</span> <span class="n">TipoItem</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">nombre_tipo_item__like</span><span class="o">=</span><span class="n">starts_with</span><span class="p">)</span>
+            <span class="n">cat_list</span> <span class="o">=</span> <span class="n">TipoItem</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">nombre_tipo_item__ilike</span><span class="o">=</span><span class="n">starts_with</span><span class="p">)</span>
         <span class="c"># else:</span>
         <span class="c">#         cat_list = User.objects.all()</span>
         <span class="c">#</span>
@@ -350,7 +745,7 @@
         <span class="n">cat_list</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="n">starts_with</span><span class="p">:</span>
             <span class="n">starts_with</span> <span class="o">=</span> <span class="n">starts_with</span> <span class="o">+</span> <span class="s">&#39;%&#39;</span>
-            <span class="n">cat_list</span> <span class="o">=</span> <span class="n">Item</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">nombre_item__like</span><span class="o">=</span><span class="n">starts_with</span><span class="p">)</span>
+            <span class="n">cat_list</span> <span class="o">=</span> <span class="n">Item</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">nombre_item__ilike</span><span class="o">=</span><span class="n">starts_with</span><span class="p">)</span>
         <span class="c"># else:</span>
         <span class="c">#         cat_list = User.objects.all()</span>
         <span class="c">#</span>
@@ -365,7 +760,7 @@
 
 <span class="c">#agregado Adri</span>
 <span class="nd">@login_required</span>
-<div class="viewcode-block" id="archivoadjunto_page"><a class="viewcode-back" href="../../../../des.html#pmm_is2.apps.des.views.archivoadjunto_page">[docs]</a><span class="k">def</span> <span class="nf">archivoadjunto_page</span><span class="p">(</span><span class="n">request</span><span class="p">,</span><span class="n">pk</span><span class="p">):</span>
+<div class="viewcode-block" id="archivoadjunto_page"><a class="viewcode-back" href="../../../../des.html#pmm_is2.apps.des.views.archivoadjunto_page">[docs]</a><span class="k">def</span> <span class="nf">archivoadjunto_page</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Funcion para Adjuntar un archivo a un Item.</span>
 <span class="sd">    Retorna la pagina con el formulario correspondiente para la modificacion</span>
 <span class="sd">    del item.</span>
@@ -383,11 +778,27 @@
     <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s">&#39;POST&#39;</span><span class="p">:</span>
         <span class="n">archivoAdjunto_form</span> <span class="o">=</span> <span class="n">ArchivoAdjuntoForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">FILES</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">archivoAdjunto_form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="n">item_relacionado</span> <span class="o">=</span> <span class="n">archivoAdjunto_form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">id_item_relacionado</span>
+            <span class="n">archivoAdjunto_form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">id_version_item</span> <span class="o">=</span> <span class="n">item_relacionado</span><span class="o">.</span><span class="n">version_item</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="n">item_relacionado</span><span class="o">.</span><span class="n">modificado</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span>
+            <span class="n">item_relacionado</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+            <span class="n">version_item_id</span> <span class="o">=</span> <span class="n">item_relacionado</span><span class="o">.</span><span class="n">version_item</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">&#39;archivo_adjunto&#39;</span><span class="p">,</span> <span class="n">item_relacionado</span><span class="o">.</span><span class="n">archivo_adjunto</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">id_version_item</span><span class="o">=</span><span class="n">version_item_id</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">archivo_adjunto</span> <span class="ow">in</span> <span class="n">item_relacionado</span><span class="o">.</span><span class="n">archivo_adjunto</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">id_version_item</span><span class="o">=</span><span class="n">version_item_id</span><span class="p">):</span>
+                <span class="n">a</span> <span class="o">=</span> <span class="n">ArchivoAdjunto</span><span class="p">(</span>
+                                        <span class="n">filename</span><span class="o">=</span><span class="n">archivo_adjunto</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span>
+                                        <span class="n">path_archivo</span><span class="o">=</span><span class="n">archivo_adjunto</span><span class="o">.</span><span class="n">path_archivo</span><span class="p">,</span>
+                                        <span class="n">id_item_relacionado</span><span class="o">=</span><span class="n">archivo_adjunto</span><span class="o">.</span><span class="n">id_item_relacionado</span><span class="p">,</span>
+                                        <span class="n">id_version_item</span><span class="o">=</span><span class="n">item_relacionado</span><span class="o">.</span><span class="n">version_item</span>
+                                  <span class="p">)</span>
+                <span class="n">a</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
             <span class="n">archivoAdjunto_form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
             <span class="n">creado</span> <span class="o">=</span> <span class="bp">True</span>
             <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;des/archivoadjunto.html&#39;</span><span class="p">,</span>
                               <span class="p">{</span>
-                                  <span class="s">&#39;archivoAdjunto_form&#39;</span><span class="p">:</span><span class="n">archivoAdjunto_form</span><span class="p">,</span>
+                                  <span class="s">&#39;archivoAdjunto_form&#39;</span><span class="p">:</span> <span class="n">archivoAdjunto_form</span><span class="p">,</span>
                                   <span class="s">&#39;creado&#39;</span><span class="p">:</span> <span class="n">creado</span><span class="p">,</span>
                               <span class="p">},</span>
                               <span class="n">context</span><span class="p">)</span>
@@ -396,12 +807,12 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="n">archivoAdjunto_form</span> <span class="o">=</span> <span class="n">ArchivoAdjuntoForm</span><span class="p">()</span>
         <span class="n">item</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Item</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
-        <span class="n">datap</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;id_item_relacionado&#39;</span><span class="p">:</span><span class="n">item</span><span class="p">}</span>
+        <span class="n">datap</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;id_item_relacionado&#39;</span><span class="p">:</span> <span class="n">item</span><span class="p">}</span>
         <span class="n">archivoAdjunto_form</span> <span class="o">=</span> <span class="n">ArchivoAdjuntoForm</span><span class="p">(</span><span class="n">initial</span><span class="o">=</span><span class="n">datap</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;des/archivoadjunto.html&#39;</span><span class="p">,</span>
                               <span class="p">{</span>
-                                  <span class="s">&#39;archivoAdjunto_form&#39;</span><span class="p">:</span><span class="n">archivoAdjunto_form</span><span class="p">,</span>
-                                  <span class="s">&#39;creado&#39;</span><span class="p">:</span> <span class="n">creado</span><span class="p">,</span><span class="s">&#39;item&#39;</span><span class="p">:</span><span class="n">item</span><span class="p">,</span>
+                                  <span class="s">&#39;archivoAdjunto_form&#39;</span><span class="p">:</span> <span class="n">archivoAdjunto_form</span><span class="p">,</span>
+                                  <span class="s">&#39;creado&#39;</span><span class="p">:</span> <span class="n">creado</span><span class="p">,</span> <span class="s">&#39;item&#39;</span><span class="p">:</span> <span class="n">item</span><span class="p">,</span>
                               <span class="p">},</span>
                               <span class="n">context</span><span class="p">)</span>
 
@@ -431,7 +842,7 @@
 
     <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;des/crear_archivoAdjunto.html&#39;</span><span class="p">,</span>
                               <span class="p">{</span>
-                                  <span class="s">&#39;archivoAdjunto_form&#39;</span><span class="p">:</span><span class="n">archivoAdjunto_form</span><span class="p">,</span>
+                                  <span class="s">&#39;archivoAdjunto_form&#39;</span><span class="p">:</span> <span class="n">archivoAdjunto_form</span><span class="p">,</span>
                                   <span class="s">&#39;creado&#39;</span><span class="p">:</span> <span class="n">creado</span><span class="p">,</span>
                               <span class="p">},</span>
                               <span class="n">context</span>
@@ -442,12 +853,14 @@
 <span class="k">def</span> <span class="nf">desasignar</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
 
     <span class="n">context</span> <span class="o">=</span> <span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
-    <span class="n">existe</span><span class="o">=</span><span class="n">ArchivoAdjunto</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">id_item_relacionado</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
+    <span class="n">item</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Item</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
+    <span class="n">existe</span> <span class="o">=</span> <span class="n">ArchivoAdjunto</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">id_item_relacionado</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
+
     <span class="k">if</span> <span class="n">existe</span><span class="p">:</span>
-        <span class="n">traer</span><span class="o">=</span><span class="n">ArchivoAdjunto</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">id_item_relacionado</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
+        <span class="n">traer</span> <span class="o">=</span> <span class="n">ArchivoAdjunto</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">id_item_relacionado</span><span class="o">=</span><span class="n">pk</span><span class="p">,</span> <span class="n">id_version_item</span><span class="o">=</span><span class="n">item</span><span class="o">.</span><span class="n">version_item</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;des/desasignar.html&#39;</span><span class="p">,</span>
-                              <span class="p">{</span>
+                             <span class="p">{</span>
                                  <span class="s">&#39;traer&#39;</span><span class="p">:</span> <span class="n">traer</span><span class="p">,</span>
                              <span class="p">},</span>
                              <span class="n">context</span><span class="p">)</span>
@@ -648,7 +1061,7 @@
 
 </div>
 <span class="k">def</span> <span class="nf">get_lista_relacion</span><span class="p">(</span><span class="n">id_fase</span><span class="p">):</span>
-    <span class="n">lista_relacion</span> <span class="o">=</span> <span class="n">Relacion</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">fase_id</span><span class="o">=</span><span class="n">id_fase</span><span class="p">)</span>
+    <span class="n">lista_relacion</span> <span class="o">=</span> <span class="n">Relacion</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">fase_id</span><span class="o">=</span><span class="n">id_fase</span><span class="p">,</span> <span class="n">esta_activa</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">lista_relacion</span>
 
 
@@ -769,7 +1182,7 @@
     <span class="n">visitados</span><span class="p">[</span><span class="n">num</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">item</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Item</span><span class="p">,</span> <span class="n">id_item</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
     <span class="n">suma_costo</span> <span class="o">=</span> <span class="n">suma_costo</span> <span class="o">+</span> <span class="n">item</span><span class="o">.</span><span class="n">costo</span>
-    <span class="n">suma_impacto</span> <span class="o">=</span> <span class="n">suma_impacto</span> <span class="o">+</span> <span class="n">item</span><span class="o">.</span><span class="n">complejidad4</span>
+    <span class="n">suma_impacto</span> <span class="o">=</span> <span class="n">suma_impacto</span> <span class="o">+</span> <span class="n">item</span><span class="o">.</span><span class="n">complejidad</span>
     <span class="n">relaciones</span> <span class="o">=</span> <span class="n">get_relaciones</span><span class="p">(</span><span class="n">pk</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">relacion</span> <span class="ow">in</span> <span class="n">relaciones</span><span class="p">:</span>
         <span class="n">num</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">relacion</span><span class="o">.</span><span class="n">al_item</span><span class="o">.</span><span class="n">id_item</span><span class="p">)</span>
@@ -900,6 +1313,7 @@
         <span class="c">#     complejidad=version_item.complejidad, costo=version_item.costo,</span>
         <span class="c">#     ultima_version_item_id=version_item.ultima_version_item_id, id_tipo_item=version_item.id_tipo_item,</span>
         <span class="c">#     id_fase=version_item.id_fase)</span>
+
         <span class="n">item</span><span class="o">.</span><span class="n">nombre_item</span> <span class="o">=</span> <span class="n">version_item</span><span class="o">.</span><span class="n">nombre_item</span>
         <span class="n">item</span><span class="o">.</span><span class="n">iversion_item</span> <span class="o">=</span> <span class="n">version_item</span><span class="o">.</span><span class="n">version_item</span>
         <span class="n">item</span><span class="o">.</span><span class="n">prioridad</span> <span class="o">=</span> <span class="n">version_item</span><span class="o">.</span><span class="n">prioridad</span>
@@ -912,6 +1326,40 @@
         <span class="n">item</span><span class="o">.</span><span class="n">id_tipo_item</span> <span class="o">=</span> <span class="n">version_item</span><span class="o">.</span><span class="n">id_tipo_item</span>
         <span class="n">item</span><span class="o">.</span><span class="n">id_fase</span> <span class="o">=</span> <span class="n">version_item</span><span class="o">.</span><span class="n">id_fase</span>
         <span class="n">item</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+        <span class="n">lista_item</span> <span class="o">=</span> <span class="n">get_lista_item</span><span class="p">()</span>
+        <span class="n">max_id_item</span> <span class="o">=</span> <span class="n">lista_item</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s">&#39;id_item&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">reverse</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">global</span> <span class="n">padre</span><span class="p">,</span> <span class="n">visitados</span><span class="p">,</span> <span class="n">ciclo</span><span class="p">,</span> <span class="n">hijo</span>
+        <span class="n">visitados</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">max_id_item</span><span class="o">.</span><span class="n">id_item</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">relaciones</span> <span class="ow">in</span> <span class="n">item</span><span class="o">.</span><span class="n">ItemA</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">&#39;relaciones: &#39;</span><span class="p">,</span> <span class="n">relaciones</span><span class="o">.</span><span class="n">al_item_id</span><span class="p">)</span>
+            <span class="n">hijo</span> <span class="o">=</span> <span class="n">relaciones</span><span class="o">.</span><span class="n">al_item_id</span>
+            <span class="n">padre</span> <span class="o">=</span> <span class="n">relaciones</span><span class="o">.</span><span class="n">del_item_id</span>
+            <span class="n">ciclo</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">&#39;ciclo1: &#39;</span><span class="p">,</span> <span class="n">ciclo</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">&#39;padre: &#39;</span><span class="p">,</span> <span class="n">padre</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">&#39;hijo: &#39;</span><span class="p">,</span> <span class="n">hijo</span><span class="p">)</span>
+            <span class="n">verificar_relacion</span><span class="p">(</span><span class="n">hijo</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">&#39;ciclo2: &#39;</span><span class="p">,</span> <span class="n">ciclo</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">ciclo</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+                <span class="n">descendientes</span> <span class="o">=</span> <span class="n">Relacion</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">al_item_id</span><span class="o">=</span><span class="n">hijo</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+                <span class="k">print</span><span class="p">(</span><span class="s">&#39;descendientes: &#39;</span><span class="p">,</span> <span class="n">descendientes</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">descendientes</span> <span class="ow">is</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">relaciones</span><span class="o">.</span><span class="n">esta_activa</span> <span class="o">=</span> <span class="bp">True</span>
+                    <span class="n">relaciones</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">print</span><span class="p">(</span><span class="s">&#39;quilombo&#39;</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s">&#39;relation_fix_revive&#39;</span><span class="p">,</span> <span class="n">item_id</span><span class="o">=</span><span class="n">item</span><span class="o">.</span><span class="n">id_item</span><span class="p">,</span> <span class="n">item_id_sucesor</span><span class="o">=</span><span class="n">hijo</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="s">&#39;quilombo&#39;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s">&#39;relation_fix_revive&#39;</span><span class="p">,</span> <span class="n">item_id</span><span class="o">=</span><span class="n">item</span><span class="o">.</span><span class="n">id_item</span><span class="p">,</span> <span class="n">item_id_sucesor</span><span class="o">=</span><span class="n">hijo</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">relaciones</span> <span class="ow">in</span> <span class="n">item</span><span class="o">.</span><span class="n">ItemB</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+            <span class="n">relaciones</span><span class="o">.</span><span class="n">esta_activa</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="n">relaciones</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
         <span class="n">creado</span> <span class="o">=</span> <span class="bp">True</span>
 
     <span class="k">else</span><span class="p">:</span>
@@ -949,9 +1397,19 @@
         <span class="n">item</span><span class="o">.</span><span class="n">ultima_version_item_id</span> <span class="o">=</span> <span class="n">version_item</span><span class="o">.</span><span class="n">ultima_version_item_id</span>
         <span class="n">item</span><span class="o">.</span><span class="n">id_tipo_item</span> <span class="o">=</span> <span class="n">version_item</span><span class="o">.</span><span class="n">id_tipo_item</span>
         <span class="n">item</span><span class="o">.</span><span class="n">id_fase</span> <span class="o">=</span> <span class="n">version_item</span><span class="o">.</span><span class="n">id_fase</span>
+        <span class="n">item</span><span class="o">.</span><span class="n">modificado</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span>
 
         <span class="n">item</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
         <span class="n">creado</span> <span class="o">=</span> <span class="bp">True</span>
+
+        <span class="k">for</span> <span class="n">archivo_adjunto</span> <span class="ow">in</span> <span class="n">item</span><span class="o">.</span><span class="n">archivo_adjunto</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">id_version_item</span><span class="o">=</span><span class="n">version_item</span><span class="o">.</span><span class="n">version_item</span><span class="p">):</span>
+                <span class="n">a</span> <span class="o">=</span> <span class="n">ArchivoAdjunto</span><span class="p">(</span>
+                                        <span class="n">filename</span><span class="o">=</span><span class="n">archivo_adjunto</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span>
+                                        <span class="n">path_archivo</span><span class="o">=</span><span class="n">archivo_adjunto</span><span class="o">.</span><span class="n">path_archivo</span><span class="p">,</span>
+                                        <span class="n">id_item_relacionado</span><span class="o">=</span><span class="n">archivo_adjunto</span><span class="o">.</span><span class="n">id_item_relacionado</span><span class="p">,</span>
+                                        <span class="n">id_version_item</span><span class="o">=</span><span class="n">item</span><span class="o">.</span><span class="n">version_item</span>
+                                  <span class="p">)</span>
+                <span class="n">a</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
 
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;des/revivir_item.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
@@ -984,6 +1442,10 @@
     <span class="n">fase</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Fase</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">id_fase</span><span class="p">)</span>
     <span class="n">context</span> <span class="o">=</span> <span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
     <span class="n">lista_item</span> <span class="o">=</span> <span class="n">get_phase_item_list</span><span class="p">(</span><span class="n">id_fase</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">lista_item</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;mirar&quot;</span><span class="p">,</span> <span class="n">item</span><span class="o">.</span><span class="n">ItemA</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">esta_activa</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+        <span class="n">item</span><span class="o">.</span><span class="n">ItemA</span><span class="o">.</span><span class="n">all</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">ItemA</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">esta_activa</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;ver&quot;</span><span class="p">,</span> <span class="n">item</span><span class="o">.</span><span class="n">ItemA</span><span class="o">.</span><span class="n">all</span><span class="p">())</span>
     <span class="n">context_dict</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">context_dict</span><span class="p">[</span><span class="s">&#39;lista_item&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lista_item</span>
     <span class="n">context_dict</span><span class="p">[</span><span class="s">&#39;proyecto&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fase</span><span class="o">.</span><span class="n">proyecto</span>
@@ -1011,29 +1473,58 @@
     <span class="n">context</span> <span class="o">=</span> <span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
     <span class="n">creado</span> <span class="o">=</span> <span class="bp">False</span>
     <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s">&#39;POST&#39;</span><span class="p">:</span>
-        <span class="n">solicitud_form</span> <span class="o">=</span> <span class="n">SolicitudForm</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">,</span><span class="n">idproyecto</span><span class="o">=</span><span class="n">id_proyecto</span><span class="p">,</span><span class="n">idfase</span><span class="o">=</span><span class="n">id_fase</span><span class="p">)</span>
+        <span class="n">solicitud_form</span> <span class="o">=</span> <span class="n">SolicitudForm</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">,</span><span class="n">idfase</span><span class="o">=</span><span class="n">id_fase</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">solicitud_form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
-            <span class="n">solicitud</span> <span class="o">=</span> <span class="n">solicitud_form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
-            <span class="n">solicitud</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
-            <span class="n">creado</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="k">print</span> <span class="s">&#39;controlar item en linea base&#39;</span>
+            <span class="k">print</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span>
+            <span class="n">ite</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">getlist</span><span class="p">(</span><span class="s">&#39;nombre_item&#39;</span><span class="p">)</span>
+            <span class="k">print</span> <span class="n">ite</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">line</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">getlist</span><span class="p">(</span><span class="s">&#39;nombre_linea_base&#39;</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">hay</span><span class="o">=</span><span class="n">LineaBase</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">id_linea_base</span><span class="o">=</span><span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">items</span><span class="o">=</span><span class="n">ite</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
+            <span class="k">print</span> <span class="s">&#39;sera que hay&#39;</span>
+            <span class="k">print</span> <span class="n">hay</span>
+            <span class="k">if</span> <span class="n">hay</span><span class="p">:</span>
+                <span class="n">solicitud</span> <span class="o">=</span> <span class="n">solicitud_form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+                <span class="n">solicitud</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+                <span class="k">print</span> <span class="s">&#39;El que se guardo recientemente&#39;</span>
+                <span class="k">print</span> <span class="n">solicitud</span><span class="o">.</span><span class="n">id_solicitud</span>
+                <span class="n">guardar</span><span class="o">=</span><span class="n">Solicitud</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">id_solicitud</span><span class="o">=</span><span class="n">solicitud</span><span class="o">.</span><span class="n">id_solicitud</span><span class="p">)</span>
+                <span class="n">guardar</span><span class="o">.</span><span class="n">nombre_proyecto</span><span class="o">=</span><span class="n">Proyecto</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">id_proyecto</span><span class="o">=</span><span class="n">id_proyecto</span><span class="p">)</span>
+                <span class="n">guardar</span><span class="o">.</span><span class="n">nombre_fase</span><span class="o">=</span><span class="n">Fase</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">id_fase</span><span class="o">=</span><span class="n">id_fase</span><span class="p">)</span>
+                <span class="n">guardar</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+                <span class="n">creado</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">error</span><span class="o">=</span><span class="s">&quot;Error de Seleccion de Linea Base. No corresponde al item bloqueado seleccionado...&quot;</span>
+                <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;des/crear_solicitud.html&#39;</span><span class="p">,</span>
+                              <span class="p">{</span>
+                                  <span class="s">&#39;error&#39;</span><span class="p">:</span> <span class="n">error</span><span class="p">,</span>
+                                  <span class="s">&#39;solicitud_form&#39;</span><span class="p">:</span> <span class="n">solicitud_form</span><span class="p">,</span>
+                                  <span class="s">&#39;creado&#39;</span><span class="p">:</span> <span class="n">creado</span><span class="p">,</span>
+                                  <span class="s">&#39;id_proyecto&#39;</span><span class="p">:</span> <span class="n">id_proyecto</span><span class="p">,</span>
+                                  <span class="s">&#39;id_fase&#39;</span><span class="p">:</span> <span class="n">id_fase</span><span class="p">,</span>
+                              <span class="p">},</span>
+                              <span class="n">context</span>
+                <span class="p">)</span>
+
         <span class="k">else</span><span class="p">:</span>
             <span class="k">print</span> <span class="n">solicitud_form</span><span class="o">.</span><span class="n">errors</span>
 
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">solicitud_form</span> <span class="o">=</span> <span class="n">SolicitudForm</span><span class="p">(</span><span class="n">idproyecto</span><span class="o">=</span><span class="n">id_proyecto</span><span class="p">,</span><span class="n">idfase</span><span class="o">=</span><span class="n">id_fase</span><span class="p">)</span>
+        <span class="n">solicitud_form</span> <span class="o">=</span> <span class="n">SolicitudForm</span><span class="p">(</span><span class="n">idfase</span><span class="o">=</span><span class="n">id_fase</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;des/crear_solicitud.html&#39;</span><span class="p">,</span>
                               <span class="p">{</span>
-                                  <span class="s">&#39;solicitud_form&#39;</span><span class="p">:</span><span class="n">solicitud_form</span><span class="p">,</span>
+                                  <span class="s">&#39;solicitud_form&#39;</span><span class="p">:</span> <span class="n">solicitud_form</span><span class="p">,</span>
                                   <span class="s">&#39;creado&#39;</span><span class="p">:</span> <span class="n">creado</span><span class="p">,</span>
-                                  <span class="s">&#39;id_proyecto&#39;</span><span class="p">:</span><span class="n">id_proyecto</span><span class="p">,</span>
-                                  <span class="s">&#39;id_fase&#39;</span><span class="p">:</span><span class="n">id_fase</span><span class="p">,</span>
+                                  <span class="s">&#39;id_proyecto&#39;</span><span class="p">:</span> <span class="n">id_proyecto</span><span class="p">,</span>
+                                  <span class="s">&#39;id_fase&#39;</span><span class="p">:</span> <span class="n">id_fase</span><span class="p">,</span>
                               <span class="p">},</span>
                               <span class="n">context</span>
     <span class="p">)</span>
 
 </div>
-<span class="k">def</span> <span class="nf">get_listar_solicitud</span><span class="p">(</span><span class="n">id_proyecto</span><span class="p">,</span><span class="n">id_fase</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">get_listar_solicitud</span><span class="p">(</span><span class="n">id_proyecto</span><span class="p">,</span> <span class="n">id_fase</span><span class="p">):</span>
     <span class="n">lista_solicitud</span> <span class="o">=</span> <span class="n">Solicitud</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">estado</span><span class="o">=</span><span class="s">&#39;EN-ESPERA&#39;</span><span class="p">,</span><span class="n">nombre_proyecto</span><span class="o">=</span><span class="n">id_proyecto</span><span class="p">,</span><span class="n">nombre_fase</span><span class="o">=</span><span class="n">id_fase</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">lista_solicitud</span>
 
@@ -1041,7 +1532,7 @@
 <span class="nd">@login_required</span>
 <span class="k">def</span> <span class="nf">listar_solicitud</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">id_proyecto</span><span class="p">,</span> <span class="n">id_fase</span><span class="p">):</span>
     <span class="n">context</span> <span class="o">=</span> <span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
-    <span class="n">lista_solicitud</span> <span class="o">=</span> <span class="n">get_listar_solicitud</span><span class="p">(</span><span class="n">id_proyecto</span><span class="p">,</span><span class="n">id_fase</span><span class="p">)</span>
+    <span class="n">lista_solicitud</span> <span class="o">=</span> <span class="n">get_listar_solicitud</span><span class="p">(</span><span class="n">id_proyecto</span><span class="p">,</span> <span class="n">id_fase</span><span class="p">)</span>
     <span class="n">context_dict</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">context_dict</span><span class="p">[</span><span class="s">&#39;lista_solicitud&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lista_solicitud</span>
 
@@ -1274,10 +1765,12 @@
                     <span class="n">solicitud</span><span class="o">.</span><span class="n">estado</span><span class="o">=</span><span class="s">&#39;RECHAZADA&#39;</span>
                 <span class="k">if</span> <span class="n">solicitud</span><span class="o">.</span><span class="n">contador</span><span class="o">==</span><span class="mi">3</span><span class="p">:</span>
                     <span class="n">solicitud</span><span class="o">.</span><span class="n">estado</span><span class="o">=</span><span class="s">&#39;APROBADA&#39;</span>
-                    <span class="n">solicitud</span><span class="o">.</span><span class="n">nombre_fase</span><span class="o">.</span><span class="n">estado_fase</span><span class="o">=</span><span class="s">&#39;ABIERTA&#39;</span>
+                    <span class="k">if</span> <span class="n">solicitud</span><span class="o">.</span><span class="n">nombre_fase</span><span class="o">.</span><span class="n">estado_fase</span><span class="o">==</span><span class="s">&#39;FINALIZADA&#39;</span><span class="p">:</span>
+                        <span class="n">solicitud</span><span class="o">.</span><span class="n">nombre_fase</span><span class="o">.</span><span class="n">estado_fase</span><span class="o">=</span><span class="s">&#39;ABIERTA&#39;</span>
+                        <span class="n">solicitud</span><span class="o">.</span><span class="n">nombre_fase</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
                     <span class="n">solicitud</span><span class="o">.</span><span class="n">nombre_item</span><span class="o">.</span><span class="n">estado</span><span class="o">=</span><span class="s">&#39;REVISION&#39;</span>
                     <span class="n">solicitud</span><span class="o">.</span><span class="n">nombre_linea_base</span><span class="o">.</span><span class="n">estado</span><span class="o">=</span><span class="s">&#39;REVISION&#39;</span>
-                    <span class="n">solicitud</span><span class="o">.</span><span class="n">nombre_fase</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
                     <span class="n">solicitud</span><span class="o">.</span><span class="n">nombre_item</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
                     <span class="n">solicitud</span><span class="o">.</span><span class="n">nombre_linea_base</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
                 <span class="k">if</span> <span class="n">solicitud</span><span class="o">.</span><span class="n">encontra</span><span class="o">==</span><span class="mi">3</span><span class="p">:</span>
@@ -1285,13 +1778,13 @@
                 <span class="n">commen</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">getlist</span><span class="p">(</span><span class="s">&#39;comentarios&#39;</span><span class="p">)</span>
                 <span class="n">solicitud</span><span class="o">.</span><span class="n">comentarios</span><span class="o">=</span><span class="n">commen</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
                 <span class="n">solicitud</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
-                <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s">&#39;listar_solicitudRecibido&#39;</span><span class="p">)</span>
-
+                <span class="c">#return redirect(&#39;listar_solicitudRecibido&#39;)</span>
+                <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;des/informeVoto.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;solicitud&#39;</span><span class="p">:</span> <span class="n">solicitud</span><span class="p">,</span><span class="s">&#39;validar&#39;</span><span class="p">:</span><span class="n">validar</span><span class="p">})</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;des/editar_solicitudRecibido.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;solicitud_form&#39;</span><span class="p">:</span> <span class="n">solicitud_form</span><span class="p">},</span> <span class="n">context</span><span class="p">)</span>
 
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s">&#39;/des/listar_solicitudRecibido/&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;des/informeVoto.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;solicitud&#39;</span><span class="p">:</span> <span class="n">solicitud</span><span class="p">,</span><span class="s">&#39;validar&#39;</span><span class="p">:</span><span class="n">validar</span><span class="p">})</span>
 
 </div>
 <span class="k">def</span> <span class="nf">comprobar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>

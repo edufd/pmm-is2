@@ -743,37 +743,31 @@ Retorna la pagina correspondiente de revivir item.</p>
 <dl class="class">
 <dt id="pmm_is2.apps.des.models.TipoItem">
 <em class="property">class </em><tt class="descclassname">pmm_is2.apps.des.models.</tt><tt class="descname">TipoItem</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/des/models.html#TipoItem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.des.models.TipoItem" title="Permalink to this definition">¶</a></dt>
-<dd><p>TipoItem(id_tipo_item, nombre_tipo_item, descripcion)</p>
-</dd></dl>
-
-<dl class="class">
-<dt id="pmm_is2.apps.des.models.AtributoTipoItem">
-<em class="property">class </em><tt class="descclassname">pmm_is2.apps.des.models.</tt><tt class="descname">AtributoTipoItem</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/des/models.html#AtributoTipoItem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.des.models.AtributoTipoItem" title="Permalink to this definition">¶</a></dt>
-<dd><p>AtributoTipoItem(id_atributo_tipo_item, id_tipo_item_id, id_atributo_id)</p>
+<dd><p>TipoItem(id_tipo_item, nombre_tipo_item, descripcion, atributo_id)</p>
 </dd></dl>
 
 <dl class="class">
 <dt id="pmm_is2.apps.des.models.Atributo">
 <em class="property">class </em><tt class="descclassname">pmm_is2.apps.des.models.</tt><tt class="descname">Atributo</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/des/models.html#Atributo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.des.models.Atributo" title="Permalink to this definition">¶</a></dt>
-<dd><p>Atributo(id_atributo, tipo_item_id, nombre_atributo_tipo_item, tipo_atributo, obligatorio, descripcion, observacion)</p>
+<dd><p>Atributo(id_atributo, nombre_atributo_tipo_item, tipo_atributo, obligatorio, detalle, observacion)</p>
 </dd></dl>
 
 <dl class="class">
 <dt id="pmm_is2.apps.des.models.Item">
 <em class="property">class </em><tt class="descclassname">pmm_is2.apps.des.models.</tt><tt class="descname">Item</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/des/models.html#Item"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.des.models.Item" title="Permalink to this definition">¶</a></dt>
-<dd><p>Item(id_item, nombre_item, version_item, prioridad, estado, descripcion, numero, observaciones, complejidad, costo, ultima_version_item_id, id_tipo_item_id, id_fase_id)</p>
+<dd><p>Item(id_item, nombre_item, version_item, prioridad, estado, descripcion, numero, observaciones, complejidad, costo, ultima_version_item_id, id_tipo_item_id, id_fase_id, modificado_id, fecha_modificacion)</p>
 </dd></dl>
 
 <dl class="class">
 <dt id="pmm_is2.apps.des.models.VersionItem">
 <em class="property">class </em><tt class="descclassname">pmm_is2.apps.des.models.</tt><tt class="descname">VersionItem</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/des/models.html#VersionItem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.des.models.VersionItem" title="Permalink to this definition">¶</a></dt>
-<dd><p>VersionItem(id_version_item, item_id, nombre_item, version_item, prioridad, estado, descripcion, numero, observaciones, complejidad, costo, ultima_version_item_id, id_tipo_item_id, id_fase_id)</p>
+<dd><p>VersionItem(id_version_item, item_id, nombre_item, version_item, prioridad, estado, descripcion, numero, observaciones, complejidad, costo, ultima_version_item_id, id_tipo_item_id, id_fase_id, modificado_id, fecha_modificacion)</p>
 </dd></dl>
 
 <dl class="class">
 <dt id="pmm_is2.apps.des.models.Relacion">
 <em class="property">class </em><tt class="descclassname">pmm_is2.apps.des.models.</tt><tt class="descname">Relacion</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/des/models.html#Relacion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.des.models.Relacion" title="Permalink to this definition">¶</a></dt>
-<dd><p>Relacion(id, del_item_id, al_item_id, tipo, fase_id)</p>
+<dd><p>Relacion(id, del_item_id, al_item_id, tipo, fase_id, esta_activa)</p>
 </dd></dl>
 
 <dl class="class">
@@ -785,7 +779,7 @@ Retorna la pagina correspondiente de revivir item.</p>
 <dl class="class">
 <dt id="pmm_is2.apps.des.models.ArchivoAdjunto">
 <em class="property">class </em><tt class="descclassname">pmm_is2.apps.des.models.</tt><tt class="descname">ArchivoAdjunto</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/pmm_is2/apps/des/models.html#ArchivoAdjunto"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pmm_is2.apps.des.models.ArchivoAdjunto" title="Permalink to this definition">¶</a></dt>
-<dd><p>ArchivoAdjunto(id_archivo_adjunto, filename, path_archivo, id_item_relacionado_id)</p>
+<dd><p>ArchivoAdjunto(id_archivo_adjunto, filename, path_archivo, id_item_relacionado_id, id_version_item)</p>
 </dd></dl>
 
 <dl class="class">

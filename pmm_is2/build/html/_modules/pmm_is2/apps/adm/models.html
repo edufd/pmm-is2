@@ -49,7 +49,6 @@
 <span class="kn">from</span> <span class="nn">django.contrib.auth.models</span> <span class="kn">import</span> <span class="n">User</span><span class="p">,</span> <span class="n">Group</span>
 <span class="kn">from</span> <span class="nn">django.db.models</span> <span class="kn">import</span> <span class="n">Max</span>
 <span class="kn">from</span> <span class="nn">django.utils.datetime_safe</span> <span class="kn">import</span> <span class="n">datetime</span>
-<span class="kn">from</span> <span class="nn">pmm_is2.apps.des.models</span> <span class="kn">import</span> <span class="n">TipoItem</span>
 <span class="c"># Create your models here.</span>
 
 <span class="n">FASES_ESTADOS</span> <span class="o">=</span> <span class="p">(</span>
@@ -76,9 +75,6 @@
     <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">username</span>
 
-    <span class="c"># class Meta:</span>
-    <span class="c">#     db_table = &#39;userprofile&#39;</span>
-
 
 <span class="c">#funcion para validar las fecha de fin de los proyectos recibe una fecha</span></div>
 <span class="k">def</span> <span class="nf">validate_even</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
@@ -98,10 +94,9 @@
     <span class="c">#cambiar despues para que sea la fecha actual al crear</span>
     <span class="n">fecha_inicio</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateField</span><span class="p">(</span><span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">())</span>
     <span class="n">fecha_fin</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateField</span><span class="p">(</span><span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">validate_even</span><span class="p">])</span>
-    <span class="n">plazo</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">()</span>
+    <span class="n">plazo</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">lider_proyecto</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">User</span><span class="p">)</span>
-
-    <span class="c">#para el perfil de proyecto es interesante</span>
+    <span class="n">miembros</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="n">User</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s">&#39;proyectos&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nombre_proyecto</span>
@@ -111,7 +106,6 @@
         <span class="nb">super</span><span class="p">(</span><span class="n">Proyecto</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
 
     <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
-        <span class="c">#db_table = &#39;proyecto&#39;</span>
         <span class="n">app_label</span> <span class="o">=</span> <span class="s">&#39;adm&#39;</span>
 
 </div>
@@ -130,11 +124,9 @@
     <span class="n">descripcion</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
     <span class="n">estado_fase</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">FASES_ESTADOS</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s">&#39;NO-INICIADA&#39;</span><span class="p">)</span>
     <span class="n">numero_secuencia</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">tipo_item</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="n">TipoItem</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">grupos</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Group</span><span class="p">)</span>
+    <span class="n">tipo_item</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="s">&#39;des.TipoItem&#39;</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
     <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
-        <span class="c">#db_table = &#39;fase&#39;</span>
         <span class="n">app_label</span> <span class="o">=</span> <span class="s">&#39;adm&#39;</span>
 
     <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -157,7 +149,6 @@
 
         <span class="nb">super</span><span class="p">(</span><span class="n">Fase</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">Fase</span>
-
 
 </div>
 <div class="viewcode-block" id="Comite"><a class="viewcode-back" href="../../../../adm.html#pmm_is2.apps.adm.models.Comite">[docs]</a><span class="k">class</span> <span class="nc">Comite</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>

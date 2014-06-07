@@ -135,7 +135,8 @@ def crear_item(request, pk):
         item_form = ItemForm(data=request.POST, id_fase=pk)
         if item_form.is_valid():
             item_form.instance.id_fase = objeto_fase
-            item = item_form.save()
+            item_form.instance.modificado = request.user
+            item_form.save()
             creado = True
         else:
             print item_form.errors
@@ -282,6 +283,8 @@ def editar_item(request, pk):
     item = get_object_or_404(Item, pk=pk)
     item_form = ItemFormEdit(request.POST or None, instance=item, id_fase=item.id_fase)
     if item_form.is_valid():
+        item_form.instance.modificado = request.user
+        item_form.instance.fecha_modificacion = datetime.now()
         item_form.save()
         registered = True
 
@@ -724,7 +727,8 @@ def archivoadjunto_page(request, pk):
         archivoAdjunto_form = ArchivoAdjuntoForm(request.POST, request.FILES)
         if archivoAdjunto_form.is_valid():
             item_relacionado = archivoAdjunto_form.instance.id_item_relacionado
-            archivoAdjunto_form.instance.id_version_item = item_relacionado.version_item+1
+            archivoAdjunto_form.instance.id_version_item = item_relacionado.version_item + 1
+            item_relacionado.modificado = request.user
             item_relacionado.save()
             version_item_id = item_relacionado.version_item - 1
             print('archivo_adjunto', item_relacionado.archivo_adjunto.filter(id_version_item=version_item_id))
@@ -1341,6 +1345,7 @@ def item_reversion(request, pk):
         item.ultima_version_item_id = version_item.ultima_version_item_id
         item.id_tipo_item = version_item.id_tipo_item
         item.id_fase = version_item.id_fase
+        item.modificado = request.user
 
         item.save()
         creado = True

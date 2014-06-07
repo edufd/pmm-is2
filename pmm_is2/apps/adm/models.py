@@ -81,7 +81,6 @@ class Fase(models.Model):
     tipo_item = models.ManyToManyField('des.TipoItem', blank=True)
 
     class Meta:
-        #db_table = 'fase'
         app_label = 'adm'
 
     def __unicode__(self):

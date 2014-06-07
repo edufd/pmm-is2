@@ -1268,15 +1268,38 @@ def crear_solicitud(request, id_proyecto, id_fase):
     if request.method == 'POST':
         solicitud_form = SolicitudForm(data=request.POST,idfase=id_fase)
         if solicitud_form.is_valid():
-            solicitud = solicitud_form.save()
-            solicitud.save()
-            print 'El que se guardo recientemente'
-            print solicitud.id_solicitud
-            guardar=Solicitud.objects.get(id_solicitud=solicitud.id_solicitud)
-            guardar.nombre_proyecto=Proyecto.objects.get(id_proyecto=id_proyecto)
-            guardar.nombre_fase=Fase.objects.get(id_fase=id_fase)
-            guardar.save()
-            creado = True
+            print 'controlar item en linea base'
+            print request.POST
+            ite=request.POST.getlist('nombre_item')
+            print ite[0]
+            line=request.POST.getlist('nombre_linea_base')
+            print(line[0])
+            hay=LineaBase.objects.filter(id_linea_base=line[0], items=ite[0]).exists()
+            print 'sera que hay'
+            print hay
+            if hay:
+                solicitud = solicitud_form.save()
+                solicitud.save()
+                print 'El que se guardo recientemente'
+                print solicitud.id_solicitud
+                guardar=Solicitud.objects.get(id_solicitud=solicitud.id_solicitud)
+                guardar.nombre_proyecto=Proyecto.objects.get(id_proyecto=id_proyecto)
+                guardar.nombre_fase=Fase.objects.get(id_fase=id_fase)
+                guardar.save()
+                creado = True
+            else:
+                error="Error de Seleccion de Linea Base. No corresponde al item bloqueado seleccionado..."
+                return render_to_response('des/crear_solicitud.html',
+                              {
+                                  'error':error,
+                                  'solicitud_form':solicitud_form,
+                                  'creado': creado,
+                                  'id_proyecto':id_proyecto,
+                                  'id_fase':id_fase,
+                              },
+                              context
+                )
+
         else:
             print solicitud_form.errors
 

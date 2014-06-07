@@ -1,10 +1,9 @@
 from django.db.models import Max
 from pmm_is2.apps.adm.utils import get_project_list, get_phases_list
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
-from pmm_is2.apps.adm.models import Proyecto, Comite
-from pmm_is2.apps.des.models import Solicitud
+from pmm_is2.apps.adm.models import Comite
 from pmm_is2.apps.des.forms import *
 from django.http import HttpResponse
 from io import BytesIO
@@ -61,6 +60,7 @@ def crear_atributo_tipo_item(request):
                               },
                               context
     )
+
 
 @login_required
 def crear_tipo_item(request):
@@ -159,13 +159,16 @@ def get_lista_tipo_item():
     lista_tipo_item = TipoItem.objects.all()
     return lista_tipo_item
 
+
 def get_lista_atributo_tipo_item():
     lista_atributo_tipo_item = Atributo.objects.all()
     return lista_atributo_tipo_item
 
+
 def get_lista_item():
     lista_item = Item.objects.all()
     return lista_item
+
 
 @login_required
 def listar_atributo_tipo_item(request):
@@ -183,6 +186,7 @@ def listar_atributo_tipo_item(request):
     context_dict['lista_atributo_tipo_item'] = lista_atributo_tipo_item
 
     return render_to_response('des/lista_atributo_tipo_item.html', context_dict, context)
+
 
 @login_required
 def listar_tipo_item(request):
@@ -240,6 +244,7 @@ def editar_atributo_tipo_item(request, pk):
         return redirect('listar_atributo_tipo_item')
 
     return render_to_response('des/editar_atributo_tipo_item.html', {'atributo_tipo_item_form': atributo_tipo_item_form}, context)
+
 
 @login_required
 def editar_tipo_item(request, pk):
@@ -312,6 +317,7 @@ def eliminar_atributo_tipo_item(request, pk):
         return redirect('listar_atributo_tipo_item')
 
     return render_to_response('des/confirmar_eliminacion_atributo_tipo_item.html', {'atributo_tipo_item': atributo_tipo_item}, context)
+
 
 @login_required
 def eliminar_tipo_item(request, pk):
@@ -1446,11 +1452,11 @@ def crear_solicitud(request, id_proyecto, id_fase):
                 error="Error de Seleccion de Linea Base. No corresponde al item bloqueado seleccionado..."
                 return render_to_response('des/crear_solicitud.html',
                               {
-                                  'error':error,
-                                  'solicitud_form':solicitud_form,
+                                  'error': error,
+                                  'solicitud_form': solicitud_form,
                                   'creado': creado,
-                                  'id_proyecto':id_proyecto,
-                                  'id_fase':id_fase,
+                                  'id_proyecto': id_proyecto,
+                                  'id_fase': id_fase,
                               },
                               context
                 )
@@ -1463,16 +1469,16 @@ def crear_solicitud(request, id_proyecto, id_fase):
 
     return render_to_response('des/crear_solicitud.html',
                               {
-                                  'solicitud_form':solicitud_form,
+                                  'solicitud_form': solicitud_form,
                                   'creado': creado,
-                                  'id_proyecto':id_proyecto,
-                                  'id_fase':id_fase,
+                                  'id_proyecto': id_proyecto,
+                                  'id_fase': id_fase,
                               },
                               context
     )
 
 
-def get_listar_solicitud(id_proyecto,id_fase):
+def get_listar_solicitud(id_proyecto, id_fase):
     lista_solicitud = Solicitud.objects.filter(estado='EN-ESPERA',nombre_proyecto=id_proyecto,nombre_fase=id_fase)
     return lista_solicitud
 
@@ -1480,7 +1486,7 @@ def get_listar_solicitud(id_proyecto,id_fase):
 @login_required
 def listar_solicitud(request, id_proyecto, id_fase):
     context = RequestContext(request)
-    lista_solicitud = get_listar_solicitud(id_proyecto,id_fase)
+    lista_solicitud = get_listar_solicitud(id_proyecto, id_fase)
     context_dict = {}
     context_dict['lista_solicitud'] = lista_solicitud
 

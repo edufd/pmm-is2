@@ -1720,7 +1720,7 @@ def editar_solicitudRecibido(request, pk):
                 total=solicitud.contador+solicitud.encontra
                 if total==3:
                     solicitud.estado='RECHAZADA'
-                if solicitud.contador==3:
+                if solicitud.contador==2:
                     solicitud.estado='APROBADA'
                     if solicitud.nombre_fase.estado_fase=='FINALIZADA':
                         solicitud.nombre_fase.estado_fase='ABIERTA'
@@ -1730,7 +1730,7 @@ def editar_solicitudRecibido(request, pk):
 
                     solicitud.nombre_item.save()
                     solicitud.nombre_linea_base.save()
-                if solicitud.encontra==3:
+                if solicitud.encontra==2:
                     solicitud.estado='RECHAZADA'
                 commen=request.POST.getlist('comentarios')
                 solicitud.comentarios=commen[0]

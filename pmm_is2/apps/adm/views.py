@@ -251,6 +251,12 @@ def project_update(request, pk):
             print diferencia
             if  diferencia == 0:
                 print 'entro'
+                print ff
+                #recorrer las fases del proyecto y ponerlas en ABIERTA
+                for fff in ff:
+                    fff.estado_fase='ABIERTA'
+                    fff.save()
+                    print 'entro'
                 project_form.save()
                 registered = True
                 return render_to_response('adm/project_update.html',

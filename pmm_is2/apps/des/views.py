@@ -1725,6 +1725,8 @@ def editar_solicitudRecibido(request, pk):
                     if solicitud.nombre_fase.estado_fase=='FINALIZADA':
                         solicitud.nombre_fase.estado_fase='ABIERTA'
                         solicitud.nombre_fase.save()
+                        solicitud.nombre_proyecto.estado_proyecto='INICIADO'
+                        solicitud.nombre_proyecto.save()
                     solicitud.nombre_item.estado='REVISION'
                     solicitud.nombre_linea_base.estado='REVISION'
 

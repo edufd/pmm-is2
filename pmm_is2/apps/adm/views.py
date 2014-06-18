@@ -237,9 +237,37 @@ def project_update(request, pk):
     project_form = ProjectEditForm(request.POST or None, instance=proyecto)
     id_proyecto = pk
     if project_form.is_valid():
-        project_form.save()
-        registered = True
-
+        print 'cantidad de fases'
+        print request.POST
+        estado=request.POST.getlist('estado_proyecto')
+        if estado[0]=='INICIADO':
+            numeroFases=request.POST.getlist('numero_fases')
+            cant=int(numeroFases[0])#aqui tengo la cantidad de fases que tengo que crear o estar creado antes de iniciar el proyecto
+            print cant
+            ff=Fase.objects.filter(proyecto_id=id_proyecto)
+            cantidadff=int(len(ff))
+            print cantidadff
+            diferencia=cant-cantidadff
+            print diferencia
+            if  diferencia == 0:
+                print 'entro'
+                project_form.save()
+                registered = True
+                return render_to_response('adm/project_update.html',
+                                  {'project_form': project_form, 'id_proyecto': id_proyecto,
+                                   'registered': registered}, context)
+            else:
+                error='Faltan agregarse Fases para iniciar el Proyecto'
+                return render_to_response('adm/project_update.html',
+                              {
+                                  'error': error,
+                                  'project_form': project_form,
+                                  'id_proyecto': id_proyecto,
+                                  'registered': registered
+                              }, context)
+        else:
+            project_form.save()
+            registered = True
     return render_to_response('adm/project_update.html',
                               {'project_form': project_form, 'id_proyecto': id_proyecto,
                                'registered': registered}, context)

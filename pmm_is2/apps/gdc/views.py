@@ -28,6 +28,7 @@ def project_list(request):
     context = RequestContext(request)
     if request.user.is_superuser:
         project_list = get_project_list()
+        print project_list
     else:
         project_list = request.user.proyectos.all()
 

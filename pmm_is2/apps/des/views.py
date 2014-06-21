@@ -964,7 +964,7 @@ def agregar_relaciones(request, id_fase):
                                       {
                                           'relacion_form': relacion_form,
                                           'error': error,
-                                          'fase': id_fase,
+                                          'fase': object_fase,
                                       },
                                       context
                             )
@@ -974,7 +974,7 @@ def agregar_relaciones(request, id_fase):
                                       {
                                           'relacion_form': relacion_form,
                                           'error': error,
-                                          'fase': id_fase,
+                                          'fase': object_fase,
                                       },
                                       context
                         )
@@ -984,7 +984,7 @@ def agregar_relaciones(request, id_fase):
                                   {
                                       'relacion_form': relacion_form,
                                       'error': error,
-                                      'fase': id_fase,
+                                      'fase': object_fase,
                                   },
                                   context
                     )
@@ -995,7 +995,7 @@ def agregar_relaciones(request, id_fase):
                               {
                                   'relacion_form': relacion_form,
                                   'error': error,
-                                  'fase': id_fase,
+                                  'fase': object_fase,
                               },
                               context
                 )
@@ -1008,7 +1008,7 @@ def agregar_relaciones(request, id_fase):
                               {
                                   'relacion_form': relacion_form,
                                   'creado': creado,
-                                  'fase': id_fase,
+                                  'fase': object_fase,
                               },
                               context
     )
@@ -1073,9 +1073,10 @@ def listar_relaciones(request, id_fase):
     """
     context = RequestContext(request)
     lista_relacion = get_lista_relacion(id_fase)
+    fase = get_object_or_404(Fase, pk=id_fase)
     context_dict = {}
     context_dict['lista_relacion'] = lista_relacion
-    context_dict['id_fase'] = id_fase
+    context_dict['fase'] = fase
 
     return render_to_response('des/lista_relacion.html', context_dict, context)
 

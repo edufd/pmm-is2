@@ -1,32 +1,45 @@
 {% extends 'des/des_base_logged.html' %}
 {% load static %}
-{% block link %}<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">{% endblock %}
 {% block title %}PMM{% endblock %}
 {% block content %}
-
+    <div class="row">
+        <div id="breadcrumb" class="col-md-12">
+            <ol class="breadcrumb">
+                <li><a href="/home/">PMM</a></li>
+                <li><a href="/des/">Desarrollo</a></li>
+                <li><a href="/des/project_profile/{{ fase.proyecto.id_proyecto }}">{{ fase.proyecto }}</a></li>
+                <li><a href="/project_profile/{{ fase.proyecto }}">{{ fase.nombre_fase }}</a></li>
+                <li><a href="#">Lista de Relaciones</a></li>
+            </ol>
+        </div>
+    </div>
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-        <h1 class="page-header">Relaciones</h1>
         <div class="row">
             <ul class="list-group">
-                {% for relacion in lista_relacion %}
-                    <li class="list-group-item">
-                        Tipo de relacion: {% if relacion.tipo == "ANTECESOR-SUCESOR" %}
-                                            Antecesor-Sucesor </br>
-                                          {% else %}
-                                            Padre-Hijo </br>
-                                          {% endif %}
-                        Item 1: {{ relacion.del_item}} </br>
-                        Item 2: {{ relacion.al_item}} </br>
+                {% if lista_relacion|length == 0 %}
+                        <li class="list-group-item">
+                            <h3>No existen Relaciones</h3>
+                        </li>
+                {% else %}
+                    {% for relacion in lista_relacion %}
+                        <li class="list-group-item">
+                            Tipo de relacion: {% if relacion.tipo == "ANTECESOR-SUCESOR" %}
+                                                Antecesor-Sucesor </br>
+                                              {% else %}
+                                                Padre-Hijo </br>
+                                              {% endif %}
+                            Item 1: {{ relacion.del_item}} </br>
+                            Item 2: {{ relacion.al_item}} </br>
 
-                        <a class="btn btn-danger" href="{% url "eliminar_relacion" relacion.id %}">
-                              <i class="icon-trash icon-white"></i>
-                              Eliminar
-                            </a>
-                    </li>
-
-                {% endfor %}
+                            <a class="btn btn-danger" href="{% url "eliminar_relacion" relacion.id %}">
+                                  <i class="icon-trash icon-white"></i>
+                                  Eliminar
+                                </a>
+                        </li>
+                    {% endfor %}
+                {% endif %}
             </ul>
-        <h4><a class="btn btn-success" href="/des/agregar_relaciones/{{ id_fase }}">Agregar Relaciones</a></h4>
+        <h4><a class="btn btn-success" href="/des/agregar_relaciones/{{ fase.id_fase }}">Agregar Relacion</a></h4>
         </div>
     </div>
 {% endblock %}

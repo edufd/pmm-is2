@@ -46,7 +46,7 @@
                         <tbody>
                             {% for proyecto in object_list %}
                                 <tr>
-                                    {% if proyecto.estado_proyecto != 'FINALIZADO' and proyecto.estado_proyecto != 'NO-INICIADO' %}
+                                    {% if proyecto.estado_proyecto != 'FINALIZADO' and proyecto.estado_proyecto == 'NO-INICIADO' %}
                                         <td>{{ proyecto.id_proyecto }}</td>
                                         <td><a href="/gdc/project_profile/{{ proyecto.id_proyecto }}">{{proyecto.nombre_proyecto}}</a></td>
                                         <td><a href="/adm/perfil/{{ proyecto.lider_proyecto.id }}">{{ proyecto.lider_proyecto }}</a></td>

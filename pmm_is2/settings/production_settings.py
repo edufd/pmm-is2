@@ -23,11 +23,11 @@ TEMPLATE_DIRS = (
 SECRET_KEY = '&rul30!ik_@xmq^$(m8p4e71xm_8f59ztr1iv%g@q_w_nc4(-$'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['www.pmm.com.py']
 
 LOGIN_URL = '/login/'
 

@@ -8,6 +8,8 @@
             <ol class="breadcrumb">
                 <li><a href="/home/">PMM</a></li>
                 <li><a href="/des/">Desarrollo</a></li>
+                <li><a href="/des/project_profile/{{ fase.proyecto.id_proyecto }}">{{ fase.proyecto }}</a></li>
+                <li><a href="/project_profile/{{ fase.proyecto }}">{{ fase.nombre_fase }}</a></li>
                 <li><a href="#">Lista Item Revivir</a></li>
             </ol>
         </div>
@@ -15,16 +17,23 @@
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
         <div class="row">
             <ul class="list-group">
-                {% for item in lista_item %}
+                {% if lista_item|length == 0 %}
                     <li class="list-group-item">
-                        <h4 ><a href="#">{{ item.nombre_item }}</a>
-                        </h4>
-                        <a class="btn btn-danger" href="/des/revivir/{{ item.id_item }}">
-                            <i class="icon-trash icon-white"></i>
-                            Revivir
-                        </a>
+                        <h3>No existen Itemes</h3>
                     </li>
-                {% endfor %}
+                {% else %}
+                    {% for item in lista_item %}
+                        <li class="list-group-item">
+                            <h4>
+                                <a href="#">{{ item.nombre_item }}</a>
+                            </h4>
+                            <a class="btn btn-danger" href="/des/revivir/{{ item.id_item }}">
+                                <i class="icon-trash icon-white"></i>
+                                Revivir
+                            </a>
+                        </li>
+                    {% endfor %}
+                {% endif %}
             </ul>
         </div>
     </div>

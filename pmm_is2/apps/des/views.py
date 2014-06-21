@@ -1190,8 +1190,10 @@ def lista_item_revivir(request, id_fase):
     """
     context = RequestContext(request)
     lista_item = get_lista_item_revivir(id_fase)
+    fase = get_object_or_404(Fase, pk=id_fase)
     context_dict = {}
     context_dict['lista_item'] = lista_item
+    context_dict['fase'] = fase
 
     return render_to_response('des/lista_item_revivir.html', context_dict, context)
 

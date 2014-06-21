@@ -8,6 +8,8 @@
             <ol class="breadcrumb">
                 <li><a href="/home/">PMM</a></li>
                 <li><a href="/des/">Desarrollo</a></li>
+                <li><a href="/des/project_profile/{{ fase.proyecto.id_proyecto }}">{{ fase.proyecto }}</a></li>
+                <li><a href="/project_profile/{{ fase.proyecto }}">{{ fase.nombre_fase }}</a></li>
                 <li><a href="#">Agregar Relaciones</a></li>
             </ol>
         </div>
@@ -24,7 +26,7 @@
             <strong><h4>Complete los datos</h4></strong>
             </br>
 
-            <form class="form_class" id="form_class" method="post" action="/des/agregar_relaciones/{{ fase }}"
+            <form class="form_class" id="form_class" method="post" action="/des/agregar_relaciones/{{ fase.id_fase }}"
                     enctype="multipart/form-data">
 
                 {% csrf_token %}

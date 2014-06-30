@@ -67,7 +67,7 @@ class Item(models.Model):
     costo = models.IntegerField()
     ultima_version_item_id = models.IntegerField(blank=True)
     id_tipo_item = models.ForeignKey(TipoItem, verbose_name="Tipo de Item")
-    id_fase = models.ForeignKey('adm.Fase', verbose_name="Fase")
+    id_fase = models.ForeignKey('adm.Fase', verbose_name="Fase", related_name='items')
     modificado = models.ForeignKey(User)
     fecha_modificacion = models.DateTimeField(default=datetime.now())
 

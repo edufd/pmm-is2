@@ -1,6 +1,5 @@
 {% extends 'des/des_base_logged.html' %}
 {% load static %}
-{% block link %}<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">{% endblock %}
 {% block title %}PMM{% endblock %}
 {% block content %}
     <div class="row">
@@ -9,7 +8,7 @@
                 <li><a href="/home/">PMM</a></li>
                 <li><a href="/des/">Desarrollo</a></li>
                 <li><a href="/des/project_profile/{{ fase.proyecto.id_proyecto }}">{{ fase.proyecto }}</a></li>
-                <li><a href="/project_profile/{{ fase.proyecto }}">{{ fase.nombre_fase }}</a></li>
+                <li><a href="/des/project_profile/{{ fase.proyecto.id_proyecto }}">{{ fase.nombre_fase }}</a></li>
                 <li><a href="#">Agregar Relaciones</a></li>
             </ol>
         </div>
@@ -23,7 +22,6 @@
             <strong>Se ha agregado la relacion!</strong><br/>
             <a href="/des/project_profile/{{ fase.proyecto.id_proyecto }}">Retornar a la pagina de inicio</a><br/>
         {% else %}
-            <strong><h4>Complete los datos</h4></strong>
             </br>
 
             <form class="form_class" id="form_class" method="post" action="/des/agregar_relaciones/{{ fase.id_fase }}"
@@ -34,7 +32,34 @@
                 {{ relacion_form.as_p }}
                 <!-- Provide a button to click to submit the form. -->
                 <input class="btn btn-primary" type="submit" name="submit" value="Crear" />
+                <input type="hidden" id="id_fase" value="{{ fase.id_fase }}" />
             </form>
         {% endif %}
     </div>
+    {% block js %}
+        <script type="text/javascript">
+            $(document).ready(function() {
+
+                $( "#id_tipo" ).change(function() {
+                    if ($('#id_tipo option:selected').val() == "PADRE-HIJO"){
+                        $.get('/des/get_relation_items/', {id_fase: $('#id_fase').val()}, function(data){
+                                 $('#id_al_item').html(data);
+                        });
+                    }else if( $('#id_tipo option:selected').val() == "ANTECESOR-SUCESOR" ){
+                        id_fase = $('#id_fase').val();
+                        id_fase++;
+                        $.get('/des/get_relation_items/', {id_fase: id_fase}, function(data){
+                                 $('#id_al_item').html(data);
+                        });
+                    }
+                });
+            })
+            $( "#id_al_item" ).change(function() {
+                var miValue = $("#id_al_item" ).val();
+                alert(miValue);
+                if (miValue > 0)
+                    $("#id_al_item option[value="+miValue+"]").attr("selected",true);
+            });
+        </script>
+    {% endblock %}
 {% endblock %}

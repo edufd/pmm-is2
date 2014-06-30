@@ -295,7 +295,7 @@ def editar_item(request, pk):
 
     return render_to_response('des/editar_item.html',
                               {
-                                'item_form': item_form, 'registered': registered
+                                'item_form': item_form, 'registered': registered, 'item': item
                               }, context)
 
 
@@ -919,6 +919,7 @@ def agregar_relaciones(request, id_fase):
 
     if request.method == 'POST':
         relacion_form = RelacionesForm(data=request.POST, id_fase=id_fase)
+        print relacion_form
         if relacion_form.is_valid():
             itemA = relacion_form.cleaned_data['del_item']
             itemB = relacion_form.cleaned_data['al_item']
@@ -1788,3 +1789,16 @@ def verificar_relacion(pk):
             ciclo = False
     else:
         ciclo = True
+
+
+def get_relation_items(request):
+        context = RequestContext(request)
+        cat_list = []
+        starts_with = ''
+        if request.method == 'GET':
+            id_fase = request.GET['id_fase']
+
+        cat_list = Item.objects.filter(id_fase_id=id_fase).order_by('id_item')
+        print('mierda', cat_list)
+
+        return render_to_response('des/relation_item_list.html', {'cat_list': cat_list}, context)

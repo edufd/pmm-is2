@@ -67,4 +67,6 @@ urlpatterns = patterns('',
         url(r'^listar_solicitudRecibido/$', views.listar_solicitudRecibido, name='listar_solicitudRecibido'),
         url(r'^editar_solicitudRecibido/(?P<pk>\d+)$', views.editar_solicitudRecibido, name='editar_solicitudRecibido'),
 
+        url(r'^get_relation_items/$', views.get_relation_items, name='get_relation_items'),
+
 )

@@ -445,7 +445,7 @@ def suggest_category(request):
                 starts_with = request.GET['suggestion']
         cat_list = get_category_list(2, starts_with)
 
-        return render_to_response('adm/category_list.html', {'cat_list': cat_list }, context)
+        return render_to_response('adm/category_list.html', {'cat_list': cat_list}, context)
 
 
 def suggest_rol(request):

@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'pmm_is2.apps.adm',
     'pmm_is2.apps.des',
+    'pmm_is2.apps.gdc',
     'django_like',
 )
 
@@ -71,7 +72,7 @@ DATABASES = {
         'USER': 'pmm',
         'PASSWORD': 'pmm2014',
         'HOST': 'localhost',
-    }
+    },
 }
 
 # Internationalization

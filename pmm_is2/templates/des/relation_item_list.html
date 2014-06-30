@@ -1,0 +1,10 @@
+{% if cat_list %}
+    <option value="0">---------</option>
+    {% for cat in cat_list %}
+        <option value="{{ cat.id_item }}">{{ cat.nombre_item }}</option>
+    {% endfor %}
+{% else %}
+    <option value="0">---------</option>
+{% endif %}
+
+

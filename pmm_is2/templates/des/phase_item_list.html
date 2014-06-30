@@ -19,11 +19,11 @@
             <ul class="list-group">
                 {% for item in lista_item %}
                     <li class="list-group-item">
-                        <h4 ><a href="{% url "editar_item" item.id_item %}">{{ item.nombre_item}}</a>
 
-                        </h4>
                         {% if item.estado != 'BLOQUEADO' %}
-
+                            <h4>
+                                <a href="/des/editar_item/{{ item.id_item }}">{{ item.nombre_item}}</a>
+                            </h4>
                             {% if item.relacion_padre_hijo|length == 0 %}
                                 <a class="btn btn-danger" href="{% url "eliminar_item" item.id_item %}">
                                   <i class="icon-trash icon-white"></i>
@@ -42,6 +42,10 @@
                                   <i class="icon-trash icon-white"></i>
                                   Reversionar Item
                             </a>
+                        {% else %}
+                            <h4>
+                                <a href="#">{{ item.nombre_item}}</a>
+                            </h4>
                         {% endif %}
                             <a class="btn btn-danger" href="/des/historial_item/{{ item.id_item }}">
                                   <i class="icon-trash icon-white"></i>

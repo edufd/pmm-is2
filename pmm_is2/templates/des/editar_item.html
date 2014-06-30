@@ -8,20 +8,21 @@
             <ol class="breadcrumb">
                 <li><a href="/home/">PMM</a></li>
                 <li><a href="/des/">Desarrollo</a></li>
-                <li><a href="#">Modificar Proyecto</a></li>
+                <li><a href="/des/project_profile/{{ item.id_fase.proyecto.id_proyecto }}">{{ item.id_fase.proyecto }}</a></li>
+                <li><a href="/des/phase_item_list/{{ item.id_fase.proyecto_id }}/{{ item.id_fase.id_fase }}">{{ item.id_fase.nombre_fase }}</a></li>
+                <li><a href="#">Modificar Item</a></li>
             </ol>
         </div>
     </div>
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
         {% if registered %}
             <strong>Se ha modificado el Item!</strong><br/>
-            <a href="/des/">Retornar a la pagina anterior</a><br/>
+            <a href="/des/phase_item_list/{{ item.id_fase.proyecto_id }}/{{ item.id_fase.id_fase }}">Retornar a la pagina anterior</a><br/>
         {% else %}
-            <h1 class="page-header">Modificar Item</h1>
-                <form class="form_class" method="post">{% csrf_token %}
-                    {{ item_form.as_p }}
-                    <input class="btn btn-primary" type="submit" value="Modificar" />
-                </form>
+            <form class="form_class" method="post">{% csrf_token %}
+                {{ item_form.as_p }}
+                <input class="btn btn-primary" type="submit" value="Modificar" />
+            </form>
         {% endif %}
     </div>
 {% endblock %}

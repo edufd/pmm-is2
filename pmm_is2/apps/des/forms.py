@@ -89,7 +89,7 @@ class RelacionesForm(forms.models.ModelForm):
         ]
 
         self.fields['del_item'] = \
-            forms.ModelChoiceField(queryset=Item.objects.filter(id_fase=id_fase).order_by('id_item'),
+            forms.ModelChoiceField(queryset=Item.objects.filter(id_fase=id_fase, estado='BLOQUEADO').order_by('id_item'),
                                                         widget=forms.Select(), required=True)
 
         fase = Fase.objects.get(pk=id_fase)

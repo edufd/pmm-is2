@@ -4,6 +4,8 @@
       <li><a href="/adm/project_profile/{{ cat.id_proyecto }}">{{ cat.nombre_proyecto }}</a></li>
     {% endfor %}
    {% else %}
-    <li>Ningun Proyecto</li>
+    <li>
+        <p class="buscar">Ningun Proyecto</p>
+    </li>
    {% endif %}
 </ul>

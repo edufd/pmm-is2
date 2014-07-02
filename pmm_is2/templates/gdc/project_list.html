@@ -41,11 +41,13 @@
                                 <th>Nombre Proyecto</th>
                                 <th>Lider de Proyecto</th>
                                 <th>Descripcion</th>
+                                <th>Descripcion</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for proyecto in object_list %}
                                 <tr>
+                                 {# solo los proyectos con estado iniciado se podran agregar LB #}
                                     {% if proyecto.estado_proyecto == 'INICIADO' %}
                                         <td>{{ proyecto.id_proyecto }}</td>
                                         <td><a href="/gdc/project_profile/{{ proyecto.id_proyecto }}">{{proyecto.nombre_proyecto}}</a></td>

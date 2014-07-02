@@ -10,7 +10,7 @@ from io import BytesIO
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import ParagraphStyle
-from reportlab.lib.enums import TA_CENTER
+from reportlab.lib.enums import TA_CENTER, TA_LEFT, TA_RIGHT,TA_JUSTIFY
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table
 from reportlab.lib.units import cm
 
@@ -1530,14 +1530,15 @@ def imprimir_solicitud(request, pk):
     de la solicitud
 
     :param request: Parametro a ser procesado.
-    :param pk: Parametro a ser procesado el identificador de la Solicitud.
+    :param pk: Parametro a ser procesado el identificador del Proyecto.
     :type request: HttpRequest.
     :type pk: int.
     :returns: La pagina correspondiente.
     :rtype: El response correspondiente.
     """
     context = RequestContext(request)
-    solicitud = get_object_or_404(Solicitud, pk=pk)
+    proyectoSC = get_object_or_404(Proyecto, pk=pk)
+
     response = HttpResponse(mimetype='application/pdf')
     response['Content-Disposition'] = 'filename="Solicitud.pdf"'
     buffer = BytesIO()
@@ -1549,7 +1550,24 @@ def imprimir_solicitud(request, pk):
  		fontSize=12,
  		alignment=TA_CENTER
  	)
-    elements.append(Paragraph("SOLICITUD", style))
+    style1 = ParagraphStyle(
+ 		name='Normal',
+ 		fontName='Helvetica-Bold',
+ 		fontSize=14,
+ 		alignment=TA_CENTER
+ 	)
+    styleProyecto = ParagraphStyle(
+ 		name='Normal',
+ 		fontName='Helvetica-Bold',
+ 		fontSize=18,
+ 		alignment=TA_LEFT
+ 	)
+    elements.append(Paragraph("Proyecto:", styleProyecto))
+    elements.append(Paragraph(proyectoSC.nombre_proyecto, style1))
+    elements.append(Spacer(1, 1 * cm))
+    elements.append(Paragraph("Listado de Solicitudes Realizados", style))
+
+
     elements.append(Spacer(1, 1 * cm))
 
     LEFTMARGIN = 1 * cm
@@ -1578,59 +1596,67 @@ def imprimir_solicitud(request, pk):
     ('RIGHTPADDING', (0, 0), (-1, -1), 3),
     ]
 
-    #data= [['comentarios','descripcion','nombre_linea_base','tipo']]
-    data= [['fecha_inicio','nombre_proyecto','nombre_fase','nombre_item']]
-    data.append([
-            solicitud.fecha_inicio,
- 			solicitud.nombre_proyecto,
- 			solicitud.nombre_fase,
- 			solicitud.nombre_item,
-            #solicitud.usuario,
-            #solicitud.estado,
-            #solicitud.prioridad,
-            #solicitud.comentarios,
-            #solicitud.descripcion,
-            #solicitud.nombre_linea_base,
- 			#solicitud.tipo
- 	])
-    columnas = [100, 100, 100, 100]
+    print 'SC'
+    print proyectoSC.id_proyecto
+
+    faseSC=Fase.objects.filter(proyecto_id=proyectoSC.id_proyecto)
+    print(faseSC)
+    print 'faseSC22'
+    incre=len(faseSC)
+    indexx=0
+    data= [['FechaInicio','Fase','Item','Usuario',
+                    'Estado','Prioridad','LineaBase']]
+    while indexx < incre :
+        print 'faseSC22'
+        print faseSC[indexx].id_fase
+        truee=Solicitud.objects.filter(nombre_fase=faseSC[indexx].id_fase).exists()
+        if truee:
+            solicitud=Solicitud.objects.get(nombre_fase=faseSC[indexx].id_fase)
+            print solicitud
+
+
+            data.append([
+                    solicitud.fecha_inicio,
+ 			        solicitud.nombre_fase,
+ 			        solicitud.nombre_item,
+                    solicitud.usuario,
+                    solicitud.estado,
+                    solicitud.prioridad,
+                    solicitud.nombre_linea_base,
+
+ 	        ])
+        indexx=indexx+1
+    columnas = [70, 70, 70, 70,70,70,70,70,70,70]
+
     t=Table(data, columnas)
     t.setStyle(ESTILO_GENERAL)
 
     t.setStyle([
+                    ('SPAN', (0, 0), (0, 0)),
+                    ('BACKGROUND', (0, 0), (0, 0), COLOR_FONDO_CABECERA_3),
+                    ('TEXTCOLOR', (0, 0), (0, 0), COLOR_TEXTO_CABECERA_3),
+                    ('FONTNAME', (0, 0), (0, 0), 'Helvetica'),
+                    ('FONTSIZE', (0, 0), (0, 0), 11),
+                    ('SPAN', (1, 0), (1, 0)),
+                    ('BACKGROUND', (1, 0), (1, 0), COLOR_FONDO_CABECERA_3),
+                    ('TEXTCOLOR', (1, 0), (1, 0), COLOR_TEXTO_CABECERA_3),
+                    ('FONTNAME', (1, 0), (1, 0), 'Helvetica'),
+                    ('FONTSIZE', (1, 0), (1, 0), 11),
+                    ('ALIGN', (1, 0), (1, 0), 'LEFT'),
 
-    ('SPAN', (0, 0), (0, 0)),
-    ('BACKGROUND', (0, 0), (0, 0), COLOR_FONDO_CABECERA_3),
-    ('TEXTCOLOR', (0, 0), (0, 0), COLOR_TEXTO_CABECERA_3),
-    ('FONTNAME', (0, 0), (0, 0), 'Helvetica'),
-    ('FONTSIZE', (0, 0), (0, 0), 11),
-
-
-    ('SPAN', (1, 0), (1, 0)),
-    ('BACKGROUND', (1, 0), (1, 0), COLOR_FONDO_CABECERA_3),
-    ('TEXTCOLOR', (1, 0), (1, 0), COLOR_TEXTO_CABECERA_3),
-    ('FONTNAME', (1, 0), (1, 0), 'Helvetica'),
-    ('FONTSIZE', (1, 0), (1, 0), 11),
-    ('ALIGN', (1, 0), (1, 0), 'LEFT'),
-    #('SPAN', (1, 0), (3, 3)),
-    #('SPAN', (0, 3), (3, 3)),
-    #('SPAN', (0, 4), (1, 4)),
-     ])
+                    ('BACKGROUND', (1, 0), (1, 0), COLOR_FONDO_CABECERA_3),
+                    ('TEXTCOLOR', (1, 0), (1, 0), COLOR_TEXTO_CABECERA_3),
+                    ('FONTNAME', (1, 0), (1, 0), 'Helvetica'),
+                    ('FONTSIZE', (1, 0), (1, 0), 11),
+                    ('ALIGN', (1, 0), (1, 0), 'LEFT'),
+                    #('SPAN', (1, 0), (3, 3)),
+                    #('SPAN', (0, 3), (3, 3)),
+                    #('SPAN', (0, 4), (1, 4)),
+    ])
 
     elements.append(t)
-
     elements.append(Spacer(0, 5))
 
-    data1= [['usuario']]
-    data1.append([
-            solicitud.usuario,
-
- 	])
-    columnas1 = [100]
-
-    t1=Table(data1, columnas1)
-    t1.setStyle(ESTILO_GENERAL)
-    elements.append(t1)
 
     doc.build(elements)
     response.write(buffer.getvalue())

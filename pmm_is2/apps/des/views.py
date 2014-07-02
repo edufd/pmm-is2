@@ -1581,7 +1581,7 @@ def imprimir_solicitud(request, pk):
     COLOR_FONDO_CABECERA_2 = colors.cadetblue
     COLOR_TEXTO_CABECERA_2 = colors.black
 
-    COLOR_FONDO_CABECERA_3 = colors.gray
+    COLOR_FONDO_CABECERA_3 = colors.darkblue
     COLOR_TEXTO_CABECERA_3 = colors.white
 
     ESTILO_GENERAL = [
@@ -1637,6 +1637,7 @@ def imprimir_solicitud(request, pk):
                     ('TEXTCOLOR', (0, 0), (0, 0), COLOR_TEXTO_CABECERA_3),
                     ('FONTNAME', (0, 0), (0, 0), 'Helvetica'),
                     ('FONTSIZE', (0, 0), (0, 0), 11),
+
                     ('SPAN', (1, 0), (1, 0)),
                     ('BACKGROUND', (1, 0), (1, 0), COLOR_FONDO_CABECERA_3),
                     ('TEXTCOLOR', (1, 0), (1, 0), COLOR_TEXTO_CABECERA_3),
@@ -1644,14 +1645,43 @@ def imprimir_solicitud(request, pk):
                     ('FONTSIZE', (1, 0), (1, 0), 11),
                     ('ALIGN', (1, 0), (1, 0), 'LEFT'),
 
-                    ('BACKGROUND', (1, 0), (1, 0), COLOR_FONDO_CABECERA_3),
-                    ('TEXTCOLOR', (1, 0), (1, 0), COLOR_TEXTO_CABECERA_3),
-                    ('FONTNAME', (1, 0), (1, 0), 'Helvetica'),
-                    ('FONTSIZE', (1, 0), (1, 0), 11),
-                    ('ALIGN', (1, 0), (1, 0), 'LEFT'),
-                    #('SPAN', (1, 0), (3, 3)),
-                    #('SPAN', (0, 3), (3, 3)),
-                    #('SPAN', (0, 4), (1, 4)),
+                    ('BACKGROUND', (2, 0), (2, 0), COLOR_FONDO_CABECERA_3),
+                    ('TEXTCOLOR', (2, 0), (2, 0), COLOR_TEXTO_CABECERA_3),
+                    ('FONTNAME', (2, 0), (2, 0), 'Helvetica'),
+                    ('FONTSIZE', (2, 0), (2, 0), 11),
+                    ('ALIGN', (2, 0), (2, 0), 'LEFT'),
+
+                    ('BACKGROUND', (2, 0), (2, 0), COLOR_FONDO_CABECERA_3),
+                    ('TEXTCOLOR', (2, 0), (2, 0), COLOR_TEXTO_CABECERA_3),
+                    ('FONTNAME', (2, 0), (2, 0), 'Helvetica'),
+                    ('FONTSIZE', (2, 0), (2, 0), 11),
+                    ('ALIGN', (2, 0), (2, 0), 'LEFT'),
+
+                    ('BACKGROUND', (3, 0), (3, 0), COLOR_FONDO_CABECERA_3),
+                    ('TEXTCOLOR', (3, 0), (3, 0), COLOR_TEXTO_CABECERA_3),
+                    ('FONTNAME', (3, 0), (3, 0), 'Helvetica'),
+                    ('FONTSIZE', (3, 0), (3, 0), 11),
+                    ('ALIGN', (3, 0), (3, 0), 'LEFT'),
+
+                    ('BACKGROUND', (4, 0), (4, 0), COLOR_FONDO_CABECERA_3),
+                    ('TEXTCOLOR', (4, 0), (4, 0), COLOR_TEXTO_CABECERA_3),
+                    ('FONTNAME', (4, 0), (4, 0), 'Helvetica'),
+                    ('FONTSIZE', (4, 0), (4, 0), 11),
+                    ('ALIGN', (4, 0), (4, 0), 'LEFT'),
+
+                    ('BACKGROUND', (5, 0), (5, 0), COLOR_FONDO_CABECERA_3),
+                    ('TEXTCOLOR', (5, 0), (5, 0), COLOR_TEXTO_CABECERA_3),
+                    ('FONTNAME', (5, 0), (5, 0), 'Helvetica'),
+                    ('FONTSIZE', (5, 0), (5, 0), 11),
+                    ('ALIGN', (5, 0), (5, 0), 'LEFT'),
+
+                    ('BACKGROUND', (6, 0), (6, 0), COLOR_FONDO_CABECERA_3),
+                    ('TEXTCOLOR', (6, 0), (6, 0), COLOR_TEXTO_CABECERA_3),
+                    ('FONTNAME', (6, 0), (6, 0), 'Helvetica'),
+                    ('FONTSIZE', (6, 0), (6, 0), 11),
+                    ('ALIGN', (6, 0), (6, 0), 'LEFT'),
+
+
     ])
 
     elements.append(t)

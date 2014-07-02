@@ -55,8 +55,8 @@
                                 <tr>
                                     <td>{{ fase.numero_secuencia }}</td>
                                     <td>{{ fase.nombre_fase }}</td>
-{#                                  and project.estado_proyecto == 'INICIADO'#}
-                                    {% if fase.estado_fase == 'ABIERTA' or fase.estado_fase == 'NO-INICIADA' %}
+{#AL modificar proyecto estado en iniciado cambia fase a abierta y solo si el proyecto es iniciado se pueden hacer los siguientes#}
+                                    {% if fase.estado_fase == 'ABIERTA' and project.estado_proyecto == 'INICIADO'%}
                                         <td><a href="/des/crear_item/{{ fase.id_fase }}">Agregar Item</a></td>
                                         <td><a href="/des/phase_item_list/{{ fase.proyecto.id_proyecto }}/{{ fase.id_fase }}">Listar Items</a></td>
                                         <td><a href="/des/lista_item_revivir/{{ fase.id_fase }}">Revivir Items</a></td>

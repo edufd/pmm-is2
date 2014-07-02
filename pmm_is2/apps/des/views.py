@@ -1605,16 +1605,22 @@ def imprimir_solicitud(request, pk):
     incre=len(faseSC)
     indexx=0
     data= [['FechaInicio','Fase','Item','Usuario',
-                    'Estado','Prioridad','LineaBase']]
+                    'Estado','Prioridad','LineaBase','Votantes']]
     while indexx < incre :
         print 'faseSC22'
+        cadena=''
         print faseSC[indexx].id_fase
         truee=Solicitud.objects.filter(nombre_fase=faseSC[indexx].id_fase).exists()
         if truee:
             solicitud=Solicitud.objects.get(nombre_fase=faseSC[indexx].id_fase)
             print solicitud
 
-
+            if solicitud.votado_por1 != 'null':
+                cadena=solicitud.votado_por1+' - '
+            if solicitud.votado_por2 !='null':
+                cadena=cadena+solicitud.votado_por2+' - '
+            if solicitud.votado_por3!='null':
+                cadena=cadena+solicitud.votado_por3
             data.append([
                     solicitud.fecha_inicio,
  			        solicitud.nombre_fase,
@@ -1623,6 +1629,7 @@ def imprimir_solicitud(request, pk):
                     solicitud.estado,
                     solicitud.prioridad,
                     solicitud.nombre_linea_base,
+                    cadena,
 
  	        ])
         indexx=indexx+1
@@ -1680,6 +1687,12 @@ def imprimir_solicitud(request, pk):
                     ('FONTNAME', (6, 0), (6, 0), 'Helvetica'),
                     ('FONTSIZE', (6, 0), (6, 0), 11),
                     ('ALIGN', (6, 0), (6, 0), 'LEFT'),
+
+                    ('BACKGROUND', (7, 0), (7, 0), COLOR_FONDO_CABECERA_3),
+                    ('TEXTCOLOR', (7, 0), (7, 0), COLOR_TEXTO_CABECERA_3),
+                    ('FONTNAME', (7, 0), (7, 0), 'Helvetica'),
+                    ('FONTSIZE', (7, 0), (7, 0), 11),
+                    ('ALIGN', (7, 0), (7, 0), 'LEFT'),
 
 
     ])

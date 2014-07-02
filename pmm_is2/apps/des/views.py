@@ -1565,7 +1565,7 @@ def imprimir_solicitud(request, pk):
     elements.append(Paragraph("Proyecto:", styleProyecto))
     elements.append(Paragraph(proyectoSC.nombre_proyecto, style1))
     elements.append(Spacer(1, 1 * cm))
-    elements.append(Paragraph("Listado de Solicitudes Realizados", style))
+    elements.append(Paragraph("Listado de Solicitudes Realizadas", style))
 
 
     elements.append(Spacer(1, 1 * cm))

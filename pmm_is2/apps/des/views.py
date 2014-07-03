@@ -1524,6 +1524,209 @@ def editar_solicitud(request, pk):
 
 
 @login_required
+def imprimir_item(request, pk):
+    """Funcion para Imprimir Listado de items por proyecto y por fase.
+    Retorna la pagina con el formulario correspondiente a la visualizacion de
+    de la solicitud
+
+    :param request: Parametro a ser procesado.
+    :param pk: Parametro a ser procesado el identificador del Proyecto.
+    :type request: HttpRequest.
+    :type pk: int.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
+    context = RequestContext(request)
+    proyectoSC = get_object_or_404(Proyecto, pk=pk)
+
+    response = HttpResponse(mimetype='application/pdf')
+    response['Content-Disposition'] = 'filename="ListadoItemxProyectoxFase.pdf"'
+    buffer = BytesIO()
+    doc = SimpleDocTemplate(buffer, pagesize=letter)
+    elements = []
+    style = ParagraphStyle(
+ 		name='Normal',
+ 		fontName='Helvetica-Bold',
+ 		fontSize=12,
+ 		alignment=TA_CENTER
+ 	)
+    style1 = ParagraphStyle(
+ 		name='Normal',
+ 		fontName='Helvetica-Bold',
+ 		fontSize=14,
+ 		alignment=TA_CENTER
+ 	)
+    styleProyecto = ParagraphStyle(
+ 		name='Normal',
+ 		fontName='Helvetica-Bold',
+ 		fontSize=18,
+ 		alignment=TA_LEFT
+ 	)
+
+    styleFase = ParagraphStyle(
+ 		name='Normal',
+ 		fontName='Helvetica-Bold',
+ 		fontSize=16,
+ 		alignment=TA_LEFT
+ 	)
+
+    styleLider = ParagraphStyle(
+ 		name='Normal',
+ 		fontName='Times-Roman',
+ 		fontSize=12,
+ 		alignment=TA_LEFT
+ 	)
+
+    lider=User.objects.get(id=proyectoSC.lider_proyecto_id)
+    Lider=lider.get_username()
+    Lider='Lider: '+Lider
+
+    elements.append(Paragraph("Proyecto:", styleProyecto))
+    elements.append(Paragraph(proyectoSC.nombre_proyecto, style1))
+    elements.append(Spacer(1, 1 * cm))
+    elements.append(Paragraph(Lider, styleLider))
+
+    elements.append(Spacer(1, 1 * cm))
+    elements.append(Paragraph("Listado de Item por Proyecto/Fase", style))
+
+
+    elements.append(Spacer(1, 1 * cm))
+
+    LEFTMARGIN = 1 * cm
+    RIGHTMARGIN = 1 * cm
+    TOPMARGIN = 1 * cm
+    BOTTONMARGIN = 1 * cm
+
+    COLOR_FONDO_CABECERA_1 = colors.blueviolet
+    COLOR_TEXTO_CABECERA_1 = colors.white
+
+    COLOR_FONDO_CABECERA_2 = colors.cadetblue
+    COLOR_TEXTO_CABECERA_2 = colors.black
+
+    COLOR_FONDO_CABECERA_3 = colors.darkblue
+    COLOR_TEXTO_CABECERA_3 = colors.white
+
+    ESTILO_GENERAL = [
+    ('BOX', (0, 0), (-1, -1), 1.0, colors.black),
+    ('GRID', (0, 0), (-1, -1), 1.0, colors.black),
+    ('BACKGROUND', (0, 0), (-1, -1), colors.transparent),
+    ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
+    ('FONTSIZE', (0, 0), (-1, -1), 10),
+    ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+    ('VALIGN', (0, 0), (-1, -1), 'TOP'),
+    ('LEFTPADDING', (0, 0), (-1, -1), 3),
+    ('RIGHTPADDING', (0, 0), (-1, -1), 3),
+    ]
+
+    print 'SC'
+    print proyectoSC.id_proyecto
+
+    faseSC=Fase.objects.filter(proyecto_id=proyectoSC.id_proyecto).exists()
+    if faseSC:
+        faseSC=Fase.objects.filter(proyecto_id=proyectoSC.id_proyecto)
+    else:
+        return render_to_response("des/index1.html", context_instance=RequestContext(request))
+    print(faseSC)
+    print 'faseSC22'
+    incre=len(faseSC)
+    indexx=0
+
+
+    while indexx < incre :
+        data= [['Id','NombreItem','TipoItem','PadreItem',
+                    'Version','Costo']]
+        print 'faseSC22'
+        cadena=''
+        cadena1='Fase: '+ faseSC[indexx].nombre_fase
+        elements.append(Paragraph( cadena1, styleFase))
+        elements.append(Spacer(1, 1 * cm))
+        print faseSC[indexx].id_fase
+        truee=Item.objects.filter(id_fase_id=faseSC[indexx].id_fase).exists()
+        if truee:
+            item=Item.objects.filter(id_fase_id=faseSC[indexx].id_fase)
+            cantSoli=0
+            longitudS=len(item)
+            while cantSoli < longitudS:
+                print item[cantSoli]
+                data.append([
+                        item[cantSoli].id_item,
+ 			            item[cantSoli].nombre_item,
+ 			            item[cantSoli].id_tipo_item_id,
+                        cadena,
+                        item[cantSoli].version_item,
+                        item[cantSoli].costo,
+
+
+ 	            ])
+                cantSoli=cantSoli+1
+        indexx=indexx+1
+        elements.append(Spacer(1, 1 * cm))
+        columnas = [70, 70, 70, 70,70,50,70,90]
+
+        t=Table(data, columnas)
+        t.setStyle(ESTILO_GENERAL)
+
+        t.setStyle([
+                    ('SPAN', (0, 0), (0, 0)),
+                    ('BACKGROUND', (0, 0), (0, 0), COLOR_FONDO_CABECERA_3),
+                    ('TEXTCOLOR', (0, 0), (0, 0), COLOR_TEXTO_CABECERA_3),
+                    ('FONTNAME', (0, 0), (0, 0), 'Helvetica'),
+                    ('FONTSIZE', (0, 0), (0, 0), 11),
+
+                    ('SPAN', (1, 0), (1, 0)),
+                    ('BACKGROUND', (1, 0), (1, 0), COLOR_FONDO_CABECERA_3),
+                    ('TEXTCOLOR', (1, 0), (1, 0), COLOR_TEXTO_CABECERA_3),
+                    ('FONTNAME', (1, 0), (1, 0), 'Helvetica'),
+                    ('FONTSIZE', (1, 0), (1, 0), 11),
+                    ('ALIGN', (1, 0), (1, 0), 'LEFT'),
+
+                    ('BACKGROUND', (2, 0), (2, 0), COLOR_FONDO_CABECERA_3),
+                    ('TEXTCOLOR', (2, 0), (2, 0), COLOR_TEXTO_CABECERA_3),
+                    ('FONTNAME', (2, 0), (2, 0), 'Helvetica'),
+                    ('FONTSIZE', (2, 0), (2, 0), 11),
+                    ('ALIGN', (2, 0), (2, 0), 'LEFT'),
+
+                    ('BACKGROUND', (2, 0), (2, 0), COLOR_FONDO_CABECERA_3),
+                    ('TEXTCOLOR', (2, 0), (2, 0), COLOR_TEXTO_CABECERA_3),
+                    ('FONTNAME', (2, 0), (2, 0), 'Helvetica'),
+                    ('FONTSIZE', (2, 0), (2, 0), 11),
+                    ('ALIGN', (2, 0), (2, 0), 'LEFT'),
+
+                    ('BACKGROUND', (3, 0), (3, 0), COLOR_FONDO_CABECERA_3),
+                    ('TEXTCOLOR', (3, 0), (3, 0), COLOR_TEXTO_CABECERA_3),
+                    ('FONTNAME', (3, 0), (3, 0), 'Helvetica'),
+                    ('FONTSIZE', (3, 0), (3, 0), 11),
+                    ('ALIGN', (3, 0), (3, 0), 'LEFT'),
+
+                    ('BACKGROUND', (4, 0), (4, 0), COLOR_FONDO_CABECERA_3),
+                    ('TEXTCOLOR', (4, 0), (4, 0), COLOR_TEXTO_CABECERA_3),
+                    ('FONTNAME', (4, 0), (4, 0), 'Helvetica'),
+                    ('FONTSIZE', (4, 0), (4, 0), 11),
+                    ('ALIGN', (4, 0), (4, 0), 'LEFT'),
+
+                    ('BACKGROUND', (5, 0), (5, 0), COLOR_FONDO_CABECERA_3),
+                    ('TEXTCOLOR', (5, 0), (5, 0), COLOR_TEXTO_CABECERA_3),
+                    ('FONTNAME', (5, 0), (5, 0), 'Helvetica'),
+                    ('FONTSIZE', (5, 0), (5, 0), 11),
+                    ('ALIGN', (5, 0), (5, 0), 'LEFT'),
+
+
+
+
+        ])
+
+        elements.append(t)
+        elements.append(Spacer(0, 5))
+
+
+    doc.build(elements)
+    response.write(buffer.getvalue())
+    buffer.close()
+    return response
+    return render_to_response("des/index1.html", context_instance=RequestContext(request))
+
+
+@login_required
 def imprimir_solicitud(request, pk):
     """Funcion para Imprimir una Solicitud.
     Retorna la pagina con el formulario correspondiente a la visualizacion de
@@ -1562,8 +1765,23 @@ def imprimir_solicitud(request, pk):
  		fontSize=18,
  		alignment=TA_LEFT
  	)
+
+    styleLider = ParagraphStyle(
+ 		name='Normal',
+ 		fontName='Times-Roman',
+ 		fontSize=12,
+ 		alignment=TA_LEFT
+ 	)
+
+    lider=User.objects.get(id=proyectoSC.lider_proyecto_id)
+    Lider=lider.get_username()
+    Lider='Lider: '+Lider
+
     elements.append(Paragraph("Proyecto:", styleProyecto))
     elements.append(Paragraph(proyectoSC.nombre_proyecto, style1))
+    elements.append(Spacer(1, 1 * cm))
+    elements.append(Paragraph(Lider, styleLider))
+
     elements.append(Spacer(1, 1 * cm))
     elements.append(Paragraph("Listado de Solicitudes Realizadas", style))
 
@@ -1599,34 +1817,49 @@ def imprimir_solicitud(request, pk):
     print 'SC'
     print proyectoSC.id_proyecto
 
-    faseSC=Fase.objects.filter(proyecto_id=proyectoSC.id_proyecto)
+    faseSC=Fase.objects.filter(proyecto_id=proyectoSC.id_proyecto).exists()
+    if faseSC:
+        faseSC=Fase.objects.filter(proyecto_id=proyectoSC.id_proyecto)
+    else:
+        return render_to_response("des/index3.html", context_instance=RequestContext(request))
     print(faseSC)
     print 'faseSC22'
     incre=len(faseSC)
     indexx=0
     data= [['FechaInicio','Fase','Item','Usuario',
-                    'Estado','Prioridad','LineaBase']]
+                    'Estado','Prioridad','LineaBase','Votantes']]
     while indexx < incre :
         print 'faseSC22'
+        cadena=''
         print faseSC[indexx].id_fase
         truee=Solicitud.objects.filter(nombre_fase=faseSC[indexx].id_fase).exists()
         if truee:
-            solicitud=Solicitud.objects.get(nombre_fase=faseSC[indexx].id_fase)
-            print solicitud
+            solicitud=Solicitud.objects.filter(nombre_fase=faseSC[indexx].id_fase)
+            cantSoli=0
+            longitudS=len(solicitud)
+            while cantSoli < longitudS:
+                print solicitud[cantSoli]
 
+                if solicitud[cantSoli].votado_por1 != 'null':
+                    cadena=solicitud[cantSoli].votado_por1+' - '
+                if solicitud[cantSoli].votado_por2 !='null':
+                    cadena=cadena + solicitud[cantSoli].votado_por2+' - '
+                if solicitud[cantSoli].votado_por3!='null':
+                    cadena=cadena+solicitud[cantSoli].votado_por3
+                data.append([
+                        solicitud[cantSoli].fecha_inicio,
+ 			            solicitud[cantSoli].nombre_fase,
+ 			            solicitud[cantSoli].nombre_item,
+                        solicitud[cantSoli].usuario,
+                        solicitud[cantSoli].estado,
+                        solicitud[cantSoli].prioridad,
+                        solicitud[cantSoli].nombre_linea_base,
+                        cadena,
 
-            data.append([
-                    solicitud.fecha_inicio,
- 			        solicitud.nombre_fase,
- 			        solicitud.nombre_item,
-                    solicitud.usuario,
-                    solicitud.estado,
-                    solicitud.prioridad,
-                    solicitud.nombre_linea_base,
-
- 	        ])
+ 	            ])
+                cantSoli=cantSoli+1
         indexx=indexx+1
-    columnas = [70, 70, 70, 70,70,70,70,70,70,70]
+    columnas = [70, 70, 70, 70,70,50,70,90,70,70]
 
     t=Table(data, columnas)
     t.setStyle(ESTILO_GENERAL)
@@ -1681,6 +1914,12 @@ def imprimir_solicitud(request, pk):
                     ('FONTSIZE', (6, 0), (6, 0), 11),
                     ('ALIGN', (6, 0), (6, 0), 'LEFT'),
 
+                    ('BACKGROUND', (7, 0), (7, 0), COLOR_FONDO_CABECERA_3),
+                    ('TEXTCOLOR', (7, 0), (7, 0), COLOR_TEXTO_CABECERA_3),
+                    ('FONTNAME', (7, 0), (7, 0), 'Helvetica'),
+                    ('FONTSIZE', (7, 0), (7, 0), 11),
+                    ('ALIGN', (7, 0), (7, 0), 'LEFT'),
+
 
     ])
 
@@ -1692,7 +1931,7 @@ def imprimir_solicitud(request, pk):
     response.write(buffer.getvalue())
     buffer.close()
     return response
-    return render_to_response("des/index1.html", context_instance=RequestContext(request))
+    return render_to_response("des/index3.html", context_instance=RequestContext(request))
 
 
 @login_required

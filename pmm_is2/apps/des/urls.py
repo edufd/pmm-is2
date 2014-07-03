@@ -63,6 +63,7 @@ urlpatterns = patterns('',
         url(r'^listar_solicitud/(?P<id_proyecto>(\d+))/(?P<id_fase>(\d+))/$', views.listar_solicitud, name='listar_solicitud'),
 
         url(r'^imprimir_solicitud/(?P<pk>\d+)$', views.imprimir_solicitud, name='imprimir_solicitud'),
+         url(r'^imprimir_listadoitem/(?P<pk>\d+)$', views.imprimir_item, name='imprimir_item'),
         url(r'^enviar_solicitud/(?P<pk>\d+)$', views.enviar_solicitud, name='enviar_solicitud'),
         url(r'^listar_solicitudRecibido/$', views.listar_solicitudRecibido, name='listar_solicitudRecibido'),
         url(r'^editar_solicitudRecibido/(?P<pk>\d+)$', views.editar_solicitudRecibido, name='editar_solicitudRecibido'),

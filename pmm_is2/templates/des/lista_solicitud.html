@@ -20,10 +20,7 @@
                         <h4 >Nombre Item Bloqueado: {{ solicitud.nombre_item}}
 
                         </h4>
-                        <a class="btn btn-danger" href="{% url "imprimir_solicitud" solicitud.id_solicitud %}">
-                              <i class="icon-trash icon-white"></i>
-                              Ver
-                            </a>
+
                         <a class="btn btn-danger" href="{% url "enviar_solicitud" solicitud.id_solicitud %}">
                               <i class="icon-trash icon-white"></i>
                               Enviar Solicitud

@@ -22,6 +22,11 @@ _all_ = [Proyecto, Comite]
 
 @login_required
 def index(request):
+    """Funcion para mostrar la vista principal.
+    Retorna la pagina correspondiente con el conjunto de los Proyectos Iniciados
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
     context = RequestContext(request)
 
     if request.user.is_superuser:
@@ -34,7 +39,7 @@ def index(request):
 
 @login_required
 def crear_atributo_tipo_item(request):
-    """Funcion para Crear Tipo Item.
+    """Funcion para Crear Atributo Tipo Item.
     Retorna la pagina correspondiente con el formulario para la creacion del atributo Tipo ITem
 
     :param request: Parametro a ser procesado.
@@ -158,23 +163,47 @@ def crear_item(request, pk):
 
 
 def get_lista_tipo_item():
+    """Funcion para Listar tipo Item.
+    Retorna la pagina correspondiente con la lista de tipo item
+
+    :param request: Parametro a ser procesado.
+    :type request: HttpRequest.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
     lista_tipo_item = TipoItem.objects.all()
     return lista_tipo_item
 
 
 def get_lista_atributo_tipo_item():
+    """Funcion para Listar atributo tipo Item.
+    Retorna la pagina correspondiente con la lista de atributo tipo item
+
+    :param request: Parametro a ser procesado.
+    :type request: HttpRequest.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
     lista_atributo_tipo_item = Atributo.objects.all()
     return lista_atributo_tipo_item
 
 
 def get_lista_item():
+    """Funcion para Listar Item.
+    Retorna la pagina correspondiente con la lista de item
+
+    :param request: Parametro a ser procesado.
+    :type request: HttpRequest.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
     lista_item = Item.objects.all()
     return lista_item
 
 
 @login_required
 def listar_atributo_tipo_item(request):
-    """Funcion para Listar tipo de Item.
+    """Funcion para Listar atributo tipo de Item.
     Retorna la pagina correspondiente con la lista de atributos tipos de item
 
     :param request: Parametro a ser procesado.
@@ -227,7 +256,7 @@ def listar_item(request):
 
 @login_required
 def editar_atributo_tipo_item(request, pk):
-    """Funcion para Modificar un Tipo Item.
+    """Funcion para Modificar un atributo Tipo Item.
     Retorna la pagina con el formulario correspondiente para la modificacion
     del atributo Tipo Item.
 
@@ -627,6 +656,15 @@ def relation_fix_revive(request, item_id, item_id_sucesor):
 
 @login_required
 def ver_atributo_tipo_item(request, pk):
+    """Funcion para ver atributos de tipo de item.
+    Retorna la pagina correspondiente.
+
+    :param request: Parametro a ser procesado.
+    :param pk: Parametro a ser procesado. Identificador del AtributoTipoItem.
+    :type request: HttpRequest.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
     context = RequestContext(request)
     atributo_tipo_item = get_object_or_404(AtributoTipoItem, pk=pk)
 
@@ -637,6 +675,15 @@ def ver_atributo_tipo_item(request, pk):
 
 @login_required
 def ver_tipo_item(request, pk):
+    """Funcion para ver tipo de item.
+    Retorna la pagina correspondiente.
+
+    :param request: Parametro a ser procesado.
+    :param pk: Parametro a ser procesado. Identificador del TipoItem.
+    :type request: HttpRequest.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
     context = RequestContext(request)
     tipo_item = get_object_or_404(TipoItem, pk=pk)
 
@@ -647,6 +694,15 @@ def ver_tipo_item(request, pk):
 
 @login_required
 def ver_item(request, pk):
+    """Funcion para ver items.
+    Retorna la pagina correspondiente.
+
+    :param request: Parametro a ser procesado.
+    :param pk: Parametro a ser procesado. Identificador del Item.
+    :type request: HttpRequest.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
     context = RequestContext(request)
     item = get_object_or_404(Item, pk=pk)
 

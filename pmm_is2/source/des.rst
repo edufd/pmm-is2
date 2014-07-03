@@ -4,15 +4,27 @@ des package
 
 des.views module
 -----------------
+.. autofunction:: pmm_is2.apps.des.views.index
+.. autofunction:: pmm_is2.apps.des.views.crear_atributo_tipo_item
 .. autofunction:: pmm_is2.apps.des.views.crear_tipo_item
-.. autofunction:: pmm_is2.apps.des.views.listar_tipo_item
-.. autofunction:: pmm_is2.apps.des.views.editar_tipo_item
-.. autofunction:: pmm_is2.apps.des.views.eliminar_tipo_item
-
 .. autofunction:: pmm_is2.apps.des.views.crear_item
+.. autofunction:: pmm_is2.apps.des.views.get_lista_tipo_item
+.. autofunction:: pmm_is2.apps.des.views.get_lista_atributo_tipo_item
+.. autofunction:: pmm_is2.apps.des.views.get_lista_item
+.. autofunction:: pmm_is2.apps.des.views.listar_atributo_tipo_item
+.. autofunction:: pmm_is2.apps.des.views.listar_tipo_item
 .. autofunction:: pmm_is2.apps.des.views.listar_item
+.. autofunction:: pmm_is2.apps.des.views.editar_atributo_tipo_item
+.. autofunction:: pmm_is2.apps.des.views.editar_tipo_item
 .. autofunction:: pmm_is2.apps.des.views.editar_item
+.. autofunction:: pmm_is2.apps.des.views.eliminar_atributo_tipo_item
+.. autofunction:: pmm_is2.apps.des.views.eliminar_tipo_item
 .. autofunction:: pmm_is2.apps.des.views.eliminar_item
+.. autofunction:: pmm_is2.apps.des.views.relation_fix
+.. autofunction:: pmm_is2.apps.des.views.relation_fix_revive
+.. autofunction:: pmm_is2.apps.des.views.ver_atributo_tipo_item
+.. autofunction:: pmm_is2.apps.des.views.ver_tipo_item
+.. autofunction:: pmm_is2.apps.des.views.ver_item
 
 .. autofunction:: pmm_is2.apps.des.views.archivoadjunto_page
 .. autofunction:: pmm_is2.apps.des.views.crear_archivoAdjunto

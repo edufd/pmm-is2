@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
 from pmm_is2.apps.adm.models import Comite
+from pmm_is2.apps.des.models import Relacion
 from pmm_is2.apps.des.forms import *
 from django.http import HttpResponse
 from io import BytesIO
@@ -1639,15 +1640,26 @@ def imprimir_item(request, pk):
         cadena=''
         cadena1='Fase: '+ faseSC[indexx].nombre_fase
         elements.append(Paragraph( cadena1, styleFase))
-        elements.append(Spacer(1, 1 * cm))
+
         print faseSC[indexx].id_fase
         truee=Item.objects.filter(id_fase_id=faseSC[indexx].id_fase).exists()
         if truee:
             item=Item.objects.filter(id_fase_id=faseSC[indexx].id_fase)
+
             cantSoli=0
             longitudS=len(item)
             while cantSoli < longitudS:
                 print item[cantSoli]
+                cadena=''
+                rela=Relacion.objects.filter(al_item_id=item[cantSoli],tipo='PADRE-HIJO').exists()
+                #solo traer uno y que sea del tipo PADRE-HIJO
+                if rela :
+                    relac=Relacion.objects.get(al_item_id=item[cantSoli],tipo='PADRE-HIJO')
+                    print 'relacionProbando'
+                    print relac.del_item_id
+                    nombreItemPadre=Item.objects.get(id_item=relac.del_item_id)
+                    print(nombreItemPadre.nombre_item)
+                    cadena=nombreItemPadre.nombre_item
                 data.append([
                         item[cantSoli].id_item,
  			            item[cantSoli].nombre_item,

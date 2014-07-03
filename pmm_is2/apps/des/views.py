@@ -1540,7 +1540,7 @@ def imprimir_item(request, pk):
     proyectoSC = get_object_or_404(Proyecto, pk=pk)
 
     response = HttpResponse(mimetype='application/pdf')
-    response['Content-Disposition'] = 'filename="Solicitud.pdf"'
+    response['Content-Disposition'] = 'filename="ListadoItemxProyectoxFase.pdf"'
     buffer = BytesIO()
     doc = SimpleDocTemplate(buffer, pagesize=letter)
     elements = []
@@ -1563,6 +1563,13 @@ def imprimir_item(request, pk):
  		alignment=TA_LEFT
  	)
 
+    styleFase = ParagraphStyle(
+ 		name='Normal',
+ 		fontName='Helvetica-Bold',
+ 		fontSize=16,
+ 		alignment=TA_LEFT
+ 	)
+
     styleLider = ParagraphStyle(
  		name='Normal',
  		fontName='Times-Roman',
@@ -1580,7 +1587,7 @@ def imprimir_item(request, pk):
     elements.append(Paragraph(Lider, styleLider))
 
     elements.append(Spacer(1, 1 * cm))
-    elements.append(Paragraph("Listado de Solicitudes Realizadas", style))
+    elements.append(Paragraph("Listado de Item por Proyecto/Fase", style))
 
 
     elements.append(Spacer(1, 1 * cm))
@@ -1623,40 +1630,36 @@ def imprimir_item(request, pk):
     print 'faseSC22'
     incre=len(faseSC)
     indexx=0
-    data= [['FechaInicio','Fase','Item','Usuario',
-                    'Estado','Prioridad','LineaBase','Votantes']]
+
     while indexx < incre :
+        data= [['Id','NombreItem','TipoItem','PadreItem',
+                    'Version','Costo']]
         print 'faseSC22'
         cadena=''
+        cadena1='Fase: '+ faseSC[indexx].nombre_fase
+        elements.append(Paragraph( cadena1, styleFase))
+        elements.append(Spacer(1, 1 * cm))
         print faseSC[indexx].id_fase
-        truee=Solicitud.objects.filter(nombre_fase=faseSC[indexx].id_fase).exists()
+        truee=Item.objects.filter(id_fase_id=faseSC[indexx].id_fase).exists()
         if truee:
-            solicitud=Solicitud.objects.filter(nombre_fase=faseSC[indexx].id_fase)
+            item=Item.objects.filter(id_fase_id=faseSC[indexx].id_fase)
             cantSoli=0
-            longitudS=len(solicitud)
+            longitudS=len(item)
             while cantSoli < longitudS:
-                print solicitud[cantSoli]
-
-                if solicitud[cantSoli].votado_por1 != 'null':
-                    cadena=solicitud[cantSoli].votado_por1+' - '
-                if solicitud[cantSoli].votado_por2 !='null':
-                    cadena=cadena + solicitud[cantSoli].votado_por2+' - '
-                if solicitud[cantSoli].votado_por3!='null':
-                    cadena=cadena+solicitud[cantSoli].votado_por3
+                print item[cantSoli]
                 data.append([
-                        solicitud[cantSoli].fecha_inicio,
- 			            solicitud[cantSoli].nombre_fase,
- 			            solicitud[cantSoli].nombre_item,
-                        solicitud[cantSoli].usuario,
-                        solicitud[cantSoli].estado,
-                        solicitud[cantSoli].prioridad,
-                        solicitud[cantSoli].nombre_linea_base,
+                        item[cantSoli].id_item,
+ 			            item[cantSoli].nombre_item,
+ 			            item[cantSoli].id_tipo_item_id,
                         cadena,
+                        item[cantSoli].version_item,
+                        item[cantSoli].costo,
+
 
  	            ])
                 cantSoli=cantSoli+1
         indexx=indexx+1
-    columnas = [70, 70, 70, 70,70,50,70,90,70,70]
+    columnas = [70, 70, 70, 70,70,50,70,90]
 
     t=Table(data, columnas)
     t.setStyle(ESTILO_GENERAL)
@@ -1705,17 +1708,7 @@ def imprimir_item(request, pk):
                     ('FONTSIZE', (5, 0), (5, 0), 11),
                     ('ALIGN', (5, 0), (5, 0), 'LEFT'),
 
-                    ('BACKGROUND', (6, 0), (6, 0), COLOR_FONDO_CABECERA_3),
-                    ('TEXTCOLOR', (6, 0), (6, 0), COLOR_TEXTO_CABECERA_3),
-                    ('FONTNAME', (6, 0), (6, 0), 'Helvetica'),
-                    ('FONTSIZE', (6, 0), (6, 0), 11),
-                    ('ALIGN', (6, 0), (6, 0), 'LEFT'),
 
-                    ('BACKGROUND', (7, 0), (7, 0), COLOR_FONDO_CABECERA_3),
-                    ('TEXTCOLOR', (7, 0), (7, 0), COLOR_TEXTO_CABECERA_3),
-                    ('FONTNAME', (7, 0), (7, 0), 'Helvetica'),
-                    ('FONTSIZE', (7, 0), (7, 0), 11),
-                    ('ALIGN', (7, 0), (7, 0), 'LEFT'),
 
 
     ])
@@ -1826,7 +1819,7 @@ def imprimir_solicitud(request, pk):
     if faseSC:
         faseSC=Fase.objects.filter(proyecto_id=proyectoSC.id_proyecto)
     else:
-        return render_to_response("des/index1.html", context_instance=RequestContext(request))
+        return render_to_response("des/index3.html", context_instance=RequestContext(request))
     print(faseSC)
     print 'faseSC22'
     incre=len(faseSC)

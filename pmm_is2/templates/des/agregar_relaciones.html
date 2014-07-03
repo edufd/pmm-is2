@@ -56,7 +56,6 @@
             })
             $( "#id_al_item" ).change(function() {
                 var miValue = $("#id_al_item" ).val();
-                alert(miValue);
                 if (miValue > 0)
                     $("#id_al_item option[value="+miValue+"]").attr("selected",true);
             });

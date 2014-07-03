@@ -1,9 +1,11 @@
-	<ul class="nav nav-list">
-	   {% if cat_list %}
-		{% for cat in cat_list %}
-		  <li><a href="/adm/perfil/{{ cat.id }}">{{ cat.username }}</a></li>
-		{% endfor %}
-	   {% else %}
-		<li>Ningun Usuario</li>
-	   {% endif %}
-	</ul>
+<ul class="nav nav-list">
+   {% if cat_list %}
+    {% for cat in cat_list %}
+      <li><a href="/adm/perfil/{{ cat.id }}">{{ cat.username }}</a></li>
+    {% endfor %}
+   {% else %}
+    <li>
+        <p class="buscar">Ningun Usuario</p>
+    </li>
+   {% endif %}
+</ul>

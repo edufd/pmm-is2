@@ -419,7 +419,7 @@ def relation_fix(request, item_id):
                     verificar_relacion(hijo)
                     print('ciclo2: ', ciclo)
 
-                    if ciclo == False:
+                    if ciclo is False:
                         if itemA.id_fase == itemB.id_fase and tipo == "PADRE-HIJO":
                             relacion_form.instance.fase = object_fase
                             relacion = relacion_form.save()
@@ -929,50 +929,62 @@ def agregar_relaciones(request, id_fase):
 
             if not Relacion.objects.filter(del_item_id=itemA, al_item_id=itemB).exists():
 
-                if itemA.id_item != itemB.id_item:
+                if not Relacion.objects.filter(al_item_id=itemB).exists():
 
-                    lista_item = get_lista_item()
-                    max_id_item = lista_item.order_by('id_item').reverse()[0]
-                    global padre, visitados, ciclo, hijo
-                    visitados = [0]*(int(max_id_item.id_item) + 1)
-                    hijo = itemB.id_item
-                    padre = itemA.id_item
-                    ciclo = True
-                    print('ciclo1: ', ciclo)
-                    print('padre: ', padre)
-                    print('hijo: ', hijo)
-                    verificar_relacion(hijo)
-                    print('ciclo2: ', ciclo)
+                    if itemA.id_item != itemB.id_item:
 
-                    if ciclo == False:
-                        if itemA.id_fase == itemB.id_fase and tipo == "PADRE-HIJO":
-                            relacion_form.instance.fase = object_fase
-                            relacion = relacion_form.save()
-                            relacion.save()
-                            creado = True
-                        elif itemA.id_fase != itemB.id_fase and tipo == "ANTECESOR-SUCESOR":
-                            relacion_form.instance.fase = object_fase
-                            relacion = relacion_form.save()
-                            relacion.save()
-                            creado = True
-                        else:
-                            if tipo == "PADRE-HIJO":
-                                error = "El tipo de relacion no puede ser Padre-Hijo ya que los items" \
-                                        " no pertenecen a la misma fase. Cambie el tipo de relacion"
+                        lista_item = get_lista_item()
+                        max_id_item = lista_item.order_by('id_item').reverse()[0]
+                        global padre, visitados, ciclo, hijo
+                        visitados = [0]*(int(max_id_item.id_item) + 1)
+                        hijo = itemB.id_item
+                        padre = itemA.id_item
+                        ciclo = True
+                        print('ciclo1: ', ciclo)
+                        print('padre: ', padre)
+                        print('hijo: ', hijo)
+                        verificar_relacion(hijo)
+                        print('ciclo2: ', ciclo)
+
+                        if ciclo == False:
+                            if itemA.id_fase == itemB.id_fase and tipo == "PADRE-HIJO":
+                                relacion_form.instance.fase = object_fase
+                                relacion = relacion_form.save()
+                                relacion.save()
+                                creado = True
+                            elif itemA.id_fase != itemB.id_fase and tipo == "ANTECESOR-SUCESOR":
+                                relacion_form.instance.fase = object_fase
+                                relacion = relacion_form.save()
+                                relacion.save()
+                                creado = True
                             else:
-                                error = "El tipo de relacion no puede ser Antecesor-Sucesor ya que los items" \
-                                    " pertenecen a la misma fase. Cambie el tipo de relacion"
+                                if tipo == "PADRE-HIJO":
+                                    error = "El tipo de relacion no puede ser Padre-Hijo ya que los items" \
+                                            " no pertenecen a la misma fase. Cambie el tipo de relacion"
+                                else:
+                                    error = "El tipo de relacion no puede ser Antecesor-Sucesor ya que los items" \
+                                        " pertenecen a la misma fase. Cambie el tipo de relacion"
 
+                                return render_to_response('des/agregar_relaciones.html',
+                                          {
+                                              'relacion_form': relacion_form,
+                                              'error': error,
+                                              'fase': object_fase,
+                                          },
+                                          context
+                                )
+                        else:
+                            error = "No se puede generar esta relacion. Formara un ciclo!!"
                             return render_to_response('des/agregar_relaciones.html',
-                                      {
-                                          'relacion_form': relacion_form,
-                                          'error': error,
-                                          'fase': object_fase,
-                                      },
-                                      context
+                                          {
+                                              'relacion_form': relacion_form,
+                                              'error': error,
+                                              'fase': object_fase,
+                                          },
+                                          context
                             )
                     else:
-                        error = "No se puede generar esta relacion. Formara un ciclo!!"
+                        error = "No se puede crear una relacion en el mismo ITEM"
                         return render_to_response('des/agregar_relaciones.html',
                                       {
                                           'relacion_form': relacion_form,
@@ -982,15 +994,15 @@ def agregar_relaciones(request, id_fase):
                                       context
                         )
                 else:
-                    error = "No se puede crear una relacion en el mismo ITEM"
-                    return render_to_response('des/agregar_relaciones.html',
-                                  {
-                                      'relacion_form': relacion_form,
-                                      'error': error,
-                                      'fase': object_fase,
-                                  },
-                                  context
-                    )
+                        error = "El item hijo ya posee un padre."
+                        return render_to_response('des/agregar_relaciones.html',
+                                      {
+                                          'relacion_form': relacion_form,
+                                          'error': error,
+                                          'fase': object_fase,
+                                      },
+                                      context
+                        )
 
             else:
                 error = "Esta relacion ya existe!!"
@@ -2106,7 +2118,6 @@ def comprobar(self, request):
 
 
 def verificar_relacion(pk):
-    """Funcion recursiva que calcula sumas de los items recorriendo el grafo en profundidad"""
     print('mirar ', pk)
     global padre, visitados, ciclo, hijo
 
@@ -2120,8 +2131,8 @@ def verificar_relacion(pk):
             for relacion in relaciones:
                 num = int(relacion.al_item.id_item)
                 print('siguiente: ', num)
-                if(visitados[num] == 0):
-                    if(relacion.al_item != padre):
+                if visitados[num] == 0:
+                    if relacion.al_item != padre:
                         ciclo = False
                         verificar_relacion(relacion.al_item.id_item)
         else:

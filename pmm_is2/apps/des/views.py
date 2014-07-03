@@ -1631,6 +1631,7 @@ def imprimir_item(request, pk):
     incre=len(faseSC)
     indexx=0
 
+
     while indexx < incre :
         data= [['Id','NombreItem','TipoItem','PadreItem',
                     'Version','Costo']]
@@ -1659,12 +1660,13 @@ def imprimir_item(request, pk):
  	            ])
                 cantSoli=cantSoli+1
         indexx=indexx+1
-    columnas = [70, 70, 70, 70,70,50,70,90]
+        elements.append(Spacer(1, 1 * cm))
+        columnas = [70, 70, 70, 70,70,50,70,90]
 
-    t=Table(data, columnas)
-    t.setStyle(ESTILO_GENERAL)
+        t=Table(data, columnas)
+        t.setStyle(ESTILO_GENERAL)
 
-    t.setStyle([
+        t.setStyle([
                     ('SPAN', (0, 0), (0, 0)),
                     ('BACKGROUND', (0, 0), (0, 0), COLOR_FONDO_CABECERA_3),
                     ('TEXTCOLOR', (0, 0), (0, 0), COLOR_TEXTO_CABECERA_3),
@@ -1711,10 +1713,10 @@ def imprimir_item(request, pk):
 
 
 
-    ])
+        ])
 
-    elements.append(t)
-    elements.append(Spacer(0, 5))
+        elements.append(t)
+        elements.append(Spacer(0, 5))
 
 
     doc.build(elements)

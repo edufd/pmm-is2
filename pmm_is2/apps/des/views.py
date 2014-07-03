@@ -14,6 +14,7 @@ from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib.enums import TA_CENTER, TA_LEFT, TA_RIGHT,TA_JUSTIFY
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table
 from reportlab.lib.units import cm
+from datetime import datetime
 
 
 _all_ = [Proyecto, Comite]
@@ -1578,10 +1579,27 @@ def imprimir_item(request, pk):
  		alignment=TA_LEFT
  	)
 
+    styleFecha = ParagraphStyle(
+ 		name='Normal',
+ 		fontName='Times-Roman',
+ 		fontSize=16,
+ 		alignment=TA_RIGHT
+ 	)
+
+
+    today = datetime.now() #fecha actual
+    dateFormat = today.strftime("%Y/%m/%d") # fecha con formato
+
+    #convert string to datetime
+    #dt = datetime.strptime("21/11/06 16:30", "%d/%m/%y %H:%M")
+
     lider=User.objects.get(id=proyectoSC.lider_proyecto_id)
     Lider=lider.get_username()
     Lider='Lider: '+Lider
 
+    fechahoy='FechaEmision: '+ dateFormat
+    elements.append(Paragraph(fechahoy, styleFecha))
+    elements.append(Spacer(1, 1 * cm))
     elements.append(Paragraph("Proyecto:", styleProyecto))
     elements.append(Paragraph(proyectoSC.nombre_proyecto, style1))
     elements.append(Spacer(1, 1 * cm))
@@ -1644,7 +1662,7 @@ def imprimir_item(request, pk):
         print faseSC[indexx].id_fase
         truee=Item.objects.filter(id_fase_id=faseSC[indexx].id_fase).exists()
         if truee:
-            item=Item.objects.filter(id_fase_id=faseSC[indexx].id_fase)
+            item=Item.objects.filter(id_fase_id=faseSC[indexx].id_fase).order_by('id_item')
 
             cantSoli=0
             longitudS=len(item)
@@ -1785,9 +1803,23 @@ def imprimir_solicitud(request, pk):
  		alignment=TA_LEFT
  	)
 
+    styleFecha = ParagraphStyle(
+ 		name='Normal',
+ 		fontName='Times-Roman',
+ 		fontSize=16,
+ 		alignment=TA_RIGHT
+ 	)
+
+    today = datetime.now() #fecha actual
+    dateFormat = today.strftime("%Y/%m/%d") # fecha con formato
+
     lider=User.objects.get(id=proyectoSC.lider_proyecto_id)
     Lider=lider.get_username()
     Lider='Lider: '+Lider
+
+    fechahoy='FechaEmision: '+ dateFormat
+    elements.append(Paragraph(fechahoy, styleFecha))
+    elements.append(Spacer(1, 1 * cm))
 
     elements.append(Paragraph("Proyecto:", styleProyecto))
     elements.append(Paragraph(proyectoSC.nombre_proyecto, style1))

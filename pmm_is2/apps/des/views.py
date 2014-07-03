@@ -1562,8 +1562,23 @@ def imprimir_solicitud(request, pk):
  		fontSize=18,
  		alignment=TA_LEFT
  	)
+
+    styleLider = ParagraphStyle(
+ 		name='Normal',
+ 		fontName='Times-Roman',
+ 		fontSize=12,
+ 		alignment=TA_LEFT
+ 	)
+
+    lider=User.objects.get(id=proyectoSC.lider_proyecto_id)
+    Lider=lider.get_username()
+    Lider='Lider: '+Lider
+
     elements.append(Paragraph("Proyecto:", styleProyecto))
     elements.append(Paragraph(proyectoSC.nombre_proyecto, style1))
+    elements.append(Spacer(1, 1 * cm))
+    elements.append(Paragraph(Lider, styleLider))
+
     elements.append(Spacer(1, 1 * cm))
     elements.append(Paragraph("Listado de Solicitudes Realizadas", style))
 
@@ -1599,7 +1614,11 @@ def imprimir_solicitud(request, pk):
     print 'SC'
     print proyectoSC.id_proyecto
 
-    faseSC=Fase.objects.filter(proyecto_id=proyectoSC.id_proyecto)
+    faseSC=Fase.objects.filter(proyecto_id=proyectoSC.id_proyecto).exists()
+    if faseSC:
+        faseSC=Fase.objects.filter(proyecto_id=proyectoSC.id_proyecto)
+    else:
+        return render_to_response("des/index1.html", context_instance=RequestContext(request))
     print(faseSC)
     print 'faseSC22'
     incre=len(faseSC)
@@ -1612,28 +1631,32 @@ def imprimir_solicitud(request, pk):
         print faseSC[indexx].id_fase
         truee=Solicitud.objects.filter(nombre_fase=faseSC[indexx].id_fase).exists()
         if truee:
-            solicitud=Solicitud.objects.get(nombre_fase=faseSC[indexx].id_fase)
-            print solicitud
+            solicitud=Solicitud.objects.filter(nombre_fase=faseSC[indexx].id_fase)
+            cantSoli=0
+            longitudS=len(solicitud)
+            while cantSoli < longitudS:
+                print solicitud[cantSoli]
 
-            if solicitud.votado_por1 != 'null':
-                cadena=solicitud.votado_por1+' - '
-            if solicitud.votado_por2 !='null':
-                cadena=cadena+solicitud.votado_por2+' - '
-            if solicitud.votado_por3!='null':
-                cadena=cadena+solicitud.votado_por3
-            data.append([
-                    solicitud.fecha_inicio,
- 			        solicitud.nombre_fase,
- 			        solicitud.nombre_item,
-                    solicitud.usuario,
-                    solicitud.estado,
-                    solicitud.prioridad,
-                    solicitud.nombre_linea_base,
-                    cadena,
+                if solicitud[cantSoli].votado_por1 != 'null':
+                    cadena=solicitud[cantSoli].votado_por1+' - '
+                if solicitud[cantSoli].votado_por2 !='null':
+                    cadena=cadena + solicitud[cantSoli].votado_por2+' - '
+                if solicitud[cantSoli].votado_por3!='null':
+                    cadena=cadena+solicitud[cantSoli].votado_por3
+                data.append([
+                        solicitud[cantSoli].fecha_inicio,
+ 			            solicitud[cantSoli].nombre_fase,
+ 			            solicitud[cantSoli].nombre_item,
+                        solicitud[cantSoli].usuario,
+                        solicitud[cantSoli].estado,
+                        solicitud[cantSoli].prioridad,
+                        solicitud[cantSoli].nombre_linea_base,
+                        cadena,
 
- 	        ])
+ 	            ])
+                cantSoli=cantSoli+1
         indexx=indexx+1
-    columnas = [70, 70, 70, 70,70,70,70,70,70,70]
+    columnas = [70, 70, 70, 70,70,50,70,90,70,70]
 
     t=Table(data, columnas)
     t.setStyle(ESTILO_GENERAL)

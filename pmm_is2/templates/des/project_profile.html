@@ -63,26 +63,19 @@
                                         <td><a href="/des/listar_relaciones/{{ fase.id_fase }}">Listar Relaciones</a></td>
                                         <td><a href="/des/crear_solicitud/{{ fase.proyecto.id_proyecto }}/{{ fase.id_fase }}">Crear Solicitud</a></td>
                                         <td><a href="/des/listar_solicitud/{{ fase.proyecto.id_proyecto }}/{{ fase.id_fase }}">Listar Solicitud</a></td>
-                                    {% else %}
-                                        {% if fase.estado_fase == 'FINALIZADA' and project.estado_proyecto == 'FINALIZADO' %}
+                                    {% elif fase.estado_fase == 'FINALIZADA' and project.estado_proyecto == 'INICIADO' %}
                                             <td></td>
                                             <td><a href="/des/phase_item_list/{{ fase.proyecto.id_proyecto }}/{{ fase.id_fase }}">Listar Items</a></td>
-                                            <td></td>
-                                            <td></td>
+                                            <td><span class="glyphicon glyphicon-ban-circle"></span></td>
+                                            <td><a href="/des/agregar_relaciones/{{ fase.id_fase }}">Agregar Relacion</a></td>
                                             <td><a href="/des/listar_relaciones/{{ fase.id_fase }}">Listar Relaciones</a></td>
                                             <td><a href="/des/crear_solicitud/{{ fase.proyecto.id_proyecto }}/{{ fase.id_fase }}">Crear Solicitud</a></td>
                                             <td><a href="/des/listar_solicitud/{{ fase.proyecto.id_proyecto }}/{{ fase.id_fase }}">Listar Solicitud</a></td>
-                                        {% else %}
-                                            {% if fase.estado_fase == 'FINALIZADA' and project.estado_proyecto == 'INICIADO' %}
-                                                <td></td>
-                                                <td><a href="/des/phase_item_list/{{ fase.proyecto.id_proyecto }}/{{ fase.id_fase }}">Listar Items</a></td>
-                                                <td></td>
-                                                <td><a href="/des/agregar_relaciones/{{ fase.id_fase }}">Agregar Relacion</a></td>
-                                                <td><a href="/des/listar_relaciones/{{ fase.id_fase }}">Listar Relaciones</a></td>
-                                                <td><a href="/des/crear_solicitud/{{ fase.proyecto.id_proyecto }}/{{ fase.id_fase }}">Crear Solicitud</a></td>
-                                                <td><a href="/des/listar_solicitud/{{ fase.proyecto.id_proyecto }}/{{ fase.id_fase }}">Listar Solicitud</a></td>
-                                            {% endif %}
-                                        {% endif %}
+                                    {% elif fase.estado_fase == 'FINALIZADA' and project.estado_proyecto == 'FINALIZADO' %}
+                                        <td colspan="4"><a href="/des/phase_item_list/{{ fase.proyecto.id_proyecto }}/{{ fase.id_fase }}">Listar Items</a></td>
+                                        <td><a href="/des/listar_relaciones/{{ fase.id_fase }}">Listar Relaciones</a></td>
+                                        <td><a href="/des/crear_solicitud/{{ fase.proyecto.id_proyecto }}/{{ fase.id_fase }}">Crear Solicitud</a></td>
+                                        <td><a href="/des/listar_solicitud/{{ fase.proyecto.id_proyecto }}/{{ fase.id_fase }}">Listar Solicitud</a></td>
                                     {% endif %}
                                 </tr>
                             {% endfor %}

@@ -20,7 +20,11 @@
         {% endif %}
         {% if creado %}
             <strong>Se ha agregado la relacion!</strong><br/>
-            <a href="/des/project_profile/{{ fase.proyecto.id_proyecto }}">Retornar a la pagina de inicio</a><br/>
+            <p>
+                <a href="/des/project_profile/{{ fase.proyecto.id_proyecto }}">Retornar</a> -
+                <a href="/des/agregar_relaciones/{{ fase.id_fase }}">Crear nueva relacion</a>
+                <br/>
+            </p>
         {% else %}
             </br>
 

@@ -1117,6 +1117,10 @@ def listar_relaciones(request, id_fase):
     context_dict = {}
     context_dict['lista_relacion'] = lista_relacion
     context_dict['fase'] = fase
+    context_dict['valido'] = True
+
+    if fase.estado_fase == 'FINALIZADA':
+        context_dict['valido'] = False
 
     return render_to_response('des/lista_relacion.html', context_dict, context)
 
@@ -2175,11 +2179,11 @@ def get_relation_items(request):
             id_fase = request.GET['id_fase']
             id_item = request.GET['id_item']
             if id_item == "":
-                cat_list = Item.objects.filter(id_fase_id=id_fase).order_by('id_item')
+                cat_list = Item.objects.filter(id_fase_id=id_fase).order_by('id_item').exclude(estado='INACTIVO')
             else:
                 item = get_object_or_404(Item, pk=id_item)
                 if item.estado == 'BLOQUEADO':
-                    cat_list = Item.objects.filter(id_fase_id=id_fase).order_by('id_item')
+                    cat_list = Item.objects.filter(id_fase_id=id_fase).order_by('id_item').exclude(estado='INACTIVO')
                 else:
                     cat_list = ""
         else:

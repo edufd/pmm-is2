@@ -8,7 +8,7 @@
                 <li><a href="/home/">PMM</a></li>
                 <li><a href="/des/">Desarrollo</a></li>
                 <li><a href="/des/project_profile/{{ fase.proyecto.id_proyecto }}">{{ fase.proyecto }}</a></li>
-                <li><a href="/project_profile/{{ fase.proyecto }}">{{ fase.nombre_fase }}</a></li>
+                <li><a href="/des/project_profile/{{ fase.proyecto.id_proyecto }}">{{ fase.nombre_fase }}</a></li>
                 <li><a href="#">Lista de Relaciones</a></li>
             </ol>
         </div>
@@ -23,23 +23,32 @@
                 {% else %}
                     {% for relacion in lista_relacion %}
                         <li class="list-group-item">
-                            Tipo de relacion: {% if relacion.tipo == "ANTECESOR-SUCESOR" %}
-                                                Antecesor-Sucesor </br>
-                                              {% else %}
-                                                Padre-Hijo </br>
-                                              {% endif %}
+                            <strong>Tipo de relacion:</strong>
+                                {% if relacion.tipo == "ANTECESOR-SUCESOR" %}
+                                    <strong>Antecesor-Sucesor</strong>
+                                    </br>
+                                {% else %}
+                                    <strong>Padre-Hijo</strong>
+                                    </br>
+                                {% endif %}
                             Item 1: {{ relacion.del_item}} </br>
                             Item 2: {{ relacion.al_item}} </br>
 
-                            <a class="btn btn-danger" href="{% url "eliminar_relacion" relacion.id %}">
-                                  <i class="icon-trash icon-white"></i>
-                                  Eliminar
+                            {% if valido == True %}
+                                <a class="btn btn-danger" href="{% url "eliminar_relacion" relacion.id %}">
+                                      <i class="icon-trash icon-white"></i>
+                                      Eliminar
                                 </a>
+                            {% endif %}
                         </li>
                     {% endfor %}
                 {% endif %}
             </ul>
-        <h4><a class="btn btn-success" href="/des/agregar_relaciones/{{ fase.id_fase }}">Agregar Relacion</a></h4>
+        {% if valido == True %}
+            <h4>
+                <a class="btn btn-success" href="/des/agregar_relaciones/{{ fase.id_fase }}">Agregar Relacion</a>
+            </h4>
+        {% endif %}
         </div>
     </div>
 {% endblock %}

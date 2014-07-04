@@ -40,11 +40,24 @@
         <script type="text/javascript">
 
             $(document).ready(function() {
+                //hacer una llamada ajax para que obtenga los elementos del la misma fase
                 $.get('/des/get_relation_items/', {id_fase: $('#id_fase').val(), id_item:null}, function(data){
                                  $('#id_al_item').html(data);
                 });
 
-                var delItem = $('#id_del_item option:selected').val();
+                var delItem;
+                //verifica el elemento seleccionado
+                delItem = $('#id_del_item option:selected').val();
+
+                if( delItem == ""){
+
+                    $( "#id_del_item" ).change(function() {
+                        delItem = $("#id_del_item" ).val();
+                        if (delItem > 0)
+                            $("#id_del_item option[value="+delItem+"]").attr("selected",true);
+                    });
+                    alert("mierda");
+                }
 
                 $( "#id_tipo" ).change(function() {
                     if ($('#id_tipo option:selected').val() == "PADRE-HIJO"){

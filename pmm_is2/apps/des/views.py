@@ -14,6 +14,7 @@ from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib.enums import TA_CENTER, TA_LEFT, TA_RIGHT,TA_JUSTIFY
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table
 from reportlab.lib.units import cm
+from datetime import datetime
 
 
 _all_ = [Proyecto, Comite]
@@ -21,6 +22,11 @@ _all_ = [Proyecto, Comite]
 
 @login_required
 def index(request):
+    """Funcion para mostrar la vista principal.
+    Retorna la pagina correspondiente con el conjunto de los Proyectos Iniciados
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
     context = RequestContext(request)
 
     if request.user.is_superuser:
@@ -33,7 +39,7 @@ def index(request):
 
 @login_required
 def crear_atributo_tipo_item(request):
-    """Funcion para Crear Tipo Item.
+    """Funcion para Crear Atributo Tipo Item.
     Retorna la pagina correspondiente con el formulario para la creacion del atributo Tipo ITem
 
     :param request: Parametro a ser procesado.
@@ -157,23 +163,47 @@ def crear_item(request, pk):
 
 
 def get_lista_tipo_item():
+    """Funcion para Listar tipo Item.
+    Retorna la pagina correspondiente con la lista de tipo item
+
+    :param request: Parametro a ser procesado.
+    :type request: HttpRequest.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
     lista_tipo_item = TipoItem.objects.all()
     return lista_tipo_item
 
 
 def get_lista_atributo_tipo_item():
+    """Funcion para Listar atributo tipo Item.
+    Retorna la pagina correspondiente con la lista de atributo tipo item
+
+    :param request: Parametro a ser procesado.
+    :type request: HttpRequest.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
     lista_atributo_tipo_item = Atributo.objects.all()
     return lista_atributo_tipo_item
 
 
 def get_lista_item():
+    """Funcion para Listar Item.
+    Retorna la pagina correspondiente con la lista de item
+
+    :param request: Parametro a ser procesado.
+    :type request: HttpRequest.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
     lista_item = Item.objects.all()
     return lista_item
 
 
 @login_required
 def listar_atributo_tipo_item(request):
-    """Funcion para Listar tipo de Item.
+    """Funcion para Listar atributo tipo de Item.
     Retorna la pagina correspondiente con la lista de atributos tipos de item
 
     :param request: Parametro a ser procesado.
@@ -226,7 +256,7 @@ def listar_item(request):
 
 @login_required
 def editar_atributo_tipo_item(request, pk):
-    """Funcion para Modificar un Tipo Item.
+    """Funcion para Modificar un atributo Tipo Item.
     Retorna la pagina con el formulario correspondiente para la modificacion
     del atributo Tipo Item.
 
@@ -626,6 +656,15 @@ def relation_fix_revive(request, item_id, item_id_sucesor):
 
 @login_required
 def ver_atributo_tipo_item(request, pk):
+    """Funcion para ver atributos de tipo de item.
+    Retorna la pagina correspondiente.
+
+    :param request: Parametro a ser procesado.
+    :param pk: Parametro a ser procesado. Identificador del AtributoTipoItem.
+    :type request: HttpRequest.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
     context = RequestContext(request)
     atributo_tipo_item = get_object_or_404(AtributoTipoItem, pk=pk)
 
@@ -636,6 +675,15 @@ def ver_atributo_tipo_item(request, pk):
 
 @login_required
 def ver_tipo_item(request, pk):
+    """Funcion para ver tipo de item.
+    Retorna la pagina correspondiente.
+
+    :param request: Parametro a ser procesado.
+    :param pk: Parametro a ser procesado. Identificador del TipoItem.
+    :type request: HttpRequest.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
     context = RequestContext(request)
     tipo_item = get_object_or_404(TipoItem, pk=pk)
 
@@ -646,6 +694,15 @@ def ver_tipo_item(request, pk):
 
 @login_required
 def ver_item(request, pk):
+    """Funcion para ver items.
+    Retorna la pagina correspondiente.
+
+    :param request: Parametro a ser procesado.
+    :param pk: Parametro a ser procesado. Identificador del Item.
+    :type request: HttpRequest.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
     context = RequestContext(request)
     item = get_object_or_404(Item, pk=pk)
 
@@ -1590,10 +1647,27 @@ def imprimir_item(request, pk):
  		alignment=TA_LEFT
  	)
 
+    styleFecha = ParagraphStyle(
+ 		name='Normal',
+ 		fontName='Times-Roman',
+ 		fontSize=16,
+ 		alignment=TA_RIGHT
+ 	)
+
+
+    today = datetime.now() #fecha actual
+    dateFormat = today.strftime("%Y/%m/%d") # fecha con formato
+
+    #convert string to datetime
+    #dt = datetime.strptime("21/11/06 16:30", "%d/%m/%y %H:%M")
+
     lider=User.objects.get(id=proyectoSC.lider_proyecto_id)
     Lider=lider.get_username()
     Lider='Lider: '+Lider
 
+    fechahoy='FechaEmision: '+ dateFormat
+    elements.append(Paragraph(fechahoy, styleFecha))
+    elements.append(Spacer(1, 1 * cm))
     elements.append(Paragraph("Proyecto:", styleProyecto))
     elements.append(Paragraph(proyectoSC.nombre_proyecto, style1))
     elements.append(Spacer(1, 1 * cm))
@@ -1656,7 +1730,7 @@ def imprimir_item(request, pk):
         print faseSC[indexx].id_fase
         truee=Item.objects.filter(id_fase_id=faseSC[indexx].id_fase).exists()
         if truee:
-            item=Item.objects.filter(id_fase_id=faseSC[indexx].id_fase)
+            item=Item.objects.filter(id_fase_id=faseSC[indexx].id_fase).order_by('id_item')
 
             cantSoli=0
             longitudS=len(item)
@@ -1797,9 +1871,23 @@ def imprimir_solicitud(request, pk):
  		alignment=TA_LEFT
  	)
 
+    styleFecha = ParagraphStyle(
+ 		name='Normal',
+ 		fontName='Times-Roman',
+ 		fontSize=16,
+ 		alignment=TA_RIGHT
+ 	)
+
+    today = datetime.now() #fecha actual
+    dateFormat = today.strftime("%Y/%m/%d") # fecha con formato
+
     lider=User.objects.get(id=proyectoSC.lider_proyecto_id)
     Lider=lider.get_username()
     Lider='Lider: '+Lider
+
+    fechahoy='FechaEmision: '+ dateFormat
+    elements.append(Paragraph(fechahoy, styleFecha))
+    elements.append(Spacer(1, 1 * cm))
 
     elements.append(Paragraph("Proyecto:", styleProyecto))
     elements.append(Paragraph(proyectoSC.nombre_proyecto, style1))

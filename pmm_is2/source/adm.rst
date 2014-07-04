@@ -18,6 +18,7 @@ adm.views module
 .. autofunction:: pmm_is2.apps.adm.views.project_list
 .. autofunction:: pmm_is2.apps.adm.views.comite_create
 .. autofunction:: pmm_is2.apps.adm.views.import_project
+.. autofunction:: pmm_is2.apps.adm.views.project_add_members
 
 
 

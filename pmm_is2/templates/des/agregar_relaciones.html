@@ -38,27 +38,29 @@
     </div>
     {% block js %}
         <script type="text/javascript">
+
             $(document).ready(function() {
+                $.get('/des/get_relation_items/', {id_fase: $('#id_fase').val(), id_item:null}, function(data){
+                                 $('#id_al_item').html(data);
+                });
+
+                var delItem = $('#id_del_item option:selected').val();
 
                 $( "#id_tipo" ).change(function() {
                     if ($('#id_tipo option:selected').val() == "PADRE-HIJO"){
-                        $.get('/des/get_relation_items/', {id_fase: $('#id_fase').val()}, function(data){
+                        $.get('/des/get_relation_items/', {id_fase: $('#id_fase').val(), id_item:null}, function(data){
                                  $('#id_al_item').html(data);
                         });
                     }else if( $('#id_tipo option:selected').val() == "ANTECESOR-SUCESOR" ){
                         id_fase = $('#id_fase').val();
                         id_fase++;
-                        $.get('/des/get_relation_items/', {id_fase: id_fase}, function(data){
+
+                        $.get('/des/get_relation_items/', {id_fase: id_fase, id_item:delItem}, function(data){
                                  $('#id_al_item').html(data);
                         });
                     }
                 });
             })
-            $( "#id_al_item" ).change(function() {
-                var miValue = $("#id_al_item" ).val();
-                if (miValue > 0)
-                    $("#id_al_item option[value="+miValue+"]").attr("selected",true);
-            });
         </script>
     {% endblock %}
 {% endblock %}

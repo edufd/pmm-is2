@@ -9,7 +9,7 @@
                 <li><a href="/home/">PMM</a></li>
                 <li><a href="/des/">Desarrollo</a></li>
                 <li><a href="/des/project_profile/{{ proyecto.id_proyecto }}">{{ proyecto }}</a></li>
-                <li><a href="/des/project_profile/{{ fase.id_fase }}">{{ fase.nombre_fase }}</a></li>
+                <li><a href="/des/project_profile/{{ proyecto.id_proyecto }}">{{ fase.nombre_fase }}</a></li>
                 <li><a href="#">Lista Item</a></li>
             </ol>
         </div>
@@ -17,51 +17,59 @@
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
         <div class="row">
             <ul class="list-group">
-                {% for item in lista_item %}
+                {% if lista_item|length == 0 %}
                     <li class="list-group-item">
-
-                        {% if item.estado != 'BLOQUEADO' %}
-                            <h4>
-                                <a href="/des/editar_item/{{ item.id_item }}">{{ item.nombre_item}}</a>
-                            </h4>
-                            {% if item.relacion_padre_hijo|length == 0 %}
-                                <a class="btn btn-danger" href="{% url "eliminar_item" item.id_item %}">
-                                  <i class="icon-trash icon-white"></i>
-                                  Eliminar
-                                </a>
-                            {% endif %}
-                            <a class="btn btn-danger" href="{% url "adjuntarArchivo_item" item.id_item %}">
-                              <i class="icon-trash icon-white"></i>
-                              AdjuntarArchivo
-                            </a>
-                            <a class="btn btn-danger" href="{% url "desasignar" item.id_item %}">
-                                  <i class="icon-trash icon-white"></i>
-                                  Desasignar
-                            </a>
-                            <a class="btn btn-info" href="/des/item_reversion_list/{{ item.id_item }}">
-                                  <i class="icon-trash icon-white"></i>
-                                  Reversionar Item
-                            </a>
-                        {% else %}
-                            <h4>
-                                <a href="#">{{ item.nombre_item}}</a>
-                            </h4>
-                        {% endif %}
-                            <a class="btn btn-danger" href="/des/historial_item/{{ item.id_item }}">
-                                  <i class="icon-trash icon-white"></i>
-                                  Historial
-                            </a>
-                            <a class="btn btn-info" href="{% url "calcular" item.id_item %}">
-                                  <i class="icon-trash icon-white"></i>
-                                  Calcular
-                            </a>
-                            <a class="btn btn-info" href="/des/import_item/{{ item.id_item }}">
-                                  <i class="icon-trash icon-white"></i>
-                                  Importar Item
-                            </a>
+                        <h3>No existen Itemes</h3>
                     </li>
+                {% else %}
+                    {% for item in lista_item %}
+                        <li class="list-group-item">
 
-                {% endfor %}
+                            {% if item.estado != 'BLOQUEADO' %}
+                                <h4>
+                                    <a href="/des/editar_item/{{ item.id_item }}">{{ item.nombre_item}}</a>
+                                </h4>
+                                <h5>Estado: {{ item.estado }}</h5>
+                                {% if item.relacion_padre_hijo|length == 0 %}
+                                    <a class="btn btn-danger" href="{% url "eliminar_item" item.id_item %}">
+                                      <i class="icon-trash icon-white"></i>
+                                      Eliminar
+                                    </a>
+                                {% endif %}
+                                <a class="btn btn-danger" href="{% url "adjuntarArchivo_item" item.id_item %}">
+                                  <i class="icon-trash icon-white"></i>
+                                  AdjuntarArchivo
+                                </a>
+                                <a class="btn btn-danger" href="{% url "desasignar" item.id_item %}">
+                                      <i class="icon-trash icon-white"></i>
+                                      Desasignar
+                                </a>
+                                <a class="btn btn-info" href="/des/item_reversion_list/{{ item.id_item }}">
+                                      <i class="icon-trash icon-white"></i>
+                                      Reversionar Item
+                                </a>
+                            {% else %}
+                                <h4>
+                                    <a href="#">{{ item.nombre_item}}</a>
+                                </h4>
+                                <h5>Estado: {{ item.estado }}</h5>
+                            {% endif %}
+                                <a class="btn btn-danger" href="/des/historial_item/{{ item.id_item }}">
+                                      <i class="icon-trash icon-white"></i>
+                                      Historial
+                                </a>
+                                <a class="btn btn-info" href="{% url "calcular" item.id_item %}">
+                                      <i class="icon-trash icon-white"></i>
+                                      Calcular
+                                </a>
+                                <a class="btn btn-info" href="/des/import_item/{{ item.id_item }}">
+                                      <i class="icon-trash icon-white"></i>
+                                      Importar Item
+                                </a>
+                        </li>
+
+                    {% endfor %}
+                {% endif %}
             </ul>
         </div>
     </div>

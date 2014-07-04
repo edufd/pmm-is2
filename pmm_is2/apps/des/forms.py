@@ -1,4 +1,5 @@
 from django import forms
+from django.db.models import Q
 from pmm_is2.apps.des.models import *
 from django.contrib.admin import widgets
 from django.contrib.admin.widgets import FilteredSelectMultiple, AdminDateWidget
@@ -89,7 +90,7 @@ class RelacionesForm(forms.models.ModelForm):
         ]
 
         self.fields['del_item'] = \
-            forms.ModelChoiceField(queryset=Item.objects.filter(id_fase=id_fase, estado='BLOQUEADO').order_by('id_item'),
+            forms.ModelChoiceField(queryset=Item.objects.filter(id_fase=id_fase).filter(Q(estado='REVISION') | Q(estado='BLOQUEADO' ) | Q(estado='APROBADO')).order_by('id_item'),
                                                         widget=forms.Select(), required=True)
 
         fase = Fase.objects.get(pk=id_fase)

@@ -993,7 +993,7 @@ def agregar_relaciones(request, id_fase):
                                       context
                         )
                 else:
-                        error = "El item hijo ya posee un padre."
+                        error = "El item hijo ya posee un padre. Se formara un ciclo!!"
                         return render_to_response('des/agregar_relaciones.html',
                                       {
                                           'relacion_form': relacion_form,
@@ -2112,11 +2112,18 @@ def verificar_relacion(pk):
 def get_relation_items(request):
         context = RequestContext(request)
         cat_list = []
-        starts_with = ''
         if request.method == 'GET':
             id_fase = request.GET['id_fase']
-
-        cat_list = Item.objects.filter(id_fase_id=id_fase).order_by('id_item')
-        print('mierda', cat_list)
+            id_item = request.GET['id_item']
+            if id_item == "":
+                cat_list = Item.objects.filter(id_fase_id=id_fase).order_by('id_item')
+            else:
+                item = get_object_or_404(Item, pk=id_item)
+                if item.estado == 'BLOQUEADO':
+                    cat_list = Item.objects.filter(id_fase_id=id_fase).order_by('id_item')
+                else:
+                    cat_list = ""
+        else:
+            cat_list = False
 
         return render_to_response('des/relation_item_list.html', {'cat_list': cat_list}, context)

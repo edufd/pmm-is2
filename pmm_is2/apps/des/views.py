@@ -4,7 +4,6 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
 from pmm_is2.apps.adm.models import Comite
-from pmm_is2.apps.des.models import Relacion
 from pmm_is2.apps.des.forms import *
 from django.http import HttpResponse
 from io import BytesIO
@@ -14,7 +13,7 @@ from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib.enums import TA_CENTER, TA_LEFT, TA_RIGHT,TA_JUSTIFY
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table
 from reportlab.lib.units import cm
-from datetime import datetime
+import pydot
 
 
 _all_ = [Proyecto, Comite]
@@ -163,40 +162,16 @@ def crear_item(request, pk):
 
 
 def get_lista_tipo_item():
-    """Funcion para Listar tipo Item.
-    Retorna la pagina correspondiente con la lista de tipo item
-
-    :param request: Parametro a ser procesado.
-    :type request: HttpRequest.
-    :returns: La pagina correspondiente.
-    :rtype: El response correspondiente.
-    """
     lista_tipo_item = TipoItem.objects.all()
     return lista_tipo_item
 
 
 def get_lista_atributo_tipo_item():
-    """Funcion para Listar atributo tipo Item.
-    Retorna la pagina correspondiente con la lista de atributo tipo item
-
-    :param request: Parametro a ser procesado.
-    :type request: HttpRequest.
-    :returns: La pagina correspondiente.
-    :rtype: El response correspondiente.
-    """
     lista_atributo_tipo_item = Atributo.objects.all()
     return lista_atributo_tipo_item
 
 
 def get_lista_item():
-    """Funcion para Listar Item.
-    Retorna la pagina correspondiente con la lista de item
-
-    :param request: Parametro a ser procesado.
-    :type request: HttpRequest.
-    :returns: La pagina correspondiente.
-    :rtype: El response correspondiente.
-    """
     lista_item = Item.objects.all()
     return lista_item
 
@@ -448,7 +423,7 @@ def relation_fix(request, item_id):
                     verificar_relacion(hijo)
                     print('ciclo2: ', ciclo)
 
-                    if ciclo is False:
+                    if ciclo == False:
                         if itemA.id_fase == itemB.id_fase and tipo == "PADRE-HIJO":
                             relacion_form.instance.fase = object_fase
                             relacion = relacion_form.save()
@@ -656,15 +631,6 @@ def relation_fix_revive(request, item_id, item_id_sucesor):
 
 @login_required
 def ver_atributo_tipo_item(request, pk):
-    """Funcion para ver atributos de tipo de item.
-    Retorna la pagina correspondiente.
-
-    :param request: Parametro a ser procesado.
-    :param pk: Parametro a ser procesado. Identificador del AtributoTipoItem.
-    :type request: HttpRequest.
-    :returns: La pagina correspondiente.
-    :rtype: El response correspondiente.
-    """
     context = RequestContext(request)
     atributo_tipo_item = get_object_or_404(AtributoTipoItem, pk=pk)
 
@@ -960,6 +926,7 @@ def historial_item(request, pk):
 
 
 @login_required
+@login_required
 def agregar_relaciones(request, id_fase):
     """Funcion para agregar relaciones de item.
     Retorna la pagina correspondiente de la agregacion del item
@@ -1083,6 +1050,7 @@ def agregar_relaciones(request, id_fase):
                               },
                               context
     )
+
 
 
 def get_lista_relacion(id_fase):
@@ -2174,6 +2142,7 @@ def comprobar(self, request):
 
 
 def verificar_relacion(pk):
+    """Funcion recursiva que calcula sumas de los items recorriendo el grafo en profundidad"""
     print('mirar ', pk)
     global padre, visitados, ciclo, hijo
 
@@ -2187,8 +2156,8 @@ def verificar_relacion(pk):
             for relacion in relaciones:
                 num = int(relacion.al_item.id_item)
                 print('siguiente: ', num)
-                if visitados[num] == 0:
-                    if relacion.al_item != padre:
+                if(visitados[num] == 0):
+                    if(relacion.al_item != padre):
                         ciclo = False
                         verificar_relacion(relacion.al_item.id_item)
         else:
@@ -2200,6 +2169,7 @@ def verificar_relacion(pk):
 def get_relation_items(request):
         context = RequestContext(request)
         cat_list = []
+        starts_with = ''
         if request.method == 'GET':
             id_fase = request.GET['id_fase']
             id_item = request.GET['id_item']
@@ -2215,3 +2185,71 @@ def get_relation_items(request):
             cat_list = False
 
         return render_to_response('des/relation_item_list.html', {'cat_list': cat_list}, context)
+
+        return render_to_response('des/relation_item_list.html', {'cat_list': cat_list}, context)
+
+
+
+@login_required
+def visualizar_grafico(request, pk):
+    context = RequestContext(request)
+    # this time, in graph_type we specify we want a DIrected GRAPH
+    graph = pydot.Dot(graph_type="graph", rankdir='LR', fontname="Verdana")
+    phases_list = Fase.objects.filter(proyecto_id=pk).order_by('-numero_secuencia')
+    color_map = {}
+    clusters = {}
+    nodos = []
+    # in the last example, we did no explicitly create nodes, we just created the edges and
+    # they automatically placed nodes on the graph. Unfortunately, this way we cannot specify
+    # custom styles for the nodes (although you CAN set a default style for all objects on
+    # the graph...), so let's create the nodes manually.
+    for fase in phases_list:
+        nro = fase.numero_secuencia
+        clusters[nro] = pydot.Cluster(str(nro), label='Fase '+str(nro),
+                                      shape="rectangle", color="lightgray",
+                                      rank="same")
+        clusters[nro].set_sequence(nro)
+        graph.add_subgraph(clusters[nro])
+        items = get_phase_item_list(fase.id_fase)
+        for item in items:
+            node = pydot.Node(id=item.id_item, name=item.nombre_item,
+                             shape="rectangle")
+
+            clusters[nro].add_node(node)
+            relaciones = Relacion.objects.filter(del_item=item.id_item)
+            if relaciones:
+                for relacion in relaciones:
+                    clusters[nro].add_edge(pydot.Edge(item.nombre_item, relacion.al_item.nombre_item))
+
+
+    # creating nodes is as simple as creating edges!
+    #node_a = pydot.Node("Node A", style="filled", fillcolor="red")
+    # but... what are all those extra stuff after "Node A"?
+    # well, these arguments define how the node is going to look on the graph,
+    # you can find a full reference here:
+    # http://www.graphviz.org/doc/info/attrs.html
+    # which in turn is part of the full docs in
+    # http://www.graphviz.org/Documentation.php
+
+    # neat, huh? Let us create the rest of the nodes!
+    #node_b = pydot.Node("Node B", style="filled", fillcolor="green")
+    #node_c = pydot.Node("Node C", style="filled", fillcolor="#0000ff")
+
+    #ok, now we add the nodes to the graph
+    #graph.add_node(node_a)
+    #graph.add_node(node_b)
+    #graph.add_node(node_c)
+
+    # and finally we create the edges
+    # to keep it short, I'll be adding the edge automatically to the graph instead
+    # of keeping a reference to it in a variable
+    #graph.add_edge(pydot.Edge(node_a, node_b))
+    #graph.add_edge(pydot.Edge(node_b, node_c))
+    # but, let's make this last edge special, yes?
+    #graph.add_edge(pydot.Edge(node_d, node_a, label="and back we go again", labelfontcolor="#009933", fontsize="10.0", color="blue"))
+
+   # and we are done
+    graph.write_png('example2_graph.png')
+
+    # this is too good to be true!
+    return render_to_response('des/relation_item_list.html', {}, context)

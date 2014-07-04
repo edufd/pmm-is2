@@ -13,6 +13,7 @@ from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib.enums import TA_CENTER, TA_LEFT, TA_RIGHT,TA_JUSTIFY
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table
 from reportlab.lib.units import cm
+from pmm_is2.local_settings import STATIC_PATH
 import pydot
 
 
@@ -2194,8 +2195,9 @@ def get_relation_items(request):
 def visualizar_grafico(request, pk):
     context = RequestContext(request)
     # this time, in graph_type we specify we want a DIrected GRAPH
-    graph = pydot.Dot(graph_type="graph", rankdir='LR', fontname="Verdana")
+    graph = pydot.Dot(graph_type="digraph", rankdir='LR', fontname="Verdana")
     phases_list = Fase.objects.filter(proyecto_id=pk).order_by('-numero_secuencia')
+    proyecto = get_object_or_404(Proyecto, pk=pk)
     color_map = {}
     clusters = {}
     nodos = []
@@ -2213,7 +2215,7 @@ def visualizar_grafico(request, pk):
         items = get_phase_item_list(fase.id_fase)
         for item in items:
             node = pydot.Node(id=item.id_item, name=item.nombre_item,
-                             shape="rectangle")
+                             shape="circle")
 
             clusters[nro].add_node(node)
             relaciones = Relacion.objects.filter(del_item=item.id_item)
@@ -2249,7 +2251,8 @@ def visualizar_grafico(request, pk):
     #graph.add_edge(pydot.Edge(node_d, node_a, label="and back we go again", labelfontcolor="#009933", fontsize="10.0", color="blue"))
 
    # and we are done
-    graph.write_png('example2_graph.png')
+    nombre_grafico = STATIC_PATH + '/img/grafico_proyecto_' + pk + '.png'
+    graph.write_png(nombre_grafico)
 
     # this is too good to be true!
-    return render_to_response('des/relation_item_list.html', {}, context)
+    return render_to_response('des/visualizar_grafico.html', {'project': proyecto}, context)

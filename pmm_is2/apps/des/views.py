@@ -1638,7 +1638,7 @@ def imprimir_item(request, pk):
     Lider=lider.get_username()
     Lider='Lider: '+Lider
 
-    fechahoy='FechaEmision: '+ dateFormat
+    fechahoy='Fecha_Emision: '+ dateFormat
     elements.append(Paragraph(fechahoy, styleFecha))
     elements.append(Spacer(1, 1 * cm))
     elements.append(Paragraph("Proyecto:", styleProyecto))
@@ -1681,9 +1681,9 @@ def imprimir_item(request, pk):
     print 'SC'
     print proyectoSC.id_proyecto
 
-    faseSC=Fase.objects.filter(proyecto_id=proyectoSC.id_proyecto).exists()
+    faseSC = Fase.objects.filter(proyecto_id=proyectoSC.id_proyecto).exists()
     if faseSC:
-        faseSC=Fase.objects.filter(proyecto_id=proyectoSC.id_proyecto)
+        faseSC = Fase.objects.filter(proyecto_id=proyectoSC.id_proyecto).order_by('numero_secuencia')
     else:
         return render_to_response("des/index1.html", context_instance=RequestContext(request))
     print(faseSC)
@@ -1691,48 +1691,50 @@ def imprimir_item(request, pk):
     incre=len(faseSC)
     indexx=0
 
-
-    while indexx < incre :
-        data= [['Id','NombreItem','TipoItem','PadreItem',
-                    'Version','Costo']]
+    while indexx < incre:
+        data = [['Id', 'NombreItem', 'TipoItem', 'PadreItem',
+                    'Version', 'Costo']]
         print 'faseSC22'
         cadena=''
-        cadena1='Fase: '+ faseSC[indexx].nombre_fase
+        cadena1 = 'Fase: ' + faseSC[indexx].nombre_fase
         elements.append(Paragraph( cadena1, styleFase))
 
         print faseSC[indexx].id_fase
-        truee=Item.objects.filter(id_fase_id=faseSC[indexx].id_fase).exists()
+        truee = Item.objects.filter(id_fase_id=faseSC[indexx].id_fase).exists()
         if truee:
-            item=Item.objects.filter(id_fase_id=faseSC[indexx].id_fase).order_by('id_item')
+            item=Item.objects.filter(id_fase_id=faseSC[indexx].id_fase).order_by('id_item').exclude(estado='INACTIVO')
 
             cantSoli=0
             longitudS=len(item)
             while cantSoli < longitudS:
                 print item[cantSoli]
                 cadena=''
-                rela=Relacion.objects.filter(al_item_id=item[cantSoli],tipo='PADRE-HIJO').exists()
+                rela=Relacion.objects.filter(al_item_id=item[cantSoli], tipo='PADRE-HIJO').exists()
+                pk = item[cantSoli].id_tipo_item_id
+                tipo_item = get_object_or_404(TipoItem, pk=pk)
+
                 #solo traer uno y que sea del tipo PADRE-HIJO
-                if rela :
-                    relac=Relacion.objects.get(al_item_id=item[cantSoli],tipo='PADRE-HIJO')
+                if rela:
+                    relac = Relacion.objects.get(al_item_id=item[cantSoli], tipo='PADRE-HIJO')
                     print 'relacionProbando'
                     print relac.del_item_id
-                    nombreItemPadre=Item.objects.get(id_item=relac.del_item_id)
+                    nombreItemPadre = Item.objects.get(id_item=relac.del_item_id)
                     print(nombreItemPadre.nombre_item)
-                    cadena=nombreItemPadre.nombre_item
+                    cadena = nombreItemPadre.nombre_item
                 data.append([
                         item[cantSoli].id_item,
  			            item[cantSoli].nombre_item,
- 			            item[cantSoli].id_tipo_item_id,
+ 			            tipo_item,
                         cadena,
                         item[cantSoli].version_item,
                         item[cantSoli].costo,
 
 
  	            ])
-                cantSoli=cantSoli+1
-        indexx=indexx+1
+                cantSoli = cantSoli + 1
+        indexx = indexx + 1
         elements.append(Spacer(1, 1 * cm))
-        columnas = [70, 70, 70, 70,70,50,70,90]
+        columnas = [70, 70, 80, 70, 70, 50, 70, 90]
 
         t=Table(data, columnas)
         t.setStyle(ESTILO_GENERAL)

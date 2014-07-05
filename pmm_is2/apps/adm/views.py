@@ -716,7 +716,7 @@ def project_profile(request, pk):
 def project_add_members(request, id_proyecto):
     """Funcion para crear un Grupo.
     Retorna la pagina con el formulario correspondiente para la creacion
-    del Grupo.
+    del Miembro.
 
     :param request: Parametro a ser procesado.
     :type request: HttpRequest.

@@ -23,7 +23,8 @@ _all_ = [Proyecto, Comite]
 @login_required
 def index(request):
     """Funcion para mostrar la vista principal.
-    Retorna la pagina correspondiente con el conjunto de los Proyectos Iniciados
+    Retorna la pagina correspondiente con el conjunto de los Proyectos Iniciados.
+
     :returns: La pagina correspondiente.
     :rtype: El response correspondiente.
     """
@@ -163,16 +164,40 @@ def crear_item(request, pk):
 
 
 def get_lista_tipo_item():
+    """Funcion para Listar tipo de Item.
+    Retorna la pagina correspondiente con la lista de atributos tipos de item
+
+    :param request: Parametro a ser procesado.
+    :type request: HttpRequest.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
     lista_tipo_item = TipoItem.objects.all()
     return lista_tipo_item
 
 
 def get_lista_atributo_tipo_item():
+    """Funcion para Listar atributo tipo de Item.
+    Retorna la pagina correspondiente con la lista de atributos tipos de item
+
+    :param request: Parametro a ser procesado.
+    :type request: HttpRequest.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
     lista_atributo_tipo_item = Atributo.objects.all()
     return lista_atributo_tipo_item
 
 
 def get_lista_item():
+    """Funcion para Listar atributo Item.
+    Retorna la pagina correspondiente con la lista de atributos tipos de item
+
+    :param request: Parametro a ser procesado.
+    :type request: HttpRequest.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
     lista_item = Item.objects.all()
     return lista_item
 
@@ -2199,6 +2224,15 @@ def get_relation_items(request):
 
 @login_required
 def visualizar_grafico(request, pk):
+    """Funcion para visualizar el grafico.
+    Retorna la pagina correspondiente con el grafico.
+
+    :param request: Parametro a ser procesado.
+    :param pk: Parametro a ser procesado. Identificador del proyecto.
+    :type request: HttpRequest.
+    :returns: La pagina correspondiente.
+    :rtype: El response correspondiente.
+    """
     context = RequestContext(request)
     # this time, in graph_type we specify we want a DIrected GRAPH
     graph = pydot.Dot(graph_type="digraph", rankdir='LR', fontname="Verdana")

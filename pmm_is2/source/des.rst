@@ -49,8 +49,7 @@ des.views module
 .. autofunction:: pmm_is2.apps.des.views.imprimir_solicitud
 .. autofunction:: pmm_is2.apps.des.views.enviar_solicitud
 .. autofunction:: pmm_is2.apps.des.views.editar_solicitudRecibido
-
-
+.. autofunction:: pmm_is2.apps.des.views.visualizar_grafico
 
 
 des.models module

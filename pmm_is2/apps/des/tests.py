@@ -12,10 +12,8 @@ class AtributoTestCase (TestCase):
    def setUp (self):
        print "\n TEST ATRIBUTO"
        print "\n --Buscar el atributo creado"
-       tipo_item = TipoItem.objects.create(nombre_tipo_item="test tipo item", descripcion="aa")
        Atributo.objects.create(nombre_atributo_tipo_item="test atributo", tipo_atributo="NUMERICO",
-                                obligatorio="SI",descripcion="aa",observacion="CC",
-                                tipo_item=tipo_item)
+                                obligatorio="SI",detalle="aa",observacion="CC")
    def test_traer(self):
        self.assertTrue(Atributo.objects.get(nombre_atributo_tipo_item="test atributo"))
    def test_Atributotraer(self):

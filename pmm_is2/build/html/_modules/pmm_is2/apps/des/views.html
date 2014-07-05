@@ -50,7 +50,6 @@
 <span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="kn">import</span> <span class="n">render_to_response</span><span class="p">,</span> <span class="n">get_object_or_404</span><span class="p">,</span> <span class="n">redirect</span>
 <span class="kn">from</span> <span class="nn">django.template</span> <span class="kn">import</span> <span class="n">RequestContext</span>
 <span class="kn">from</span> <span class="nn">pmm_is2.apps.adm.models</span> <span class="kn">import</span> <span class="n">Comite</span>
-<span class="kn">from</span> <span class="nn">pmm_is2.apps.des.models</span> <span class="kn">import</span> <span class="n">Relacion</span>
 <span class="kn">from</span> <span class="nn">pmm_is2.apps.des.forms</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">django.http</span> <span class="kn">import</span> <span class="n">HttpResponse</span>
 <span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">BytesIO</span>
@@ -60,7 +59,8 @@
 <span class="kn">from</span> <span class="nn">reportlab.lib.enums</span> <span class="kn">import</span> <span class="n">TA_CENTER</span><span class="p">,</span> <span class="n">TA_LEFT</span><span class="p">,</span> <span class="n">TA_RIGHT</span><span class="p">,</span><span class="n">TA_JUSTIFY</span>
 <span class="kn">from</span> <span class="nn">reportlab.platypus</span> <span class="kn">import</span> <span class="n">SimpleDocTemplate</span><span class="p">,</span> <span class="n">Paragraph</span><span class="p">,</span> <span class="n">Spacer</span><span class="p">,</span> <span class="n">Table</span>
 <span class="kn">from</span> <span class="nn">reportlab.lib.units</span> <span class="kn">import</span> <span class="n">cm</span>
-<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">pmm_is2.local_settings</span> <span class="kn">import</span> <span class="n">STATIC_PATH</span>
+<span class="kn">import</span> <span class="nn">pydot</span>
 
 
 <span class="n">_all_</span> <span class="o">=</span> <span class="p">[</span><span class="n">Proyecto</span><span class="p">,</span> <span class="n">Comite</span><span class="p">]</span>
@@ -69,7 +69,8 @@
 <span class="nd">@login_required</span>
 <div class="viewcode-block" id="index"><a class="viewcode-back" href="../../../../des.html#pmm_is2.apps.des.views.index">[docs]</a><span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Funcion para mostrar la vista principal.</span>
-<span class="sd">    Retorna la pagina correspondiente con el conjunto de los Proyectos Iniciados</span>
+<span class="sd">    Retorna la pagina correspondiente con el conjunto de los Proyectos Iniciados.</span>
+
 <span class="sd">    :returns: La pagina correspondiente.</span>
 <span class="sd">    :rtype: El response correspondiente.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -209,8 +210,8 @@
 
 </div>
 <div class="viewcode-block" id="get_lista_tipo_item"><a class="viewcode-back" href="../../../../des.html#pmm_is2.apps.des.views.get_lista_tipo_item">[docs]</a><span class="k">def</span> <span class="nf">get_lista_tipo_item</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Funcion para Listar tipo Item.</span>
-<span class="sd">    Retorna la pagina correspondiente con la lista de tipo item</span>
+    <span class="sd">&quot;&quot;&quot;Funcion para Listar tipo de Item.</span>
+<span class="sd">    Retorna la pagina correspondiente con la lista de atributos tipos de item</span>
 
 <span class="sd">    :param request: Parametro a ser procesado.</span>
 <span class="sd">    :type request: HttpRequest.</span>
@@ -222,8 +223,8 @@
 
 </div>
 <div class="viewcode-block" id="get_lista_atributo_tipo_item"><a class="viewcode-back" href="../../../../des.html#pmm_is2.apps.des.views.get_lista_atributo_tipo_item">[docs]</a><span class="k">def</span> <span class="nf">get_lista_atributo_tipo_item</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Funcion para Listar atributo tipo Item.</span>
-<span class="sd">    Retorna la pagina correspondiente con la lista de atributo tipo item</span>
+    <span class="sd">&quot;&quot;&quot;Funcion para Listar atributo tipo de Item.</span>
+<span class="sd">    Retorna la pagina correspondiente con la lista de atributos tipos de item</span>
 
 <span class="sd">    :param request: Parametro a ser procesado.</span>
 <span class="sd">    :type request: HttpRequest.</span>
@@ -235,8 +236,8 @@
 
 </div>
 <div class="viewcode-block" id="get_lista_item"><a class="viewcode-back" href="../../../../des.html#pmm_is2.apps.des.views.get_lista_item">[docs]</a><span class="k">def</span> <span class="nf">get_lista_item</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Funcion para Listar Item.</span>
-<span class="sd">    Retorna la pagina correspondiente con la lista de item</span>
+    <span class="sd">&quot;&quot;&quot;Funcion para Listar atributo Item.</span>
+<span class="sd">    Retorna la pagina correspondiente con la lista de atributos tipos de item</span>
 
 <span class="sd">    :param request: Parametro a ser procesado.</span>
 <span class="sd">    :type request: HttpRequest.</span>
@@ -494,7 +495,7 @@
                     <span class="n">verificar_relacion</span><span class="p">(</span><span class="n">hijo</span><span class="p">)</span>
                     <span class="k">print</span><span class="p">(</span><span class="s">&#39;ciclo2: &#39;</span><span class="p">,</span> <span class="n">ciclo</span><span class="p">)</span>
 
-                    <span class="k">if</span> <span class="n">ciclo</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">ciclo</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span>
                         <span class="k">if</span> <span class="n">itemA</span><span class="o">.</span><span class="n">id_fase</span> <span class="o">==</span> <span class="n">itemB</span><span class="o">.</span><span class="n">id_fase</span> <span class="ow">and</span> <span class="n">tipo</span> <span class="o">==</span> <span class="s">&quot;PADRE-HIJO&quot;</span><span class="p">:</span>
                             <span class="n">relacion_form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">fase</span> <span class="o">=</span> <span class="n">object_fase</span>
                             <span class="n">relacion</span> <span class="o">=</span> <span class="n">relacion_form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
@@ -702,15 +703,6 @@
 </div>
 <span class="nd">@login_required</span>
 <div class="viewcode-block" id="ver_atributo_tipo_item"><a class="viewcode-back" href="../../../../des.html#pmm_is2.apps.des.views.ver_atributo_tipo_item">[docs]</a><span class="k">def</span> <span class="nf">ver_atributo_tipo_item</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Funcion para ver atributos de tipo de item.</span>
-<span class="sd">    Retorna la pagina correspondiente.</span>
-
-<span class="sd">    :param request: Parametro a ser procesado.</span>
-<span class="sd">    :param pk: Parametro a ser procesado. Identificador del AtributoTipoItem.</span>
-<span class="sd">    :type request: HttpRequest.</span>
-<span class="sd">    :returns: La pagina correspondiente.</span>
-<span class="sd">    :rtype: El response correspondiente.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">context</span> <span class="o">=</span> <span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
     <span class="n">atributo_tipo_item</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">AtributoTipoItem</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
 
@@ -1006,6 +998,7 @@
 
 </div>
 <span class="nd">@login_required</span>
+<span class="nd">@login_required</span>
 <div class="viewcode-block" id="agregar_relaciones"><a class="viewcode-back" href="../../../../des.html#pmm_is2.apps.des.views.agregar_relaciones">[docs]</a><span class="k">def</span> <span class="nf">agregar_relaciones</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">id_fase</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Funcion para agregar relaciones de item.</span>
 <span class="sd">    Retorna la pagina correspondiente de la agregacion del item</span>
@@ -1096,7 +1089,7 @@
                                       <span class="n">context</span>
                         <span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
-                        <span class="n">error</span> <span class="o">=</span> <span class="s">&quot;El item hijo ya posee un padre.&quot;</span>
+                        <span class="n">error</span> <span class="o">=</span> <span class="s">&quot;El item hijo ya posee un padre. Se formara un ciclo!!&quot;</span>
                         <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;des/agregar_relaciones.html&#39;</span><span class="p">,</span>
                                       <span class="p">{</span>
                                           <span class="s">&#39;relacion_form&#39;</span><span class="p">:</span> <span class="n">relacion_form</span><span class="p">,</span>
@@ -1129,6 +1122,7 @@
                               <span class="p">},</span>
                               <span class="n">context</span>
     <span class="p">)</span>
+
 
 </div>
 <span class="k">def</span> <span class="nf">get_lista_relacion</span><span class="p">(</span><span class="n">id_fase</span><span class="p">):</span>
@@ -1194,6 +1188,10 @@
     <span class="n">context_dict</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">context_dict</span><span class="p">[</span><span class="s">&#39;lista_relacion&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lista_relacion</span>
     <span class="n">context_dict</span><span class="p">[</span><span class="s">&#39;fase&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fase</span>
+    <span class="n">context_dict</span><span class="p">[</span><span class="s">&#39;valido&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+
+    <span class="k">if</span> <span class="n">fase</span><span class="o">.</span><span class="n">estado_fase</span> <span class="o">==</span> <span class="s">&#39;FINALIZADA&#39;</span><span class="p">:</span>
+        <span class="n">context_dict</span><span class="p">[</span><span class="s">&#39;valido&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
 
     <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;des/lista_relacion.html&#39;</span><span class="p">,</span> <span class="n">context_dict</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
 
@@ -1711,7 +1709,7 @@
     <span class="n">Lider</span><span class="o">=</span><span class="n">lider</span><span class="o">.</span><span class="n">get_username</span><span class="p">()</span>
     <span class="n">Lider</span><span class="o">=</span><span class="s">&#39;Lider: &#39;</span><span class="o">+</span><span class="n">Lider</span>
 
-    <span class="n">fechahoy</span><span class="o">=</span><span class="s">&#39;FechaEmision: &#39;</span><span class="o">+</span> <span class="n">dateFormat</span>
+    <span class="n">fechahoy</span><span class="o">=</span><span class="s">&#39;Fecha_Emision: &#39;</span><span class="o">+</span> <span class="n">dateFormat</span>
     <span class="n">elements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Paragraph</span><span class="p">(</span><span class="n">fechahoy</span><span class="p">,</span> <span class="n">styleFecha</span><span class="p">))</span>
     <span class="n">elements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Spacer</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span> <span class="o">*</span> <span class="n">cm</span><span class="p">))</span>
     <span class="n">elements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Paragraph</span><span class="p">(</span><span class="s">&quot;Proyecto:&quot;</span><span class="p">,</span> <span class="n">styleProyecto</span><span class="p">))</span>
@@ -1754,9 +1752,9 @@
     <span class="k">print</span> <span class="s">&#39;SC&#39;</span>
     <span class="k">print</span> <span class="n">proyectoSC</span><span class="o">.</span><span class="n">id_proyecto</span>
 
-    <span class="n">faseSC</span><span class="o">=</span><span class="n">Fase</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">proyecto_id</span><span class="o">=</span><span class="n">proyectoSC</span><span class="o">.</span><span class="n">id_proyecto</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
+    <span class="n">faseSC</span> <span class="o">=</span> <span class="n">Fase</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">proyecto_id</span><span class="o">=</span><span class="n">proyectoSC</span><span class="o">.</span><span class="n">id_proyecto</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">faseSC</span><span class="p">:</span>
-        <span class="n">faseSC</span><span class="o">=</span><span class="n">Fase</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">proyecto_id</span><span class="o">=</span><span class="n">proyectoSC</span><span class="o">.</span><span class="n">id_proyecto</span><span class="p">)</span>
+        <span class="n">faseSC</span> <span class="o">=</span> <span class="n">Fase</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">proyecto_id</span><span class="o">=</span><span class="n">proyectoSC</span><span class="o">.</span><span class="n">id_proyecto</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s">&#39;numero_secuencia&#39;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&quot;des/index1.html&quot;</span><span class="p">,</span> <span class="n">context_instance</span><span class="o">=</span><span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">))</span>
     <span class="k">print</span><span class="p">(</span><span class="n">faseSC</span><span class="p">)</span>
@@ -1764,48 +1762,50 @@
     <span class="n">incre</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">faseSC</span><span class="p">)</span>
     <span class="n">indexx</span><span class="o">=</span><span class="mi">0</span>
 
-
-    <span class="k">while</span> <span class="n">indexx</span> <span class="o">&lt;</span> <span class="n">incre</span> <span class="p">:</span>
-        <span class="n">data</span><span class="o">=</span> <span class="p">[[</span><span class="s">&#39;Id&#39;</span><span class="p">,</span><span class="s">&#39;NombreItem&#39;</span><span class="p">,</span><span class="s">&#39;TipoItem&#39;</span><span class="p">,</span><span class="s">&#39;PadreItem&#39;</span><span class="p">,</span>
-                    <span class="s">&#39;Version&#39;</span><span class="p">,</span><span class="s">&#39;Costo&#39;</span><span class="p">]]</span>
+    <span class="k">while</span> <span class="n">indexx</span> <span class="o">&lt;</span> <span class="n">incre</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">[[</span><span class="s">&#39;Id&#39;</span><span class="p">,</span> <span class="s">&#39;NombreItem&#39;</span><span class="p">,</span> <span class="s">&#39;TipoItem&#39;</span><span class="p">,</span> <span class="s">&#39;PadreItem&#39;</span><span class="p">,</span>
+                    <span class="s">&#39;Version&#39;</span><span class="p">,</span> <span class="s">&#39;Costo&#39;</span><span class="p">]]</span>
         <span class="k">print</span> <span class="s">&#39;faseSC22&#39;</span>
         <span class="n">cadena</span><span class="o">=</span><span class="s">&#39;&#39;</span>
-        <span class="n">cadena1</span><span class="o">=</span><span class="s">&#39;Fase: &#39;</span><span class="o">+</span> <span class="n">faseSC</span><span class="p">[</span><span class="n">indexx</span><span class="p">]</span><span class="o">.</span><span class="n">nombre_fase</span>
+        <span class="n">cadena1</span> <span class="o">=</span> <span class="s">&#39;Fase: &#39;</span> <span class="o">+</span> <span class="n">faseSC</span><span class="p">[</span><span class="n">indexx</span><span class="p">]</span><span class="o">.</span><span class="n">nombre_fase</span>
         <span class="n">elements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Paragraph</span><span class="p">(</span> <span class="n">cadena1</span><span class="p">,</span> <span class="n">styleFase</span><span class="p">))</span>
 
         <span class="k">print</span> <span class="n">faseSC</span><span class="p">[</span><span class="n">indexx</span><span class="p">]</span><span class="o">.</span><span class="n">id_fase</span>
-        <span class="n">truee</span><span class="o">=</span><span class="n">Item</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">id_fase_id</span><span class="o">=</span><span class="n">faseSC</span><span class="p">[</span><span class="n">indexx</span><span class="p">]</span><span class="o">.</span><span class="n">id_fase</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
+        <span class="n">truee</span> <span class="o">=</span> <span class="n">Item</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">id_fase_id</span><span class="o">=</span><span class="n">faseSC</span><span class="p">[</span><span class="n">indexx</span><span class="p">]</span><span class="o">.</span><span class="n">id_fase</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">truee</span><span class="p">:</span>
-            <span class="n">item</span><span class="o">=</span><span class="n">Item</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">id_fase_id</span><span class="o">=</span><span class="n">faseSC</span><span class="p">[</span><span class="n">indexx</span><span class="p">]</span><span class="o">.</span><span class="n">id_fase</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s">&#39;id_item&#39;</span><span class="p">)</span>
+            <span class="n">item</span><span class="o">=</span><span class="n">Item</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">id_fase_id</span><span class="o">=</span><span class="n">faseSC</span><span class="p">[</span><span class="n">indexx</span><span class="p">]</span><span class="o">.</span><span class="n">id_fase</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s">&#39;id_item&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">exclude</span><span class="p">(</span><span class="n">estado</span><span class="o">=</span><span class="s">&#39;INACTIVO&#39;</span><span class="p">)</span>
 
             <span class="n">cantSoli</span><span class="o">=</span><span class="mi">0</span>
             <span class="n">longitudS</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
             <span class="k">while</span> <span class="n">cantSoli</span> <span class="o">&lt;</span> <span class="n">longitudS</span><span class="p">:</span>
                 <span class="k">print</span> <span class="n">item</span><span class="p">[</span><span class="n">cantSoli</span><span class="p">]</span>
                 <span class="n">cadena</span><span class="o">=</span><span class="s">&#39;&#39;</span>
-                <span class="n">rela</span><span class="o">=</span><span class="n">Relacion</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">al_item_id</span><span class="o">=</span><span class="n">item</span><span class="p">[</span><span class="n">cantSoli</span><span class="p">],</span><span class="n">tipo</span><span class="o">=</span><span class="s">&#39;PADRE-HIJO&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
+                <span class="n">rela</span><span class="o">=</span><span class="n">Relacion</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">al_item_id</span><span class="o">=</span><span class="n">item</span><span class="p">[</span><span class="n">cantSoli</span><span class="p">],</span> <span class="n">tipo</span><span class="o">=</span><span class="s">&#39;PADRE-HIJO&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
+                <span class="n">pk</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="n">cantSoli</span><span class="p">]</span><span class="o">.</span><span class="n">id_tipo_item_id</span>
+                <span class="n">tipo_item</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">TipoItem</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
+
                 <span class="c">#solo traer uno y que sea del tipo PADRE-HIJO</span>
-                <span class="k">if</span> <span class="n">rela</span> <span class="p">:</span>
-                    <span class="n">relac</span><span class="o">=</span><span class="n">Relacion</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">al_item_id</span><span class="o">=</span><span class="n">item</span><span class="p">[</span><span class="n">cantSoli</span><span class="p">],</span><span class="n">tipo</span><span class="o">=</span><span class="s">&#39;PADRE-HIJO&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">rela</span><span class="p">:</span>
+                    <span class="n">relac</span> <span class="o">=</span> <span class="n">Relacion</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">al_item_id</span><span class="o">=</span><span class="n">item</span><span class="p">[</span><span class="n">cantSoli</span><span class="p">],</span> <span class="n">tipo</span><span class="o">=</span><span class="s">&#39;PADRE-HIJO&#39;</span><span class="p">)</span>
                     <span class="k">print</span> <span class="s">&#39;relacionProbando&#39;</span>
                     <span class="k">print</span> <span class="n">relac</span><span class="o">.</span><span class="n">del_item_id</span>
-                    <span class="n">nombreItemPadre</span><span class="o">=</span><span class="n">Item</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">id_item</span><span class="o">=</span><span class="n">relac</span><span class="o">.</span><span class="n">del_item_id</span><span class="p">)</span>
+                    <span class="n">nombreItemPadre</span> <span class="o">=</span> <span class="n">Item</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">id_item</span><span class="o">=</span><span class="n">relac</span><span class="o">.</span><span class="n">del_item_id</span><span class="p">)</span>
                     <span class="k">print</span><span class="p">(</span><span class="n">nombreItemPadre</span><span class="o">.</span><span class="n">nombre_item</span><span class="p">)</span>
-                    <span class="n">cadena</span><span class="o">=</span><span class="n">nombreItemPadre</span><span class="o">.</span><span class="n">nombre_item</span>
+                    <span class="n">cadena</span> <span class="o">=</span> <span class="n">nombreItemPadre</span><span class="o">.</span><span class="n">nombre_item</span>
                 <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">([</span>
                         <span class="n">item</span><span class="p">[</span><span class="n">cantSoli</span><span class="p">]</span><span class="o">.</span><span class="n">id_item</span><span class="p">,</span>
  			            <span class="n">item</span><span class="p">[</span><span class="n">cantSoli</span><span class="p">]</span><span class="o">.</span><span class="n">nombre_item</span><span class="p">,</span>
- 			            <span class="n">item</span><span class="p">[</span><span class="n">cantSoli</span><span class="p">]</span><span class="o">.</span><span class="n">id_tipo_item_id</span><span class="p">,</span>
+ 			            <span class="n">tipo_item</span><span class="p">,</span>
                         <span class="n">cadena</span><span class="p">,</span>
                         <span class="n">item</span><span class="p">[</span><span class="n">cantSoli</span><span class="p">]</span><span class="o">.</span><span class="n">version_item</span><span class="p">,</span>
                         <span class="n">item</span><span class="p">[</span><span class="n">cantSoli</span><span class="p">]</span><span class="o">.</span><span class="n">costo</span><span class="p">,</span>
 
 
  	            <span class="p">])</span>
-                <span class="n">cantSoli</span><span class="o">=</span><span class="n">cantSoli</span><span class="o">+</span><span class="mi">1</span>
-        <span class="n">indexx</span><span class="o">=</span><span class="n">indexx</span><span class="o">+</span><span class="mi">1</span>
+                <span class="n">cantSoli</span> <span class="o">=</span> <span class="n">cantSoli</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">indexx</span> <span class="o">=</span> <span class="n">indexx</span> <span class="o">+</span> <span class="mi">1</span>
         <span class="n">elements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Spacer</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span> <span class="o">*</span> <span class="n">cm</span><span class="p">))</span>
-        <span class="n">columnas</span> <span class="o">=</span> <span class="p">[</span><span class="mi">70</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span><span class="mi">70</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">70</span><span class="p">,</span><span class="mi">90</span><span class="p">]</span>
+        <span class="n">columnas</span> <span class="o">=</span> <span class="p">[</span><span class="mi">70</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">90</span><span class="p">]</span>
 
         <span class="n">t</span><span class="o">=</span><span class="n">Table</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columnas</span><span class="p">)</span>
         <span class="n">t</span><span class="o">.</span><span class="n">setStyle</span><span class="p">(</span><span class="n">ESTILO_GENERAL</span><span class="p">)</span>
@@ -2220,6 +2220,7 @@
 
 
 <span class="k">def</span> <span class="nf">verificar_relacion</span><span class="p">(</span><span class="n">pk</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Funcion recursiva que calcula sumas de los items recorriendo el grafo en profundidad&quot;&quot;&quot;</span>
     <span class="k">print</span><span class="p">(</span><span class="s">&#39;mirar &#39;</span><span class="p">,</span> <span class="n">pk</span><span class="p">)</span>
     <span class="k">global</span> <span class="n">padre</span><span class="p">,</span> <span class="n">visitados</span><span class="p">,</span> <span class="n">ciclo</span><span class="p">,</span> <span class="n">hijo</span>
 
@@ -2233,8 +2234,8 @@
             <span class="k">for</span> <span class="n">relacion</span> <span class="ow">in</span> <span class="n">relaciones</span><span class="p">:</span>
                 <span class="n">num</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">relacion</span><span class="o">.</span><span class="n">al_item</span><span class="o">.</span><span class="n">id_item</span><span class="p">)</span>
                 <span class="k">print</span><span class="p">(</span><span class="s">&#39;siguiente: &#39;</span><span class="p">,</span> <span class="n">num</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">visitados</span><span class="p">[</span><span class="n">num</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="n">relacion</span><span class="o">.</span><span class="n">al_item</span> <span class="o">!=</span> <span class="n">padre</span><span class="p">:</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">visitados</span><span class="p">[</span><span class="n">num</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+                    <span class="k">if</span><span class="p">(</span><span class="n">relacion</span><span class="o">.</span><span class="n">al_item</span> <span class="o">!=</span> <span class="n">padre</span><span class="p">):</span>
                         <span class="n">ciclo</span> <span class="o">=</span> <span class="bp">False</span>
                         <span class="n">verificar_relacion</span><span class="p">(</span><span class="n">relacion</span><span class="o">.</span><span class="n">al_item</span><span class="o">.</span><span class="n">id_item</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -2249,11 +2250,98 @@
         <span class="n">starts_with</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
         <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s">&#39;GET&#39;</span><span class="p">:</span>
             <span class="n">id_fase</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="p">[</span><span class="s">&#39;id_fase&#39;</span><span class="p">]</span>
-
-        <span class="n">cat_list</span> <span class="o">=</span> <span class="n">Item</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">id_fase_id</span><span class="o">=</span><span class="n">id_fase</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s">&#39;id_item&#39;</span><span class="p">)</span>
-        <span class="k">print</span><span class="p">(</span><span class="s">&#39;mierda&#39;</span><span class="p">,</span> <span class="n">cat_list</span><span class="p">)</span>
+            <span class="n">id_item</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="p">[</span><span class="s">&#39;id_item&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">id_item</span> <span class="o">==</span> <span class="s">&quot;&quot;</span><span class="p">:</span>
+                <span class="n">cat_list</span> <span class="o">=</span> <span class="n">Item</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">id_fase_id</span><span class="o">=</span><span class="n">id_fase</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s">&#39;id_item&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">exclude</span><span class="p">(</span><span class="n">estado</span><span class="o">=</span><span class="s">&#39;INACTIVO&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">item</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Item</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">id_item</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">estado</span> <span class="o">==</span> <span class="s">&#39;BLOQUEADO&#39;</span><span class="p">:</span>
+                    <span class="n">cat_list</span> <span class="o">=</span> <span class="n">Item</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">id_fase_id</span><span class="o">=</span><span class="n">id_fase</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s">&#39;id_item&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">exclude</span><span class="p">(</span><span class="n">estado</span><span class="o">=</span><span class="s">&#39;INACTIVO&#39;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">cat_list</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">cat_list</span> <span class="o">=</span> <span class="bp">False</span>
 
         <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;des/relation_item_list.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;cat_list&#39;</span><span class="p">:</span> <span class="n">cat_list</span><span class="p">},</span> <span class="n">context</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;des/relation_item_list.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;cat_list&#39;</span><span class="p">:</span> <span class="n">cat_list</span><span class="p">},</span> <span class="n">context</span><span class="p">)</span>
+
+
+
+<span class="nd">@login_required</span>
+<div class="viewcode-block" id="visualizar_grafico"><a class="viewcode-back" href="../../../../des.html#pmm_is2.apps.des.views.visualizar_grafico">[docs]</a><span class="k">def</span> <span class="nf">visualizar_grafico</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Funcion para visualizar el grafico.</span>
+<span class="sd">    Retorna la pagina correspondiente con el grafico.</span>
+
+<span class="sd">    :param request: Parametro a ser procesado.</span>
+<span class="sd">    :param pk: Parametro a ser procesado. Identificador del proyecto.</span>
+<span class="sd">    :type request: HttpRequest.</span>
+<span class="sd">    :returns: La pagina correspondiente.</span>
+<span class="sd">    :rtype: El response correspondiente.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+    <span class="c"># this time, in graph_type we specify we want a DIrected GRAPH</span>
+    <span class="n">graph</span> <span class="o">=</span> <span class="n">pydot</span><span class="o">.</span><span class="n">Dot</span><span class="p">(</span><span class="n">graph_type</span><span class="o">=</span><span class="s">&quot;digraph&quot;</span><span class="p">,</span> <span class="n">rankdir</span><span class="o">=</span><span class="s">&#39;LR&#39;</span><span class="p">,</span> <span class="n">fontname</span><span class="o">=</span><span class="s">&quot;Verdana&quot;</span><span class="p">)</span>
+    <span class="n">phases_list</span> <span class="o">=</span> <span class="n">Fase</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">proyecto_id</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s">&#39;-numero_secuencia&#39;</span><span class="p">)</span>
+    <span class="n">proyecto</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Proyecto</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
+    <span class="n">color_map</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">clusters</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">nodos</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c"># in the last example, we did no explicitly create nodes, we just created the edges and</span>
+    <span class="c"># they automatically placed nodes on the graph. Unfortunately, this way we cannot specify</span>
+    <span class="c"># custom styles for the nodes (although you CAN set a default style for all objects on</span>
+    <span class="c"># the graph...), so let&#39;s create the nodes manually.</span>
+    <span class="k">for</span> <span class="n">fase</span> <span class="ow">in</span> <span class="n">phases_list</span><span class="p">:</span>
+        <span class="n">nro</span> <span class="o">=</span> <span class="n">fase</span><span class="o">.</span><span class="n">numero_secuencia</span>
+        <span class="n">clusters</span><span class="p">[</span><span class="n">nro</span><span class="p">]</span> <span class="o">=</span> <span class="n">pydot</span><span class="o">.</span><span class="n">Cluster</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">nro</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s">&#39;Fase &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">nro</span><span class="p">),</span>
+                                      <span class="n">shape</span><span class="o">=</span><span class="s">&quot;rectangle&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;lightgray&quot;</span><span class="p">,</span>
+                                      <span class="n">rank</span><span class="o">=</span><span class="s">&quot;same&quot;</span><span class="p">)</span>
+        <span class="n">clusters</span><span class="p">[</span><span class="n">nro</span><span class="p">]</span><span class="o">.</span><span class="n">set_sequence</span><span class="p">(</span><span class="n">nro</span><span class="p">)</span>
+        <span class="n">graph</span><span class="o">.</span><span class="n">add_subgraph</span><span class="p">(</span><span class="n">clusters</span><span class="p">[</span><span class="n">nro</span><span class="p">])</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="n">get_phase_item_list</span><span class="p">(</span><span class="n">fase</span><span class="o">.</span><span class="n">id_fase</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">pydot</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">item</span><span class="o">.</span><span class="n">id_item</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">item</span><span class="o">.</span><span class="n">nombre_item</span><span class="p">,</span>
+                             <span class="n">shape</span><span class="o">=</span><span class="s">&quot;circle&quot;</span><span class="p">)</span>
+
+            <span class="n">clusters</span><span class="p">[</span><span class="n">nro</span><span class="p">]</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+            <span class="n">relaciones</span> <span class="o">=</span> <span class="n">Relacion</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">del_item</span><span class="o">=</span><span class="n">item</span><span class="o">.</span><span class="n">id_item</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">relaciones</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">relacion</span> <span class="ow">in</span> <span class="n">relaciones</span><span class="p">:</span>
+                    <span class="n">clusters</span><span class="p">[</span><span class="n">nro</span><span class="p">]</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">pydot</span><span class="o">.</span><span class="n">Edge</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">nombre_item</span><span class="p">,</span> <span class="n">relacion</span><span class="o">.</span><span class="n">al_item</span><span class="o">.</span><span class="n">nombre_item</span><span class="p">))</span>
+
+
+    <span class="c"># creating nodes is as simple as creating edges!</span>
+    <span class="c">#node_a = pydot.Node(&quot;Node A&quot;, style=&quot;filled&quot;, fillcolor=&quot;red&quot;)</span>
+    <span class="c"># but... what are all those extra stuff after &quot;Node A&quot;?</span>
+    <span class="c"># well, these arguments define how the node is going to look on the graph,</span>
+    <span class="c"># you can find a full reference here:</span>
+    <span class="c"># http://www.graphviz.org/doc/info/attrs.html</span>
+    <span class="c"># which in turn is part of the full docs in</span>
+    <span class="c"># http://www.graphviz.org/Documentation.php</span>
+
+    <span class="c"># neat, huh? Let us create the rest of the nodes!</span>
+    <span class="c">#node_b = pydot.Node(&quot;Node B&quot;, style=&quot;filled&quot;, fillcolor=&quot;green&quot;)</span>
+    <span class="c">#node_c = pydot.Node(&quot;Node C&quot;, style=&quot;filled&quot;, fillcolor=&quot;#0000ff&quot;)</span>
+
+    <span class="c">#ok, now we add the nodes to the graph</span>
+    <span class="c">#graph.add_node(node_a)</span>
+    <span class="c">#graph.add_node(node_b)</span>
+    <span class="c">#graph.add_node(node_c)</span>
+
+    <span class="c"># and finally we create the edges</span>
+    <span class="c"># to keep it short, I&#39;ll be adding the edge automatically to the graph instead</span>
+    <span class="c"># of keeping a reference to it in a variable</span>
+    <span class="c">#graph.add_edge(pydot.Edge(node_a, node_b))</span>
+    <span class="c">#graph.add_edge(pydot.Edge(node_b, node_c))</span>
+    <span class="c"># but, let&#39;s make this last edge special, yes?</span>
+    <span class="c">#graph.add_edge(pydot.Edge(node_d, node_a, label=&quot;and back we go again&quot;, labelfontcolor=&quot;#009933&quot;, fontsize=&quot;10.0&quot;, color=&quot;blue&quot;))</span>
+
+   <span class="c"># and we are done</span>
+    <span class="n">nombre_grafico</span> <span class="o">=</span> <span class="n">STATIC_PATH</span> <span class="o">+</span> <span class="s">&#39;/img/grafico_proyecto_&#39;</span> <span class="o">+</span> <span class="n">pk</span> <span class="o">+</span> <span class="s">&#39;.png&#39;</span>
+    <span class="n">graph</span><span class="o">.</span><span class="n">write_png</span><span class="p">(</span><span class="n">nombre_grafico</span><span class="p">)</span>
+
+    <span class="c"># this is too good to be true!</span>
+    <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;des/visualizar_grafico.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;project&#39;</span><span class="p">:</span> <span class="n">proyecto</span><span class="p">},</span> <span class="n">context</span><span class="p">)</span></div>
 </pre></div>
 
           </div>

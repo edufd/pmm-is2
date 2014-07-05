@@ -4,12 +4,26 @@
     <link href="{% static 'css/dashboard.css' %}" rel="stylesheet" xmlns="http://www.w3.org/1999/html">{% endblock %}
 {% block title %}PMM{% endblock %}
 {% block content %}
-
+    <div class="row">
+        <div id="breadcrumb" class="col-md-12">
+            <ol class="breadcrumb">
+                <li><a href="/home/">PMM</a></li>
+                <li><a href="/des/">Desarrollo</a></li>
+                <li><a href="/des/">{{ item.id_fase.proyecto }}</a></li>
+                <li><a href="#">{{ item.id_fase }}</a></li>
+                <li><a href="#">{{ item.nombre_item }}</a></li>
+                <li><a href="#">Costo - Impacto</a></li>
+            </ol>
+        </div>
+    </div>
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-        <h1 class="page-header">Costo e impacto de Item</h1>
         <div class="row">
-            El costo del item {{ item }} es {{ suma_costo }} </br>
-            El impacto del item {{ item }} es {{ suma_impacto }} </br>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <h4>El costo del item {{ item }} es: <strong style="color: red">{{ suma_costo }}</strong></h4>
+                    <h4>El impacto del item {{ item }} es: <strong style="color: red">{{ suma_impacto }}</strong></h4>
+                </li>
+            </ul>
         </div>
     </div>
 {% endblock %}

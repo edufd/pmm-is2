@@ -1186,6 +1186,7 @@ def calcular_impacto_y_costo_item(request, pk):
     """
     context = RequestContext(request)
     lista_item = get_lista_item()
+    item = get_object_or_404(Item, pk=pk)
     max_id_item = lista_item.order_by('id_item').reverse()[0]
     global suma_costo, suma_impacto, visitados
     visitados = [0]*(int(max_id_item.id_item) + 1)
@@ -1195,6 +1196,7 @@ def calcular_impacto_y_costo_item(request, pk):
     context_dict = {}
     context_dict['suma_costo'] = suma_costo
     context_dict['suma_impacto'] = suma_impacto
+    context_dict['item'] = item
 
     return render_to_response('des/calcular_impacto_y_costo_item.html', context_dict, context)
 
@@ -1227,12 +1229,14 @@ def calcular_costo_total(request, pk):
     context = RequestContext(request)
     context_dict = {}
     costo_total = 0
-
+    proyecto = get_object_or_404(Proyecto, pk=pk)
+    print('proyecto', proyecto)
     lista = getItemsProyecto(pk)
     for item in lista:
         costo_total = costo_total + item.costo
 
     context_dict['costo_total'] = costo_total
+    context_dict['proyecto'] = proyecto
     return render_to_response('des/calcular_costo_total.html', context_dict, context)
 
 

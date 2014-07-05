@@ -74,6 +74,7 @@
     <span class="n">context</span> <span class="o">=</span> <span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">is_superuser</span><span class="p">:</span>
         <span class="n">project_list</span> <span class="o">=</span> <span class="n">get_project_list</span><span class="p">()</span>
+        <span class="k">print</span> <span class="n">project_list</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">project_list</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">proyectos</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
 

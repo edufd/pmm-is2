@@ -1946,7 +1946,7 @@ def imprimir_solicitud(request, pk):
  	            ])
                 cantSoli=cantSoli+1
         indexx=indexx+1
-    columnas = [70, 70, 70, 70,70,50,70,90,70,70]
+    columnas = [60, 70, 70, 70, 80, 50, 70, 90, 70, 70]
 
     t=Table(data, columnas)
     t.setStyle(ESTILO_GENERAL)
@@ -2124,12 +2124,12 @@ def editar_solicitudRecibido(request, pk):
                 solicitud.comentarios=commen[0]
                 solicitud.save()
                 #return redirect('listar_solicitudRecibido')
-                return render_to_response('des/informeVoto.html', {'solicitud': solicitud,'validar':validar})
+                return render_to_response('des/informeVoto.html', {'solicitud': solicitud, 'validar': validar})
             else:
                 return render_to_response('des/editar_solicitudRecibido.html', {'solicitud_form': solicitud_form}, context)
 
     else:
-        return render_to_response('des/informeVoto.html', {'solicitud': solicitud,'validar':validar})
+        return render_to_response('des/informeVoto.html', {'solicitud': solicitud, 'validar': validar})
 
 
 def comprobar(self, request):

@@ -17,9 +17,11 @@
         {% for proyecto in object_list %}
             <li>
                 <h4>{{ proyecto.nombre_linea_base}}
-                    :
-                    <a href="/gdc/linea_base_update/{{ proyecto.id_linea_base }}">Modificar</a> |
-                    <a href="/gdc/phases_list/{{ proyecto.id_linea_base }}">Eliminar</a>
+                    {% if proyecto.estado != 'CERRADA' %}
+                        :
+                        <a href="/gdc/linea_base_update/{{ proyecto.id_linea_base }}">Modificar</a> |
+                        <a href="/gdc/phases_list/{{ proyecto.id_linea_base }}">Eliminar</a>
+                    {% endif %}
                 </h4>
             </li>
         {% endfor %}

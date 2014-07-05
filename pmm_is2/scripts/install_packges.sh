@@ -28,14 +28,6 @@ APTGET=`which apt-get`
 DJANGO=`python -c "import django; print(django.get_version())"`
 POSTGRES=`which psql`
 GIT=`which git`
-#GREP=`which egrep`
-#GREP_OPTIONS=""
-#CUT=`which cut`
-#READLINK=`which readlink`
-#MKTEMP=`which mktemp`
-#RM=`which rm`
-#CAT=`which cat`
-#TR=`which tr`
 
 if [ -z "$PYTHON" ];
 then
@@ -103,7 +95,8 @@ pip install unipath
 
 #instalamos la libreria Django-like
 pip install django-like
-
+#instalamos pydot para los graficos
+sudo apt-get install python-pydot
 clear
 echo 'instalando apache'
 sleep 1s
